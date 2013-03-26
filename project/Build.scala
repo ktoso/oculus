@@ -80,11 +80,8 @@ object Dependencies {
   val testing_2_10            = Seq(scalaTest, mockito).map(_ % "test")
   val testing_2_9             = Seq(scalaTest_2_9, mockito).map(_ % "test")
 
-  // slick
-  val slick                  = "com.typesafe"      % "slick_2.10"               % "1.0.0-RC1"
-  val h2                     = "com.h2database"    % "h2"                       % "1.3.170"
-  val sqliteJdbc             = "org.xerial"        % "sqlite-jdbc"              % "3.6.20"
-  val slickAll = Seq(slick, h2, sqliteJdbc)
+
+  val jsoup                  = "org.jsoup"         % "jsoup"               % "1.7.2"
 
   // Akka2
   val akka2Version           = "2.0.3"
@@ -127,5 +124,12 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++
       Seq(libraryDependencies ++= Seq(scaldingLib) ++ akka2Full ++ testing_2_9)
+  ) dependsOn(common)
+
+  lazy val downloader = Project(
+    "downloader",
+    file("downloader"),
+    settings = buildSettings ++
+      Seq(libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ testing_2_9)
   ) dependsOn(common)
 }
