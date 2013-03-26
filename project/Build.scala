@@ -108,7 +108,7 @@ object OculusBuild extends Build {
     "root",
     file("."),
     settings = buildSettings
-  ) aggregate(common, scalding)
+  ) aggregate(common, scalding, downloader)
 
 
   lazy val common = Project(
