@@ -46,7 +46,7 @@ trait YoutubeDownloadActions {
     val output = Process(command, baseDir).!!
 
     OutputFilename.findFirstMatchIn(output) map { m =>
-      DownloadedVideoFile(baseDir, m.group(0), m.group(1))
+      DownloadedVideoFile(baseDir, m.group(1), m.group(2))
     }
   }
 }

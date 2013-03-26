@@ -11,6 +11,7 @@ class HDFSUploadActor extends Actor
 
   def receive = {
     case UploadToHDFS(local: DownloadedVideoFile) =>
+      log.info("Will upload [%s] to HDFS...".format(local.fullName))
       upload(local.file, createSourceVideoPath(local))
 
   }
@@ -41,7 +42,7 @@ trait HDFSActions {
     val from = new Path(localPath.getAbsolutePath)
     val to = new Path(hdfsTarget)
 
-    fileSystem.mkdirs(to)
+//    fileSystem.mkdirs(to)
     fileSystem.copyFromLocalFile(delSrc, overwrite, from, to)
   }
 
