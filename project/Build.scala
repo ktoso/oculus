@@ -16,10 +16,10 @@ object BuildSettings {
 object Resolvers {
 
   val myResolvers = Seq(
-    "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases",
+    "Sonatype Releases" at "http://repo.typesafe.com/typesafe/releases",
     "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases",
     "EasyTesting Releases" at "http://repo1.maven.org/maven2/org/easytesting",
-    "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+    "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
   )
 }
 
@@ -84,7 +84,7 @@ object Dependencies {
   val jsoup                  = "org.jsoup"         % "jsoup"               % "1.7.2"
 
   // Akka2
-  val akka2Version           = "2.0.3"
+  val akka2Version           = "2.0.5"
   val akka2Actor             = "com.typesafe.akka" % "akka-actor"          % akka2Version
   val akka2ZeroMQ            = "com.typesafe.akka" % "akka-zeromq"         % akka2Version
   val akka2Slf4j             = "com.typesafe.akka" % "akka-slf4j"          % akka2Version
