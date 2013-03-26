@@ -8,6 +8,6 @@ package object actor {
 
   case class DownloadFromYoutube(url: String)
 
-  case class UploadToHDFS(file: LocalFile, )
+  case class UploadToHDFS(file: LocalFile)
 
 }

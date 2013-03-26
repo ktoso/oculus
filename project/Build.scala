@@ -130,6 +130,6 @@ object OculusBuild extends Build {
     "downloader",
     file("downloader"),
     settings = buildSettings ++
-      Seq(libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ testing_2_9)
+      Seq(libraryDependencies ++= Seq(scaldingLib, jsoup) ++ akka2Full ++ testing_2_9)
   ) dependsOn(common)
 }
