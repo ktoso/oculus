@@ -1,17 +1,33 @@
 import sbt._
-import Keys._
+import sbt.Keys._
+import sbtassembly.Plugin._
+import AssemblyKeys._
+import scala.Some
 
 object BuildSettings {
   val buildOrganization = "project13"
   val buildVersion      = "1.0.0"
   val buildScalaVersion = "2.9.2"
 
+  val myAssemblySettings = assemblySettings ++
+    Seq(
+      test in assembly := {},
+      mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) => {
+          case PathList("org", "apache", rest) => MergeStrategy.last
+          case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.last
+          case x => MergeStrategy.last
+        }
+      }
+    )
+
   val buildSettings = Defaults.defaultSettings ++ Seq (
     organization := buildOrganization,
     version      := buildVersion,
     scalaVersion := buildScalaVersion,
-    resolvers   ++= Resolvers.myResolvers
-  )
+    resolvers   ++= Resolvers.myResolvers,
+    parallelExecution in Test := false
+  ) ++ myAssemblySettings
+
 }
 
 object Resolvers {
@@ -42,23 +58,30 @@ object Dependencies {
   // scalding
   val scaldingLib = "com.twitter" % "scalding_2.9.2" % "0.8.3" withSources()
 
+  // hadoop
+  val hadoopCore = "org.apache.hadoop" % "hadoop-core" % "1.0.3"
+
+  // hbase
+  val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.0"
+
+
   // mongodb and related
   val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
   val casbah                = "org.mongodb"            %% "casbah-core"           % "2.5.0"
-  val mongo                 = "org.mongodb"            %  "mongo-java-driver"     % "2.9.2"
+  val mongo                 = "org.mongodb"             % "mongo-java-driver"     % "2.9.2"
   val liftMongoRecord       = "net.liftweb"            %% "lift-mongodb-record"   % Versions.lift withSources()
   val rogue                 = "com.foursquare"         %% "rogue-lift"            % "2.0.0-beta22" intransitive() withSources()
 
   val rogueAll = Seq(liftJson, casbah, mongo, rogue, liftMongoRecord)
 
   // Logging
-  val slf4s                 = "com.weiglewilczek.slf4s" %% "slf4s"                % "1.0.7"
+  val grizzledSlf4j         = "org.clapper"          %% "grizzled-slf4j" % "0.6.10"
   val logback               = "ch.qos.logback"        % "logback-classic"         % "1.0.0"
   val log4jOverSlf4j        = "org.slf4j"             % "log4j-over-slf4j"        % "1.6.1"
   val jclOverSlf4j          = "org.slf4j"             % "jcl-over-slf4j"          % "1.6.1"
   val julToSlf4jBridge      = "org.slf4j"             % "jul-to-slf4j"            % "1.6.1"
 
-  val logging               = Seq(slf4s, logback, log4jOverSlf4j, jclOverSlf4j)
+  val logging               = Seq(grizzledSlf4j, logback, log4jOverSlf4j, jclOverSlf4j)
 
   // mysql and related
   val mysqlConnector        = "mysql"                  %  "mysql-connector-java"  % "5.1.15"
@@ -81,16 +104,14 @@ object Dependencies {
   val testing_2_10            = Seq(scalaTest, mockito).map(_ % "test")
   val testing_2_9             = Seq(scalaTest_2_9, mockito).map(_ % "test")
 
-
   val jsoup                  = "org.jsoup"         % "jsoup"               % "1.7.2"
 
   // akka2
   val akka2Version           = "2.0.5"
   val akka2Actor             = "com.typesafe.akka" % "akka-actor"          % akka2Version
-  val akka2ZeroMQ            = "com.typesafe.akka" % "akka-zeromq"         % akka2Version
   val akka2Slf4j             = "com.typesafe.akka" % "akka-slf4j"          % akka2Version
   val akka2TestKit           = "com.typesafe.akka" % "akka-testkit"        % akka2Version % "test"
-  val akka2Full              = Seq(akka2Actor, akka2ZeroMQ, akka2Slf4j, akka2TestKit)
+  val akka2Full              = Seq(akka2Actor, akka2Slf4j, akka2TestKit)
 
   // terminal coloring
   val rainbow                 = "pl.project13.scala"      %% "rainbow"                   % Versions.rainbow
@@ -116,7 +137,7 @@ object OculusBuild extends Build {
     file("common"),
     settings = buildSettings ++
       Seq(
-        libraryDependencies ++= Seq(logback, scalaz, guava) ++ testing_2_9
+        libraryDependencies ++= Seq(logback, scalaz, guava, rainbow) ++ logging ++ testing_2_9
       )
   ) 
 
@@ -130,7 +151,9 @@ object OculusBuild extends Build {
   lazy val downloader = Project(
     "downloader",
     file("downloader"),
-    settings = buildSettings ++
-      Seq(libraryDependencies ++= Seq(scaldingLib, jsoup) ++ akka2Full ++ testing_2_9)
+    settings = buildSettings ++ Seq(
+      libraryDependencies ++= Seq(hadoopCore, jsoup) ++ akka2Full ++ testing_2_9,
+      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+    )
   ) dependsOn(common)
 }
