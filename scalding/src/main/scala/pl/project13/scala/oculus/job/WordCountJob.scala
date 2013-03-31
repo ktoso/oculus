@@ -1,6 +1,8 @@
 package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
+import pl.project13.scala.scalding.hbase.HBaseSource
+import cascading.tuple.Fields
 
 class WordCountJob(args: Args) extends Job(args) {
 

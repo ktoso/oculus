@@ -137,7 +137,7 @@ object OculusBuild extends Build {
     file("common"),
     settings = buildSettings ++
       Seq(
-        libraryDependencies ++= Seq(logback, scalaz, guava, rainbow) ++ logging ++ testing_2_9
+        libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow) ++ logging ++ testing_2_9
       )
   ) 
 
