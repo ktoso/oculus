@@ -1,13 +1,57 @@
-package pl.project13.scala.oculus.hdfs
+package pl.project13.scala.oculus.job
 
-import pl.project13.scala.oculus.logging.Logging
+import com.twitter.scalding._
 import java.io.File
+import pl.project13.scala.oculus.ffmpeg.FFMPEG
+import com.google.common.io.Files
+import pl.project13.scala.oculus.logging.Logging
+import com.typesafe.config.{ConfigFactory, Config}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{Path, FileSystem}
-import com.typesafe.config.{ConfigFactory, Config}
 import collection.JavaConversions._
 
-trait HDFSActions extends Logging {
+class VideoToPicturesJob(args: Args) extends Job(args) with HDFSActions {
+
+  val input = args("input")
+  val output = args("output")
+
+//  TextLine(input)
+////    .flatMap('line -> 'image) { video: String => convert(asLocalFile(inputFile)) }
+////    .groupAll
+//    .write(SequenceFile(output))
+//
+
+// convert a normal file - the movie, into a seq file, with only on seq element
+  TextLine(input)
+    .write(SequenceFile(output))
+
+//  SequenceFile(input).read
+//    .flatMap('* -> 'other) { all: Int => convert(saveLocally(Nil.toArray)) }
+//    .write(SequenceFile(output))
+
+  def convert(video: File): List[File] =
+    FFMPEG.ffmpegToImages(video, framesPerSecond = 1)
+
+  // todo should work on HDFS only
+  def saveLocally(video: Array[Byte]): File = {
+    val file = File.createTempFile("prefix", "suffix")
+//    fileSystem.copyToLocalFile(new Path(input), new Path(file.getAbsolutePath))
+
+    println("video.size = " + video.size)
+    println("file = " + file)
+    println("file = " + file)
+    println("file = " + file)
+    println("file = " + file)
+    Files.write(video, new File(input))
+
+    file
+  }
+
+}
+
+
+
+trait HDFSActions {
 
   /** Override if you need other than default settings - loads up ''application.conf'' */
   def configuration: Config = ConfigFactory.load()
@@ -15,11 +59,9 @@ trait HDFSActions extends Logging {
   val requireDistributedMode = true
 
   lazy val hdfsConfiguration = {
-    logger.info("Configuring HDFS connection...")
     val conf = new Configuration(true)
 
     allOculusHadoopSettings(configuration) foreach { case (key, value) =>
-      logger.info("Configuring [%s]: %s".format(key, value))
 
       conf.setStrings(key, value.unwrapped.toString)
     }
@@ -28,12 +70,10 @@ trait HDFSActions extends Logging {
   }
 
   lazy val fileSystem = {
-    logger.info("Preparing HDFS FileSystem instance...")
     val fs = FileSystem.get(hdfsConfiguration)
 
     Runtime.getRuntime.addShutdownHook(new Thread(){
       override def run() {
-        logger.info("Shutting down HDFS FileSystem connection...")
         fs.close()
       }
     })
@@ -43,14 +83,12 @@ trait HDFSActions extends Logging {
 
   def uploadAsSequenceFile(localPath: File, hdfsTarget: String, delSrc: Boolean = true, overwrite: Boolean = true) = {
 
-    Pack
   }
 
   /**
    * @return Path referncing the uploaded file (on HDFS)
    */
   def upload(localPath: File, hdfsTarget: String, delSrc: Boolean = true, overwrite: Boolean = true) = {
-    logger.info("Uploading [%s] to HDFS path [%s]...".format(localPath.getAbsolutePath, hdfsTarget))
 
     val from = new Path(localPath.getAbsolutePath)
     val to = new Path(hdfsTarget)

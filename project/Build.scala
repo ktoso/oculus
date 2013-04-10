@@ -42,7 +42,7 @@ object Resolvers {
 
 object Versions {
   val guava = "14.0"
-  val rainbow = "0.1"
+  val rainbow = "0.2"
         
   val mockito = "1.8.5"
   val scalatest = "2.0.M5-B1"
@@ -62,7 +62,7 @@ object Dependencies {
   val hadoopCore = "org.apache.hadoop" % "hadoop-core" % "1.0.3"
 
   // hbase
-  val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.0"
+  val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.6"
 
 
   // mongodb and related
@@ -145,7 +145,10 @@ object OculusBuild extends Build {
     "scalding",
     file("scalding"),
     settings = buildSettings ++
-      Seq(libraryDependencies ++= Seq(scaldingLib) ++ akka2Full ++ testing_2_9)
+      Seq(
+        libraryDependencies ++= Seq(scaldingLib) ++ akka2Full ++ testing_2_9,
+        mainClass := Some("pl.project13.scala.oculus.ScaldingJobRunner")
+      )
   ) dependsOn(common)
 
   lazy val downloader = Project(
@@ -153,7 +156,7 @@ object OculusBuild extends Build {
     file("downloader"),
     settings = buildSettings ++ Seq(
       libraryDependencies ++= Seq(hadoopCore, jsoup) ++ akka2Full ++ testing_2_9,
-      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+      mainClass := Some("pl.project13.scala.oculus.DownloaderRunner")
     )
   ) dependsOn(common)
 }

@@ -22,7 +22,6 @@ trait YoutubeDownloadActions extends Logging {
       "youtube-dl" ::
         "--no-progress" ::
         "--continue" ::
-        "--title" ::
         "--write-info-json" ::
         "--prefer-free-formats" ::
         url :: Nil
@@ -40,7 +39,7 @@ trait YoutubeDownloadActions extends Logging {
         None
 
       case ex: Exception =>
-        logger.error("Unable to download youtube movie!", ex)
+        logger.error("Unable to download youtube movie [%s]!".format(url), ex)
         None
     }
   }

@@ -9,14 +9,20 @@ class HDFSUploadActor extends Actor with ActorLogging
 
   def receive = {
     case UploadToHDFS(local: DownloadedVideoFile) =>
-      log.info("Will upload [%s] to HDFS...".format(local.fullName))
+      self ! UploadFileToHDFS(local)
+      self ! UploadAsSequenceFileToHDFS(local)
+
+
+    case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) =>
+      log.info("Will upload as sequence file [%s] to HDFS...".format(local.fullName))
+      uploadAsSequenceFile(local.file, createTargetPath(local) + ".seq")
+
+    case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) =>
+      log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
       upload(local.file, createTargetPath(local))
   }
 
-  def createTargetPath(local: DownloadedVideoFile): String = {
+  def createTargetPath(local: DownloadedVideoFile): String =
     "/oculus/source/" + local.fullName
-      .replaceAll("'", "")
-      .replaceAll(" ", "_")
-  }
 
 }
