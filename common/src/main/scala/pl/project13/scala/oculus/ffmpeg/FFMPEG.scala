@@ -4,11 +4,11 @@ import java.io.{FilenameFilter, File}
 import pl.project13.scala.oculus.logging.Logging
 import com.google.common.io.Files
 import pl.project13.common.utils.HumanReadable
+import scala.sys.process.Process
 
 object FFMPEG extends Logging {
 
   def ffmpegToImages(video: File, framesPerSecond: Int): List[File] = {
-    import scala.sys.process._
 
     // we'll work in an isolated tmp directory
     val tmp = Files.createTempDir()
@@ -16,7 +16,9 @@ object FFMPEG extends Logging {
     Files.copy(video, sourceFile)
 
     logger.info("We will extract [%s] frames per second from the [%s] file, starting ffmpeg".format(framesPerSecond, sourceFile))
-    ffmpgCommand(InputFile(sourceFile), FramesPerSecond(framesPerSecond), OutputFormatPngImage2, OutputFilePngNamePattern).!
+    val ffmpeg = ffmpgCommand(InputFile(sourceFile), FramesPerSecond(framesPerSecond), OutputFormatPngImage2, OutputFilePngNamePattern)
+
+    Process(ffmpeg, sourceFile.getParentFile).!
 
     sourceFile.delete()
     logger.info("Finished ffmpeg run, deleted [%s]".format(sourceFile))
@@ -32,7 +34,7 @@ object FFMPEG extends Logging {
     def accept(dir: File, name: String) = name endsWith "png"
   }
 
-  private def ffmpgCommand(options: FFMPEGOption*) = {
+  private def ffmpgCommand(options: FFMPEGOption*): String = {
     val command = "ffmpeg " + options.mkString(" ")
     logger.info("ffmpeg command: " + command)
     command

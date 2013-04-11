@@ -41,15 +41,15 @@ trait HDFSActions extends Logging {
     fs
   }
 
-  def uploadAsSequenceFile(localPath: File, hdfsTarget: String, delSrc: Boolean = true, overwrite: Boolean = true) = {
-
-    Pack
+  def uploadAsSequenceFile(localFiles: List[File], hdfsTarget: String, delSrc: Boolean = true, overwrite: Boolean = true) = {
+    logger.info("Uploading [%s] files as packed sequence file [%s]...".format(localFiles.length, hdfsTarget))
+    AsSequenceFile.uploadPackedImages(hdfsTarget, localFiles: _*)
   }
 
   /**
    * @return Path referncing the uploaded file (on HDFS)
    */
-  def upload(localPath: File, hdfsTarget: String, delSrc: Boolean = true, overwrite: Boolean = true) = {
+  def upload(localPath: File, hdfsTarget: String, delSrc: Boolean, overwrite: Boolean = true) = {
     logger.info("Uploading [%s] to HDFS path [%s]...".format(localPath.getAbsolutePath, hdfsTarget))
 
     val from = new Path(localPath.getAbsolutePath)

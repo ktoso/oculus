@@ -3,6 +3,7 @@ package pl.project13.scala.oculus.ffmpeg
 import java.io.File
 
 abstract class FFMPEGOption {
+  override def toString = str
   def str: String
 }
 
@@ -21,7 +22,7 @@ case class OutputFormat(format: String) extends FFMPEGOption {
 case object OutputFormatPngImage2 extends OutputFormat("image2")
 
 case class OutputFilePngNamePattern(name: String, numbersToPad: Int, ext: String) extends FFMPEGOption {
-  def str = name + "%0" + numbersToPad + "." + ext
+  def str = name + "%0d" + numbersToPad + "." + ext
 }
 
 case object OutputFilePngNamePattern extends OutputFilePngNamePattern("image", 9, "png")
