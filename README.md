@@ -18,6 +18,11 @@ http://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/hadoop-1.0.3.tar.gz
 
 http://ftp.ps.pl/pub/apache/hbase/hbase-0.94.6/hbase-0.94.6.tar.gz
 
+Install tooling
+---------------
+
+https://github.com/paulp/sbt-extras
+
 Running the app
 ---------------
 required: scala, simple build tool
