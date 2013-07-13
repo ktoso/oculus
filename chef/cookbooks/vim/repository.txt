@@ -1,0 +1,3 @@
+origin	https://github.com/opscode-cookbooks/vim.git (fetch)
+origin	https://github.com/opscode-cookbooks/vim.git (push)
+commit 88e8d018267d2cd5cfa3260ce55a0025f52dae6f

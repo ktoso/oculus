@@ -1,0 +1,3 @@
+origin	https://github.com/opscode-cookbooks/java.git (fetch)
+origin	https://github.com/opscode-cookbooks/java.git (push)
+commit e20ca6bde2196fef6dddd8c82e79a5dbab03c111

@@ -1,0 +1,3 @@
+origin	https://github.com/opscode-cookbooks/openssl.git (fetch)
+origin	https://github.com/opscode-cookbooks/openssl.git (push)
+commit ccf81e9b3fec9427ed2e6dd76f252dcf68370379

@@ -1,0 +1,3 @@
+origin	https://github.com/opscode-cookbooks/tmux.git (fetch)
+origin	https://github.com/opscode-cookbooks/tmux.git (push)
+commit f19c2e7eebbbe1aa462d60368a47ebaf1d328443
