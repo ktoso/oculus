@@ -1,6 +1,3 @@
-hadoop 1.0.3
-
-http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster/#run-the-mapreduce-job
 
 http://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/
 
@@ -9,6 +6,21 @@ http://linuxers.org/tutorial/how-extract-images-video-using-ffmpeg
 
 Downloads
 ---------
+
+For installing on Debian from packages:
+http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/4.2.0/CDH4-Installation-Guide/cdh4ig_topic_4_4.html
+
+*Install Java7 on Debian*
+
+```
+su -
+echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list
+echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+apt-get update
+apt-get install oracle-java7-installer
+exit
+```
 
 *Hadoop 1.0.3*
 
