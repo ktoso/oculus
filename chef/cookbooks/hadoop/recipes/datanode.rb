@@ -18,8 +18,6 @@
 # limitations under the License.
 #
 
-package 'hadoop-hdfs-namenode'
-
 # install all the things, pseudo distributed mode
 package 'hadoop-conf-pseudo'
 

@@ -22,7 +22,7 @@ Vagrant::Config.run do |config|
   # via the IP. Host-only networks can talk to the host machine as well as
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
-  # config.vm.network :hostonly, "192.168.33.10"
+  # config.vm.network :hostonly, "192.168.33.31"
 
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
@@ -42,22 +42,36 @@ Vagrant::Config.run do |config|
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
 
-  config.vm.define :namenode do |c|
-    c.vm.customize ['modifyvm', :id, '--cpus', '2']
-    c.vm.customize ['modifyvm', :id, '--memory', '2048']
+
+  def make_node(c, node_type, name, ip)
+    c.vm.network :hostonly, ip
 
     c.vm.provision :chef_solo do |chef|
-
       chef.cookbooks_path = "./cookbooks"
       chef.roles_path = "./roles"
       chef.data_bags_path = "./data_bags"
 
-      chef.json = JSON.parse(IO.read('nodes/namenode.json'))
+      chef.json = JSON.parse(IO.read("nodes/#{node_type}.json"))
       chef.json["run_list"].each do |role|
         chef.add_role role
       end
     end
- end
+  end
+
+  config.vm.define :namenode do |c|
+    c.vm.customize ['modifyvm', :id, '--cpus', '2']
+    c.vm.customize ['modifyvm', :id, '--memory', '1024']
+
+    make_node(c, 'namenode', 'namemode', '192.168.22.21')
+  end
+
+  config.vm.define :datanode1 do |c|
+    c.vm.customize ['modifyvm', :id, '--cpus', '2']
+    c.vm.customize ['modifyvm', :id, '--memory', '1024']
+
+    make_node(c, 'datanode', 'datanode1', '192.168.22.22')
+  end
+
 
   # Enable provisioning with chef server, specifying the chef server URL,
   # and the path to the validation key (relative to this Vagrantfile).
