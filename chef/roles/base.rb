@@ -1,8 +1,10 @@
 run_list "recipe[apt]",
          "recipe[vim]",
          "recipe[curl]",
+         "recipe[java::oracle-java7]",
          "recipe[tree]",
          "recipe[env]",
+         "recipe[hadoop]",
          "recipe[htop]",
          "recipe[sysstat]",
          "recipe[links]"

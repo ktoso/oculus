@@ -9,11 +9,11 @@ Vagrant::Config.run do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "opscode-ubuntu-1204"
+  config.vm.box = "precise64-chef11"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-11.4.4.box"
+  config.vm.box_url = "http://grahamc.com/vagrant/ubuntu-12.04-omnibus-chef.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
@@ -38,36 +38,13 @@ Vagrant::Config.run do |config|
   # folder, and the third is the path on the host to the actual folder.
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
 
-  # Enable provisioning with Puppet stand alone.  Puppet manifests
-  # are contained in a directory path relative to this Vagrantfile.
-  # You will need to create the manifests directory and a manifest in
-  # the file opscode-ubuntu-1204.pp in the manifests_path directory.
-  #
-  # An example Puppet manifest to provision the message of the day:
-  #
-  # # group { "puppet":
-  # #   ensure => "present",
-  # # }
-  # #
-  # # File { owner => 0, group => 0, mode => 0644 }
-  # #
-  # # file { '/etc/motd':
-  # #   content => "Welcome to your Vagrant-built virtual machine!
-  # #               Managed by Puppet.\n"
-  # # }
-  #
-  # config.vm.provision :puppet do |puppet|
-  #   puppet.manifests_path = "manifests"
-  #   puppet.manifest_file  = "opscode-ubuntu-1204.pp"
-  # end
-
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
 
-  config.vm.define :master do |c|
+  config.vm.define :namenode do |c|
     c.vm.customize ['modifyvm', :id, '--cpus', '2']
-    c.vm.customize ['modifyvm', :id, '--memory', '1024']
+    c.vm.customize ['modifyvm', :id, '--memory', '2048']
 
     c.vm.provision :chef_solo do |chef|
 
@@ -75,7 +52,7 @@ Vagrant::Config.run do |config|
       chef.roles_path = "./roles"
       chef.data_bags_path = "./data_bags"
 
-      chef.json = JSON.parse(IO.read('nodes/master.json'))
+      chef.json = JSON.parse(IO.read('nodes/namenode.json'))
       chef.json["run_list"].each do |role|
         chef.add_role role
       end
