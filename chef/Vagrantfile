@@ -76,7 +76,7 @@ Vagrant::Config.run do |config|
     c.vm.customize ['modifyvm', :id, '--cpus', '2']
     c.vm.customize ['modifyvm', :id, '--memory', '1024']
 
-    make_node(c, 'datanode', 'datanode1', '192.168.22.23')
+    make_node(c, 'datanode', 'datanode2', '192.168.22.23')
   end
 
 

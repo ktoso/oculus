@@ -1,4 +1,6 @@
 {
   "run_list": [
     "role[base]", "role[datanode]"
+  ]
+}
 
