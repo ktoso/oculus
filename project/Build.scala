@@ -140,7 +140,7 @@ object OculusBuild extends Build {
   lazy val common = Project(
     "common",
     file("common"),
-    settings = buildSettings ++
+    settings = buildSettings ++ assemblySettings ++
       Seq(
         libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow) ++ logging ++ testing
       )
@@ -149,19 +149,26 @@ object OculusBuild extends Build {
   lazy val scalding = Project(
     "scalding",
     file("scalding"),
-    settings = buildSettings ++
+    settings = buildSettings ++ assemblySettings ++
       Seq(
         libraryDependencies ++= scaldingAll ++ Seq(hadoopCore, hbase) ++ akka2Full ++ testing,
-        mainClass := Some("pl.project13.scala.oculus.ScaldingJobRunner")
+        mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       )
   ) dependsOn(common)
 
   lazy val downloader = Project(
     "downloader",
     file("downloader"),
-    settings = buildSettings ++ Seq(
+    settings = buildSettings ++ assemblySettings ++ Seq(
       libraryDependencies ++= Seq(hadoopCore, jsoup) ++ akka2Full ++ testing,
-      mainClass := Some("pl.project13.scala.oculus.DownloaderRunner")
+      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+    ) ++ Seq(
+      mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+        {
+          case x if x.toString.toLowerCase contains "manifest" => MergeStrategy.discard
+          case x => MergeStrategy.first
+        }
+      }
     )
   ) dependsOn(common)
 }

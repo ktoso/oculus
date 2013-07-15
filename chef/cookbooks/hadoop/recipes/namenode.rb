@@ -30,7 +30,8 @@ end
 # configure hdfs
 ["core-site.xml", "hdfs-site.xml", "yarn-site.xml"].each do |file|
   template "/etc/hadoop/conf/#{file}" do
-    source "conf.pseudo/#{file}"
+    source "conf.pseudo/#{file}.erb"
+    variables :namenode_ip => "192.168.22.21"
     mode "0755"
   end
 end
