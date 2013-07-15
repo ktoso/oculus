@@ -1,12 +1,12 @@
 package pl.project13.scala.oculus.hdfs
 
-import pl.project13.scala.oculus.logging.Logging
 import java.io.File
 import org.apache.hadoop.fs.{Path, FileSystem}
 import org.apache.hadoop.io.{IOUtils, Text, IntWritable, SequenceFile}
 import java.net.URI
 import org.apache.hadoop.io.SequenceFile.Writer
 import com.google.common.io.Files
+import com.typesafe.scalalogging.slf4j.Logging
 
 object AsSequenceFile extends Logging with HDFSActions {
 

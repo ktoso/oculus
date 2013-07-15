@@ -3,7 +3,7 @@ package pl.project13.scala.oculus.download.youtube
 import java.net.URL
 import org.jsoup.Jsoup
 import scala.collection.JavaConversions._
-import pl.project13.scala.oculus.logging.Logging
+import com.typesafe.scalalogging.slf4j.Logging
 
 trait YoutubeCrawlActions extends Logging {
 

@@ -1,11 +1,11 @@
 package pl.project13.scala.oculus.hdfs
 
-import pl.project13.scala.oculus.logging.Logging
 import java.io.File
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{Path, FileSystem}
 import com.typesafe.config.{ConfigFactory, Config}
 import collection.JavaConversions._
+import com.typesafe.scalalogging.slf4j.Logging
 
 trait HDFSActions extends Logging {
 

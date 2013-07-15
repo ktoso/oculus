@@ -1,14 +1,6 @@
 package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
-import java.io.File
-import pl.project13.scala.oculus.ffmpeg.FFMPEG
-import com.google.common.io.Files
-import pl.project13.scala.oculus.logging.Logging
-import com.typesafe.config.{ConfigFactory, Config}
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{Path, FileSystem}
-import collection.JavaConversions._
 import pl.project13.scala.oculus.conversions.OculusTupleConversions
 import scala.Array
 

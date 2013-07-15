@@ -1,10 +1,10 @@
 package pl.project13.scala.oculus.ffmpeg
 
 import java.io.{FilenameFilter, File}
-import pl.project13.scala.oculus.logging.Logging
 import com.google.common.io.Files
 import pl.project13.common.utils.HumanReadable
 import scala.sys.process.Process
+import com.typesafe.scalalogging.slf4j.Logging
 
 object FFMPEG extends Logging {
 

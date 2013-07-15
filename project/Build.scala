@@ -7,7 +7,7 @@ import scala.Some
 object BuildSettings {
   val buildOrganization = "project13"
   val buildVersion      = "1.0.0"
-  val buildScalaVersion = "2.9.2"
+  val buildScalaVersion = "2.10.2"
 
   val myAssemblySettings = assemblySettings ++
     Seq(
@@ -36,7 +36,8 @@ object Resolvers {
     "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases",
     "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases",
     "EasyTesting Releases" at "http://repo1.maven.org/maven2/org/easytesting",
-    "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+    "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
+    "Cascading / conjars" at "http://conjars.org/repo"
   )
 }
 
@@ -45,8 +46,11 @@ object Versions {
   val rainbow = "0.2"
         
   val mockito = "1.8.5"
-  val scalatest = "2.0.M5-B1"
-        
+
+  val akka = "2.1.4"
+
+  val scalding = "0.8.6"
+
   val fest = "1.4"
   val lift = "2.5-M4"
 }
@@ -56,7 +60,11 @@ object Dependencies {
   import Versions._
 
   // scalding
-  val scaldingLib = "com.twitter" % "scalding_2.9.2" % "0.8.3" withSources()
+  val scaldingCore = "com.twitter"     %% "scalding-core"    % Versions.scalding withSources()
+  val scaldingDate = "com.twitter"     %% "scalding-date"    % Versions.scalding withSources()
+  val scaldingArgs = "com.twitter"     %% "scalding-args"    % Versions.scalding withSources()
+
+  val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
   // hadoop
   val hadoopCore = "org.apache.hadoop" % "hadoop-core" % "1.0.3"
@@ -75,13 +83,13 @@ object Dependencies {
   val rogueAll = Seq(liftJson, casbah, mongo, rogue, liftMongoRecord)
 
   // Logging
-  val grizzledSlf4j         = "org.clapper"          %% "grizzled-slf4j" % "0.6.10"
+  val scalaLogging          = "com.typesafe"         %% "scalalogging-slf4j"      % "1.0.1"
   val logback               = "ch.qos.logback"        % "logback-classic"         % "1.0.0"
   val log4jOverSlf4j        = "org.slf4j"             % "log4j-over-slf4j"        % "1.6.1"
   val jclOverSlf4j          = "org.slf4j"             % "jcl-over-slf4j"          % "1.6.1"
   val julToSlf4jBridge      = "org.slf4j"             % "jul-to-slf4j"            % "1.6.1"
 
-  val logging               = Seq(grizzledSlf4j, logback, log4jOverSlf4j, jclOverSlf4j)
+  val logging               = Seq(scalaLogging, logback, log4jOverSlf4j, jclOverSlf4j)
 
   // mysql and related
   val mysqlConnector        = "mysql"                  %  "mysql-connector-java"  % "5.1.15"
@@ -93,24 +101,21 @@ object Dependencies {
   val scalaToolsTime        = "org.scala-tools.time"  %%  "time"                  % "0.5" intransitive()
   val jodaTime              = "joda-time"             %   "joda-time"             % "2.1"
   val jodaTimeConvert       = "org.joda"              %   "joda-convert"          % "1.2"
-  val scalaz                = "org.scalaz"            %% "scalaz-core"            % "6.0.4"
-  val guava                 = "com.google.guava"    % "guava"                   % Versions.guava
+  val scalaz                = "org.scalaz"            %%  "scalaz-core"           % "6.0.4"
+  val guava                 = "com.google.guava"      %   "guava"                 % Versions.guava
 
   // testing
-  val scalaTest               = "org.scalatest"       % "scalatest_2.10.0-RC3"    % Versions.scalatest
-  val scalaTest_2_9           = "org.scalatest"          %% "scalatest"             % "1.8"
-  val mockito                 = "org.mockito"         % "mockito-core"            % Versions.mockito
+  val scalaTest               = "org.scalatest"       % "scalatest_2.10" % "1.9.1"
+  val mockito                 = "org.mockito"         % "mockito-core"   % Versions.mockito
 
-  val testing_2_10            = Seq(scalaTest, mockito).map(_ % "test")
-  val testing_2_9             = Seq(scalaTest_2_9, mockito).map(_ % "test")
+  val testing                = Seq(scalaTest, mockito).map(_ % "test")
 
   val jsoup                  = "org.jsoup"         % "jsoup"               % "1.7.2"
 
   // akka2
-  val akka2Version           = "2.0.5"
-  val akka2Actor             = "com.typesafe.akka" % "akka-actor"          % akka2Version
-  val akka2Slf4j             = "com.typesafe.akka" % "akka-slf4j"          % akka2Version
-  val akka2TestKit           = "com.typesafe.akka" % "akka-testkit"        % akka2Version % "test"
+  val akka2Actor             = "com.typesafe.akka" %% "akka-actor"          % Versions.akka
+  val akka2Slf4j             = "com.typesafe.akka" %% "akka-slf4j"          % Versions.akka
+  val akka2TestKit           = "com.typesafe.akka" %% "akka-testkit"        % Versions.akka % "test"
   val akka2Full              = Seq(akka2Actor, akka2Slf4j, akka2TestKit)
 
   // terminal coloring
@@ -137,7 +142,7 @@ object OculusBuild extends Build {
     file("common"),
     settings = buildSettings ++
       Seq(
-        libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow) ++ logging ++ testing_2_9
+        libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow) ++ logging ++ testing
       )
   ) 
 
@@ -146,7 +151,7 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++
       Seq(
-        libraryDependencies ++= Seq(scaldingLib) ++ akka2Full ++ testing_2_9,
+        libraryDependencies ++= scaldingAll ++ Seq(hadoopCore, hbase) ++ akka2Full ++ testing,
         mainClass := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       )
   ) dependsOn(common)
@@ -155,7 +160,7 @@ object OculusBuild extends Build {
     "downloader",
     file("downloader"),
     settings = buildSettings ++ Seq(
-      libraryDependencies ++= Seq(hadoopCore, jsoup) ++ akka2Full ++ testing_2_9,
+      libraryDependencies ++= Seq(hadoopCore, jsoup) ++ akka2Full ++ testing,
       mainClass := Some("pl.project13.scala.oculus.DownloaderRunner")
     )
   ) dependsOn(common)

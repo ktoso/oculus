@@ -1,9 +1,9 @@
 package pl.project13.scala.oculus.download.youtube
 
-import pl.project13.scala.oculus.logging.Logging
 import java.io.File
 import com.google.common.io.Files
 import pl.project13.scala.oculus.file.DownloadedVideoFile
+import com.typesafe.scalalogging.slf4j.Logging
 
 trait YoutubeDownloadActions extends Logging {
 

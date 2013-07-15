@@ -72,6 +72,13 @@ Vagrant::Config.run do |config|
     make_node(c, 'datanode', 'datanode1', '192.168.22.22')
   end
 
+  config.vm.define :datanode2 do |c|
+    c.vm.customize ['modifyvm', :id, '--cpus', '2']
+    c.vm.customize ['modifyvm', :id, '--memory', '1024']
+
+    make_node(c, 'datanode', 'datanode1', '192.168.22.23')
+  end
+
 
   # Enable provisioning with chef server, specifying the chef server URL,
   # and the path to the validation key (relative to this Vagrantfile).

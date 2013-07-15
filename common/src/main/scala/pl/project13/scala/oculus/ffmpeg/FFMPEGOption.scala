@@ -19,11 +19,11 @@ case class OutputFormat(format: String) extends FFMPEGOption {
   def str = "-f " + format
 }
 
-case object OutputFormatPngImage2 extends OutputFormat("image2")
+object OutputFormatPngImage2 extends OutputFormat("image2")
 
 case class OutputFilePngNamePattern(name: String, numbersToPad: Int, ext: String) extends FFMPEGOption {
   def str = name + "%0d" + numbersToPad + "." + ext
 }
 
-case object OutputFilePngNamePattern extends OutputFilePngNamePattern("image", 9, "png")
+object OutputFilePngNamePattern extends OutputFilePngNamePattern("image", 9, "png")
 

@@ -7,4 +7,6 @@ run_list "recipe[apt]",
          "recipe[hadoop]",
          "recipe[htop]",
          "recipe[sysstat]",
+         "recipe[youtube-dl]",
+         "recipe[ffmpeg]",
          "recipe[links]"
