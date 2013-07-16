@@ -165,7 +165,7 @@ object OculusBuild extends Build {
     ) ++ Seq(
       mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
         {
-          case x if x.toString.toLowerCase contains "manifest" => MergeStrategy.discard
+          case x if x.toString.toLowerCase contains "manifest.mf" => MergeStrategy.discard
           case x => MergeStrategy.first
         }
       }
