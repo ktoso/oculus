@@ -22,6 +22,10 @@
     <name>fs.default.name</name>
     <value>hdfs://<%= "#{@namenode_ip}" %>:8020</value>
   </property>
+  <property>
+    <name>hadoop.security.authorization</name>
+    <value>true</value>
+  </property>
 
   <!-- OOZIE proxy user setting -->
   <property>

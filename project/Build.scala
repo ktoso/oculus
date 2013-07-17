@@ -37,7 +37,8 @@ object Resolvers {
     "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases",
     "EasyTesting Releases" at "http://repo1.maven.org/maven2/org/easytesting",
     "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
-    "Cascading / conjars" at "http://conjars.org/repo"
+    "Cascading / conjars" at "http://conjars.org/repo",
+    "Cloudera" at "https://repository.cloudera.com/artifactory/cloudera-repos"
   )
 }
 
@@ -67,11 +68,14 @@ object Dependencies {
   val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
   // hadoop
-  val hadoopCore = "org.apache.hadoop" % "hadoop-core" % "1.0.3"
+  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
+  val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
 
   // hbase
-  val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.6"
+  val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.6-cdh4.3.1"
 
+
+  val hadoops = Seq(hadoopCore, hadoopClient, hbase)
 
   // mongodb and related
   val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
@@ -151,7 +155,7 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++ assemblySettings ++
       Seq(
-        libraryDependencies ++= scaldingAll ++ Seq(hadoopCore, hbase) ++ akka2Full ++ testing,
+        libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing,
         mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       )
   ) dependsOn(common)
@@ -160,7 +164,7 @@ object OculusBuild extends Build {
     "downloader",
     file("downloader"),
     settings = buildSettings ++ assemblySettings ++ Seq(
-      libraryDependencies ++= Seq(hadoopCore, jsoup) ++ akka2Full ++ testing,
+      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing,
       mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
     ) ++ Seq(
       mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
