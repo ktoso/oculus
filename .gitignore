@@ -4,3 +4,4 @@
 target
 out
 *.log
+chef/.vagrant
