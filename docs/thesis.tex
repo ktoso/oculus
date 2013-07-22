@@ -1,0 +1,92 @@
+\documentclass[pdflatex,12pt,en]{aghdpl}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\usepackage{todonotes}
+
+\lstloadlanguages{TeX}
+
+\lstset{
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'c}}1
+           {ę}{{\k{e}}}1
+           {ó}{{\'o}}1
+           {ń}{{\'n}}1
+           {ł}{{\l{}}}1
+           {ś}{{\'s}}1
+           {ź}{{\'z}}1
+           {ż}{{\.z}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'C}}1
+           {Ę}{{\k{E}}}1
+           {Ó}{{\'O}}1
+           {Ń}{{\'N}}1
+           {Ł}{{\L{}}}1
+           {Ś}{{\'S}}1
+           {Ź}{{\'Z}}1
+           {Ż}{{\.Z}}1
+}
+
+%---------------------------------------------------------------------------
+
+\author{Konrad Malawski}
+\shortauthor{K. Malawski}
+
+\titlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym}
+\titleEN{Memory management in~mobile operating systems}
+
+\shorttitlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym}
+\shorttitleEN{Memory management in~mobile operating systems}
+
+\thesistypePL{Praca magisterska}
+\thesistypeEN{Master of Science Thesis}
+
+\supervisorPL{dr inż. Sebastian Ernst}
+\supervisorEN{Sebastian Ernst Ph.D}
+
+\date{2013}
+
+\departmentPL{Katedra Informatyki Stosowanej}
+\departmentEN{Department of Applied Computer Science}
+
+\facultyPL{Wydział Elektrotechniki, Automatyki, Informatyki i Elektroniki}
+\facultyEN{Faculty of Electrical Engineering, Automatics, Computer Science and Electronics}
+
+\acknowledgements{Acknowledgements...}
+
+
+\setlength{\cftsecnumwidth}{10mm}
+
+%---------------------------------------------------------------------------
+
+\begin{document}
+
+\titlepages
+
+\tableofcontents
+
+\clearpage
+
+\listoftodos
+
+\clearpage
+
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+\include{chapter7}
+
+% \appendix
+% \include{dodatekA}
+
+%\bibliographystyle{alpha}
+%\bibliography{bibliografia}
+
+\end{document}
