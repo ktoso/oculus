@@ -60,24 +60,24 @@ Vagrant::Config.run do |config|
 
   config.vm.define :namenode do |c|
     c.vm.customize ['modifyvm', :id, '--cpus', '2']
-    c.vm.customize ['modifyvm', :id, '--memory', '1024']
+    c.vm.customize ['modifyvm', :id, '--memory', '324']
 
-    make_node(c, 'namenode', 'namemode', '192.168.22.21')
+    make_node(c, 'namenode', 'namemode', '192.168.7.10')
   end
 
   config.vm.define :datanode1 do |c|
     c.vm.customize ['modifyvm', :id, '--cpus', '2']
-    c.vm.customize ['modifyvm', :id, '--memory', '1024']
+    c.vm.customize ['modifyvm', :id, '--memory', '324']
 
-    make_node(c, 'datanode', 'datanode1', '192.168.22.22')
+    make_node(c, 'datanode', 'datanode1', '192.168.7.21')
   end
 
-  config.vm.define :datanode2 do |c|
-    c.vm.customize ['modifyvm', :id, '--cpus', '2']
-    c.vm.customize ['modifyvm', :id, '--memory', '1024']
-
-    make_node(c, 'datanode', 'datanode2', '192.168.22.23')
-  end
+#  config.vm.define :datanode2 do |c|
+#    c.vm.customize ['modifyvm', :id, '--cpus', '2']
+#    c.vm.customize ['modifyvm', :id, '--memory', '324']
+#
+#    make_node(c, 'datanode', 'datanode2', '192.168.7.22')
+#  end
 
 
   # Enable provisioning with chef server, specifying the chef server URL,

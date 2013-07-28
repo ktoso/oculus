@@ -68,8 +68,10 @@ object Dependencies {
   val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
   // hadoop
-  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
-  val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
+//  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
+//  val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
+  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "1.1.2"
+  val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
 
   // hbase
   val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.6-cdh4.3.1"

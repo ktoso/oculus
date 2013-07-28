@@ -48,7 +48,8 @@ object AsSequenceFile extends Logging with HDFSActions {
           writer.append(key, value)
 
           processed += 1
-          logger.info("Appended [%s] info SequenceFile [%s], %s".format(file.getName, targetUri, processed outOf all))
+          if (processed.percent(all) % 10 == 0)
+            logger.info("Appended [%s] info SequenceFile [%s], %s".format(file.getName, targetUri, processed outOf all))
         } catch {
           case ex: Exception =>
             logger.warn("Unable to put [%s] file into SequenceFile...".format(file.getAbsolutePath), ex)

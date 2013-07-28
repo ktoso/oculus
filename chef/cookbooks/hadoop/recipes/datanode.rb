@@ -21,23 +21,23 @@
 # install all the things, pseudo distributed mode
 package 'hadoop-conf-pseudo'
 
-service "hadoop-hdfs-datanode" do
+service 'hadoop-hdfs-datanode' do
   supports :start => true, :stop => true, :restart => true
 end
 
 # configure hdfs, point to namenode
-["core-site.xml", "hdfs-site.xml", "yarn-site.xml"].each do |file|
+%w(core-site.xml hdfs-site.xml yarn-site.xml).each do |file|
   template "/etc/hadoop/conf/#{file}" do
-    source "conf.pseudo/#{file}" #todo point at the master node at .21
-    mode "0755"
-    variables :namenode_ip => "192.168.22.21"
+    source "conf.pseudo/#{file}.erb"
+    mode '0755'
+    variables :namenode_ip => '192.168.7.10'
   end
 end
 
 # initialise and start the namenode
-bash "initialise and start hdfs / datanode" do
-  code "ls"
+bash 'initialise and start hdfs / datanode' do
+  code 'ls'
 
-  notifies :start, "service[hadoop-hdfs-datanode]", :immediately
+  notifies :start, 'service[hadoop-hdfs-datanode]', :immediately
 end
 

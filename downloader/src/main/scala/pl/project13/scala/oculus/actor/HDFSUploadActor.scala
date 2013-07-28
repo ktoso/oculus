@@ -16,9 +16,9 @@ class HDFSUploadActor extends Actor with ActorLogging
 
 
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) =>
-      log.info("Will upload as sequence file [%s] to HDFS...".format(local.fullName))
+      log.info("Got request to upload as sequence file [%s] to HDFS...".format(local.fullName))
 
-      val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = 1)
+      val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = 10)
       uploadAsSequenceFile(images, createTargetPath(local) + ".seq")
 
       cleanupDownloadedFiles(local, images)
@@ -36,6 +36,6 @@ class HDFSUploadActor extends Actor with ActorLogging
   }
 
   def createTargetPath(local: DownloadedVideoFile): String =
-    "/oculus/source/" + local.fullName
+    "hdfs://192.168.7.10:9000/oculus/source/" + local.fullName // todo remove hardcoded reference!!!!
 
 }

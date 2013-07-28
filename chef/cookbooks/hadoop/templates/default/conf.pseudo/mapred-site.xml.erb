@@ -20,7 +20,7 @@
 <configuration>
   <property>
     <name>mapred.job.tracker</name>
-    <value>localhost:8021</value>
+    <value><%="#{@namenode_ip}"%>:9001</value>
   </property>
 
   <property>
@@ -28,19 +28,29 @@
     <value>yarn</value>
   </property>
 
+  <!--<property>-->
+    <!--<name>mapreduce.jobhistory.address</name>-->
+    <!--<value>localhost:10020</value>-->
+  <!--</property>-->
+  <!--<property>-->
+    <!--<name>mapreduce.jobhistory.webapp.address</name>-->
+    <!--<value>localhost:19888</value>-->
+  <!--</property>-->
+
+  <!--<property>-->
+    <!--<description>To set the value of tmp directory for map and reduce tasks.</description>-->
+    <!--<name>mapreduce.task.tmp.dir</name>-->
+    <!--<value>/var/lib/hadoop-mapreduce/cache/${user.name}/tasks</value>-->
+  <!--</property>-->
+
   <property>
-    <name>mapreduce.jobhistory.address</name>
-    <value>localhost:10020</value>
-  </property>
-  <property>
-    <name>mapreduce.jobhistory.webapp.address</name>
-    <value>localhost:19888</value>
+    <name>mapred.tasktracker.map.tasks.maximum</name>
+    <value>1</value>
   </property>
 
   <property>
-    <description>To set the value of tmp directory for map and reduce tasks.</description>
-    <name>mapreduce.task.tmp.dir</name>
-    <value>/var/lib/hadoop-mapreduce/cache/${user.name}/tasks</value>
+    <name>mapred.tasktracker.reduce.tasks.maximum</name>
+    <value>1</value>
   </property>
 
 </configuration>
