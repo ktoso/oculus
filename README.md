@@ -9,6 +9,23 @@ Downloads
 For installing on Debian from packages:
 http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH4/4.2.0/CDH4-Installation-Guide/cdh4ig_topic_4_4.html
 
+Monitoring urls
+---------------
+
+hadoop
+
+```
+http://192.168.7.10:50030/jobtracker.jsp
+```
+
+hbase
+
+```
+http://192.168.7.10:60010/master-status
+```
+
+
+
 *Install Java7 on Debian*
 
 ```
