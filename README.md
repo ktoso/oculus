@@ -1,4 +1,3 @@
-
 http://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/
 
 
@@ -52,3 +51,9 @@ sbt
 project scalding
 run pl.project13.scala.oculus.job.VideoToPicturesJob --hdfs --output hdfs://oculus-one.project13.pl:54310/oculus/target/Pst9a8tZbkk.webm.img-size.tsv --input hdfs://oculus-one.project13.pl:54310/oculus/source/Pst9a8tZbkk.webm.seq
 ```
+
+Testing Hadoop / HBase Cluster
+------------------------------
+
+For testing the cluster Vagrant + Puppet setup prepared here should be used: https://github.com/ktoso/vagrant-cascading-hadoop-cluster
+
