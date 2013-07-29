@@ -21,13 +21,13 @@ apt-get install oracle-java7-installer
 exit
 ```
 
-*Hadoop 1.0.3*
+*Hadoop 1.1.2*
 
-http://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/hadoop-1.0.3.tar.gz
+http://archive.apache.org/dist/hadoop/core/hadoop-1.1.2/hadoop-1.1.2.tar.gz
 
-*HBase 0.94.6*
+*HBase 0.94.10*
 
-http://ftp.ps.pl/pub/apache/hbase/hbase-0.94.6/hbase-0.94.6.tar.gz
+http://ftp.ps.pl/pub/apache/hbase/hbase-0.94.10/hbase-0.94.10.tar.gz
 
 Install tooling
 ---------------
