@@ -6,7 +6,7 @@ import pl.project13.scala.oculus.hdfs.HDFSActions
 import pl.project13.scala.oculus.ffmpeg.FFMPEG
 import java.io.File
 
-class HDFSUploadActor extends Actor with ActorLogging
+class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
   with HDFSActions {
 
   def receive = {
@@ -36,6 +36,6 @@ class HDFSUploadActor extends Actor with ActorLogging
   }
 
   def createTargetPath(local: DownloadedVideoFile): String =
-    "hdfs://192.168.7.10:9000/oculus/source/" + local.fullName // todo remove hardcoded reference!!!!
+    hdfsLocation + "/oculus/source/" + local.fullName
 
 }

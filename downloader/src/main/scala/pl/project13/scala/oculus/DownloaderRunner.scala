@@ -15,7 +15,7 @@ object DownloaderRunner extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("oculus-system", config)
 
-  val hdfsUploader = system.actorOf(Props[HDFSUploadActor].withRouter(FromConfig), "hdfs-uploader")
+  val hdfsUploader = system.actorOf(Props(new HDFSUploadActor(config.getString("oculus.hadoop.fs.defaultFS"))).withRouter(FromConfig), "hdfs-uploader")
   val youtubeDownloader = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)).withRouter(FromConfig), "youtube-downloader")
   val youtubeCrawler = system.actorOf(Props(new YoutubeCrawlActor(youtubeDownloader)), "youtube-crawler")
 
