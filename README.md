@@ -46,6 +46,33 @@ http://archive.apache.org/dist/hadoop/core/hadoop-1.1.2/hadoop-1.1.2.tar.gz
 
 http://ftp.ps.pl/pub/apache/hbase/hbase-0.94.10/hbase-0.94.10.tar.gz
 
+Create stuff in hbase
+=====================
+
+```
+hbase(main):002:0> create 'frames', {NAME => 'youtube'}
+scan 'frames'
+0 row(s) in 8.2020 seconds
+
+
+hbase(main):003:0> scan 'frames'
+ROW                                                          COLUMN+CELL
+0 row(s) in 0.2590 seconds
+
+
+hbase(main):005:0> put 'frames', 'asdf', 'youtube:id', 'asdf'
+0 row(s) in 0.1150 seconds
+
+hbase(main):006:0> put 'frames', 'asdf', 'youtube:meta',  "{metadata: jsonstuff}"
+0 row(s) in 0.0180 seconds
+
+
+hbase(main):007:0> scan 'frames'
+ROW                                                          COLUMN+CELL
+ asdf                                                        column=youtube:id, timestamp=1375312436843, value=asdf
+ asdf                                                        column=youtube:meta, timestamp=1375312452591, value={metadata: jsonstuff}
+```
+
 Install tooling
 ---------------
 

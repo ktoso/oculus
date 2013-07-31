@@ -5,7 +5,7 @@ import AssemblyKeys._
 import scala.Some
 
 object BuildSettings {
-  val buildOrganization = "project13"
+  val buildOrganization = "pl.project13"
   val buildVersion      = "1.0.0"
   val buildScalaVersion = "2.10.2"
 
@@ -38,7 +38,8 @@ object Resolvers {
     "EasyTesting Releases" at "http://repo1.maven.org/maven2/org/easytesting",
     "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
     "Cascading / conjars" at "http://conjars.org/repo",
-    "Cloudera" at "https://repository.cloudera.com/artifactory/cloudera-repos"
+    "Cloudera" at "https://repository.cloudera.com/artifactory/cloudera-repos",
+    "Parallel AI" at "https://github.com/ParallelAI/mvn-repo/raw/master/releases"
   )
 }
 
@@ -54,6 +55,8 @@ object Versions {
 
   val fest = "1.4"
   val lift = "2.5-M4"
+
+  val spyGlass = "2.10.2_2.3.0" // aaaa, they can't package scala....
 }
 
 object Dependencies {
@@ -61,11 +64,11 @@ object Dependencies {
   import Versions._
 
   // scalding
-  val scaldingCore = "com.twitter"     %% "scalding-core"    % Versions.scalding withSources()
-  val scaldingDate = "com.twitter"     %% "scalding-date"    % Versions.scalding withSources()
-  val scaldingArgs = "com.twitter"     %% "scalding-args"    % Versions.scalding withSources()
-
-  val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
+  val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
+  val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
+  val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
+  val spyGlass     = "parallelai"      % "parallelai.spyglass"  % Versions.spyGlass intransitive()
+  val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, spyGlass)
 
   // hadoop
 //  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
