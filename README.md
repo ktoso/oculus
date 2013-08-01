@@ -73,6 +73,45 @@ ROW                                                          COLUMN+CELL
  asdf                                                        column=youtube:meta, timestamp=1375312452591, value={metadata: jsonstuff}
 ```
 
+Run downloader
+--------------
+
+```
+```
+
+List files on HDFS from the downlader
+-------------------------------------
+
+```
+$ hadoop fs -ls /oculus/source
+Found 6 items
+-rw-r--r--   3 kmalawski supergroup 1161390621 2013-08-01 00:32 /oculus/source/-A1e_vS5gn4.webm.seq
+-rw-r--r--   3 kmalawski supergroup   78396304 2013-08-01 00:45 /oculus/source/0a78kzAffb4.webm.seq
+-rw-r--r--   3 kmalawski supergroup 3319289461 2013-08-01 00:36 /oculus/source/G8dMlGq6CBE.webm.seq
+-rw-r--r--   3 kmalawski supergroup 1852768320 2013-08-01 00:25 /oculus/source/cj2uhyfVNmQ.webm.seq
+-rw-r--r--   3 kmalawski supergroup 5868144017 2013-08-01 00:28 /oculus/source/fPAaYvL5Vpw.webm.seq
+-rw-r--r--   3 kmalawski supergroup  128484760 2013-08-01 00:34 /oculus/source/gVi_2lHBVhQ.webm.seq
+```
+
+Calculate the PHASH function (reqs hbase)
+-----------------------------------------
+
+```
+sbt shell
+
+> project scalding
+
+> run pl.project13.scala.oculus.job.VideoToPicturesJob --hdfs --input hdfs://192.168.7.10:9000/oculus/source/cj2uhyfVNmQ.webm --output ignore.out
+```
+
+Run sanity test - word count
+============================
+```
+sbt shell
+> project scalding
+> run pl.project13.scala.oculus.job.WordCountJob --hdfs --input hdfs://192.168.7.10:9000/demotext.txt --output hdfs://192.168.7.10:9000/wordcount.out
+```
+
 Install tooling
 ---------------
 
