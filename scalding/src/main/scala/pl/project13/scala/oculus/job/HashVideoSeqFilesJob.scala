@@ -15,6 +15,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
   WritableSequenceFile(inputFile, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> 'phash) { p: SeqFileElement => pHash(p._2) }
+    .project('phash)
     .write(Tsv(_outputFile))
 
 //    .write(
@@ -30,7 +31,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 
   // todo implement native call
   def pHash(bytes: String): String = {
-    bytes.toString
+    bytes.length.toString
   }
 
 }

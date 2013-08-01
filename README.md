@@ -112,6 +112,14 @@ sbt shell
 > run pl.project13.scala.oculus.job.WordCountJob --hdfs --input hdfs://192.168.7.10:9000/demotext.txt --output hdfs://192.168.7.10:9000/wordcount.out
 ```
 
+Remember how to get results:
+
+```
+hadoop fs -getmerge /ignore.out ignore.out
+```
+
+
+
 Run the phash job
 -----------------
 This calculates phashes of all seq files (well, here just one):
