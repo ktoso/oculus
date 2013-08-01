@@ -112,6 +112,14 @@ sbt shell
 > run pl.project13.scala.oculus.job.WordCountJob --hdfs --input hdfs://192.168.7.10:9000/demotext.txt --output hdfs://192.168.7.10:9000/wordcount.out
 ```
 
+Run the phash job
+-----------------
+This calculates phashes of all seq files (well, here just one):
+
+```
+run pl.project13.scala.oculus.job.HashVideoSeqFilesJob --hdfs --input hdfs://192.168.7.10:9000/oculus/source/0a78kzAffb4.webm.seq --output hdfs://192.168.7.10:9000/ignore.out
+```
+
 Install tooling
 ---------------
 
