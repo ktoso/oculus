@@ -156,3 +156,11 @@ Testing Hadoop / HBase Cluster
 
 For testing the cluster Vagrant + Puppet setup prepared here should be used: https://github.com/ktoso/vagrant-cascading-hadoop-cluster
 
+
+phash on ubuntu
+---------------
+it's packahged:
+
+```
+sudo apt-get install libphash0-dev libphash0
+```
