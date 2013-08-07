@@ -119,6 +119,28 @@ hadoop fs -getmerge /ignore.out ignore.out
 ```
 
 
+compile phash test runner
+-------------------------
+Examples are in: `/usr/share/doc/libphash0-dev/examples`
+
+```
+ g++ -g -O3 -I. -pthread -I /usr/local/include image_hashes.cpp -L/usr/local/lib -lpHash -o imageHashes
+```
+
+Compute mh_hash and cdt_hash on a given image:
+
+```
+vagrant@vagrant-ubuntu-precise-32:/tmp$
+
+./image_hashes  compr/jasper_johns.jpg
+
+mh_hash: 86 15 7 203 128 57 28 14 7 177 209 106 140 33 192 224 115 100 15 87 96 225 126 7 35 96 108 241 142 7 31 0 56 29 44 109 31 171 255 31 143 199 227 96 45 3 206 48 252 126 63 31 13 45 224 122 56 159 142 50 227 101 100 60 40 243 30 14 1 31 128 104
+dct_hash: 10510202026326186564
+```
+
+Use these values to build keys in your db.
+
+
 
 Run the phash job
 -----------------
