@@ -140,6 +140,8 @@ dct_hash: 10510202026326186564
 
 Use these values to build keys in your db.
 
+Differences between hashes are calculated as Hamming Distance ( http://en.wikipedia.org/wiki/Hamming_distance ).
+
 
 
 Run the phash job
