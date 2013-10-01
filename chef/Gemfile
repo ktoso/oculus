@@ -1,0 +1,6 @@
+source :rubygems
+
+gem 'knife-solo'
+gem 'knife-google'
+gem 'chef'
+gem 'vagrant'

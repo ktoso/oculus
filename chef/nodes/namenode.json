@@ -1,5 +1,6 @@
 {
   "run_list": [
-    "role[base]", "role[namenode]"
+    "role[base]",
+    "role[namenode]"
   ]
 }
