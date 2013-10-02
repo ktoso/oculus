@@ -3,7 +3,7 @@
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://108.59.81.83:9000/hbase</value>
+    <value>hdfs://10.240.175.101:9000/hbase</value>
     <description>The directory shared by RegionServers.
     </description>
   </property>

@@ -21,6 +21,18 @@
 hadoop_version = "-1.2.1"
 hadoop_home = "/opt/hadoop#{hadoop_version}"
 
+bash 'download grrr' do
+  code "wget --no-check-certificate http://raw.github.com/fs111/grrrr/master/grrr -O /tmp/grrr && chmod +x /tmp/grrr"
+end
+
+bash 'download hadoop' do
+  code "/tmp/grrr /hadoop/common/hadoop-1.2.1/hadoop-1.2.1.tar.gz -O /tmp/hadoop.tar.gz --read-timeout=5 --tries=0"
+end
+
+bash 'unpack hadoop' do
+  code "mkdir -p /opt && tar xf /tmp/hadoop.tar.gz -C /opt"
+end
+
 [
   "masters", "slaves",
   "core-site.xml", "hdfs-site.xml", "mapred-site.xml",
