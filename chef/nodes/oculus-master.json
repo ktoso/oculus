@@ -1,7 +1,0 @@
-{
-  "run_list": [
-    "role[namenode]",
-    "role[datanode]"
-  ]
-}
-
