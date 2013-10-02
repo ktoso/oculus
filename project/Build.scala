@@ -68,7 +68,7 @@ object Dependencies {
   val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
   val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
   val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
-  val spyGlass     = "parallelai"      % "parallelai.spyglass"  % Versions.spyGlass intransitive()
+  // val spyGlass     = "parallelai"      % "parallelai.spyglass"  % Versions.spyGlass intransitive()
   val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, spyGlass)
 
   // hadoop
