@@ -1,1 +1,1 @@
-run_list "recipe[hbase]"
+run_list "recipe[hbase]", "recipe[hbase::master]"

@@ -7,4 +7,9 @@ execute "mark Oracle license as accepted" do
     EOF
 end
 
-package "oracle-java7-installer"
+if node['platform'] == 'ubuntu'
+  package "oracle-java7-installer"
+elsif node['platform'] == 'debian'
+  package "openjdk-7-jre"
+  package "openjdk-7-jdk"
+end

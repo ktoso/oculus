@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/apt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/chef_gem" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/curl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/database" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/env" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/ffmpeg" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/hadoop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/hbase" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/htop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/links" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/openssl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/rvm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/sbt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/sysstat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/time" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/tmux" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/tree" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/users" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/vim" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cookbooks/youtube-dl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/data_bags" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/nodes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/roles" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/site-cookbooks" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.chef" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+

@@ -16,29 +16,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-package 'hadoop-hdfs-namenode'
-
-# install all the things, pseudo distributed mode
-package 'hadoop-conf-pseudo'
-
-service "hadoop-hdfs-namenode" do
-  supports :start => true, :stop => true, :restart => true
+bash 'download grrr' do
+  code "wget --no-check-certificate http://raw.github.com/fs111/grrrr/master/grrr -O /tmp/grrr && chmod +x /tmp/grrr"
 end
 
-# configure hdfs
-["core-site.xml", "hdfs-site.xml", "yarn-site.xml"].each do |file|
-  template "/etc/hadoop/conf/#{file}" do
-    source "conf.pseudo/#{file}.erb"
-    variables :namenode_ip => "192.168.22.21"
-    mode "0755"
-  end
+bash 'download hadoop' do
+  code "/tmp/grrr /hadoop/common/hadoop-1.2.1/hadoop-1.2.1.tar.gz -O /tmp/hadoop.tar.gz --read-timeout=5 --tries=0"
 end
 
-# initialise and start the namenode
+bash 'unpack hadoop' do
+  code "mkdir -p /opt && tar xf /tmp/hadoop.tar.gz -C /opt"
+end
+
 bash "initialise and start hdfs / namenode" do
-  code "sudo -u hdfs hdfs namenode -format"
-
-  notifies :start, "service[hadoop-hdfs-namenode]", :immediately
+  #code "sudo -u hdfs hdfs namenode -format"
+  #
+  #notifies :start, "service[hadoop-hdfs-namenode]", :immediately
 end

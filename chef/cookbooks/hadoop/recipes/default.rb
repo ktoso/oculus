@@ -18,19 +18,15 @@
 # limitations under the License.
 #
 
-# import the cloudera key
-cookbook_file "/root/cloudera.key" do
-  source "archive.key"
-end
+hadoop_version = "-1.2.1"
+hadoop_home = "/opt/hadoop#{hadoop_version}"
 
-# install the key
-bash "add cloudera key" do
-  code "apt-key add /root/cloudera.key"
-end
-
-# Run apt-get update to create the stamp file
-template "/etc/apt/sources.list.d/cloudera.list" do
-  source "cloudera.list"
-  mode "0755"
-  notifies :run, resources(:execute => "apt-get update"), :immediately
+[
+  "masters", "slaves",
+  "core-site.xml", "hdfs-site.xml", "mapred-site.xml",
+  "hadoop-env.sh", "hadoop-path.sh"
+].each do |file|
+  cookbook_file "#{hadoop_home}/conf/#{file}" do
+    source "#{file}"
+  end
 end
