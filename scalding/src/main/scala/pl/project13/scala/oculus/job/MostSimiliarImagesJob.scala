@@ -1,21 +1,20 @@
 package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
+import parallelai.spyglass.hbase.HBaseConstants.SourceMode
+import parallelai.spyglass.hbase.HBaseSource
 
 class MostSimiliarImagesJob(args: Args) extends Job(args) {
 
   val inputFile = args("input")
   val outputFile = args("output")
 
-  TextLine(inputFile)
-    .flatMap('line -> 'word) { line: String => tokenize(line) }
-    .groupBy('word) { _.size }
-    .write(Tsv(outputFile))
-
-
-  def tokenize(text: String): Array[String] = {
-    // Lowercase each word and remove punctuation.
-    text.toLowerCase.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+")
-  }
+  val hbs2 = new HBaseSource(
+    "table_name",
+    "quorum_name:2181",
+    'key,
+    Array("column_family"),
+    Array('column_name),
+    sourceMode = SourceMode.SCAN_ALL)
 
 }

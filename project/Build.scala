@@ -38,7 +38,8 @@ object Resolvers {
     "EasyTesting Releases" at "http://repo1.maven.org/maven2/org/easytesting",
     "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
     "Cascading / conjars" at "http://conjars.org/repo",
-    "Cloudera" at "https://repository.cloudera.com/artifactory/cloudera-repos"
+    "Cloudera" at "https://repository.cloudera.com/artifactory/cloudera-repos",
+    "SpyGlass" at "https://github.com/ParallelAI/mvn-repo/raw/master/releases"
   )
 }
 
@@ -72,10 +73,10 @@ object Dependencies {
   val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
 
   // hbase
-  val hbase      = "org.apache.hbase"  % "hbase"       % "0.94.6-cdh4.3.1"
+  val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
+  val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
 
-
-  val hadoops = Seq(hadoopCore, hadoopClient, hbase)
+  val hadoops = Seq(hadoopCore, hadoopClient, hbase, spyGlass)
 
   // mongodb and related
   val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
