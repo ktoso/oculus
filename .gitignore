@@ -1,4 +1,5 @@
 .idea
+*crc
 .idea_modules
 **/*.class
 target

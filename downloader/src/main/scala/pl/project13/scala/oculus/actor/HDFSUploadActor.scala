@@ -6,7 +6,7 @@ import pl.project13.scala.oculus.hdfs.HDFSActions
 import pl.project13.scala.oculus.ffmpeg.FFMPEG
 import java.io.File
 
-class HDFSUploadActor extends Actor with ActorLogging
+class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
   with HDFSActions {
 
   def receive = {
@@ -16,9 +16,9 @@ class HDFSUploadActor extends Actor with ActorLogging
 
 
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) =>
-      log.info("Will upload as sequence file [%s] to HDFS...".format(local.fullName))
+      log.info("Got request to upload as sequence file [%s] to HDFS...".format(local.fullName))
 
-      val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = 1)
+      val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = 10)
       uploadAsSequenceFile(images, createTargetPath(local) + ".seq")
 
       cleanupDownloadedFiles(local, images)
@@ -36,6 +36,6 @@ class HDFSUploadActor extends Actor with ActorLogging
   }
 
   def createTargetPath(local: DownloadedVideoFile): String =
-    "/oculus/source/" + local.fullName
+    hdfsLocation + "/oculus/source/" + local.fullName
 
 }

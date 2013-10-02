@@ -23,6 +23,8 @@ trait YoutubeDownloadActions extends Logging {
         "--no-progress" ::
         "--continue" ::
         "--write-info-json" ::
+        "--id" ::
+        "--restrict-filenames" ::
         "--prefer-free-formats" ::
         url :: Nil
     } mkString " "
