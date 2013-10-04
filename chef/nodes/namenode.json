@@ -2,6 +2,7 @@
   "run_list": [
     "role[base]",
     "role[namenode]",
-    "role[hbase]"
+    "role[hbase]",
+    "role[oculus]"
   ]
 }
