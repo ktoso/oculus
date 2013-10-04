@@ -22,7 +22,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
     .write(
       new HBaseSource(
         TableName,
-        "192.168.7.10:2181",
+        "10.240.175.101:2181",
         'phash,
         TableSchema.tail.map((x: Symbol) => "youtube"),
         TableSchema.tail.map((x: Symbol) => new Fields(x.name)),
