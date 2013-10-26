@@ -2,8 +2,8 @@ package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
 import parallelai.spyglass.hbase.HBaseSource
-import cascading.tuple.Fields
 import scala.compat.Platform
+import cascading.tuple._
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 
@@ -24,8 +24,8 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
         TableName,
         "10.240.175.101:2181",
         'phash,
-        TableSchema.tail.map((x: Symbol) => "youtube"),
-        TableSchema.tail.map((x: Symbol) => new Fields(x.name)),
+        TableSchema.tail.map((x: Symbol) => "youtube").toArray,
+        TableSchema.tail.map((x: Symbol) => new Fields(x.name)).toArray,
         timestamp = Platform.currentTime
       )
     )
