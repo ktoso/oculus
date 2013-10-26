@@ -16,4 +16,5 @@ case class DownloadedVideoFile(dir: File, name: String, ext: String) extends Loc
   val fullName = name + "." + ext
 
   override val file = new File(dir, fullName)
+  val infoFile = new File(file.getAbsolutePath + ".info.json")
 }

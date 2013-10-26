@@ -28,7 +28,8 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
     case UploadFileToHDFS(local: DownloadedVideoFile) =>
       log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
       upload(local.file, createTargetPath(local), delSrc = true)
-      storeMetadata(local)
+      storeMetadataFor(local)
+      delete(local)
   }
 
 
@@ -37,11 +38,13 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
     local.file :: images foreach { _.delete() }
   }
 
-  def storeMetadata(local: DownloadedVideoFile) =
-    hdfsLocation + "/oculus/source/" + local.fullName
-
   def createTargetPath(local: DownloadedVideoFile): String =
     hdfsLocation + "/oculus/source/" + local.fullName
 
+  def delete(local: DownloadedVideoFile) {
+    logger.info(s"Deleting files for [${local.file.getName}}]")
+    local.file.delete()
+    local.infoFile.delete()
+  }
 
 }
