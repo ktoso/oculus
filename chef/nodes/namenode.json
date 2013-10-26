@@ -1,9 +1,0 @@
-{
-  "run_list": [
-    "role[base]",
-    "role[namenode]",
-    "role[hbase]",
-    "role[oculus]",
-    "role[hue]"
-  ]
-}
