@@ -65,74 +65,74 @@ object Dependencies {
   import Versions._
 
   // scalding
-  val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
-  val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
-  val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
+  lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
+  lazy val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
+  lazy val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
   // val spyGlass     = "parallelai"      % "parallelai.spyglass"  % Versions.spyGlass intransitive()
-  val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, spyGlass)
+  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, spyGlass)
 
   // hadoop
-//  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
-//  val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
-  val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "1.1.2"
-  val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
+//  lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
+//  lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
+  lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "1.1.2"
+  lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
 
   // hbase
-  val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
-  val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
+  lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
+  lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
 
-  val hadoops = Seq(hadoopCore, hadoopClient, hbase, spyGlass)
+  lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase, spyGlass)
 
   // mongodb and related
-  val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
-  val casbah                = "org.mongodb"            %% "casbah-core"           % "2.5.0"
-  val mongo                 = "org.mongodb"             % "mongo-java-driver"     % "2.9.2"
-  val liftMongoRecord       = "net.liftweb"            %% "lift-mongodb-record"   % Versions.lift withSources()
-  val rogue                 = "com.foursquare"         %% "rogue-lift"            % "2.0.0-beta22" intransitive() withSources()
+  lazy val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
+  lazy val casbah                = "org.mongodb"            %% "casbah-core"           % "2.5.0"
+  lazy val mongo                 = "org.mongodb"             % "mongo-java-driver"     % "2.9.2"
+  lazy val liftMongoRecord       = "net.liftweb"            %% "lift-mongodb-record"   % Versions.lift withSources()
+  lazy val rogue                 = "com.foursquare"         %% "rogue-lift"            % "2.0.0-beta22" intransitive() withSources()
 
-  val rogueAll = Seq(liftJson, casbah, mongo, rogue, liftMongoRecord)
+  lazy val rogueAll = Seq(liftJson, casbah, mongo, rogue, liftMongoRecord)
 
   // Logging
-  val scalaLogging          = "com.typesafe"         %% "scalalogging-slf4j"      % "1.0.1"
-  val logback               = "ch.qos.logback"        % "logback-classic"         % "1.0.0"
-  val log4jOverSlf4j        = "org.slf4j"             % "log4j-over-slf4j"        % "1.6.1"
-  val jclOverSlf4j          = "org.slf4j"             % "jcl-over-slf4j"          % "1.6.1"
-  val julToSlf4jBridge      = "org.slf4j"             % "jul-to-slf4j"            % "1.6.1"
+  lazy val scalaLogging          = "com.typesafe"         %% "scalalogging-slf4j"      % "1.0.1"
+  lazy val logback               = "ch.qos.logback"        % "logback-classic"         % "1.0.0"
+  lazy val log4jOverSlf4j        = "org.slf4j"             % "log4j-over-slf4j"        % "1.6.1"
+  lazy val jclOverSlf4j          = "org.slf4j"             % "jcl-over-slf4j"          % "1.6.1"
+  lazy val julToSlf4jBridge      = "org.slf4j"             % "jul-to-slf4j"            % "1.6.1"
 
-  val logging               = Seq(scalaLogging, logback, log4jOverSlf4j, jclOverSlf4j)
+  lazy val logging               = Seq(scalaLogging, logback, log4jOverSlf4j, jclOverSlf4j)
 
   // mysql and related
-  val mysqlConnector        = "mysql"                  %  "mysql-connector-java"  % "5.1.15"
-  val liftUtil              = "net.liftweb"            %% "lift-util"             % Versions.lift withSources()
-  val liftSquerylRecord     = "net.liftweb"            %% "lift-squeryl-record"   % Versions.lift withSources()
-  val c3p0                  = "c3p0"                   %  "c3p0"                  % "0.9.1.2"
+  lazy val mysqlConnector        = "mysql"                  %  "mysql-connector-java"  % "5.1.15"
+  lazy val liftUtil              = "net.liftweb"            %% "lift-util"             % Versions.lift withSources()
+  lazy val liftSquerylRecord     = "net.liftweb"            %% "lift-squeryl-record"   % Versions.lift withSources()
+  lazy val c3p0                  = "c3p0"                   %  "c3p0"                  % "0.9.1.2"
 
   // general tools
-  val scalaToolsTime        = "org.scala-tools.time"  %%  "time"                  % "0.5" intransitive()
-  val jodaTime              = "joda-time"             %   "joda-time"             % "2.1"
-  val jodaTimeConvert       = "org.joda"              %   "joda-convert"          % "1.2"
-  val scalaz                = "org.scalaz"            %%  "scalaz-core"           % "6.0.4"
-  val guava                 = "com.google.guava"      %   "guava"                 % Versions.guava
+  lazy val scalaToolsTime        = "org.scala-tools.time"  %%  "time"                  % "0.5" intransitive()
+  lazy val jodaTime              = "joda-time"             %   "joda-time"             % "2.1"
+  lazy val jodaTimeConvert       = "org.joda"              %   "joda-convert"          % "1.2"
+  lazy val scalaz                = "org.scalaz"            %%  "scalaz-core"           % "6.0.4"
+  lazy val guava                 = "com.google.guava"      %   "guava"                 % Versions.guava
 
   // testing
-  val scalaTest               = "org.scalatest"       % "scalatest_2.10" % "1.9.1"
-  val mockito                 = "org.mockito"         % "mockito-core"   % Versions.mockito
+  lazy val scalaTest               = "org.scalatest"       % "scalatest_2.10" % "1.9.1"
+  lazy val mockito                 = "org.mockito"         % "mockito-core"   % Versions.mockito
 
-  val testing                = Seq(scalaTest, mockito).map(_ % "test")
+  lazy val testing                = Seq(scalaTest, mockito).map(_ % "test")
 
-  val jsoup                  = "org.jsoup"         % "jsoup"               % "1.7.2"
+  lazy val jsoup                  = "org.jsoup"         % "jsoup"               % "1.7.2"
 
   // akka2
-  val akka2Actor             = "com.typesafe.akka" %% "akka-actor"          % Versions.akka
-  val akka2Slf4j             = "com.typesafe.akka" %% "akka-slf4j"          % Versions.akka
-  val akka2TestKit           = "com.typesafe.akka" %% "akka-testkit"        % Versions.akka % "test"
-  val akka2Full              = Seq(akka2Actor, akka2Slf4j, akka2TestKit)
+  lazy val akka2Actor             = "com.typesafe.akka" %% "akka-actor"          % Versions.akka
+  lazy val akka2Slf4j             = "com.typesafe.akka" %% "akka-slf4j"          % Versions.akka
+  lazy val akka2TestKit           = "com.typesafe.akka" %% "akka-testkit"        % Versions.akka % "test"
+  lazy val akka2Full              = Seq(akka2Actor, akka2Slf4j, akka2TestKit)
 
   // terminal coloring
-  val rainbow                 = "pl.project13.scala"      %% "rainbow"                   % Versions.rainbow
+  lazy val rainbow                 = "pl.project13.scala"      %% "rainbow"                   % Versions.rainbow
 
   // java stuff
-  val festAssert              = "org.easytesting"          % "fest-assert"               % Versions.fest      % "test"
+  lazy val festAssert              = "org.easytesting"          % "fest-assert"               % Versions.fest      % "test"
 
 }
 
@@ -140,11 +140,9 @@ object OculusBuild extends Build {
   import BuildSettings._
   import Dependencies._
 
-  lazy val root = Project(
-    "root",
-    file("."),
+  lazy val root = Project("root", file("."),
     settings = buildSettings
-  ) aggregate(common, scalding, downloader)
+  ) aggregate(common, scalding)//, downloader)
 
 
   lazy val common = Project(
@@ -154,7 +152,7 @@ object OculusBuild extends Build {
       Seq(
         libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow) ++ logging ++ testing
       )
-  ) 
+  )
 
   lazy val scalding = Project(
     "scalding",
@@ -166,19 +164,19 @@ object OculusBuild extends Build {
       )
   ) dependsOn(common)
 
-  lazy val downloader = Project(
-    "downloader",
-    file("downloader"),
-    settings = buildSettings ++ assemblySettings ++ Seq(
-      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing,
-      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
-    ) ++ Seq(
-      mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
-        {
-          case x if x.toString.toLowerCase contains "manifest.mf" => MergeStrategy.discard
-          case x => MergeStrategy.first
-        }
-      }
-    )
-  ) dependsOn(common)
+//  lazy val downloader = Project(
+//    "downloader",
+//    file("downloader"),
+//    settings = buildSettings ++ assemblySettings ++ Seq(
+//      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing,
+//      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+//    ) ++ Seq(
+//      mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+//        {
+//          case x if x.toString.toLowerCase contains "manifest.mf" => MergeStrategy.discard
+//          case x => MergeStrategy.first
+//        }
+//      }
+//    )
+//  ) dependsOn(common)
 }
