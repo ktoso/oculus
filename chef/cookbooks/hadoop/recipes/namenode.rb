@@ -20,7 +20,7 @@
 include_recipe 'hadoop'
 
 bash "initialise and start hdfs / namenode" do
-  #code "sudo -u hdfs hdfs namenode -format"
+  #code "hadoop namenode -format"
   #
   #notifies :start, "service[hadoop-hdfs-namenode]", :immediately
 end
