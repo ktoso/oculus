@@ -79,12 +79,17 @@ object Dependencies {
 
   // hbase
   lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
+  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11"
+
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
 
-  lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase, spyGlass)
+  lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase, spyGlass, hPaste)
+
+  // json
+  lazy val json4sJackson         = "org.json4s"             %% "json4s-jackson"        % "3.2.5"
+  lazy val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
 
   // mongodb and related
-  lazy val liftJson              = "net.liftweb"            %% "lift-json"             % Versions.lift
   lazy val casbah                = "org.mongodb"            %% "casbah-core"           % "2.5.0"
   lazy val mongo                 = "org.mongodb"             % "mongo-java-driver"     % "2.9.2"
   lazy val liftMongoRecord       = "net.liftweb"            %% "lift-mongodb-record"   % Versions.lift withSources()
@@ -150,7 +155,7 @@ object OculusBuild extends Build {
     file("common"),
     settings = buildSettings ++ assemblySettings ++
       Seq(
-        libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow) ++ logging ++ testing
+        libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow, json4sJackson) ++ logging ++ testing
       )
   )
 
@@ -164,19 +169,19 @@ object OculusBuild extends Build {
       )
   ) dependsOn(common)
 
-//  lazy val downloader = Project(
-//    "downloader",
-//    file("downloader"),
-//    settings = buildSettings ++ assemblySettings ++ Seq(
-//      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing,
-//      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
-//    ) ++ Seq(
-//      mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
-//        {
-//          case x if x.toString.toLowerCase contains "manifest.mf" => MergeStrategy.discard
-//          case x => MergeStrategy.first
-//        }
-//      }
-//    )
-//  ) dependsOn(common)
+  lazy val downloader = Project(
+    "downloader",
+    file("downloader"),
+    settings = buildSettings ++ assemblySettings ++ Seq(
+      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing,
+      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+    ) ++ Seq(
+      mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+        {
+          case x if x.toString.toLowerCase contains "manifest.mf" => MergeStrategy.discard
+          case x => MergeStrategy.first
+        }
+      }
+    )
+  ) dependsOn(common)
 }

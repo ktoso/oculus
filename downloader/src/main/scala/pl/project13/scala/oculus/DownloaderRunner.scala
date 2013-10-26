@@ -11,7 +11,6 @@ object DownloaderRunner extends App {
   val DownloaderNumber = 5
   // end of config
 
-
   val config = ConfigFactory.load()
   val system = ActorSystem("oculus-system", config)
 

@@ -2,12 +2,13 @@ package pl.project13.scala.oculus.actor
 
 import akka.actor.{ActorLogging, Actor}
 import pl.project13.scala.oculus.file.DownloadedVideoFile
-import pl.project13.scala.oculus.hdfs.HDFSActions
+import pl.project13.scala.oculus.hdfs.{HBaseActions, HDFSActions}
 import pl.project13.scala.oculus.ffmpeg.FFMPEG
 import java.io.File
 
 class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
-  with HDFSActions {
+  with HDFSActions
+  with HBaseActions {
 
   def receive = {
     case RequestUploadToHDFS(local: DownloadedVideoFile) =>
@@ -26,7 +27,8 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
 
     case UploadFileToHDFS(local: DownloadedVideoFile) =>
       log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
-      upload(local.file, createTargetPath(local), delSrc = false)
+      upload(local.file, createTargetPath(local), delSrc = true)
+      storeMetadata(local)
   }
 
 
@@ -35,7 +37,11 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
     local.file :: images foreach { _.delete() }
   }
 
+  def storeMetadata(local: DownloadedVideoFile) =
+    hdfsLocation + "/oculus/source/" + local.fullName
+
   def createTargetPath(local: DownloadedVideoFile): String =
     hdfsLocation + "/oculus/source/" + local.fullName
+
 
 }
