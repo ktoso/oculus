@@ -55,6 +55,9 @@ trait HDFSActions extends Logging {
     val from = new Path(localPath.getAbsolutePath)
     val to = new Path(hdfsTarget)
 
+    logger.info(s"Uploading from = $from")
+    logger.info(s"Uploading to = $to")
+
     // remember to mkdir /oculus/source
     fileSystem.copyFromLocalFile(delSrc, overwrite, from, to)
 

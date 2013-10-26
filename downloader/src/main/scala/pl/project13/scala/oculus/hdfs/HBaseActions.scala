@@ -10,13 +10,13 @@ import org.joda.time.DateTime
 
 trait HBaseActions extends Logging {
 
-  val Props = PropsSchema.MetadataTable
+  val Metadata = PropsSchema.MetadataTable
 
   def storeMetadataFor(f: DownloadedVideoFile) = {
     val (json, metadata) = getMetadata(f)
 
     logger.info(s"Putting metadata for [${metadata.id}]")
-    Props.put(metadata.id)
+    Metadata.put(metadata.id)
       .value(_.json, json)
       .value(_.crawledAt, new DateTime)
       .execute()
