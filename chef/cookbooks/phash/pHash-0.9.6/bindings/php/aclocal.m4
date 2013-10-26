@@ -3046,7 +3046,7 @@ AC_REQUIRE([LT_PATH_LD])dnl
 AC_REQUIRE([LT_PATH_NM])dnl
 dnl
 AC_REQUIRE([AC_PROG_LN_S])dnl
-test -z "$LN_S" && LN_S="ln -s"
+test -z "$LN_S" && LN_S="ln -fs"
 _LT_DECL([], [LN_S], [1], [Whether we need soft or hard links])dnl
 dnl
 AC_REQUIRE([LT_CMD_MAX_LEN])dnl

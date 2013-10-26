@@ -138,7 +138,7 @@ test "${ECHO+set}" = set || ECHO=${as_echo-'printf %s\n'}
 : ${EGREP="/bin/grep -E"}
 : ${FGREP="/bin/grep -F"}
 : ${GREP="/bin/grep"}
-: ${LN_S="ln -s"}
+: ${LN_S="ln -fs"}
 : ${MAKE="make"}
 : ${MKDIR="mkdir"}
 : ${MV="mv -f"}
@@ -2282,9 +2282,9 @@ func_mode_install ()
 
 	  if test "$#" -gt 0; then
 	    # Delete the old symlinks, and create new ones.
-	    # Try `ln -sf' first, because the `ln' binary might depend on
+	    # Try `ln -fsf' first, because the `ln' binary might depend on
 	    # the symlink we replace!  Solaris /bin/ln does not understand -f,
-	    # so we also need to try rm && ln -s.
+	    # so we also need to try rm && ln -fs.
 	    for linkname
 	    do
 	      test "$linkname" != "$realname" \

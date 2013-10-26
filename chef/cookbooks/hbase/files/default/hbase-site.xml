@@ -18,6 +18,6 @@
 
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>master.local</value>
+    <value>10.240.175.101</value>
   </property>
 </configuration>

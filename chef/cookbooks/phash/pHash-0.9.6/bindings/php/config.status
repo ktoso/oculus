@@ -279,13 +279,13 @@ else
   mkdir conf$$.dir 2>/dev/null
 fi
 if (echo >conf$$.file) 2>/dev/null; then
-  if ln -s conf$$.file conf$$ 2>/dev/null; then
-    as_ln_s='ln -s'
+  if ln -fs conf$$.file conf$$ 2>/dev/null; then
+    as_ln_s='ln -fs'
     # ... but there are two gotchas:
-    # 1) On MSYS, both `ln -s file dir' and `ln file dir' fail.
-    # 2) DJGPP < 2.04 has no symlinks; `ln -s' creates a wrapper executable.
+    # 1) On MSYS, both `ln -fs file dir' and `ln file dir' fail.
+    # 2) DJGPP < 2.04 has no symlinks; `ln -fs' creates a wrapper executable.
     # In both cases, we have to default to `cp -p'.
-    ln -s conf$$.file conf$$.dir 2>/dev/null && test ! -f conf$$.exe ||
+    ln -fs conf$$.file conf$$.dir 2>/dev/null && test ! -f conf$$.exe ||
       as_ln_s='cp -p'
   elif ln conf$$.file conf$$ 2>/dev/null; then
     as_ln_s=ln
@@ -559,7 +559,7 @@ EGREP='/usr/bin/grep -E'
 FGREP='/usr/bin/grep -F'
 LD='/usr/bin/ld -m elf_x86_64'
 NM='/usr/bin/nm -B'
-LN_S='ln -s'
+LN_S='ln -fs'
 max_cmd_len='1572864'
 ac_objext='o'
 exeext=''

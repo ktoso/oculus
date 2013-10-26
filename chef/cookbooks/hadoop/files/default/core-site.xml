@@ -1,11 +1,21 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
-  <property>
-    <name>fs.default.name</name>
-    <value>hdfs://10.240.175.101:9000</value>
-    <description>The name of the default file system. A URI whose scheme and authority determine the FileSystem
-      implementation.
-    </description>
-  </property>
+
+    <property>
+        <name>fs.default.name</name>
+        <value>hdfs://10.240.175.101:9000</value>
+        <description>The name of the default file system. A URI whose scheme and authority determine the FileSystem
+            implementation.
+        </description>
+    </property>
+
+    <property>
+        <name>hadoop.proxyuser.hue.hosts</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.hue.groups</name>
+        <value>*</value>
+    </property>
 </configuration>

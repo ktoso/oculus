@@ -3,6 +3,7 @@
     "role[base]",
     "role[namenode]",
     "role[hbase]",
-    "role[oculus]"
+    "role[oculus]",
+    "role[hue]"
   ]
 }

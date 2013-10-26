@@ -4,3 +4,5 @@ gem 'knife-solo'
 gem 'knife-google'
 gem 'chef'
 gem 'vagrant'
+gem 'chef
+gem 'google-api-client'
