@@ -7,10 +7,12 @@ import org.apache.hadoop.hbase.util.Bytes
 import pl.project13.scala.oculus.hbase.tables.MetadataSchema.MetadataTable
 
 object HBaseInit {
-  
+
+  import pl.project13.scala.rainbow._
+
   def init() {
-    println("Prepare HBase with the following tables:")
-    println(createScript(MetadataSchema.MetadataTable))
+    println("Prepare HBase with the following tables:".green)
+    println(createScript(MetadataSchema.MetadataTable).bold)
   }
 
   def createScript[T](table: MetadataTable) = {
