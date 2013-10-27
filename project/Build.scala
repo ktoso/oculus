@@ -79,7 +79,7 @@ object Dependencies {
 
   // hbase
   lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
-  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11"
+  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" intransitive()
 
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
 
