@@ -41,7 +41,7 @@ trait YoutubeDownloadActions extends Logging {
         None
 
       case ex: Exception =>
-        logger.error("Unable to download youtube movie [%s]!".format(url), ex)
+        logger.error("Unable to download youtube movie [%s]!".format(url))
         None
     }
   }
