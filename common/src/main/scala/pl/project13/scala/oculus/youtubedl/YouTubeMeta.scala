@@ -37,12 +37,10 @@ case class YouTubeMeta(
   ext: String,
   stitle: String,
   extractor: String,
-  annotations: String,
   uploader: String,
   duration: String,
   fulltitle: String,
   player_url: String,
-  age_limit: String,
   uploader_id: String
 )
 
