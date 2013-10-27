@@ -52,7 +52,7 @@ trait HDFSActions extends Logging {
   def upload(localPath: File, hdfsTarget: String, delSrc: Boolean, overwrite: Boolean = true) = {
     logger.info("Uploading [%s] to HDFS path [%s]...".format(localPath.getAbsolutePath, hdfsTarget))
 
-    val from = new Path(localPath.getAbsolutePath)
+    val from = new Path(s"file://${localPath.getAbsolutePath}")
     val to = new Path(hdfsTarget)
 
     logger.info(s"Uploading from = $from")
