@@ -53,7 +53,6 @@ object YouTubeMeta {
     import org.json4s._
     import org.json4s.jackson.JsonMethods._
 
-
     parse(s).extract[YouTubeMeta]
   }
 }
