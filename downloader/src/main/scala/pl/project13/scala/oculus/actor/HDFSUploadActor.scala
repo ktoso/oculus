@@ -15,8 +15,7 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
       self ! UploadFileToHDFS(local)
       self ! UploadAsSequenceFileToHDFS(local)
 
-
-    case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) =>
+    case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if local.file.exists =>
       log.info("Got request to upload as sequence file [%s] to HDFS...".format(local.fullName))
 
       val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = 10)
@@ -24,6 +23,8 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
 
       cleanupDownloadedFiles(local, images)
 
+    case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if !local.file.exists =>
+      log.info("Got request to upload not existing file[%s] to HDFS! Ignoring...".format(local.fullName))
 
     case UploadFileToHDFS(local: DownloadedVideoFile) =>
       log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
