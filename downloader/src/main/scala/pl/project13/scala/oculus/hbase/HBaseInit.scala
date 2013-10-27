@@ -10,7 +10,7 @@ object HBaseInit {
   
   def init() {
     println("Prepare HBase with the following tables:")
-    createScript(MetadataSchema.MetadataTable)
+    println(createScript(MetadataSchema.MetadataTable))
   }
 
   def createScript[T](table: MetadataTable) = {
