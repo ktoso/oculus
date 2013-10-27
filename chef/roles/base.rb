@@ -12,4 +12,5 @@ run_list "recipe[apt]",
          "recipe[sysstat]",
          "recipe[youtube-dl]",
          "recipe[ffmpeg]",
-         "recipe[links]"
+         "recipe[links]",
+         "recipe[phash]"
