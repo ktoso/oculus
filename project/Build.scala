@@ -78,7 +78,7 @@ object Dependencies {
   lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
 
   // hbase
-  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11"
+  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" from "http://up.project13.pl/files/gravity-hpaste-0.1.24-SNAPSHOT.jar"
 //  lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6.1"
 
