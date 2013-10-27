@@ -78,12 +78,12 @@ object Dependencies {
   lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
 
   // hbase
-  lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3" intransitive()
-  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" intransitive()
+  lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
+  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11"
 
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
 
-  lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase, spyGlass, hPaste)
+  lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase)
 
   // json
   lazy val json4sJackson         = "org.json4s"             %% "json4s-jackson"        % "3.2.5"
@@ -165,7 +165,7 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++ assemblySettings ++
       Seq(
-        libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing,
+        libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing ++ Seq(spyGlass),
         mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   ) dependsOn(common)
@@ -174,7 +174,7 @@ object OculusBuild extends Build {
     "downloader",
     file("downloader"),
     settings = buildSettings ++ assemblySettings ++ Seq(
-      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing,
+      libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing ++ Seq(hPaste),
       mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
     ) ++ Seq(
       mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
