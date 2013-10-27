@@ -5,6 +5,7 @@ import pl.project13.scala.oculus.file.DownloadedVideoFile
 import pl.project13.scala.oculus.hdfs.{HBaseActions, HDFSActions}
 import pl.project13.scala.oculus.ffmpeg.FFMPEG
 import java.io.File
+import pl.project13.scala.rainbow._
 
 class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
   with HDFSActions
@@ -31,6 +32,7 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
       upload(local.file, createTargetPath(local), delSrc = true)
       storeMetadataFor(local)
       delete(local)
+      log.info(s"Finished uploading file ${local.file.getAbsolutePath} into HDFS... Deleted local content.".green)
 
     case UploadFileToHDFS(local: DownloadedVideoFile) =>
       log.warning(s"Got request to upload ${local.file}, but it does not exists! Ignoring...")

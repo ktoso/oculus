@@ -5,8 +5,7 @@ import file.LocalFile
 package object actor {
 
   case class CrawlYoutubePage(url: String)
-
-  case class DownloadFromYoutube(url: String)
+  case class DownloadFromYoutube(url: String, crawl: Boolean)
 
   case class RequestUploadToHDFS(file: LocalFile)
   case class UploadFileToHDFS(file: LocalFile)

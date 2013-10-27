@@ -8,15 +8,16 @@ class YoutubeDownloadActor(hdfsUploader: ActorRef) extends Actor
   with YoutubeDownloadActions with ActorLogging {
 
   def receive = {
-    case DownloadFromYoutube(url) =>
-      log.info("Will download [%s]...".format(url))
+    case m: DownloadFromYoutube =>
+      log.info("Will download [%s]...".format(m.url))
 
-      downloadYoutubeVideo(url) foreach { downloaded =>
+      downloadYoutubeVideo(m.url) foreach { downloaded =>
         hdfsUploader ! RequestUploadToHDFS(downloaded)
 
-        log.info("Finished downloading [%s], will request crawling it!".format(url))
+        log.info("Finished downloading [%s], will request crawling it!".format(m.url))
 
-        sender ! CrawlYoutubePage(url)
+        if(m.crawl)
+          sender ! m
       }
   }
 }

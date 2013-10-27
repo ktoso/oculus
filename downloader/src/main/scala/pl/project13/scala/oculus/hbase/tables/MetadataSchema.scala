@@ -24,4 +24,5 @@ object MetadataSchema extends Schema with HBaseConfig {
   class PropsTableRow(table: MetadataTable, result: DeserializedResult) extends HRow[MetadataTable, String](result, table)
 
   val MetadataTable = table(new MetadataTable)
+
 }
