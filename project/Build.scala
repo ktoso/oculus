@@ -57,7 +57,7 @@ object Versions {
   val fest = "1.4"
   val lift = "2.5-M4"
 
-  val spyGlass = "2.10.2_2.3.0" // aaaa, they can't package scala....
+  val spyGlass = "2.10.2_2.3.0"
 }
 
 object Dependencies {
@@ -76,6 +76,7 @@ object Dependencies {
 //  lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
   lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "1.1.2"
   lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
+  lazy val hadoopCommon = "org.apache.hadoop" % "hadoop-common" % "0.23.8"
 
   // hbase
   lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
@@ -83,7 +84,7 @@ object Dependencies {
 
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
 
-  lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase)
+  lazy val hadoops = Seq(hadoopCore, hadoopCommon, hadoopClient, hbase)
 
   // json
   lazy val json4sJackson         = "org.json4s"             %% "json4s-jackson"        % "3.2.5"
