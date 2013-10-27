@@ -4,6 +4,7 @@ import actor._
 import akka.actor.{Props, ActorSystem}
 import akka.routing.{FromConfig, RoundRobinRouter}
 import com.typesafe.config.ConfigFactory
+import pl.project13.scala.oculus.hbase.HBaseInit
 
 object DownloaderRunner extends App {
 
