@@ -1,7 +1,7 @@
 package pl.project13.scala.oculus.hdfs
 
 import com.typesafe.scalalogging.slf4j.Logging
-import pl.project13.scala.oculus.hbase.tables.PropsSchema
+import pl.project13.scala.oculus.hbase.tables.MetadataSchema
 import pl.project13.scala.oculus.file.DownloadedVideoFile
 import java.io.File
 import com.google.common.base.Charsets
@@ -10,7 +10,7 @@ import org.joda.time.DateTime
 
 trait HBaseActions extends Logging {
 
-  val Metadata = PropsSchema.MetadataTable
+  val Metadata = MetadataSchema.MetadataTable
 
   def storeMetadataFor(f: DownloadedVideoFile) = {
     val (json, metadata) = getMetadata(f)

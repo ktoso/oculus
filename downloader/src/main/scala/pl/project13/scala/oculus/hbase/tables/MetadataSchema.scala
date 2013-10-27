@@ -6,7 +6,7 @@ import com.gravity.hbase.schema._
 import scala.collection._
 import pl.project13.scala.oculus.hbase.HBaseConfig
 
-object PropsSchema extends Schema with HBaseConfig {
+object MetadataSchema extends Schema with HBaseConfig {
 
   import com.gravity.hbase.schema
 
