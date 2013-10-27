@@ -80,7 +80,7 @@ object Dependencies {
   // hbase
   lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11"
 //  lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
-  lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6"
+  lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6.1"
 
   lazy val hadoops = Seq(hadoopCore, hadoopClient, hbase)
 
