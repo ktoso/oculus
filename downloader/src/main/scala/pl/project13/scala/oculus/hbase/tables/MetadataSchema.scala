@@ -16,7 +16,7 @@ object MetadataSchema extends Schema with HBaseConfig {
 
     val youtube = family[String, String, Any]("youtube")
 
-    val json = column(youtube, "title", classOf[String])
+    val json = column(youtube, "json", classOf[String])
     val crawledAt = column(youtube, "crawledAt", classOf[DateTime])
 
   }
