@@ -78,7 +78,7 @@ object Dependencies {
   lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
 
   // hbase
-  lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3"
+  lazy val spyGlass   = "parallelai"        % "parallelai.spyglass" % "2.0.3" intransitive()
   lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" intransitive()
 
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
@@ -145,9 +145,10 @@ object OculusBuild extends Build {
   import BuildSettings._
   import Dependencies._
 
-  lazy val root = Project("root", file("."),
-    settings = buildSettings
-  ) aggregate(common, scalding)//, downloader)
+  lazy val root = Project("root", file("."), settings = buildSettings)
+    .settings(
+      net.virtualvoid.sbt.graph.Plugin.graphSettings: _*
+    ) aggregate(common, scalding)//, downloader)
 
 
   lazy val common = Project(
@@ -156,7 +157,7 @@ object OculusBuild extends Build {
     settings = buildSettings ++ assemblySettings ++
       Seq(
         libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow, json4sJackson) ++ logging ++ testing
-      )
+      ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   )
 
   lazy val scalding = Project(
@@ -166,7 +167,7 @@ object OculusBuild extends Build {
       Seq(
         libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing,
         mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
-      )
+      ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   ) dependsOn(common)
 
   lazy val downloader = Project(
@@ -182,6 +183,6 @@ object OculusBuild extends Build {
           case x => MergeStrategy.first
         }
       }
-    )
+    ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   ) dependsOn(common)
 }
