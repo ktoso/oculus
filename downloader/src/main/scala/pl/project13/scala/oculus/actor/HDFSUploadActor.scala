@@ -26,11 +26,14 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if !local.file.exists =>
       log.info("Got request to upload not existing file[%s] to HDFS! Ignoring...".format(local.fullName))
 
-    case UploadFileToHDFS(local: DownloadedVideoFile) =>
+    case UploadFileToHDFS(local: DownloadedVideoFile) if local.file.exists =>
       log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
       upload(local.file, createTargetPath(local), delSrc = true)
       storeMetadataFor(local)
       delete(local)
+
+    case UploadFileToHDFS(local: DownloadedVideoFile) =>
+      log.info(s"Got request to upload ${local.file}, but it does not exists! Ignoring...")
   }
 
 
