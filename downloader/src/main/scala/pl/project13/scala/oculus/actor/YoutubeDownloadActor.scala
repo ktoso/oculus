@@ -11,11 +11,12 @@ class YoutubeDownloadActor(hdfsUploader: ActorRef) extends Actor
     case DownloadFromYoutube(url) =>
       log.info("Will download [%s]...".format(url))
 
-      val maybeDownloaded = downloadYoutubeVideo(url)
-      maybeDownloaded foreach { hdfsUploader ! RequestUploadToHDFS(_) }
+      downloadYoutubeVideo(url) foreach { downloaded =>
+        hdfsUploader ! RequestUploadToHDFS(downloaded)
 
-      log.info("Finished downloading [%s], will request crawling it!".format(url))
+        log.info("Finished downloading [%s], will request crawling it!".format(url))
 
-      sender ! CrawlYoutubePage(url)
+        sender ! CrawlYoutubePage(url)
+      }
   }
 }
