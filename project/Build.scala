@@ -78,7 +78,8 @@ object Dependencies {
   lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "1.1.2"
 
   // hbase
-  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" from "http://up.project13.pl/files/gravity-hpaste-0.1.24-SNAPSHOT.jar"
+//  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" from "http://up.project13.pl/files/gravity-hpaste-0.1.24-SNAPSHOT.jar"
+  lazy val hPaste     = "com.gravity"       % "gravity-hpaste"      % "0.1.11" from "file:///Users/kmalawski/.m2/repository/com/gravity/gravity-hpaste/0.1.24-SNAPSHOT/gravity-hpaste-0.1.24-SNAPSHOT.jar"
 //  lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6-cdh4.3.1"
   lazy val hbase      = "org.apache.hbase"  % "hbase"               % "0.94.6.1"
 
@@ -147,7 +148,7 @@ object OculusBuild extends Build {
   lazy val root = Project("root", file("."), settings = buildSettings)
     .settings(
       net.virtualvoid.sbt.graph.Plugin.graphSettings: _*
-    ) aggregate(common, scalding)//, downloader)
+    ) aggregate(common, scalding, downloader)
 
 
   lazy val common = Project(
