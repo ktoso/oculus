@@ -28,6 +28,7 @@ trait HBaseActions extends Logging {
     val source = io.Source.fromFile(f.infoFile, Charsets.UTF_8.name)
 
     val json = source.getLines().mkString
+    logger.debug("json = " + json)
     val metadata = YouTubeMeta.from(json)
     source.close()
     json -> metadata
