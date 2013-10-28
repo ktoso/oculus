@@ -5,6 +5,7 @@
 
 package 'libphash0'
 package 'libphash0-dev'
+package 'imagemagick'
 
 source_prefix = node['kernel']['machine'] =~ /x86_64/ ? 'phash/64bit/' : 'phash/32bit/'
 bin_files = [

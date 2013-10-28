@@ -51,17 +51,9 @@ struct ph_imagepoint* ph_malloc_imagepoint(){
 bool cmp_lt_imp(struct ph_imagepoint dpa, struct ph_imagepoint dpb){
     int result = strcmp(dpa.id, dpb.id);
     if (result < 0)
-        return TRUE;
+	return TRUE;
     return FALSE;
 }
-
-void p(uint8_t* ints, int len) {
-  printf("h: ");
-  for(int i=0; i<len; i++)
-    printf("%d ", ints[i]);
-  printf("\n");
-}
-
 /** TEST for image DCT hash function 
  *  The program reads all images from the two directories given on the command line.
  *  The program expects the same number of image files in each directory. Each image 
@@ -105,11 +97,6 @@ int main(int argc, char **argv){
 	    strcat(path, dir_name);
 	    strcat(path, "/");
 	    strcat(path, dir_entry->d_name);
-
-            int mhLen = 0;
-            uint8_t* mhHash = ph_mh_imagehash(path, mhLen);
-            p(mhHash, mhLen);
-
 	    if (ph_dct_imagehash(path, tmphash) < 0)  //calculate the hash
 		continue;
             dp = ph_malloc_imagepoint();              //store in structure with file name
@@ -146,7 +133,7 @@ int main(int argc, char **argv){
 	    strcat(path,dir_entry->d_name);
 	    if (ph_dct_imagehash(path,tmphash) < 0)    //calculate the hash
 		continue;
-    	    dp = ph_malloc_imagepoint();           //store in structure with filename
+    	    dp = ph_malloc_imagepoint();               //store in structure with filename
 	    dp->id = dir_entry->d_name;
 	    dp->hash = tmphash;
 	    hashlist2.push_back(*dp);
@@ -180,7 +167,7 @@ int main(int argc, char **argv){
 	//calculate distance
 	distance = ph_hamming_distance(hashlist1[i].hash,hashlist2[i].hash);
 
-	printf(" dist = %d  [ %llu / %llu ] \n",distance, hashlist1[i].hash, hashlist2[i].hash);
+	printf(" dist = %d\n",distance);
     }
 
 
@@ -194,7 +181,7 @@ int main(int argc, char **argv){
 	    //calculate distance
 	    distance = ph_hamming_distance(hashlist1[i].hash,hashlist1[j].hash);
 
-            printf(" dist = %d  [ %llu / %llu ] \n",distance, hashlist1[i].hash, hashlist2[i].hash);
+	    printf(" dist = %d\n",distance);
 	}
     }
     printf("**************************\n");
