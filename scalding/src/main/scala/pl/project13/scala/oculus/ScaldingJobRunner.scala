@@ -6,6 +6,7 @@ import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
 import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
+import com.google.common.collect.ObjectArrays
 
 object ScaldingJobRunner extends App {
 
@@ -32,7 +33,12 @@ object ScaldingJobRunner extends App {
     conf.setStrings(key, value.unwrapped.toString)
   }
 
-  ToolRunner.run(conf, tool, args)
+  val allArgs = args ++ Array("--hdfs", IPs.HadoopMasterWithPort)
+  println("-----------------------------------")
+  println("allArgs = " + allArgs.toList)
+  println("-----------------------------------")
+
+  ToolRunner.run(conf, tool, allArgs)
 
 
   private def allOculusHadoopSettings(configuration: com.typesafe.config.Config) =
