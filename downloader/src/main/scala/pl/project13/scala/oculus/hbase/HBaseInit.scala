@@ -16,7 +16,7 @@ object HBaseInit {
     println(createScript(HashesSchema.HashesTable).bold)
   }
 
-  def createScript[T](table: HbaseTable) = {
+  def createScript[T](table: HbaseTable[_, _, _]) = {
       var create = "create '" + table.tableName + "', "
       create += (for (family <- table.families) yield {
         familyDef(family)
