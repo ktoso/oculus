@@ -62,7 +62,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
   WritableSequenceFile(_inputFile, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> 'hash) { p: SeqFileElement => pHash(p._2) }
-    .project('hash)
+    .map('hash -> 'id) { h: String => youtubeId }
     .write(WriteHashesColumn)
 
   // todo implement native call
