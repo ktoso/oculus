@@ -1,0 +1,326 @@
+[info] Compiling 2 Scala sources to /home/ktoso/oculus/downloader/target/scala-2.10/classes...
+[info] Running pl.project13.scala.oculus.DownloaderRunner
+Prepare HBase with the following tables:
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/ktoso/.ivy2/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.0.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/ktoso/.ivy2/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.4.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+02:03:25,425 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+02:03:25,425 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+02:03:25,426 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/ktoso/oculus/common/target/scala-2.10/classes/logback.xml]
+02:03:25,501 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+02:03:25,503 |-INFO in ch.qos.logback.classic.joran.action.LoggerContextListenerAction - Adding LoggerContextListener of type [ch.qos.logback.classic.jul.LevelChangePropagator] to the object stack
+02:03:25,548 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating DEBUG level on Logger[ROOT] onto the JUL framework
+02:03:25,548 |-INFO in ch.qos.logback.classic.joran.action.LoggerContextListenerAction - Starting LoggerContextListener
+02:03:25,549 |-ERROR in ch.qos.logback.core.joran.action.PropertyAction - In <property> element, either the "file" attribute alone, or the "resource" element alone, or both the "name" and "value" attributes must be set.
+02:03:25,554 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+02:03:25,560 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+02:03:25,584 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+02:03:25,636 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+02:03:25,639 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [FILE]
+02:03:25,659 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy - No compression will be used
+02:03:25,660 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy - Will use the pattern LOG_FILE_LOCATION_IS_UNDEFINEDoculus.%d{yyyy-MM-dd}.log for the active file
+02:03:25,665 |-INFO in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - The date pattern is 'yyyy-MM-dd' from file name pattern 'LOG_FILE_LOCATION_IS_UNDEFINEDoculus.%d{yyyy-MM-dd}.log'.
+02:03:25,665 |-INFO in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - Roll-over at midnight.
+02:03:25,669 |-INFO in c.q.l.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy - Setting initial period to Tue Nov 19 02:02:41 UTC 2013
+02:03:25,670 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+02:03:25,671 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - Active log file name: LOG_FILE_LOCATION_IS_UNDEFINEDoculus.log
+02:03:25,671 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - File property is set to [LOG_FILE_LOCATION_IS_UNDEFINEDoculus.log]
+02:03:25,672 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [com.restfb] to WARN
+02:03:25,672 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating WARN level on Logger[com.restfb] onto the JUL framework
+02:03:25,672 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.zookeeper] to INFO
+02:03:25,672 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating INFO level on Logger[org.apache.zookeeper] onto the JUL framework
+02:03:25,672 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.hadoop] to INFO
+02:03:25,672 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating INFO level on Logger[org.apache.hadoop] onto the JUL framework
+02:03:25,672 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [com.amazonaws.services.s3] to INFO
+02:03:25,672 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating INFO level on Logger[com.amazonaws.services.s3] onto the JUL framework
+02:03:25,672 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.http] to INFO
+02:03:25,672 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating INFO level on Logger[org.apache.http] onto the JUL framework
+02:03:25,672 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.http.wire] to WARN
+02:03:25,672 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating WARN level on Logger[org.apache.http.wire] onto the JUL framework
+02:03:25,673 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to INFO
+02:03:25,673 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@82eb22d - Propagating INFO level on Logger[ROOT] onto the JUL framework
+02:03:25,673 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+02:03:25,673 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [FILE] to Logger[ROOT]
+02:03:25,675 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@31b3ac8d - Registering current configuration as safe fallback point
+
+SLF4J: Actual binding is of type [ch.qos.logback.classic.selector.DefaultContextSelector]
+create 'metadata', {NAME => 'youtube', VERSIONS => 1}
+create 'hashes', {NAME => 'youtube', VERSIONS => 1}
+[INFO] [11/19/2013 02:03:26.636] [oculus-system-akka.actor.default-dispatcher-4] [akka://oculus-system/user/youtube-downloader/$a] Will download [http://www.youtube.com/watch?v=HTYBXw-RlzM]...
+[INFO] [11/19/2013 02:03:26.636] [oculus-system-akka.actor.default-dispatcher-3] [akka://oculus-system/user/youtube-downloader/$b] Will download [http://www.youtube.com/watch?v=XMXgHfHxKVM]...
+[INFO] [11/19/2013 02:03:31.169] [oculus-system-akka.actor.default-dispatcher-5] [akka://oculus-system/user/hdfs-uploader/$a] Got request to upload as sequence file [XMXgHfHxKVM.mp4] to HDFS...
+[INFO] [11/19/2013 02:03:31.172] [oculus-system-akka.actor.default-dispatcher-3] [akka://oculus-system/user/youtube-downloader/$b] Finished downloading [http://www.youtube.com/watch?v=XMXgHfHxKVM], will request crawling it!
+19/Nov/13 02:03:31.278 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - We will extract [10] frames per second from the [/tmp/1384826611168-0/XMXgHfHxKVM.mp4] file, starting ffmpeg
+19/Nov/13 02:03:31.285 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - ffmpeg command: ffmpeg -i /tmp/1384826611168-0/XMXgHfHxKVM.mp4 -r 10 -f image2 image%0d9.png
+ffmpeg version 0.8.6-6:0.8.6-1, Copyright (c) 2000-2013 the Libav developers
+  built on Mar 24 2013 18:40:26 with gcc 4.7.2
+*** THIS PROGRAM IS DEPRECATED ***
+This program is only provided for compatibility and will be removed in a future release. Please use avconv instead.
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/1384826611168-0/XMXgHfHxKVM.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2013-11-12 10:49:03
+  Duration: 00:01:32.02, start: 0.000000, bitrate: 2967 kb/s
+    Stream #0.0(und): Video: h264 (High), yuv420p, 1280x720, 2772 kb/s, 23.98 fps, 23.98 tbr, 48k tbn, 47.95 tbc
+    Stream #0.1(und): Audio: aac, 44100 Hz, stereo, s16, 192 kb/s
+    Metadata:
+      creation_time   : 2013-11-12 10:49:05
+Incompatible pixel format 'yuv420p' for codec 'png', auto-selecting format 'rgb24'
+[buffer @ 0x2395fc0] w:1280 h:720 pixfmt:yuv420p
+[avsink @ 0x23969a0] auto-inserting filter 'auto-inserted scaler 0' between the filter 'src' and the filter 'out'
+[scale @ 0x2393f40] w:1280 h:720 fmt:yuv420p -> w:1280 h:720 fmt:rgb24 flags:0x4
+Output #0, image2, to 'image%0d9.png':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2013-11-12 10:49:03
+    encoder         : Lavf53.21.1
+    Stream #0.0(und): Video: png, rgb24, 1280x720, q=2-31, 200 kb/s, 90k tbn, 10 tbc
+Stream mapping:
+  Stream #0.0 -> #0.0
+Press ctrl-c to stop encoding
+[INFO] [11/19/2013 02:03:32.285] [oculus-system-akka.actor.default-dispatcher-4] [akka://oculus-system/user/youtube-downloader/$a] Finished downloading [http://www.youtube.com/watch?v=HTYBXw-RlzM], will request crawling it!
+[INFO] [11/19/2013 02:03:32.286] [oculus-system-akka.actor.default-dispatcher-4] [akka://oculus-system/user/hdfs-uploader/$b] Got request to upload as sequence file [HTYBXw-RlzM.mp4] to HDFS...
+19/Nov/13 02:03:32.365 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - We will extract [10] frames per second from the [/tmp/1384826612278-0/HTYBXw-RlzM.mp4] file, starting ffmpeg
+19/Nov/13 02:03:32.378 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - ffmpeg command: ffmpeg -i /tmp/1384826612278-0/HTYBXw-RlzM.mp4 -r 10 -f image2 image%0d9.png
+ffmpeg version 0.8.6-6:0.8.6-1, Copyright (c) 2000-2013 the Libav developers
+  built on Mar 24 2013 18:40:26 with gcc 4.7.2
+*** THIS PROGRAM IS DEPRECATED ***
+This program is only provided for compatibility and will be removed in a future release. Please use avconv instead.
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/1384826612278-0/HTYBXw-RlzM.mp4': drop=15
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2013-10-26 18:37:33
+  Duration: 00:01:31.97, start: 0.000000, bitrate: 2910 kb/s
+    Stream #0.0(und): Video: h264 (High), yuv420p, 1280x720, 2715 kb/s, 23.98 fps, 23.98 tbr, 48k tbn, 47.95 tbc
+    Stream #0.1(und): Audio: aac, 44100 Hz, stereo, s16, 191 kb/s
+    Metadata:
+      creation_time   : 2013-10-26 18:37:34
+Incompatible pixel format 'yuv420p' for codec 'png', auto-selecting format 'rgb24'
+[buffer @ 0xc54000] w:1280 h:720 pixfmt:yuv420p
+[avsink @ 0xc89be0] auto-inserting filter 'auto-inserted scaler 0' between the filter 'src' and the filter 'out'
+[scale @ 0xc52040] w:1280 h:720 fmt:yuv420p -> w:1280 h:720 fmt:rgb24 flags:0x4
+Output #0, image2, to 'image%0d9.png':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2013-10-26 18:37:33
+    encoder         : Lavf53.21.1
+    Stream #0.0(und): Video: png, rgb24, 1280x720, q=2-31, 200 kb/s, 90k tbn, 10 tbc
+Stream mapping:
+  Stream #0.0 -> #0.0
+Press ctrl-c to stop encoding
+frame=  921 fps=  5 q=0.0 Lsize=      -0kB time=92.10 bitrate=  -0.0kbits/s dup=0 drop=1284
+video:804435kB audio:0kB global headers:0kB muxing overhead -100.000003%
+19/Nov/13 02:06:30.400 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - Finished ffmpeg run, deleted [/tmp/1384826612278-0/HTYBXw-RlzM.mp4]
+19/Nov/13 02:06:30.687 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - Generated [921] images, totaling: 785.6 MiB
+19/Nov/13 02:06:30.688 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.actor.HDFSUploadActor - Uploading [921] files as packed sequence file [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq]...
+19/Nov/13 02:06:30.711 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Configuring HDFS connection...
+19/Nov/13 02:06:30.737 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Configuring [fs.default.name]: ConfigString("hdfs://10.240.175.101:9000")
+19/Nov/13 02:06:30.788 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Configuring [fs.defaultFS]: ConfigString("hdfs://10.240.175.101:9000")
+19/Nov/13 02:06:30.789 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Will combine [921] files and upload as SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq]
+frame=  921 fps=  5 q=0.0 Lsize=      -0kB time=92.10 bitrate=  -0.0kbits/s dup=0 drop=1285
+video:835701kB audio:0kB global headers:0kB muxing overhead -100.000003%
+19/Nov/13 02:06:32.442 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - Finished ffmpeg run, deleted [/tmp/1384826611168-0/XMXgHfHxKVM.mp4]
+19/Nov/13 02:06:32.515 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.scala.oculus.ffmpeg.FFMPEG$ - Generated [921] images, totaling: 816.1 MiB
+19/Nov/13 02:06:32.516 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.actor.HDFSUploadActor - Uploading [921] files as packed sequence file [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq]...
+19/Nov/13 02:06:32.516 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Will combine [921] files and upload as SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq]
+19/Nov/13 02:06:32.608 [oculus-system-akka.actor.default-dispatcher-5] WARN  o.a.hadoop.util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+19/Nov/13 02:06:32.609 [oculus-system-akka.actor.default-dispatcher-4] INFO  o.a.hadoop.io.compress.CodecPool - Got brand-new compressor
+19/Nov/13 02:06:32.611 [oculus-system-akka.actor.default-dispatcher-5] INFO  o.a.hadoop.io.compress.CodecPool - Got brand-new compressor
+19/Nov/13 02:06:32.822 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image919.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [1] out of [921], that's [0%]
+19/Nov/13 02:06:32.827 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image919.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [1] out of [921], that's [0%]
+19/Nov/13 02:06:32.949 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8959.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [2] out of [921], that's [0%]
+19/Nov/13 02:06:32.960 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8959.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [2] out of [921], that's [0%]
+19/Nov/13 02:06:33.086 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8219.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [3] out of [921], that's [0%]
+19/Nov/13 02:06:33.135 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8219.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [3] out of [921], that's [0%]
+19/Nov/13 02:06:33.291 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4479.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [4] out of [921], that's [0%]
+19/Nov/13 02:06:33.376 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4479.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [4] out of [921], that's [0%]
+19/Nov/13 02:06:33.471 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7549.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [5] out of [921], that's [0%]
+19/Nov/13 02:06:33.672 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8869.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [6] out of [921], that's [0%]
+19/Nov/13 02:06:33.785 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7549.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [5] out of [921], that's [0%]
+19/Nov/13 02:06:33.951 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8699.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [7] out of [921], that's [0%]
+19/Nov/13 02:06:34.045 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8869.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [6] out of [921], that's [0%]
+19/Nov/13 02:06:34.260 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8699.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [7] out of [921], that's [0%]
+19/Nov/13 02:06:34.351 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4129.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [8] out of [921], that's [0%]
+19/Nov/13 02:06:34.506 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4129.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [8] out of [921], that's [0%]
+19/Nov/13 02:06:34.570 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8659.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [9] out of [921], that's [0%]
+19/Nov/13 02:06:34.823 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8659.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [9] out of [921], that's [0%]
+19/Nov/13 02:06:43.571 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3179.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [93] out of [921], that's [10%]
+19/Nov/13 02:06:43.634 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image599.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [94] out of [921], that's [10%]
+19/Nov/13 02:06:43.714 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5739.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [95] out of [921], that's [10%]
+19/Nov/13 02:06:43.791 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4279.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [96] out of [921], that's [10%]
+19/Nov/13 02:06:43.888 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [97] out of [921], that's [10%]
+19/Nov/13 02:06:44.018 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8839.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [98] out of [921], that's [10%]
+19/Nov/13 02:06:44.075 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1119.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [99] out of [921], that's [10%]
+19/Nov/13 02:06:44.193 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3179.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [93] out of [921], that's [10%]
+19/Nov/13 02:06:44.194 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3049.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [100] out of [921], that's [10%]
+19/Nov/13 02:06:44.248 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image599.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [94] out of [921], that's [10%]
+19/Nov/13 02:06:44.288 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5739.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [95] out of [921], that's [10%]
+19/Nov/13 02:06:44.324 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4279.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [96] out of [921], that's [10%]
+19/Nov/13 02:06:44.384 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [97] out of [921], that's [10%]
+19/Nov/13 02:06:44.443 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2699.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [101] out of [921], that's [10%]
+19/Nov/13 02:06:44.499 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8839.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [98] out of [921], that's [10%]
+19/Nov/13 02:06:44.561 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1119.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [99] out of [921], that's [10%]
+19/Nov/13 02:06:44.776 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3049.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [100] out of [921], that's [10%]
+19/Nov/13 02:06:44.855 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2699.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [101] out of [921], that's [10%]
+19/Nov/13 02:06:54.904 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5129.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [185] out of [921], that's [20%]
+19/Nov/13 02:06:55.042 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1379.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [186] out of [921], that's [20%]
+19/Nov/13 02:06:55.092 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6499.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [187] out of [921], that's [20%]
+19/Nov/13 02:06:55.207 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image949.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [188] out of [921], that's [20%]
+19/Nov/13 02:06:55.448 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3489.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [189] out of [921], that's [20%]
+19/Nov/13 02:06:55.508 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6869.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [190] out of [921], that's [20%]
+19/Nov/13 02:06:55.591 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3519.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [191] out of [921], that's [20%]
+19/Nov/13 02:06:55.639 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8179.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [192] out of [921], that's [20%]
+19/Nov/13 02:06:56.012 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5129.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [185] out of [921], that's [20%]
+19/Nov/13 02:06:56.028 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image299.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [193] out of [921], that's [20%]
+19/Nov/13 02:06:56.171 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1379.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [186] out of [921], that's [20%]
+19/Nov/13 02:06:56.233 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6499.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [187] out of [921], that's [20%]
+19/Nov/13 02:06:56.396 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image949.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [188] out of [921], that's [20%]
+19/Nov/13 02:06:56.506 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3489.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [189] out of [921], that's [20%]
+19/Nov/13 02:06:56.562 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6869.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [190] out of [921], that's [20%]
+19/Nov/13 02:06:56.661 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3519.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [191] out of [921], that's [20%]
+19/Nov/13 02:06:56.725 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8179.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [192] out of [921], that's [20%]
+19/Nov/13 02:06:57.021 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image299.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [193] out of [921], that's [20%]
+19/Nov/13 02:07:05.385 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2859.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [277] out of [921], that's [30%]
+19/Nov/13 02:07:05.410 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6229.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [278] out of [921], that's [30%]
+19/Nov/13 02:07:05.716 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image129.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [279] out of [921], that's [30%]
+19/Nov/13 02:07:06.003 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image659.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [280] out of [921], that's [30%]
+19/Nov/13 02:07:06.033 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1489.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [281] out of [921], that's [30%]
+19/Nov/13 02:07:06.125 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1199.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [282] out of [921], that's [30%]
+19/Nov/13 02:07:06.304 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1799.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [283] out of [921], that's [30%]
+19/Nov/13 02:07:06.346 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4599.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [284] out of [921], that's [30%]
+19/Nov/13 02:07:06.399 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6619.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [285] out of [921], that's [30%]
+19/Nov/13 02:07:06.689 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2859.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [277] out of [921], that's [30%]
+19/Nov/13 02:07:06.714 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6229.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [278] out of [921], that's [30%]
+19/Nov/13 02:07:06.985 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image129.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [279] out of [921], that's [30%]
+19/Nov/13 02:07:07.161 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image659.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [280] out of [921], that's [30%]
+19/Nov/13 02:07:07.200 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1489.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [281] out of [921], that's [30%]
+19/Nov/13 02:07:07.329 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1199.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [282] out of [921], that's [30%]
+19/Nov/13 02:07:07.472 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1799.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [283] out of [921], that's [30%]
+19/Nov/13 02:07:07.508 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4599.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [284] out of [921], that's [30%]
+19/Nov/13 02:07:07.821 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6619.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [285] out of [921], that's [30%]
+19/Nov/13 02:07:18.258 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6099.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [369] out of [921], that's [40%]
+19/Nov/13 02:07:18.321 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4319.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [370] out of [921], that's [40%]
+19/Nov/13 02:07:18.367 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5569.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [371] out of [921], that's [40%]
+19/Nov/13 02:07:18.540 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3319.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [372] out of [921], that's [40%]
+19/Nov/13 02:07:18.565 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7889.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [373] out of [921], that's [40%]
+19/Nov/13 02:07:18.593 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5999.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [374] out of [921], that's [40%]
+19/Nov/13 02:07:18.756 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8539.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [375] out of [921], that's [40%]
+19/Nov/13 02:07:18.797 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6139.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [376] out of [921], that's [40%]
+19/Nov/13 02:07:18.880 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1109.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [377] out of [921], that's [40%]
+19/Nov/13 02:07:19.990 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6099.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [369] out of [921], that's [40%]
+19/Nov/13 02:07:20.051 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4319.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [370] out of [921], that's [40%]
+19/Nov/13 02:07:20.074 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5569.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [371] out of [921], that's [40%]
+19/Nov/13 02:07:20.208 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3319.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [372] out of [921], that's [40%]
+19/Nov/13 02:07:20.306 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7889.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [373] out of [921], that's [40%]
+19/Nov/13 02:07:20.368 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5999.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [374] out of [921], that's [40%]
+19/Nov/13 02:07:20.449 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8539.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [375] out of [921], that's [40%]
+19/Nov/13 02:07:20.456 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6139.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [376] out of [921], that's [40%]
+19/Nov/13 02:07:20.541 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1109.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [377] out of [921], that's [40%]
+19/Nov/13 02:07:33.611 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5599.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [461] out of [921], that's [50%]
+19/Nov/13 02:07:33.681 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8339.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [462] out of [921], that's [50%]
+19/Nov/13 02:07:33.756 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8109.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [463] out of [921], that's [50%]
+19/Nov/13 02:07:33.977 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3019.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [464] out of [921], that's [50%]
+19/Nov/13 02:07:34.109 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1429.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [465] out of [921], that's [50%]
+19/Nov/13 02:07:34.232 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4539.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [466] out of [921], that's [50%]
+19/Nov/13 02:07:34.310 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3589.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [467] out of [921], that's [50%]
+19/Nov/13 02:07:34.386 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8919.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [468] out of [921], that's [50%]
+19/Nov/13 02:07:34.608 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [469] out of [921], that's [50%]
+19/Nov/13 02:07:35.068 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5599.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [461] out of [921], that's [50%]
+19/Nov/13 02:07:35.223 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8339.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [462] out of [921], that's [50%]
+19/Nov/13 02:07:35.359 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8109.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [463] out of [921], that's [50%]
+19/Nov/13 02:07:35.611 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3019.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [464] out of [921], that's [50%]
+19/Nov/13 02:07:35.677 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1429.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [465] out of [921], that's [50%]
+19/Nov/13 02:07:35.782 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4539.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [466] out of [921], that's [50%]
+19/Nov/13 02:07:35.852 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image3589.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [467] out of [921], that's [50%]
+19/Nov/13 02:07:36.142 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8919.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [468] out of [921], that's [50%]
+19/Nov/13 02:07:36.287 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [469] out of [921], that's [50%]
+19/Nov/13 02:07:46.172 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6469.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [553] out of [921], that's [60%]
+19/Nov/13 02:07:46.587 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [554] out of [921], that's [60%]
+19/Nov/13 02:07:47.158 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2239.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [555] out of [921], that's [60%]
+19/Nov/13 02:07:47.250 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6159.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [556] out of [921], that's [60%]
+19/Nov/13 02:07:47.344 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1089.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [557] out of [921], that's [60%]
+19/Nov/13 02:07:47.582 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2219.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [558] out of [921], that's [60%]
+19/Nov/13 02:07:47.869 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2619.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [559] out of [921], that's [60%]
+19/Nov/13 02:07:47.975 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1459.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [560] out of [921], that's [60%]
+19/Nov/13 02:07:48.249 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image589.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [561] out of [921], that's [60%]
+19/Nov/13 02:07:48.992 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6469.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [553] out of [921], that's [60%]
+19/Nov/13 02:07:49.103 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [554] out of [921], that's [60%]
+19/Nov/13 02:07:49.273 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2239.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [555] out of [921], that's [60%]
+19/Nov/13 02:07:49.334 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6159.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [556] out of [921], that's [60%]
+19/Nov/13 02:07:49.425 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1089.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [557] out of [921], that's [60%]
+19/Nov/13 02:07:49.615 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2219.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [558] out of [921], that's [60%]
+19/Nov/13 02:07:49.752 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2619.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [559] out of [921], that's [60%]
+19/Nov/13 02:07:49.823 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1459.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [560] out of [921], that's [60%]
+19/Nov/13 02:07:49.941 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image589.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [561] out of [921], that's [60%]
+19/Nov/13 02:08:01.809 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6439.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [645] out of [921], that's [70%]
+19/Nov/13 02:08:01.941 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5729.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [646] out of [921], that's [70%]
+19/Nov/13 02:08:01.971 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7039.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [647] out of [921], that's [70%]
+19/Nov/13 02:08:02.056 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1519.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [648] out of [921], that's [70%]
+19/Nov/13 02:08:02.207 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5659.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [649] out of [921], that's [70%]
+19/Nov/13 02:08:02.374 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2879.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [650] out of [921], that's [70%]
+19/Nov/13 02:08:02.420 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8579.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [651] out of [921], that's [70%]
+19/Nov/13 02:08:02.603 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4999.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [652] out of [921], that's [70%]
+19/Nov/13 02:08:02.946 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7459.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [653] out of [921], that's [70%]
+19/Nov/13 02:08:04.096 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image6439.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [645] out of [921], that's [70%]
+19/Nov/13 02:08:04.276 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5729.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [646] out of [921], that's [70%]
+19/Nov/13 02:08:04.337 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7039.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [647] out of [921], that's [70%]
+19/Nov/13 02:08:04.397 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1519.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [648] out of [921], that's [70%]
+19/Nov/13 02:08:04.508 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5659.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [649] out of [921], that's [70%]
+19/Nov/13 02:08:04.729 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2879.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [650] out of [921], that's [70%]
+19/Nov/13 02:08:04.779 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8579.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [651] out of [921], that's [70%]
+19/Nov/13 02:08:04.911 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4999.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [652] out of [921], that's [70%]
+19/Nov/13 02:08:05.151 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7459.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [653] out of [921], that's [70%]
+19/Nov/13 02:08:15.800 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7999.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [737] out of [921], that's [80%]
+19/Nov/13 02:08:15.906 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4579.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [738] out of [921], that's [80%]
+19/Nov/13 02:08:16.072 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5149.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [739] out of [921], that's [80%]
+19/Nov/13 02:08:16.202 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [740] out of [921], that's [80%]
+19/Nov/13 02:08:16.442 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7499.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [741] out of [921], that's [80%]
+19/Nov/13 02:08:16.532 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4229.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [742] out of [921], that's [80%]
+19/Nov/13 02:08:16.668 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8449.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [743] out of [921], that's [80%]
+19/Nov/13 02:08:18.592 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image9189.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [744] out of [921], that's [80%]
+19/Nov/13 02:08:19.221 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1389.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [745] out of [921], that's [80%]
+19/Nov/13 02:08:19.325 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1779.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [746] out of [921], that's [80%]
+19/Nov/13 02:08:19.786 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7999.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [737] out of [921], that's [80%]
+19/Nov/13 02:08:19.940 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4579.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [738] out of [921], that's [80%]
+19/Nov/13 02:08:20.095 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5149.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [739] out of [921], that's [80%]
+19/Nov/13 02:08:20.205 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1759.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [740] out of [921], that's [80%]
+19/Nov/13 02:08:20.389 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7499.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [741] out of [921], that's [80%]
+19/Nov/13 02:08:20.496 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4229.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [742] out of [921], that's [80%]
+19/Nov/13 02:08:20.632 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8449.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [743] out of [921], that's [80%]
+19/Nov/13 02:08:20.833 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image9189.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [744] out of [921], that's [80%]
+19/Nov/13 02:08:20.979 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1389.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [745] out of [921], that's [80%]
+19/Nov/13 02:08:21.066 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image1779.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [746] out of [921], that's [80%]
+19/Nov/13 02:08:31.616 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7629.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [829] out of [921], that's [90%]
+19/Nov/13 02:08:31.849 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2259.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [830] out of [921], that's [90%]
+19/Nov/13 02:08:31.977 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5529.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [831] out of [921], that's [90%]
+19/Nov/13 02:08:32.142 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4419.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [832] out of [921], that's [90%]
+19/Nov/13 02:08:32.385 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7519.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [833] out of [921], that's [90%]
+19/Nov/13 02:08:32.736 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4019.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [834] out of [921], that's [90%]
+19/Nov/13 02:08:32.933 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7629.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [829] out of [921], that's [90%]
+19/Nov/13 02:08:32.951 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image189.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [835] out of [921], that's [90%]
+19/Nov/13 02:08:33.064 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image2259.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [830] out of [921], that's [90%]
+19/Nov/13 02:08:33.142 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8859.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [836] out of [921], that's [90%]
+19/Nov/13 02:08:33.245 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5529.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [831] out of [921], that's [90%]
+19/Nov/13 02:08:33.312 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8549.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [837] out of [921], that's [90%]
+19/Nov/13 02:08:33.427 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4419.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [832] out of [921], that's [90%]
+19/Nov/13 02:08:33.537 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5899.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [838] out of [921], that's [90%]
+19/Nov/13 02:08:33.578 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image7519.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [833] out of [921], that's [90%]
+19/Nov/13 02:08:33.856 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image4019.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [834] out of [921], that's [90%]
+19/Nov/13 02:08:34.142 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image189.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [835] out of [921], that's [90%]
+19/Nov/13 02:08:34.406 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8859.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [836] out of [921], that's [90%]
+19/Nov/13 02:08:34.577 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image8549.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [837] out of [921], that's [90%]
+19/Nov/13 02:08:34.840 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image5899.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [838] out of [921], that's [90%]
+19/Nov/13 02:08:47.990 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image389.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq], [921] out of [921], that's [100%]
+19/Nov/13 02:08:48.065 [oculus-system-akka.actor.default-dispatcher-4] INFO  p.p.s.oculus.actor.HDFSUploadActor - Cleaning up after upload of [HTYBXw-RlzM.mp4] based sequence file
+19/Nov/13 02:08:50.003 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.hdfs.AsSequenceFile$ - Appended [image389.png] info SequenceFile [hdfs://10.240.175.101:9000/oculus/source/XMXgHfHxKVM.mp4.seq], [921] out of [921], that's [100%]
+19/Nov/13 02:08:50.011 [oculus-system-akka.actor.default-dispatcher-5] INFO  p.p.s.oculus.actor.HDFSUploadActor - Cleaning up after upload of [XMXgHfHxKVM.mp4] based sequence file
+^Cktoso@master:~/oculus$

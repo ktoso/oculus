@@ -29,7 +29,7 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if !local.file.exists =>
       log.warning("Got request to upload not existing file[%s] to HDFS! Ignoring...".format(local.fullName))
 
-      
+
     case UploadFileToHDFS(local: DownloadedVideoFile) if local.file.exists =>
       log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
       upload(local.file, createTargetPath(local), delSrc = true)
@@ -44,6 +44,7 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
   def cleanupDownloadedFiles(local: DownloadedVideoFile, images: List[File]) {
     logger.info("Cleaning up after upload of [%s] based sequence file".format(local.file.getName))
     local.file :: images foreach { _.delete() }
+    logger.info("Cleaned up after [%s] uploaded file.".format(local.file.getName))
   }
 
   def createTargetPath(local: DownloadedVideoFile): String =
