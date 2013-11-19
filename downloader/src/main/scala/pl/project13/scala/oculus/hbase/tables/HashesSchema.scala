@@ -17,7 +17,7 @@ object HashesSchema extends Schema with HBaseConfig {
 
     def rowBuilder(result: DeserializedResult) = new PropsTableRow(this, result)
 
-    val youtube = family[String, String, Any]("hash")
+    val youtube = family[String, String, Any]("youtube")
 
     /** can be used to look up movie in 'metadata' by key */
     val id = column(youtube, "id", classOf[String])

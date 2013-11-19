@@ -35,11 +35,11 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 //  prefixList: String
 
 
-  // hash -> youtube id
+  // key: hash -> (family)youtube:id
   val WriteHashesColumn = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'hash,
+    keyFields = 'ignoreMe,
     familyNames = Array("youtube"),
     valueFields = Array('id)
   )
