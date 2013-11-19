@@ -17,9 +17,7 @@ object HBaseInit {
     tables foreach { table =>
       println {
         var create = "create '" + table.tableName + "', "
-        create += (for (family <- table.families) yield {
-          familyDef(family)
-        }).mkString(",")
+        create += (table.families map familyDef).mkString(",")
         create
       }
     }
