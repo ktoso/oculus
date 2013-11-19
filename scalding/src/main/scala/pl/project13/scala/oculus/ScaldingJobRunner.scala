@@ -1,12 +1,11 @@
 package pl.project13.scala.oculus
 
-import pl.project13.scala.oculus.job.{HashVideoSeqFilesJob, VideoToPicturesJob, WordCountJob}
+import pl.project13.scala.oculus.job.{HashVideoSeqFilesJob, WordCountJob}
 import org.apache.hadoop.util._
 import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
 import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
-import com.google.common.collect.ObjectArrays
 
 object ScaldingJobRunner extends App {
 
@@ -29,6 +28,7 @@ object ScaldingJobRunner extends App {
   /** Override if you need other than default settings - loads up ''application.conf'' */
     def appConfig: Config = ConfigFactory.load()
 
+  conf.setStrings("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>
     conf.setStrings(key, value.unwrapped.toString)
   }

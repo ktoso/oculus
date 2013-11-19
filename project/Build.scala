@@ -68,8 +68,8 @@ object Dependencies {
   lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
   lazy val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
   lazy val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
-  lazy val spyGlass     = "parallelai"       % "parallelai.spyglass" % "2.0.3"
-  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, spyGlass)
+//  lazy val spyGlass     = "parallelai"       % "parallelai.spyglass" % "2.0.3"
+  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
   // hadoop
 //  lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
@@ -163,10 +163,10 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++ assemblySettings ++
       Seq(
-        libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing ++ Seq(hPaste),
+        libraryDependencies ++= hadoops ++ scaldingAll ++ akka2Full ++ testing ++ Seq(hPaste),
         mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
-  ) dependsOn(common)
+  ) dependsOn (common)
 
   lazy val downloader = Project(
     "downloader",
@@ -182,5 +182,5 @@ object OculusBuild extends Build {
         }
       }
     ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
-  ) dependsOn(common)
+  ) dependsOn (common)
 }
