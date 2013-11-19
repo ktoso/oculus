@@ -7,6 +7,8 @@ import com.twitter.maple.hbase.{HBaseTap, HBaseScheme}
 import org.apache.hadoop.mapred.{JobConf, RecordReader, OutputCollector}
 import cascading.scheme.Scheme
 import cascading.tap.{SinkMode, Tap}
+import pl.project13.scala.scalding.hbase.MyHBaseSource
+import org.apache.commons.io.FilenameUtils
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 
@@ -32,41 +34,14 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 //  useSalt: Boolean,
 //  prefixList: String
 
-  class MyHBaseSource(
-    tableName: String,
-    quorumNames: String = "localhost",
-    keyFields: Fields,
-    familyNames: Array[String],
-    valueFields: Array[Fields]) extends Source {
 
-    override val hdfsScheme = new HBaseScheme(keyFields, familyNames, valueFields)
-      .asInstanceOf[Scheme[JobConf, RecordReader[_, _], OutputCollector[_, _], _, _]]
-
-    override def createTap(readOrWrite: AccessMode)(implicit mode: Mode): Tap[_, _, _] = {
-      val hBaseScheme = hdfsScheme match {
-        case hbase: HBaseScheme => hbase
-        case _ => throw new ClassCastException("Failed casting from Scheme to HBaseScheme")
-      }
-      mode match {
-        case hdfsMode @ Hdfs(_, _) => readOrWrite match {
-          case Read => {
-            new HBaseTap(quorumNames, tableName, hBaseScheme, SinkMode.KEEP)
-          }
-          case Write => {
-            new HBaseTap(quorumNames, tableName, hBaseScheme, SinkMode.UPDATE)
-          }
-        }
-        case _ => super.createTap(readOrWrite)(mode)
-      }
-    }
-  }
-
+  // hash -> youtube id
   val WriteHashesColumn = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'hash,
-    familyNames = Array("props"),
-    valueFields = Array('hash)
+    familyNames = Array("youtube"),
+    valueFields = Array('id)
   )
 
 //  val WriteHashesColumn = new MyHBaseSource(
@@ -81,10 +56,12 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 //    useSalt = false
 //  )
 
+  val youtubeId = FilenameUtils.getBaseName(_inputFile)
+
   WritableSequenceFile(_inputFile, ('key, 'value))
     .read
-    .mapTo(('key, 'value) -> 'phash) { p: SeqFileElement => pHash(p._2) }
-    .project('phash)
+    .mapTo(('key, 'value) -> 'hash) { p: SeqFileElement => pHash(p._2) }
+    .project('hash)
     .write(WriteHashesColumn)
 
   // todo implement native call

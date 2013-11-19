@@ -163,7 +163,7 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++ assemblySettings ++
       Seq(
-        libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing ++ Seq(spyGlass),
+        libraryDependencies ++= scaldingAll ++ hadoops ++ akka2Full ++ testing ++ Seq(hPaste),
         mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   ) dependsOn(common)
