@@ -7,12 +7,13 @@ import com.twitter.maple.hbase.{HBaseTap, HBaseScheme}
 import org.apache.hadoop.mapred.{JobConf, RecordReader, OutputCollector}
 import cascading.scheme.Scheme
 import cascading.tap.{SinkMode, Tap}
-import pl.project13.scala.scalding.hbase.MyHBaseSource
+import pl.project13.scala.scalding.hbase.{OculusStringConversions, MyHBaseSource}
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import com.google.common.base.Charsets
 
-class HashVideoSeqFilesJob(args: Args) extends Job(args) {
+class HashVideoSeqFilesJob(args: Args) extends Job(args)
+  with OculusStringConversions {
 
   val _inputFile = args("input")
 
@@ -37,14 +38,14 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
   WritableSequenceFile(_inputFile, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> 'hash) { p: SeqFileElement => pHash(p._2) }
-    .map('hash -> 'id) { h: ImmutableBytesWritable => youtubeId }
+    .map('hash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable }
     .write(WriteHashesColumn)
 
   // todo implement native call
   def pHash(bytes: String): ImmutableBytesWritable = {
     val hash = bytes.length.toString // todo call phash here!!!!!!
 
-    new ImmutableBytesWritable(hash.getBytes(Charsets.UTF_8))
+    hash.asImmutableBytesWriteable
   }
 
 }
