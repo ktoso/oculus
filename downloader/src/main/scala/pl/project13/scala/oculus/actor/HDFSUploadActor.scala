@@ -6,15 +6,23 @@ import pl.project13.scala.oculus.hdfs.{HBaseActions, HDFSActions}
 import pl.project13.scala.oculus.ffmpeg.FFMPEG
 import java.io.File
 import pl.project13.scala.rainbow._
+import akka.pattern.AskSupport
+import scala.concurrent.{Future, Await}
 
 class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
+  with AskSupport
   with HDFSActions
   with HBaseActions {
 
   def receive = {
     case RequestUploadToHDFS(local: DownloadedVideoFile) =>
-      self ! UploadFileToHDFS(local)
-      self ! UploadAsSequenceFileToHDFS(local)
+      val me = self
+      val f1 = me ? UploadFileToHDFS(local)
+      val f2 = me ? UploadAsSequenceFileToHDFS(local)
+
+      Future.sequence(List(f1, f2)) onComplete { f =>
+        me ! CleanupAfterUploads(local)
+      }
 
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if local.file.exists =>
       log.info("Got request to upload as sequence file [%s] to HDFS...".format(local.fullName))
@@ -31,8 +39,7 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
       log.info("Will upload plain file [%s] to HDFS...".format(local.fullName))
       upload(local.file, createTargetPath(local), delSrc = true)
       storeMetadataFor(local)
-      delete(local)
-      log.info(s"Finished uploading file ${local.file.getAbsolutePath} into HDFS... Deleted local content.".green)
+      log.info(s"Finished uploading file ${local.file.getAbsolutePath} into HDFS...".green)
 
     case UploadFileToHDFS(local: DownloadedVideoFile) =>
       log.warning(s"Got request to upload ${local.file}, but it does not exists! Ignoring...")

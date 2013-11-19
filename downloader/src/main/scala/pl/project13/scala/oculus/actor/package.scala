@@ -11,4 +11,6 @@ package object actor {
   case class UploadFileToHDFS(file: LocalFile)
   case class UploadAsSequenceFileToHDFS(file: LocalFile)
 
+  case class CleanupAfterUploads(file: LocalFile)
+
 }
