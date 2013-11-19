@@ -16,6 +16,8 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
   with HDFSActions
   with HBaseActions {
 
+  implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+
   implicit val timeout = Timeout(5 minutes)
 
   def receive = {
