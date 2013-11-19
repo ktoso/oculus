@@ -34,6 +34,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 //  useSalt: Boolean,
 //  prefixList: String
 
+  implicit val mode = Read
 
   // key: hash -> (family)youtube:id
   val WriteHashesColumn = new MyHBaseSource(
