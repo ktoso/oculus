@@ -8,11 +8,15 @@ import java.io.File
 import pl.project13.scala.rainbow._
 import akka.pattern.AskSupport
 import scala.concurrent.{Future, Await}
+import akka.util.Timeout
+import scala.concurrent.duration._
 
 class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
   with AskSupport
   with HDFSActions
   with HBaseActions {
+
+  implicit val timeout = Timeout(5 minutes)
 
   def receive = {
     case RequestUploadToHDFS(local: DownloadedVideoFile) =>
