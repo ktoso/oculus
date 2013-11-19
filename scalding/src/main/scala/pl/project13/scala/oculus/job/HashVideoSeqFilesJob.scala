@@ -38,7 +38,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(_inputFile, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> 'hash) { p: SeqFileElement => pHash(p._2) }
-    .map('hash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable }
+    .map('hash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
     .write(WriteHashesColumn)
 
   // todo implement native call
