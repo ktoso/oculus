@@ -1,10 +1,9 @@
 package pl.project13.scala.oculus.hbase
 
 import pl.project13.scala.oculus.hbase.tables.{HashesSchema, MetadataSchema}
-import com.gravity.hbase.schema.{HRow, HbaseTable, ColumnFamily}
+import com.gravity.hbase.schema.ColumnFamily
 import org.apache.hadoop.hbase.HColumnDescriptor
 import org.apache.hadoop.hbase.util.Bytes
-import pl.project13.scala.oculus.hbase.tables.MetadataSchema.MetadataTable
 
 object HBaseInit {
 
@@ -12,18 +11,20 @@ object HBaseInit {
 
   def init() {
     println("Prepare HBase with the following tables:".green)
-    println(createScript(MetadataSchema.MetadataTable).bold)
-    println(createScript(HashesSchema.HashesTable).bold)
+
+    val tables = MetadataSchema.MetadataTable :: HashesSchema.HashesTable :: Nil
+
+    tables foreach { table =>
+      println {
+        var create = "create '" + table.tableName + "', "
+        create += (for (family <- table.families) yield {
+          familyDef(family)
+        }).mkString(",")
+        create
+      }
+    }
   }
 
-  def createScript[T <: HbaseTable[T, R, TT], R, TT, RR <: HRow[T, R]](table: HbaseTable[T, R, RR]) = {
-      var create = "create '" + table.tableName + "', "
-      create += (for (family <- table.families) yield {
-        familyDef(family)
-      }).mkString(",")
-
-      create
-    }
 
   def familyDef(family: ColumnFamily[_, _, _, _, _]) = {
       val compression = if (family.compressed) ", COMPRESSION=>'lzo'" else ""
