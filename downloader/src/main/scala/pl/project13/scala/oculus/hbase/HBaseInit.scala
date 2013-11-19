@@ -1,7 +1,7 @@
 package pl.project13.scala.oculus.hbase
 
 import pl.project13.scala.oculus.hbase.tables.{HashesSchema, MetadataSchema}
-import com.gravity.hbase.schema.{HbaseTable, ColumnFamily}
+import com.gravity.hbase.schema.{HRow, HbaseTable, ColumnFamily}
 import org.apache.hadoop.hbase.HColumnDescriptor
 import org.apache.hadoop.hbase.util.Bytes
 import pl.project13.scala.oculus.hbase.tables.MetadataSchema.MetadataTable
@@ -16,7 +16,7 @@ object HBaseInit {
     println(createScript(HashesSchema.HashesTable).bold)
   }
 
-  def createScript[T](table: HbaseTable[_, _, _]) = {
+  def createScript[T <: HbaseTable[T, R, TT], R, TT, RR <: HRow[T, R]](table: HbaseTable[T, R, RR]) = {
       var create = "create '" + table.tableName + "', "
       create += (for (family <- table.families) yield {
         familyDef(family)

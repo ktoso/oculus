@@ -10,10 +10,10 @@ import cascading.tap.{SinkMode, Tap}
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 
-  val inputFile = args("input")
+  val _inputFile = args("input")
   val _outputFile = args("output")
 
-  val TableName = Array("hashes")
+  val TableName = Array("metadata")
   val TableSchema = Array("youtube")
 
   type SeqFileElement = (Int, String)
@@ -81,7 +81,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args) {
 //    useSalt = false
 //  )
 
-  WritableSequenceFile(inputFile, ('key, 'value))
+  WritableSequenceFile(_inputFile, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> 'phash) { p: SeqFileElement => pHash(p._2) }
     .project('phash)
