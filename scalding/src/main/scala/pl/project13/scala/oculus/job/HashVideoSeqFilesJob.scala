@@ -11,6 +11,9 @@ import pl.project13.scala.scalding.hbase.{OculusStringConversions, MyHBaseSource
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import com.google.common.base.Charsets
+import pl.project13.scala.oculus.phash.PHash
+import java.io.File
+import com.google.common.io.Files
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
   with OculusStringConversions {
@@ -28,7 +31,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   val WriteHashesColumn = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'hash,
+    keyFields = 'mhHash,
     familyNames = Array("youtube"),
     valueFields = Array('id)
   )
@@ -37,15 +40,27 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
 
   WritableSequenceFile(_inputFile, ('key, 'value))
     .read
-    .mapTo(('key, 'value) -> 'hash) { p: SeqFileElement => pHash(p._2) }
-    .map('hash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
+    .mapTo(('key, 'value) -> 'mhHash) { p: SeqFileElement => mhHash(p._2) }
+    .map('mhHash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
     .write(WriteHashesColumn)
 
-  // todo implement native call
-  def pHash(bytes: String): ImmutableBytesWritable = {
-    val hash = bytes.length.toString // todo call phash here!!!!!!
+  // todo do the same with dct hash!!!!!
+  def mhHash(bytes: String): ImmutableBytesWritable = {
+    val result = onTmpFile(bytes) { f =>
+      PHash.analyzeImage(f)
+    }
 
-    hash.asImmutableBytesWriteable
+    result.mhHash.asImmutableBytesWriteable
+  }
+  
+  def onTmpFile[T](bytes: String)(block: File => T): T = {
+    val f = File.createTempFile("oculus-hashing", "bmp")
+    try {
+      Files.write(bytes.getBytes, f)
+      block(f)
+    } finally {
+      f.delete()
+    }
   }
 
 }
