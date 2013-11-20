@@ -59,7 +59,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
       Files.write(bytes.getBytes, f)
       block(f)
     } finally {
-      f.delete()
+//      f.delete()
     }
   }
 
