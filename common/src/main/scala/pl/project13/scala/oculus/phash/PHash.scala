@@ -26,6 +26,9 @@ object PHash {
   case class PHashResult(mhHash: String, dctHash: String)
 
   def analyzeImage(f: File): PHashResult = {
+    val checkfile = Process("file" + f.getAbsoluteFile).!!
+    println("file is: " + checkfile)
+
     val cmnd = List("image_hashes", f.getAbsoluteFile) mkString " "
 
     println("Exec: " + cmnd)
