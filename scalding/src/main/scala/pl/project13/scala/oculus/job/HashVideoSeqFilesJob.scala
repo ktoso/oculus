@@ -23,7 +23,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   val TableName = Array("metadata")
   val TableSchema = Array("youtube")
 
-  type SeqFileElement = (Int, String)
+  type SeqFileElement = (Int, Array[Byte])
 
   implicit val mode = Read
 
@@ -56,10 +56,10 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     result.mhHash.asImmutableBytesWriteable
   }
   
-  def onTmpFile[T](bytes: String)(block: File => T): T = {
+  def onTmpFile[T](bytes: Array[Byte])(block: File => T): T = {
     val f = File.createTempFile("oculus-hashing", ".png")
     try {
-      Files.write(bytes.getBytes, f)
+      Files.write(bytes, f)
       block(f)
     } finally {
 //      f.delete() // todo uncomment!!!!
