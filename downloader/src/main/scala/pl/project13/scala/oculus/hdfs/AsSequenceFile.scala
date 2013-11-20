@@ -41,6 +41,7 @@ object AsSequenceFile extends Logging with HDFSActions {
 
         try {
           val bytes = Files.toByteArray(file)
+          println(s"bytes.length for ${indexStr} (target: ${targetPath}) = " + bytes.length)
 
           key.set(indexStr.toInt)
 
