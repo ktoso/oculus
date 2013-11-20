@@ -47,8 +47,7 @@ class PHashTest extends FlatSpec with ShouldMatchers {
     info("decoded dct = " + got.mkString(" "))
 
     // then
-    val expected = Array(66, 248, 221, 150, 127, 29, 1, 183, 4, 203, 178, 146, 205, 127, 64, 224, 143, 117, 72, 166, 211, 100, 115, 233, 203, 98, 39, 30, 121, 185, 216, 50, 110, 72, 141, 172, 120, 148, 102, 1)
-    got.length should equal (expected.length)
+    val expected = "15489049597769751684"
     got should equal (expected)
   }
 }
