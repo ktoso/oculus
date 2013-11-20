@@ -14,6 +14,7 @@ import com.google.common.base.Charsets
 import pl.project13.scala.oculus.phash.PHash
 import java.io.File
 import com.google.common.io.Files
+import org.apache.hadoop.io.BytesWritable
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
   with OculusStringConversions {
@@ -23,7 +24,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   val TableName = Array("metadata")
   val TableSchema = Array("youtube")
 
-  type SeqFileElement = (Int, Array[Byte])
+  type SeqFileElement = (Int, BytesWritable)
 
   implicit val mode = Read
 
@@ -49,7 +50,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     val (idx, bytes) = seqFileEl
     println(s"processing element [$idx] of sequence file [$youtubeId]. [size: ${bytes.length}]")
 
-    val result = onTmpFile(bytes) { f =>
+    val result = onTmpFile(bytes.getBytes) { f =>
       PHash.analyzeImage(f)
     }
 
