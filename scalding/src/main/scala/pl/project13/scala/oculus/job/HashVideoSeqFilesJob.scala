@@ -40,12 +40,15 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
 
   WritableSequenceFile(_inputFile, ('key, 'value))
     .read
-    .mapTo(('key, 'value) -> 'mhHash) { p: SeqFileElement => mhHash(p._2) }
+    .mapTo(('key, 'value) -> 'mhHash) { p: SeqFileElement => mhHash(p) }
     .map('mhHash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
     .write(WriteHashesColumn)
 
   // todo do the same with dct hash!!!!!
-  def mhHash(bytes: String): ImmutableBytesWritable = {
+  def mhHash(seqFileEl: SeqFileElement): ImmutableBytesWritable = {
+    val (idx, bytes) = seqFileEl
+    println(s"processing element ${idx} of sequence file...")
+
     val result = onTmpFile(bytes) { f =>
       PHash.analyzeImage(f)
     }
