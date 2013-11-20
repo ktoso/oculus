@@ -54,7 +54,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   }
   
   def onTmpFile[T](bytes: String)(block: File => T): T = {
-    val f = File.createTempFile("oculus-hashing", ".bmp")
+    val f = File.createTempFile("oculus-hashing", ".png")
     try {
       Files.write(bytes.getBytes, f)
       block(f)
