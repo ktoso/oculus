@@ -48,9 +48,11 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   // todo do the same with dct hash!!!!!
   def mhHash(seqFileEl: SeqFileElement): ImmutableBytesWritable = {
     val (idx, bytes) = seqFileEl
-    println(s"processing element [$idx] of sequence file [$youtubeId]. [size: ${bytes.length}]")
+    val bs = bytes.getBytes
 
-    val result = onTmpFile(bytes.getBytes) { f =>
+    println(s"processing element [$idx] of sequence file [$youtubeId]. [size: ${bs.size}]")
+
+    val result = onTmpFile(bs) { f =>
       PHash.analyzeImage(f)
     }
 
