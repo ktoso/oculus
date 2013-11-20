@@ -44,7 +44,7 @@ object PHash {
 
     PHashResult(
       mhHash = mh.split(" ").map(a => padLeft(a.toInt.toHexString, 2, Zero)).mkString,
-      dctHash = dct
+      dctHash = dct.replaceAll(" ", "")
     )
   }
 
