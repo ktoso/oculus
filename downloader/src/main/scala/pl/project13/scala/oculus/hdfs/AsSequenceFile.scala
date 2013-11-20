@@ -2,7 +2,7 @@ package pl.project13.scala.oculus.hdfs
 
 import java.io.File
 import org.apache.hadoop.fs.{Path, FileSystem}
-import org.apache.hadoop.io.{IOUtils, Text, IntWritable, SequenceFile}
+import org.apache.hadoop.io._
 import java.net.URI
 import org.apache.hadoop.io.SequenceFile.Writer
 import com.google.common.io.Files
@@ -30,7 +30,7 @@ object AsSequenceFile extends Logging with HDFSActions {
     var writer: Writer = null
     try {
       val key = new IntWritable
-      val value = new Text
+      val value = new BytesWritable
 
       writer = SequenceFile.createWriter(fs, conf, targetPath, key.getClass, value.getClass)
 
@@ -45,7 +45,7 @@ object AsSequenceFile extends Logging with HDFSActions {
 
           key.set(indexStr.toInt)
 
-          value.set(bytes)
+          value.set(bytes, 0, bytes.length)
           writer.append(key, value)
 
           processed += 1
