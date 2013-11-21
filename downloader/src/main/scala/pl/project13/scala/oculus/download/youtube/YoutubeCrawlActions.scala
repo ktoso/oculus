@@ -12,7 +12,7 @@ trait YoutubeCrawlActions extends Logging {
 
   def fetchPage(url: String): String = {
     logger.info("Fetching page [%s]...".format(url))
-    Process(s"curl '$url'").!!
+    Process(s"curl $url").!!
   }
 
   def extractVideoUrls(page: String): List[String] = {
