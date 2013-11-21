@@ -20,6 +20,7 @@ trait YoutubeCrawlActions extends Logging {
     val doc = Jsoup.parse(page)
     val links = doc.select("a[href^=/watch]")
 
+    logger.info(s"Found ${links.size} movie links")
     val urls = links map { _.attr("href") } map { "http://www.youtube.com" + _ }
 
     urls foreach { u => logger.info("Found url to follow and download [%s]...".format(u)) }
