@@ -16,6 +16,7 @@ trait YoutubeCrawlActions extends Logging {
   }
 
   def extractVideoUrls(page: String): List[String] = {
+    logger.info("Extracting urls...")
     val doc = Jsoup.parse(page)
     val links = doc.select("a[href^=/watch]")
 
