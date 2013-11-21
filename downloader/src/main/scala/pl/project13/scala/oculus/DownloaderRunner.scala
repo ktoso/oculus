@@ -24,8 +24,8 @@ object DownloaderRunner extends App {
   // download specific videos
 //  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=fFK_YCS8ab0&list=WLFDF76FA8065675A9", crawl = false)
 
-  youtubeDownloader ! DownloadFromYoutube(PreppedMovieUrls.Mirrored.AttackOnTitan, crawl = true)
-  youtubeDownloader ! DownloadFromYoutube(PreppedMovieUrls.Original.AttackOnTitan, crawl = true)
+//  youtubeDownloader ! DownloadFromYoutube(PreppedMovieUrls.Mirrored.AttackOnTitan, crawl = true)
+//  youtubeDownloader ! DownloadFromYoutube(PreppedMovieUrls.Original.AttackOnTitan, crawl = true)
 
   youtubeCrawler ! CrawlYoutubePage(PreppedMovieUrls.Original.AttackOnTitan)
   youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=g8evyE9TuYk") // batman
