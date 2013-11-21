@@ -4,6 +4,7 @@ import java.net.URL
 import org.jsoup.Jsoup
 import scala.collection.JavaConversions._
 import com.typesafe.scalalogging.slf4j.Logging
+import scala.sys.process.Process
 
 trait YoutubeCrawlActions extends Logging {
 
@@ -12,11 +13,7 @@ trait YoutubeCrawlActions extends Logging {
   def fetchPage(url: String): String = {
     logger.info("Fetching page [%s]...".format(url))
 
-    val source = io.Source.fromURL(new URL(url))
-    val wholePage = source.getLines().mkString("\n")
-    source.close()
-
-    wholePage
+    Process("curl url").!!
   }
 
   def extractVideoUrls(page: String): List[String] = {
