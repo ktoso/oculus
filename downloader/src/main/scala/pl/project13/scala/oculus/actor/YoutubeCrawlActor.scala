@@ -12,7 +12,7 @@ class YoutubeCrawlActor(downloadActor: ActorRef) extends Actor
       val page = fetchPage(m.url)
       val urls = extractVideoUrls(page)
 
-      urls foreach { url => downloadActor ! m.copy(url = url) }
+      urls foreach { url => downloadActor ! DownloadFromYoutube(url, crawl = true) }
 
     case m: DownloadFromYoutube =>
       log.info(s"Forwarding request to download one video: ${m.url}")
