@@ -30,6 +30,7 @@ trait YoutubeDownloadActions extends Logging {
     } mkString " "
 
     try {
+      println("Exec: " + command)
       val output = Process(command, baseDir).!!
 
       OutputFilename.findFirstMatchIn(output) map { m =>
