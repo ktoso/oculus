@@ -11,15 +11,14 @@ class FindSimilarMoviesJobTest extends FlatSpec with ShouldMatchers
 
   it should "find a similar thing" in {
 
-    JobTest(new WordCountJob(_))
+    JobTest(new FindSimilarMovies(_))
       .registerFile("inputFile")
       .registerFile("ranked")
       .arg("input", "inputFile")
       .arg("output", "ranked")
-      .sink[(Int, Int, Double)](Tsv("ranked")) { r =>
-        r foreach println
-
-        r.head should equal (1, 1, 1.0)
+      .sink[String](Tsv("ranked")) { case ranked =>
+        println("ranked = " + ranked.mkString(" | "))
+        ranked.toList should equal (List(List(0.0, 4.0, 6.0)))
       }
       .runHadoop
       .finish

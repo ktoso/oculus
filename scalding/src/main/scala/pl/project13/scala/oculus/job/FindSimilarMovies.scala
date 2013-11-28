@@ -26,20 +26,33 @@ class FindSimilarMovies(args: Args) extends Job(args)
     valueFields = Array('id)
   )
 
-  val frameHashes = WritableSequenceFile(inputMovie, ('key, 'value))
-    .read
-    .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement => mhHash(p) }
+//  val frameHashes =
+//    WritableSequenceFile(inputMovie, ('key, 'value))
+//      .read
+//      .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement => mhHash(p) }
 
 //  val hashes =
 //    Hashes
 //      .read
 //      .project('mkHash)
 
-  Hashes.project('mhHash).crossWithTiny(frameHashes)
-    .map(('mhHash, 'frameHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
-      val (mkHash, frameHash) = x
-      Distance.hammingDistance(mkHash.get, frameHash.get)
+  val frameHashes =
+    IterableSource(List("coffebabe", "aaa", "bbb").map(_.asImmutableBytesWriteable), 'frameHash)
+
+//  Hashes.project('referenceHash)
+  IterableSource(List("aaa", "bananarama").map(_.asImmutableBytesWriteable), 'referenceHash)
+    .crossWithTiny(frameHashes)
+    .map(('frameHash, 'referenceHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+      val (frame, reference) = x
+      Distance.hammingDistance(reference.get, frame.get)
     }
+    .debug
+    .groupAll {
+      _.sortWithTake('distance -> 'out, k = 3) {
+        (d0: Int, d1: Int) => try { d1 < d1 } catch { case ex => false }
+      }
+    }
+    .debug
     .write(Tsv(output))
 
 
@@ -50,6 +63,9 @@ class FindSimilarMovies(args: Args) extends Job(args)
 ////    .mapTo(('key, 'value) -> 'mhHash) { p: SeqFileElement => mhHash(p) }
 ////    .map('mhHash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
 //  .map(('mhHash, 'youtube) -> 'pairs) {  }
+
+
+
 
 /*
 val things = List(1, 2, 5, 36, 23, 76) // this is a huge hbase table
