@@ -68,6 +68,7 @@ object Dependencies {
   lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
   lazy val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
   lazy val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
+  lazy val cascadingLocal = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
 //  lazy val spyGlass     = "parallelai"       % "parallelai.spyglass" % "2.0.3"
   lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
