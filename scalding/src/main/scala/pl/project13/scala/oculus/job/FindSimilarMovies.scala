@@ -30,12 +30,12 @@ class FindSimilarMovies(args: Args) extends Job(args)
     .read
     .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement => mhHash(p) }
 
-  val hashes =
-    Hashes
-      .read
-      .project('mkHash)
+//  val hashes =
+//    Hashes
+//      .read
+//      .project('mkHash)
 
-  hashes crossWithTiny frameHashes
+  Hashes.project('mkHash).crossWithTiny(frameHashes)
     .map(('mkHash, 'frameHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (mkHash, frameHash) = x
       Distance.hammingDistance(mkHash.get, frameHash.get)
