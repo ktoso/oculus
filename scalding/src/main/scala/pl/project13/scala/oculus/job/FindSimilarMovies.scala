@@ -35,7 +35,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
 //      .read
 //      .project('mkHash)
 
-  Hashes.project('mkHash).crossWithTiny(frameHashes)
+  Hashes.project('mhHash).crossWithTiny(frameHashes)
     .map(('mkHash, 'frameHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (mkHash, frameHash) = x
       Distance.hammingDistance(mkHash.get, frameHash.get)
