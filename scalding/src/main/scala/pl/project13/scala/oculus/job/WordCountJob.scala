@@ -14,10 +14,7 @@ class WordCountJob(args: Args) extends Job(args) {
     .write(Tsv(outputFile))
 
 
-  def tokenize(text: String): Array[String] = {
-    // Lowercase each word and remove punctuation.
-    println(text)
+  def tokenize(text: String): Array[String] =
     text.toLowerCase.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+")
-  }
 
 }

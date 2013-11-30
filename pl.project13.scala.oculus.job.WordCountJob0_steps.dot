@@ -1,0 +1,3 @@
+digraph G {
+  1 [label = "[local]\nsrc:[a]\ngrp:TextLine(a)\nsnk:[a]"];
+}

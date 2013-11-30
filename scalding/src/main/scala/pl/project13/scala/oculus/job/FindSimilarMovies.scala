@@ -26,6 +26,8 @@ class FindSimilarMovies(args: Args) extends Job(args)
     valueFields = Array('id)
   )
 
+  val TakeTopK = 3
+
 //  val frameHashes =
 //    WritableSequenceFile(inputMovie, ('key, 'value))
 //      .read
@@ -48,9 +50,10 @@ class FindSimilarMovies(args: Args) extends Job(args)
     }
     .debug
     .groupAll {
-      _.sortWithTake('distance -> 'out, k = 3) {
-        (d0: Int, d1: Int) => try { d1 < d1 } catch { case ex => false }
+      _.sortWithTake('distance -> 'out, TakeTopK) {
+        (d0: Int, d1: Int) => d0 < d1
       }
+//      _.sortBy('distance)
     }
     .debug
     .write(Tsv(output))
