@@ -51,9 +51,10 @@ trait OculusJobs {
 
     println(s"Found [${seqFiles.length}] sequence files. Will hash all of them.".green)
 
-    val stopwatch = (new Stopwatch).start()
+    val totalStopwatch = (new Stopwatch).start()
 
     for(seq <- seqFiles) {
+      val stopwatch = (new Stopwatch).start()
       val allArgs = Array(
         classOf[HashVideoSeqFilesJob].getCanonicalName,
         "--input", seq,
@@ -67,6 +68,8 @@ trait OculusJobs {
       ToolRunner.run(conf, tool, allArgs)
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
+
+    println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
 
 
