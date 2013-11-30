@@ -24,9 +24,6 @@ object JobRunner extends App with OculusJobs {
 
   val selected = availableJobs.drop(args(0).toInt).head
 
-  /** Override if you need other than default settings - loads up ''application.conf'' */
-  def appConfig: Config = ConfigFactory.load()
-
   val task = selected._3
 
   task()
