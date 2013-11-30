@@ -6,7 +6,7 @@ import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
 import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
-import org.apache.hadoop.fs.FileUtil
+import org.apache.hadoop.fs.{Path, FileSystem, FileUtil}
 import java.io.File
 import com.google.common.base.Stopwatch
 
@@ -46,7 +46,8 @@ trait OculusJobs {
 
 
   def hashAllSequenceFiles() = {
-    val seqFiles = FileUtil.list(new File("/oculus/source/")) filter { _.endsWith(".seq") }
+    val fs = FileSystem.get(conf)
+    val seqFiles = fs.listStatus(new Path("hdfs:///oculus/source/")).map(_.getPath.toString)
 
     println(s"Found [${seqFiles.length}] sequence files. Will hash all of them.".green)
 
