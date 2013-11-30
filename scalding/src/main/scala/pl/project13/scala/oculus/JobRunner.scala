@@ -8,6 +8,7 @@ import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
 import org.apache.hadoop.fs.FileUtil
 import java.io.File
+import com.google.common.base.Stopwatch
 
 object JobRunner extends App with OculusJobs {
 
@@ -52,6 +53,8 @@ trait OculusJobs {
 
     println(s"Found [${seqFiles.length}] sequence files. Will hash all of them.".green)
 
+    val stopwatch = (new Stopwatch).start()
+
     for(seq <- seqFiles) {
       val allArgs = Array(
         classOf[HashVideoSeqFilesJob].getCanonicalName,
@@ -64,7 +67,7 @@ trait OculusJobs {
       println("-----------------------------------")
 
       ToolRunner.run(conf, tool, allArgs)
-      println(s"Finished running scalding job for [$seq}]".green)
+      println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
   }
 
