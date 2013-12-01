@@ -21,41 +21,34 @@ class FindSimilarMovies(args: Args) extends Job(args)
   val Hashes = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'mhHash,
+    keyFields = 'refHash,
     familyNames = Array("youtube"),
     valueFields = Array('id)
   )
 
   val TakeTopK = 3
 
-//  val frameHashes =
-//    WritableSequenceFile(inputMovie, ('key, 'value))
-//      .read
-//      .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement => mhHash(p) }
-
-//  val hashes =
-//    Hashes
-//      .read
-//      .project('mkHash)
-
   val frameHashes =
-    IterableSource(List("coffebabe", "aaa", "bbb").map(_.asImmutableBytesWriteable), 'frameHash)
+    WritableSequenceFile(inputMovie, ('key, 'value))
+      .read
+      .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement => mhHash(p) }
 
-//  Hashes.project('referenceHash)
-  IterableSource(List("aaa", "bananarama").map(_.asImmutableBytesWriteable), 'referenceHash)
-    .crossWithTiny(frameHashes)
+  val referenceHashes =
+    Hashes
+      .read
+      .project('refHash)
+
+  referenceHashes.crossWithTiny(frameHashes)
     .map(('frameHash, 'referenceHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (frame, reference) = x
       Distance.hammingDistance(reference.get, frame.get)
     }
-    .debug
     .groupAll {
-      _.sortWithTake('distance -> 'out, TakeTopK) {
-        (d0: Int, d1: Int) => d0 < d1
-      }
-//      _.sortBy('distance)
+//      _.sortWithTake('distance -> 'out, TakeTopK) {
+//        (d0: Int, d1: Int) => d0 < d1
+//      }
+      _.sortBy('distance)
     }
-    .debug
     .write(Tsv(output))
 
 
