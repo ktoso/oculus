@@ -32,7 +32,7 @@ trait PHashing extends OculusTupleConversions with OculusStringConversions {
       Files.write(bytes, f)
       block(f)
     } finally {
-      //      f.delete() // todo uncomment!!!!
+      f.delete()
     }
   }
 
