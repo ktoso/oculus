@@ -1,0 +1,19 @@
+root@slave-1:/# df -h
+Filesystem                                              Size  Used Avail Use% Mounted on
+rootfs                                                  9.9G  2.1G  7.3G  23% /
+udev                                                     10M     0   10M   0% /dev
+tmpfs                                                   372M  124K  372M   1% /run
+/dev/disk/by-uuid/36fd30d4-ea87-419f-a6a4-a1a3cf290ff1  9.9G  2.1G  7.3G  23% /
+tmpfs                                                   5.0M     0  5.0M   0% /run/lock
+tmpfs                                                   743M     0  743M   0% /run/shm
+/dev/sdb                                                 99G   14G   80G  15% /data
+
+root@master:~# df  -h
+Filesystem      Size  Used Avail Use% Mounted on
+rootfs           10G  2.9G  6.7G  31% /
+/dev/root        10G  2.9G  6.7G  31% /
+none            1.9G     0  1.9G   0% /dev
+tmpfs           377M  200K  377M   1% /run
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           753M     0  753M   0% /run/shm
+/dev/sdb        100G   41G   54G  44% /data

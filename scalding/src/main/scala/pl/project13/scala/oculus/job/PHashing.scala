@@ -15,7 +15,7 @@ trait PHashing extends OculusTupleConversions with OculusStringConversions {
   type SeqFileElement = (Int, BytesWritable)
 
   // todo do the same with dct hash!!!!!
-  def mhHash(seqFileEl: SeqFileElement): ImmutableBytesWritable = {
+  def mhHashString(seqFileEl: SeqFileElement) = {
     val (idx, bytes) = seqFileEl
     val bs = bytes.getBytes
 
@@ -23,8 +23,11 @@ trait PHashing extends OculusTupleConversions with OculusStringConversions {
 
     val result = onTmpFile(bs) { f => PHash.analyzeImage(f) }
 
-    result.mhHash.asImmutableBytesWriteable
+    result.mhHash
   }
+
+  def mhHash(seqFileEl: SeqFileElement): ImmutableBytesWritable =
+    mhHashString(seqFileEl).asImmutableBytesWriteable
 
   def onTmpFile[T](bytes: Array[Byte])(block: File => T): T = {
     val f = File.createTempFile("oculus-hashing", ".png")

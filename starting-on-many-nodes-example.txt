@@ -1,0 +1,41 @@
+start on many nodes
+
+root@master:~# start-all.sh
+starting namenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-namenode-master.out
+10.240.175.101: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-master.out
+10.240.157.121: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-slave-1.out
+10.240.175.101: starting secondarynamenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-secondarynamenode-master.out
+starting jobtracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-jobtracker-master.out
+10.240.157.121: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-slave-1.out
+10.240.175.101: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-master.out
+root@master:~# start-hbase.sh
+10.240.175.101: starting zookeeper, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-zookeeper-master.out
+starting master, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-master-master.out
+10.240.175.101: starting regionserver, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-regionserver-master.out
+10.240.157.121: starting regionserver, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-regionserver-slave-1.out
+
+
+
+
+
+root@master:~# jps
+6039 HRegionServer
+5067 DataNode
+4954 NameNode
+5291 JobTracker
+5769 HQuorumPeer
+5412 TaskTracker
+5187 SecondaryNameNode
+7234 Jps
+5888 HMaster
+
+
+
+
+root@slave-1:/# jps
+11060 TaskTracker
+11397 HRegionServer
+11537 Jps
+10978 DataNode
+
+

@@ -7,6 +7,7 @@ import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import com.twitter.scalding.typed.Joiner
+import pl.project13.scala.oculus.phash.PHash
 
 class FindSimilarMovies(args: Args) extends Job(args)
   with PHashing {
@@ -35,12 +36,12 @@ class FindSimilarMovies(args: Args) extends Job(args)
         TakeTopK += 1 // we want to take as many top matches as we have movies
         mhHash(p)
       }
+      .limit(100)
 
   val referenceHashes =
     Hashes
       .read
-      .project('refHash)
-      .limit(2000)
+      .limit(5000)
 
   referenceHashes.crossWithTiny(frameHashes)
     .map(('frameHash, 'refHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
@@ -48,12 +49,12 @@ class FindSimilarMovies(args: Args) extends Job(args)
       Distance.hammingDistance(reference.get, frame.get)
     }
     .groupAll {
-      _.sortWithTake('distance -> 'out, TakeTopK) {
-        (d0: Int, d1: Int) => d0 < d1
-      }
-//      _.sortBy('distance)
+      _.sortBy('distance)
+//      _.sortWithTake('distance -> 'out, TakeTopK) {
+//        (d0: Int, d1: Int) => d0 < d1
+//      }
     }
-    .write(Tsv(output))
+    .write(Tsv(output, writeHeader = true))
 
 
 //  override val youtubeId = FilenameUtils.getBaseName(input)
