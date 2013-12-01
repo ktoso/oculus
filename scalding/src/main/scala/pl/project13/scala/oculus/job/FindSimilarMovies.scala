@@ -26,17 +26,21 @@ class FindSimilarMovies(args: Args) extends Job(args)
     valueFields = Array('id)
   )
 
-  val TakeTopK = 3
+  var TakeTopK = 100
 
   val frameHashes =
     WritableSequenceFile(inputMovie, ('key, 'value))
       .read
-      .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement => mhHash(p) }
+      .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement =>
+        TakeTopK += 1 // we want to take as many top matches as we have movies
+        mhHash(p)
+      }
 
   val referenceHashes =
     Hashes
       .read
       .project('refHash)
+      .limit(2000)
 
   referenceHashes.crossWithTiny(frameHashes)
     .map(('frameHash, 'refHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
@@ -44,10 +48,10 @@ class FindSimilarMovies(args: Args) extends Job(args)
       Distance.hammingDistance(reference.get, frame.get)
     }
     .groupAll {
-//      _.sortWithTake('distance -> 'out, TakeTopK) {
-//        (d0: Int, d1: Int) => d0 < d1
-//      }
-      _.sortBy('distance)
+      _.sortWithTake('distance -> 'out, TakeTopK) {
+        (d0: Int, d1: Int) => d0 < d1
+      }
+//      _.sortBy('distance)
     }
     .write(Tsv(output))
 
