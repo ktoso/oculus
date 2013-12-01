@@ -12,7 +12,7 @@ class WordCountJobTest extends FlatSpec with ShouldMatchers with TupleConversion
       .arg("output", "outFile")
       .source(TextLine("inFile"), List("0" -> "kapi kapi pi pu po"))
       .sink[(String, Int)](Tsv("outFile")) { out =>
-        out.toList should contain ("kapi" -> 3)
+        out.toList should contain ("kapi" -> 2)
       }
       .run
       .finish
