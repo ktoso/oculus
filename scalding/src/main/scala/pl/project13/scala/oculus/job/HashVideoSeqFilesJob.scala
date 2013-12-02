@@ -26,7 +26,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(input, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> ('frame, 'mhHash)) { p: SeqFileElement => p._1 -> mhHash(p) }
-    .map('mhHash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
+    .insert('id, youtubeId)
     .write(Hashes)
 
 }
