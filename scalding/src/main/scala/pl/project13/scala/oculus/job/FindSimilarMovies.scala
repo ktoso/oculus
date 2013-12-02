@@ -32,7 +32,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
   val frameHashes =
     WritableSequenceFile(inputMovie, ('key, 'value))
       .read
-      .limit(1)
+      .limit(3)
       .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement =>
         takeTopK += 1 // we want to take as many top matches as we have movies
         mhHash(p)
