@@ -31,7 +31,6 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
       youtubeId.asImmutableBytesWriteable -> mhHash(p)
     }
-    .map('frame -> 'frame) { p: IntWritable => new ImmutableBytesWritable(p.get.toString.getBytes()) }
     .write(Hashes)
 
 }
