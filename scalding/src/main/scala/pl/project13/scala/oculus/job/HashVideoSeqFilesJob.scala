@@ -18,7 +18,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'mhHash,
     familyNames = Array("youtube"),
-    valueFields = Array('id)
+    valueFields = Array('id, 'frame)
   )
 
   override val youtubeId = FilenameUtils.getBaseName(input)
