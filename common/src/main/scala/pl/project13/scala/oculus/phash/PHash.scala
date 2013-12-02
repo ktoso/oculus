@@ -16,6 +16,9 @@ object PHash {
       val noLeadingZeros = b.dropWhile(_ == ZeroByte)
       noLeadingZeros.sliding(2, 2).map(a => Integer.parseInt(a, 16)).toArray
     }
+    def hashEncodedToListOfInts(b: Array[Int]) = String = {
+      new String(b.)
+    }
   }
   object DCT {
     def decode(s: String): String = {

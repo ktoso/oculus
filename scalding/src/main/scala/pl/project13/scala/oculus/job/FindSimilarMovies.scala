@@ -49,12 +49,11 @@ class FindSimilarMovies(args: Args) extends Job(args)
       val (frame, reference) = x
 
       (
-        new String(frame.get).spaceSeparatedHexCodesToString,
-        new String(reference.get).spaceSeparatedHexCodesToString,
+        frame.get.mkString(" "),
+        reference.get.mkString(" "),
         Distance.hammingDistance(reference.get, frame.get)
       )
     }
-    .discard('frameHash, 'refHash)
     .groupAll {
       _.sortBy('distance)
 //      _.sortWithTake('distance -> 'out, TakeTopK) {
@@ -62,7 +61,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
 //      }
     }
     .limit(takeTopK)
-    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'frame, 'ref)))
+    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'frameHash, 'frame, 'refHash, 'ref)))
 
 
 //  override val youtubeId = FilenameUtils.getBaseName(input)
