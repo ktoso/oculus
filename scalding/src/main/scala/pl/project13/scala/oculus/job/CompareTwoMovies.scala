@@ -38,21 +38,18 @@ class CompareTwoMovies(args: Args) extends Job(args)
       .discard('value)
     
   
-  movie1.joinWithLarger('key -> 'key, movie2)
+  movie1.joinWithLarger('key1 -> 'key2, movie2)
     .map(('frameHash1, 'frameHash2) -> ('h1, 'h2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (h1, h2) = x
 
       (
         h1.get.mkString(" "),
         h2.get.mkString(" "),
-        new IntWritable(Distance.hammingDistance(h1.get, h2.get))
+        Distance.hammingDistance(h1.get, h2.get)
       )
     }
     .groupAll {
-//      _.sortBy('distance)
-      _.sortWithTake('distance -> 'out, TakeTopK) {
-        (d0: Int, d1: Int) => d0 < d1
-//      }
+      _.sortBy('distance)
     }
     .write(Csv(output, writeHeader = true, fields = ('distance, 'id1, 'id2, 'h1, 'h2)))
 
