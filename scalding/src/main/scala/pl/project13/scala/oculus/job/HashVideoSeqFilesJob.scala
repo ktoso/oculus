@@ -27,12 +27,10 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(input, ('key, 'value))
     .read
     .rename('key, 'frame)
-    .map(('frame, 'value) -> ('id, 'frame, 'mhHash)) { p: SeqFileElement =>
-      val id = youtubeId.asImmutableBytesWriteable
-      val frameNumber = longToIbw(p._1.get)
-
-      (id, frameNumber, mhHash(p))
+    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
+      youtubeId.asImmutableBytesWriteable -> mhHash(p)
     }
+    .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
     .write(Hashes)
 
 }
