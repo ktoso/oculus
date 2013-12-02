@@ -28,7 +28,7 @@ object ScaldingJobRunner extends App {
   val tool = new scalding.Tool
 
   /** Override if you need other than default settings - loads up ''application.conf'' */
-    def appConfig: Config = ConfigFactory.load()
+  def appConfig: Config = ConfigFactory.load()
 
   conf.setStrings("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>

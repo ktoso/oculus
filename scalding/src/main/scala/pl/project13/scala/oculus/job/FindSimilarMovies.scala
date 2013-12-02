@@ -27,14 +27,14 @@ class FindSimilarMovies(args: Args) extends Job(args)
     valueFields = Array('id)
   )
 
-  var TakeTopK = 100
+  var takeTopK = 100
 
   val frameHashes =
     WritableSequenceFile(inputMovie, ('key, 'value))
       .read
       .limit(100)
       .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement =>
-        TakeTopK += 1 // we want to take as many top matches as we have movies
+        takeTopK += 1 // we want to take as many top matches as we have movies
         mhHash(p)
       }
 
@@ -54,6 +54,8 @@ class FindSimilarMovies(args: Args) extends Job(args)
 //        (d0: Int, d1: Int) => d0 < d1
 //      }
     }
+    .map('id -> 'lol) { id: String => println(" id is " + id); id }
+    .limit(takeTopK)
     .write(Tsv(output, writeHeader = true))
 
 
