@@ -41,7 +41,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
   val referenceHashes =
     Hashes
       .read
-      .mapTo('id -> 'id) { id: String => id.spaceSeparatedHexCodesToString }
+      .map('id -> 'id) { id: String => id.spaceSeparatedHexCodesToString }
       .limit(5000)
 
   referenceHashes.crossWithTiny(frameHashes)
