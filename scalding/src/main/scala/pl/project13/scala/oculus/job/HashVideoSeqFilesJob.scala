@@ -4,7 +4,6 @@ import com.twitter.scalding._
 import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.io.IntWritable
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
@@ -19,7 +18,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'mhHash,
-    familyNames = Array("youtube"),
+    familyNames = Array("youtube", "youtube"),
     valueFields = Array('id, 'frame)
   )
 
