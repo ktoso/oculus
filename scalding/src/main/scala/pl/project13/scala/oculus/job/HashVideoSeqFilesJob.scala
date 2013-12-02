@@ -5,6 +5,7 @@ import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
+import org.apache.hadoop.io.IntWritable
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
   with PHashing {
@@ -29,6 +30,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
       youtubeId.asImmutableBytesWriteable -> mhHash(p)
     }
+    .map('frame -> 'frame) { p: IntWritable => new ImmutableBytesWritable(p.get.toString.getBytes()) }
     .write(Hashes)
 
 }

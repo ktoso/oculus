@@ -20,15 +20,15 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
     valueFields = Array('id, 'frame)
   )
 
-  override val youtubeId = FilenameUtils.getBaseName(input)
-
-  WritableSequenceFile(input, ('key, 'value))
-    .read
-    .rename('key, 'frame)
-    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
-      youtubeId.asImmutableBytesWriteable -> mhHash(p)
-    }
-    .write(Hashes)
+//  override val youtubeId = FilenameUtils.getBaseName(input)
+//
+//  WritableSequenceFile(input, ('key, 'value))
+//    .read
+//    .rename('key, 'frame)
+//    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
+//      youtubeId.asImmutableBytesWriteable -> mhHash(p)
+//    }
+//    .write(Hashes)
 
 }
 
