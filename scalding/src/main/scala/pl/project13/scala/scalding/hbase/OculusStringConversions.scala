@@ -9,7 +9,7 @@ trait OculusStringConversions {
 
 }
 
-class RichString(s: String) extends AnyVal {
+case class RichString(s: String) extends AnyVal {
     def asImmutableBytesWriteable: ImmutableBytesWritable =
       new ImmutableBytesWritable(s.getBytes(Charsets.UTF_8))
 
