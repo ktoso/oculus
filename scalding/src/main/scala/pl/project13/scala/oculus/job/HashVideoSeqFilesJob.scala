@@ -26,7 +26,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(input, ('key, 'value))
     .read
     .mapTo(('key, 'value) -> 'mhHash) { p: SeqFileElement => mhHash(p) }
-    .insert('id, youtubeId.asImmutableBytesWriteable)
+    .insert('id, youtubeId)
     .write(Hashes)
 
 }
