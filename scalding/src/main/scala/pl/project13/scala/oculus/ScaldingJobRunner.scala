@@ -38,7 +38,6 @@ object ScaldingJobRunner extends App {
   val allArgs = args ++ Array("--hdfs", IPs.HadoopMasterWithPort)
   println("-----------------------------------")
   println("allArgs = " + allArgs.toList)
-  println("Mode.mode = " + Mode.mode)
   println("-----------------------------------")
 
 
