@@ -20,7 +20,10 @@ object HashesSchema extends Schema with HBaseConfig {
     val youtube = family[String, String, Any]("youtube")
 
     /** can be used to look up movie in 'metadata' by key */
-    val id = column(youtube, "id", classOf[String])
+    val id    = column(youtube, "id", classOf[String])
+
+    /** frame number, from which this hash was calculated (image####.png, here #### is our `frame`) */
+    val frame = column(youtube, "frame", classOf[String])
 
   }
 

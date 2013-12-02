@@ -24,10 +24,10 @@ class FindSimilarMovies(args: Args) extends Job(args)
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'refHash,
     familyNames = Array("youtube"),
-    valueFields = Array('id)
+    valueFields = Array('id, 'second)
   )
 
-  var takeTopK = 100
+  var takeTopK = 0
 
   val frameHashes =
     WritableSequenceFile(inputMovie, ('key, 'value))
@@ -54,6 +54,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
         Distance.hammingDistance(reference.get, frame.get)
       )
     }
+    .insert('inputId, FilenameUtils.getBaseName(inputMovie))
     .groupAll {
       _.sortBy('distance)
 //      _.sortWithTake('distance -> 'out, TakeTopK) {
@@ -61,7 +62,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
 //      }
     }
     .limit(takeTopK)
-    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'frameHash, 'frame, 'refHash, 'ref)))
+    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'inputId, 'frameHash, 'frame, 'refHash, 'ref)))
 
 
 //  override val youtubeId = FilenameUtils.getBaseName(input)
