@@ -6,6 +6,7 @@ import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
 import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
+import com.twitter.scalding.Mode
 
 object ScaldingJobRunner extends App {
 
@@ -37,7 +38,9 @@ object ScaldingJobRunner extends App {
   val allArgs = args ++ Array("--hdfs", IPs.HadoopMasterWithPort)
   println("-----------------------------------")
   println("allArgs = " + allArgs.toList)
+  println("Mode.mode = " + Mode.mode)
   println("-----------------------------------")
+
 
   ToolRunner.run(conf, tool, allArgs)
 
