@@ -44,9 +44,10 @@ class FindSimilarMovies(args: Args) extends Job(args)
       .limit(5000)
 
   referenceHashes.crossWithTiny(frameHashes)
-    .map(('frameHash, 'refHash) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (frame, reference) = x
-      Distance.hammingDistance(reference.get, frame.get)
+
+      (new String(frame.get), new String(reference.get), Distance.hammingDistance(reference.get, frame.get))
     }
     .groupAll {
       _.sortBy('distance)
@@ -56,7 +57,7 @@ class FindSimilarMovies(args: Args) extends Job(args)
     }
     .map('id -> 'lol) { id: String => println(" id is " + id); id }
     .limit(takeTopK)
-    .write(Tsv(output, writeHeader = true))
+    .write(Csv(output, writeHeader = true))
 
 
 //  override val youtubeId = FilenameUtils.getBaseName(input)

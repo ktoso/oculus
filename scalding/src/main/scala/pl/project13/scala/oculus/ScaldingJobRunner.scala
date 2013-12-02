@@ -44,6 +44,8 @@ object ScaldingJobRunner extends App {
 
   ToolRunner.run(conf, tool, allArgs)
 
+  println("Mode.mode = " + Mode.mode)
+
 
   private def allOculusHadoopSettings(configuration: com.typesafe.config.Config) =
     configuration.getConfig("oculus").getConfig("hadoop").entrySet().toList.map(a => (a.getKey, a.getValue))
