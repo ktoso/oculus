@@ -23,7 +23,7 @@ object HashesSchema extends Schema with HBaseConfig {
     val id    = column(youtube, "id", classOf[String])
 
     /** frame number, from which this hash was calculated (image####.png, here #### is our `frame`) */
-    val frame = column(youtube, "frame", classOf[String])
+    val frame = column(youtube, "frame", classOf[Int])
 
   }
 

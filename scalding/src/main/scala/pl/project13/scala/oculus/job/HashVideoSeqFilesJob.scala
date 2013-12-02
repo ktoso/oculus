@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.io.IntWritable
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
+  with TupleConversions
   with PHashing {
 
   val input = args("input")
