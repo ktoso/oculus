@@ -8,7 +8,7 @@ import org.apache.hadoop.io.IntWritable
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
   with TupleConversions
-  with PHashing {
+  with Hashing {
 
   val input = args("input")
 

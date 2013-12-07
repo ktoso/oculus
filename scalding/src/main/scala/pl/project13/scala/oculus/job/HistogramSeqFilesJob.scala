@@ -4,9 +4,10 @@ import com.twitter.scalding._
 import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
+import org.apache.hadoop.io.IntWritable
 
 class HistogramSeqFilesJob(args: Args) extends Job(args)
-  with PHashing {
+  with Histograms {
 
   val input = args("input")
 
@@ -20,15 +21,22 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
     valueFields = Array('id, 'frame)
   )
 
-//  override val youtubeId = FilenameUtils.getBaseName(input)
-//
-//  WritableSequenceFile(input, ('key, 'value))
-//    .read
-//    .rename('key, 'frame)
-//    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
-//      youtubeId.asImmutableBytesWriteable -> mhHash(p)
-//    }
-//    .write(Hashes)
+  override val youtubeId = FilenameUtils.getBaseName(input)
+
+  WritableSequenceFile(input, ('key, 'value))
+    .read
+    .rename('key, 'frame)
+    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
+      val histogram = mkHistogram(p)
+      val luminance = histogram.getLuminanceHistogram
+      val lumString = luminance.map(Integer.toHexString).mkString
+
+      println("luminance (hex) = " + lumString)
+
+      youtubeId.asImmutableBytesWriteable -> lumString.asImmutableBytesWriteable
+    }
+    .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
+    .write(Hashes)
 
 }
 

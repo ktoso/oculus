@@ -10,7 +10,7 @@ import com.twitter.scalding.typed.Joiner
 import pl.project13.scala.oculus.phash.PHash
 
 class FindSimilarMovies(args: Args) extends Job(args)
-  with PHashing {
+  with Hashing {
 
   /** seq file with images */
   val inputMovie = args("input")

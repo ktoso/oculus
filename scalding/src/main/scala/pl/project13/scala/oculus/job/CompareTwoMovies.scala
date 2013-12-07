@@ -9,7 +9,7 @@ import pl.project13.scala.oculus.distance.Distance
 import org.apache.hadoop.io.IntWritable
 
 class CompareTwoMovies(args: Args) extends Job(args)
-  with PHashing {
+  with Hashing {
 
   /** seq file with images */
   val inputMovie1 = args("input1")
