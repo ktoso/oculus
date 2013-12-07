@@ -1,0 +1,11 @@
+# A sample Guardfile
+# More info at https://github.com/guard/guard#readme
+
+guard 'shell' do
+# builds latex file to pdf and hides output
+  watch(/(.*).tex/) do |m|
+    # `pdflatex -shell-escape #{m[0]} 1>/dev/null`
+    `pdflatex -shell-escape thesis.tex`
+     puts "built thesis.pdf"
+  end
+end

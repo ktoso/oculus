@@ -16,18 +16,18 @@ It should be also noted that while I refer to this system as ,,the'' downloader,
 
 \subsection{Work sharing in an actor-based cluster}
 The downloader system is implemented in an ,,message pasing'' style, which means that the work requests to the cluster come in as \textit{messages}, and then are \textit{routed} to an \textit{actor}, who performs the work, and then responds with another message -- in other words, all comunication between Actor instances is performed via messages and there is no shared state between them. 
-This also applies to Actor instances residing in the same JVM - for the user of an ,,Actor System'', the location (on which phisical node the actor is actually executing) of an actor remains fully transparent - this has huge gains in terms of load balancing the message execution on the cluster - the router decides who will be notified on which message, the listing \ref{lst:akka-router-smallest-inbox} shows a typical workflow using the so-called ,,smallest inbox'' routing strategy \ref{akkaDocs}.
+This also applies to Actor instances residing in the same JVM - for the user of an ,,Actor System'', the location (on which phisical node the actor is actually executing) of an actor remains fully transparent - this has huge gains in terms of load balancing the message execution on the cluster - the router decides who will be notified on which message, the listing \ref{akka-router-decides} shows a typical workflow using the so-called ,,smallest inbox'' routing strategy \ref{akkaDocs}.
 
 % TODO replace with a drawing with actors
-\begin{lstlisting}[caption={smallest-inbox routing algorithm},label={lst:akka-router-smallest-inbox}]
-                                                           ---> [inbox1, size = 3] => YoutubeDownloadActor(1)
- YoutubeCrawlerActor -- Msg(url=http://...) --> router ---/
-                                                          \     [inbox2, size = 5] => YoutubeDownloadActor(2)
+\begin{verbatim*}
+                                                                    ---> [inbox1, size = 3] => YoutubeDownloadActor(1)
+ YoutubeCrawlerActor -- please download [http://...] --> router ---/
+                                                                   \     [inbox2, size = 5] => YoutubeDownloadActor(2)
                                                                    
-                                  /* because inbox1.size < inbox2.size */ 
-\end{lstlisting}
+                                            /* because inbox1.size < inbox2.size */ 
+\end{verbatim}
 
-The underlying Actor System is implemented by a project called Akka \ref{akkaDocs}, and can be easiest explained as ,,porting Erlang concepts of the Actor Model to the JVM''. I selected the ,,Smallest Inbox'' routing strategy instead of the other widely used ,,Round Robin'' approach in order to guarantee not overloading any Actor with too many requests to download movies (which is a relatively slow process). Thanks to the smallest inbox routing, I can guarantee that if some of the nodes have a faster connection to the Internet, they will get more movie download requests, than nodes located on a slower network.
+The underlying Actor System is implemented by a project called Akka \ref{akkaDocs}, and can be easiest explained as ,,porting Erlang concepts of the Actor Model to the JVM''.
 
 As mentioned before, the system is fully distributed and \textit{any node can perform any task} submited to the cluster. For example let's take the first step in the processing pipeline in Oculus, which is \verb|Download video from http://www.youtube.com/watch?v=-X9bcrJ3TjY| -- such message will be emited by the \verb|YoutubeCrawlerActor| and sent via a \verb|Router| instance to an \verb|YoutubeDownloadActor| which has the ,,smallest inbox''.
 
