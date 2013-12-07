@@ -26,7 +26,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(input, ('key, 'value))
     .read
     .rename('key, 'frame)
-    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
+    .map(('frame, 'value) -> ('id, 'histogram)) { p: SeqFileElement =>
       val histogram = mkHistogram(p)
       val luminance = histogram.getLuminanceHistogram
       val lumString = luminance.map(Integer.toHexString).mkString
