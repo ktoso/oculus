@@ -1,6 +1,6 @@
 package pl.project13.scala.oculus
 
-import pl.project13.scala.oculus.job.{CompareTwoMovies, FindSimilarMovies, HashVideoSeqFilesJob, WordCountJob}
+import pl.project13.scala.oculus.job._
 import org.apache.hadoop.util._
 import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
@@ -15,6 +15,7 @@ object ScaldingJobRunner extends App {
   val availableJobs =
     classOf[HashVideoSeqFilesJob] ::
     classOf[CompareTwoMovies] ::
+    classOf[HistogramSeqFilesJob] ::
     classOf[FindSimilarMovies] ::
     classOf[WordCountJob] ::
     Nil
