@@ -31,6 +31,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
       val luminance = histogram.getLuminanceHistogram
       val lumString = luminance.map(Integer.toHexString).mkString
 
+      println("luminance (buckets) = " + luminance.mkString(" "))
       println("luminance (hex) = " + lumString)
 
       youtubeId.asImmutableBytesWriteable -> lumString.asImmutableBytesWriteable
