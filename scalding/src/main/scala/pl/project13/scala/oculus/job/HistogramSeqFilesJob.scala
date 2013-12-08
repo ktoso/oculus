@@ -17,7 +17,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
     tableName = "histograms",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'histogram,
-    familyNames = Array("youtube"),
+    familyNames = Array("youtube", "youtube"),
     valueFields = Array('id, 'frame)
   )
 
