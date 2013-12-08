@@ -19,8 +19,6 @@ trait Histograms extends OculusTupleConversions with OculusStringConversions {
     val (idx, bytes) = seqFileEl
     val bs = bytes.getBytes
 
-    println(s"processing histogram for frame [$idx] of sequence file [$youtubeId]. [size: ${bs.size}]")
-
     val result = onTmpFile(bs) { f =>
       Histogram.getHisrogram(f.getAbsolutePath)
     }
