@@ -4,7 +4,7 @@
 
     <property>
         <name>fs.default.name</name>
-        <value>hdfs://10.240.175.101:9000</value>
+        <value>hdfs://10.240.57.179:9000</value>
         <description>The name of the default file system. A URI whose scheme and authority determine the FileSystem
             implementation.
         </description>

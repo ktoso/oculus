@@ -3,7 +3,7 @@
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://10.240.175.101:9000/hbase</value>
+    <value>hdfs://10.240.57.179:9000/hbase</value>
     <description>The directory shared by RegionServers.
     </description>
   </property>
@@ -18,6 +18,6 @@
 
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>10.240.175.101</value>
+    <value>10.240.57.179</value>
   </property>
 </configuration>
