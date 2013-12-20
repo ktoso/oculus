@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/18300940/why-does-data-node-shut-down-when-i-run-hadoop

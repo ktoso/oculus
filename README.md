@@ -15,13 +15,13 @@ Monitoring urls
 hadoop
 
 ```
-http://10.240.175.101:50030/jobtracker.jsp
+http://10.240.57.179:50030/jobtracker.jsp
 ```
 
 hbase
 
 ```
-http://10.240.175.101:60010/master-status
+http://10.240.57.179:60010/master-status
 ```
 
 
@@ -101,7 +101,7 @@ sbt shell
 
 > project scalding
 
-> run pl.project13.scala.oculus.job.VideoToPicturesJob --hdfs --input hdfs://10.240.175.101:9000/oculus/source/cj2uhyfVNmQ.webm --output ignore.out
+> run pl.project13.scala.oculus.job.VideoToPicturesJob --hdfs --input hdfs://10.240.57.179:9000/oculus/source/cj2uhyfVNmQ.webm --output ignore.out
 ```
 
 Run sanity test - word count
@@ -109,7 +109,7 @@ Run sanity test - word count
 ```
 sbt shell
 > project scalding
-> run pl.project13.scala.oculus.job.WordCountJob --hdfs --input hdfs://10.240.175.101:9000/demotext.txt --output hdfs://10.240.175.101:9000/wordcount.out
+> run pl.project13.scala.oculus.job.WordCountJob --hdfs --input hdfs://10.240.57.179:9000/demotext.txt --output hdfs://10.240.57.179:9000/wordcount.out
 ```
 
 Remember how to get results:
@@ -149,7 +149,7 @@ Run the phash job
 This calculates phashes of all seq files (well, here just one):
 
 ```
-run pl.project13.scala.oculus.job.HashVideoSeqFilesJob --hdfs --input hdfs://10.240.175.101:9000/oculus/source/0a78kzAffb4.webm.seq --output hdfs://10.240.175.101:9000/ignore.out
+run pl.project13.scala.oculus.job.HashVideoSeqFilesJob --hdfs --input hdfs://10.240.57.179:9000/oculus/source/0a78kzAffb4.webm.seq --output hdfs://10.240.57.179:9000/ignore.out
 ```
 
 Install tooling

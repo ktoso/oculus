@@ -174,7 +174,8 @@ object OculusBuild extends Build {
     file("downloader"),
     settings = buildSettings ++ assemblySettings ++ Seq(
       libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing ++ Seq(hPaste),
-      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+      mainClass in assembly := Some("com.twitter.scalding.Tool")
+//      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
     ) ++ Seq(
       mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
         {

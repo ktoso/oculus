@@ -16,7 +16,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
   val Hashes = new MyHBaseSource(
     tableName = "histograms",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'histogram,
+    keyFields = 'lumHistogram,
     familyNames = Array("youtube", "youtube"),
     valueFields = Array('id, 'frame)
   )
@@ -26,12 +26,10 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(input, ('key, 'value))
     .read
     .rename('key, 'frame)
-    .map(('frame, 'value) -> ('id, 'histogram)) { p: SeqFileElement =>
+    .map(('frame, 'value) -> ('id, 'lumHistogram)) { p: SeqFileElement =>
       val histogram = mkHistogram(p)
       val luminance = histogram.getLuminanceHistogram
       val lumString = luminance.map(Integer.toHexString).mkString
-
-//      println("luminance (hex) = " + lumString)
 
       youtubeId.asImmutableBytesWriteable -> lumString.asImmutableBytesWriteable
     }

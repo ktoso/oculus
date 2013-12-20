@@ -2,17 +2,17 @@ start on many nodes
 
 root@master:~# start-all.sh
 starting namenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-namenode-master.out
-10.240.175.101: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-master.out
-10.240.157.121: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-slave-1.out
-10.240.175.101: starting secondarynamenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-secondarynamenode-master.out
+10.240.57.179: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-master.out
+10.240.80.138: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-slave-1.out
+10.240.57.179: starting secondarynamenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-secondarynamenode-master.out
 starting jobtracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-jobtracker-master.out
-10.240.157.121: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-slave-1.out
-10.240.175.101: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-master.out
+10.240.80.138: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-slave-1.out
+10.240.57.179: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-master.out
 root@master:~# start-hbase.sh
-10.240.175.101: starting zookeeper, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-zookeeper-master.out
+10.240.57.179: starting zookeeper, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-zookeeper-master.out
 starting master, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-master-master.out
-10.240.175.101: starting regionserver, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-regionserver-master.out
-10.240.157.121: starting regionserver, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-regionserver-slave-1.out
+10.240.57.179: starting regionserver, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-regionserver-master.out
+10.240.80.138: starting regionserver, logging to /opt/hbase-0.94.10/bin/../logs/hbase-root-regionserver-slave-1.out
 
 
 

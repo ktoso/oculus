@@ -1,1 +1,1 @@
-Finished running scalding job for [hdfs://10.240.175.101:9000/oculus/source/-ZOPlZTAPDs.webm.seq}]. Took 822.0 s
+Finished running scalding job for [hdfs://10.240.57.179:9000/oculus/source/-ZOPlZTAPDs.webm.seq}]. Took 822.0 s

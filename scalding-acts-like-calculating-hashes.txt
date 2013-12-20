@@ -59,7 +59,7 @@ SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 
 SLF4J: Actual binding is of type [ch.qos.logback.classic.selector.DefaultContextSelector]
 -----------------------------------
-allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq, --hdfs, 10.240.175.101:9000)
+allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq, --hdfs, 10.240.57.179:9000)
 -----------------------------------
 19/Nov/13 02:29:25.256 [run-main] INFO  c.flow.hadoop.util.HadoopUtil - resolving application jar from found main method on: scala.App$class
 19/Nov/13 02:29:25.269 [run-main] INFO  c.flow.hadoop.planner.HadoopPlanner - using application jar: /home/ktoso/.sbt/boot/scala-2.10.2/lib/scala-library.jar
@@ -79,16 +79,16 @@ allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs
 19/Nov/13 02:29:25.814 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Client environment:user.name=ktoso
 19/Nov/13 02:29:25.814 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Client environment:user.home=/home/ktoso
 19/Nov/13 02:29:25.814 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Client environment:user.dir=/home/ktoso/oculus
-19/Nov/13 02:29:25.815 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=hconnection
+19/Nov/13 02:29:25.815 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=hconnection
 19/Nov/13 02:29:25.881 [run-main] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:25.893 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:25.895 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
-19/Nov/13 02:29:25.940 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f001c, negotiated timeout = 180000
-19/Nov/13 02:29:26.363 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:25.893 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:25.895 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
+19/Nov/13 02:29:25.940 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f001c, negotiated timeout = 180000
+19/Nov/13 02:29:26.363 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
 19/Nov/13 02:29:26.367 [run-main] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:26.372 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:26.373 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
-19/Nov/13 02:29:26.376 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f001d, negotiated timeout = 180000
+19/Nov/13 02:29:26.372 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:26.373 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
+19/Nov/13 02:29:26.376 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f001d, negotiated timeout = 180000
 19/Nov/13 02:29:26.440 [run-main-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:29:26.440 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f001d closed
 19/Nov/13 02:29:26.581 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.util.Version - Concurrent, Inc - Cascading 2.1.6
@@ -105,7 +105,7 @@ allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs
 19/Nov/13 02:29:27.087 [Thread-7] INFO  org.apache.hadoop.util.ProcessTree - setsid exited with exit code 0
 19/Nov/13 02:29:27.095 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@3097b6b2
 19/Nov/13 02:29:27.099 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:27.127 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:27.127 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:27.179 [Thread-7] INFO  o.a.hadoop.io.compress.CodecPool - Got brand-new decompressor
 19/Nov/13 02:29:27.180 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:27.187 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
@@ -113,276 +113,276 @@ allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs
 19/Nov/13 02:29:27.194 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:27.252 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:27.253 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:27.316 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:27.331 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:27.332 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:27.316 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:27.331 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:27.332 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:27.333 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:27.337 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f001e, negotiated timeout = 180000
+19/Nov/13 02:29:27.337 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f001e, negotiated timeout = 180000
 19/Nov/13 02:29:27.345 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f001e closed
 19/Nov/13 02:29:27.346 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:27.355 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:29:31.414 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:31.431 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000000_0 is done. And is in the process of commiting
-19/Nov/13 02:29:31.436 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:0+67108864
+19/Nov/13 02:29:31.436 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:0+67108864
 19/Nov/13 02:29:31.437 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000000_0' done.
 19/Nov/13 02:29:31.439 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@75e752b2
 19/Nov/13 02:29:31.442 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:31.442 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:31.442 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:31.446 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:31.623 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:31.624 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:31.624 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:31.641 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:31.641 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:31.678 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:31.679 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:31.680 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:31.678 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:31.679 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:31.680 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:31.681 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:31.685 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f001f, negotiated timeout = 180000
+19/Nov/13 02:29:31.685 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f001f, negotiated timeout = 180000
 19/Nov/13 02:29:31.693 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f001f closed
 19/Nov/13 02:29:31.693 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:31.695 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:29:34.446 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:67108864+67108864
+19/Nov/13 02:29:34.446 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:67108864+67108864
 19/Nov/13 02:29:36.732 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:36.751 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000001_0 is done. And is in the process of commiting
-19/Nov/13 02:29:36.758 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:67108864+67108864
+19/Nov/13 02:29:36.758 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:67108864+67108864
 19/Nov/13 02:29:36.759 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000001_0' done.
 19/Nov/13 02:29:36.765 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@3f191a96
 19/Nov/13 02:29:36.766 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:36.767 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:36.767 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:36.772 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:36.831 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:36.832 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:36.832 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:36.847 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:36.848 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:36.882 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:36.883 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:36.884 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:36.882 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:36.883 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:36.884 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:36.885 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:36.889 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0020, negotiated timeout = 180000
+19/Nov/13 02:29:36.889 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0020, negotiated timeout = 180000
 19/Nov/13 02:29:36.899 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0020 closed
 19/Nov/13 02:29:36.899 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:36.906 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:29:41.905 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:41.926 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000002_0 is done. And is in the process of commiting
-19/Nov/13 02:29:41.931 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:134217728+67108864
+19/Nov/13 02:29:41.931 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:134217728+67108864
 19/Nov/13 02:29:41.932 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000002_0' done.
 19/Nov/13 02:29:41.940 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@375090c9
 19/Nov/13 02:29:41.941 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:41.942 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:41.942 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:41.952 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:42.013 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:42.014 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:42.014 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:42.024 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:42.024 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:42.045 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:42.046 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:42.047 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:42.045 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:42.046 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:42.047 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:42.048 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:42.052 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0021, negotiated timeout = 180000
+19/Nov/13 02:29:42.052 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0021, negotiated timeout = 180000
 19/Nov/13 02:29:42.062 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0021 closed
 19/Nov/13 02:29:42.062 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:42.068 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:29:45.161 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:45.183 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000003_0 is done. And is in the process of commiting
-19/Nov/13 02:29:45.185 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:201326592+67108864
+19/Nov/13 02:29:45.185 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:201326592+67108864
 19/Nov/13 02:29:45.186 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000003_0' done.
 19/Nov/13 02:29:45.190 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@6b1cb2d
 19/Nov/13 02:29:45.197 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:45.198 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:45.198 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:45.205 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:45.251 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:45.252 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:45.252 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:45.282 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:45.282 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:45.313 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:45.314 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:45.315 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:45.313 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:45.314 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:45.315 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:45.315 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:45.320 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0022, negotiated timeout = 180000
+19/Nov/13 02:29:45.320 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0022, negotiated timeout = 180000
 19/Nov/13 02:29:45.332 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0022 closed
 19/Nov/13 02:29:45.332 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:45.335 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:29:48.205 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:268435456+67108864
+19/Nov/13 02:29:48.205 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:268435456+67108864
 19/Nov/13 02:29:50.449 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:50.471 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000004_0 is done. And is in the process of commiting
-19/Nov/13 02:29:50.473 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:268435456+67108864
+19/Nov/13 02:29:50.473 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:268435456+67108864
 19/Nov/13 02:29:50.474 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000004_0' done.
 19/Nov/13 02:29:50.475 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@26ecce14
 19/Nov/13 02:29:50.476 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:50.476 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:50.476 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:50.483 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:50.495 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:50.496 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:50.497 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:50.505 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:50.505 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:50.538 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:50.539 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:50.539 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:50.538 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:50.539 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:50.539 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:50.541 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:50.544 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0023, negotiated timeout = 180000
+19/Nov/13 02:29:50.544 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0023, negotiated timeout = 180000
 19/Nov/13 02:29:50.563 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0023 closed
 19/Nov/13 02:29:50.563 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:50.567 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:29:53.487 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:335544320+67108864
+19/Nov/13 02:29:53.487 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:335544320+67108864
 19/Nov/13 02:29:54.568 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:54.583 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000005_0 is done. And is in the process of commiting
-19/Nov/13 02:29:54.585 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:335544320+67108864
+19/Nov/13 02:29:54.585 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:335544320+67108864
 19/Nov/13 02:29:54.586 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000005_0' done.
 19/Nov/13 02:29:54.588 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@612a4c09
 19/Nov/13 02:29:54.589 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:54.589 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:54.589 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:54.594 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:54.633 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:54.634 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:54.634 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:54.645 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:54.645 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:54.698 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:54.706 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:54.707 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:54.698 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:54.706 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:54.707 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:54.708 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:54.717 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0024, negotiated timeout = 180000
+19/Nov/13 02:29:54.717 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0024, negotiated timeout = 180000
 19/Nov/13 02:29:54.730 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0024 closed
 19/Nov/13 02:29:54.730 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:54.732 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:29:57.593 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:402653184+67108864
+19/Nov/13 02:29:57.593 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:402653184+67108864
 19/Nov/13 02:29:58.770 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:29:58.792 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000006_0 is done. And is in the process of commiting
-19/Nov/13 02:29:58.794 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:402653184+67108864
+19/Nov/13 02:29:58.794 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:402653184+67108864
 19/Nov/13 02:29:58.795 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000006_0' done.
 19/Nov/13 02:29:58.796 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@259a9be2
 19/Nov/13 02:29:58.797 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:29:58.798 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:29:58.798 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:29:58.803 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:29:58.833 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:29:58.834 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:29:58.834 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:29:58.850 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:29:58.850 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:29:58.877 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:29:58.878 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:29:58.879 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:29:58.877 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:29:58.878 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:29:58.879 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:29:58.880 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:29:58.884 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0025, negotiated timeout = 180000
+19/Nov/13 02:29:58.884 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0025, negotiated timeout = 180000
 19/Nov/13 02:29:58.892 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0025 closed
 19/Nov/13 02:29:58.892 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:29:58.897 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:30:01.800 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:469762048+67108864
+19/Nov/13 02:30:01.800 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:469762048+67108864
 19/Nov/13 02:30:03.397 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:30:03.422 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000007_0 is done. And is in the process of commiting
-19/Nov/13 02:30:03.424 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:469762048+67108864
+19/Nov/13 02:30:03.424 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:469762048+67108864
 19/Nov/13 02:30:03.425 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000007_0' done.
 19/Nov/13 02:30:03.427 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@7d9eff4f
 19/Nov/13 02:30:03.428 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:30:03.429 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:30:03.429 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:30:03.467 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:30:03.512 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:30:03.513 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:30:03.513 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:30:03.522 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:30:03.522 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:30:03.543 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:30:03.544 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:30:03.545 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:30:03.543 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:30:03.544 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:30:03.545 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:30:03.546 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:30:03.550 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0026, negotiated timeout = 180000
+19/Nov/13 02:30:03.550 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0026, negotiated timeout = 180000
 19/Nov/13 02:30:03.578 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0026 closed
 19/Nov/13 02:30:03.579 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:30:03.583 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:30:08.243 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:30:08.261 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000008_0 is done. And is in the process of commiting
-19/Nov/13 02:30:08.264 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:536870912+67108864
+19/Nov/13 02:30:08.264 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:536870912+67108864
 19/Nov/13 02:30:08.264 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000008_0' done.
 19/Nov/13 02:30:08.271 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@55dae403
 19/Nov/13 02:30:08.272 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:30:08.272 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:30:08.272 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:30:08.277 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:30:08.306 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:30:08.307 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:30:08.307 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:30:08.315 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:30:08.316 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:30:08.344 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:30:08.346 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:30:08.347 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:30:08.344 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:30:08.346 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:30:08.347 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:30:08.348 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:30:08.352 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0027, negotiated timeout = 180000
+19/Nov/13 02:30:08.352 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0027, negotiated timeout = 180000
 19/Nov/13 02:30:08.374 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0027 closed
 19/Nov/13 02:30:08.375 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:30:08.376 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:30:11.283 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:603979776+67108864
+19/Nov/13 02:30:11.283 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:603979776+67108864
 19/Nov/13 02:30:12.213 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:30:12.235 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000009_0 is done. And is in the process of commiting
-19/Nov/13 02:30:12.237 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:603979776+67108864
+19/Nov/13 02:30:12.237 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:603979776+67108864
 19/Nov/13 02:30:12.237 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000009_0' done.
 19/Nov/13 02:30:12.240 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@395ae02e
 19/Nov/13 02:30:12.241 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:30:12.242 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:30:12.242 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:30:12.248 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:30:12.301 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:30:12.302 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:30:12.302 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:30:12.310 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:30:12.311 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:30:12.349 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:30:12.355 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:30:12.356 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:30:12.349 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:30:12.355 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:30:12.356 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:30:12.359 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:30:12.367 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0028, negotiated timeout = 180000
+19/Nov/13 02:30:12.367 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0028, negotiated timeout = 180000
 19/Nov/13 02:30:12.376 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0028 closed
 19/Nov/13 02:30:12.376 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:30:12.380 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
-19/Nov/13 02:30:15.244 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:671088640+67108864
+19/Nov/13 02:30:15.244 [communication thread] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:671088640+67108864
 19/Nov/13 02:30:15.783 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:30:15.806 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000010_0 is done. And is in the process of commiting
-19/Nov/13 02:30:15.809 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:671088640+67108864
+19/Nov/13 02:30:15.809 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:671088640+67108864
 19/Nov/13 02:30:15.810 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000010_0' done.
 19/Nov/13 02:30:15.812 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@5b34693f
 19/Nov/13 02:30:15.813 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:30:15.814 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:30:15.814 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:30:15.820 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:30:15.887 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:30:15.888 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:30:15.888 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:30:15.896 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:30:15.896 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:30:15.916 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:30:15.917 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:30:15.917 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:30:15.916 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:30:15.917 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:30:15.917 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:30:15.919 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:30:15.922 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f0029, negotiated timeout = 180000
+19/Nov/13 02:30:15.922 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f0029, negotiated timeout = 180000
 19/Nov/13 02:30:15.940 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f0029 closed
 19/Nov/13 02:30:15.941 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:30:15.953 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:30:18.950 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:30:18.976 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000011_0 is done. And is in the process of commiting
-19/Nov/13 02:30:18.978 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:738197504+67108864
+19/Nov/13 02:30:18.978 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:738197504+67108864
 19/Nov/13 02:30:18.979 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000011_0' done.
 19/Nov/13 02:30:18.981 [Thread-7] INFO  org.apache.hadoop.mapred.Task -  Using ResourceCalculatorPlugin : org.apache.hadoop.util.LinuxResourceCalculatorPlugin@7963920b
 19/Nov/13 02:30:18.982 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
-19/Nov/13 02:30:18.983 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq
+19/Nov/13 02:30:18.983 [Thread-7] INFO  c.tap.hadoop.io.MultiInputSplit - current split input path: hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq
 19/Nov/13 02:30:18.991 [Thread-7] INFO  c.tuple.hadoop.TupleSerialization - using default comparator: com.twitter.scalding.IntegralComparator
 19/Nov/13 02:30:19.012 [Thread-7] INFO  org.apache.hadoop.mapred.MapTask - numReduceTasks: 0
 19/Nov/13 02:30:19.013 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - cascading version: Concurrent, Inc - Cascading 2.1.6
 19/Nov/13 02:30:19.013 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - child jvm opts: -Xmx200m
 19/Nov/13 02:30:19.021 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sourcing from: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
 19/Nov/13 02:30:19.022 [Thread-7] INFO  cascading.flow.hadoop.FlowMapper - sinking to: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
-19/Nov/13 02:30:19.043 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.175.101:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
-19/Nov/13 02:30:19.044 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:30:19.045 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
+19/Nov/13 02:30:19.043 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Initiating client connection, connectString=10.240.57.179:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@53c11ce
+19/Nov/13 02:30:19.044 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:30:19.045 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
 19/Nov/13 02:30:19.046 [Thread-7] INFO  o.a.h.h.z.RecoverableZooKeeper - The identifier of this process is 9926@master.c.oculus-hadoop.internal
-19/Nov/13 02:30:19.050 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f002a, negotiated timeout = 180000
+19/Nov/13 02:30:19.050 [Thread-7-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f002a, negotiated timeout = 180000
 19/Nov/13 02:30:19.057 [Thread-7] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f002a closed
 19/Nov/13 02:30:19.057 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - Output format class is: class org.apache.hadoop.hbase.mapred.TableOutputFormat
 19/Nov/13 02:30:19.073 [Thread-7-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 19/Nov/13 02:30:19.788 [Thread-7] INFO  c.t.maple.hbase.HBaseTapCollector - closing tap collector for: HBaseTap["HBaseScheme[['hash', 'id']]"]["68a0fb7c-4536-4a5e-9ad2-56089a3cf1fd"]
 19/Nov/13 02:30:19.794 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task:attempt_local_0001_m_000012_0 is done. And is in the process of commiting
-19/Nov/13 02:30:19.795 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.175.101:9000/oculus/source/HTYBXw-RlzM.mp4.seq:805306368+15787715
+19/Nov/13 02:30:19.795 [Thread-7] INFO  o.a.hadoop.mapred.LocalJobRunner - hdfs://10.240.57.179:9000/oculus/source/HTYBXw-RlzM.mp4.seq:805306368+15787715
 19/Nov/13 02:30:19.796 [Thread-7] INFO  org.apache.hadoop.mapred.Task - Task 'attempt_local_0001_m_000012_0' done.
 19/Nov/13 02:30:22.058 [run-main-EventThread] ERROR org.apache.zookeeper.ClientCnxn - Event thread exiting due to interruption
 java.lang.InterruptedException: null
@@ -392,14 +392,14 @@ java.lang.InterruptedException: null
 	at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:491) ~[zookeeper-3.4.5.jar:3.4.5-1392090]
 19/Nov/13 02:30:22.070 [run-main-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 [success] Total time: 86 s, completed Nov 19, 2013 2:30:22 AM
-> 19/Nov/13 02:30:26.399 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1426da97e0f001c for server master.c.oculus-hadoop.internal/10.240.175.101:2181, unexpected error, closing socket connection and attempting reconnect
+> 19/Nov/13 02:30:26.399 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1426da97e0f001c for server master.c.oculus-hadoop.internal/10.240.57.179:2181, unexpected error, closing socket connection and attempting reconnect
 java.nio.channels.ClosedByInterruptException: null
 	at java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:202) ~[na:1.7.0_25]
 	at sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:473) ~[na:1.7.0_25]
 	at org.apache.zookeeper.ClientCnxnSocketNIO.doIO(ClientCnxnSocketNIO.java:117) ~[zookeeper-3.4.5.jar:3.4.5-1392090]
 	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:355) ~[zookeeper-3.4.5.jar:3.4.5-1392090]
 	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1068) ~[zookeeper-3.4.5.jar:3.4.5-1392090]
-19/Nov/13 02:30:28.045 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.175.101:2181. Will not attempt to authenticate using SASL (unknown error)
-19/Nov/13 02:30:28.046 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.175.101:2181, initiating session
-19/Nov/13 02:30:28.049 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.175.101:2181, sessionid = 0x1426da97e0f001c, negotiated timeout = 180000
+19/Nov/13 02:30:28.045 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Opening socket connection to server master.c.oculus-hadoop.internal/10.240.57.179:2181. Will not attempt to authenticate using SASL (unknown error)
+19/Nov/13 02:30:28.046 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Socket connection established to master.c.oculus-hadoop.internal/10.240.57.179:2181, initiating session
+19/Nov/13 02:30:28.049 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f001c, negotiated timeout = 180000
 
