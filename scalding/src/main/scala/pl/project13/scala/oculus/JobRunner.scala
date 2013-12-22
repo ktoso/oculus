@@ -74,6 +74,13 @@ trait OculusJobs {
       println("-----------------------------------")
 
       Mode.mode = Hdfs(strict = true, conf)
+      println("Mode.mode set manualy = " + Mode.mode)
+
+      Runtime.getRuntime.addShutdownHook(new Thread(){
+        override def run() {
+          println("ON DIE Mode.mode = " + Mode.mode)
+        }
+      })
 
       hadoop.util.ToolRunner.run(conf, tool, allArgs)
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
