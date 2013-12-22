@@ -9,7 +9,7 @@ import pl.project13.scala.oculus.distance.Distance
 import com.twitter.scalding.typed.Joiner
 import pl.project13.scala.oculus.phash.PHash
 
-class FindSimilarMovies(args: Args) extends Job(args)
+class FindSimilarMoviesJob(args: Args) extends Job(args)
   with Hashing {
 
   /** seq file with images */

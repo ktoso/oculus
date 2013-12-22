@@ -17,7 +17,7 @@ object ScaldingJobRunner extends App {
     classOf[HashVideoSeqFilesJob] ::
     classOf[CompareTwoMoviesJob] ::
     classOf[HistogramSeqFilesJob] ::
-    classOf[FindSimilarMovies] ::
+    classOf[FindSimilarMoviesJob] ::
     classOf[WordCountJob] ::
     Nil
 

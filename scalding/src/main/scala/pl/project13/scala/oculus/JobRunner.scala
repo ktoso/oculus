@@ -1,6 +1,6 @@
 package pl.project13.scala.oculus
 
-import pl.project13.scala.oculus.job.{CompareTwoMoviesJob, HashVideoSeqFilesJob, WordCountJob}
+import pl.project13.scala.oculus.job._
 import org.apache.hadoop.util._
 import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
@@ -11,6 +11,8 @@ import java.io.File
 import com.google.common.base.Stopwatch
 import com.twitter.scalding._
 import org.apache.hadoop
+import com.twitter.scalding.Hdfs
+import pl.project13.scala.oculus.HadoopProcessRunner
 
 object JobRunner extends App with OculusJobs {
 
@@ -19,6 +21,7 @@ object JobRunner extends App with OculusJobs {
   val availableJobs =
     (0, "hash all files", hashAllSequenceFiles _) ::
     (1, "compare two movies", compareTwoMovies _) ::
+    (2, "find movies similar to given", findSimilarToGiven _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -92,10 +95,18 @@ trait OculusJobs {
 
 
   def compareTwoMovies(args: Seq[String]) = {
+    simpleHadoopRun(args, classOf[CompareTwoMoviesJob])
+  }
+  
+  def findSimilarToGiven(args: Seq[String]) = {
+    simpleHadoopRun(args, classOf[FindSimilarMoviesJob])
+  }
+
+
+  def simpleHadoopRun(args: Seq[String], jobClazz: Class[_]) {
     val totalStopwatch = (new Stopwatch).start()
 
-    val jobClass = classOf[CompareTwoMoviesJob]
-    val jobClassName = jobClass.getCanonicalName
+    val jobClassName = jobClazz.getCanonicalName
 
     println(s"Starting execution of job $jobClassName ...".green)
 
@@ -112,8 +123,6 @@ trait OculusJobs {
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
-
-
 
   private def allOculusHadoopSettings(configuration: com.typesafe.config.Config) =
     configuration.getConfig("oculus").getConfig("hadoop").entrySet().toList.map(a => (a.getKey, a.getValue))

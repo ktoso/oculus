@@ -2,13 +2,14 @@ package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
 import pl.project13.scala.oculus.IPs
-import pl.project13.scala.scalding.hbase.MyHBaseSource
+import pl.project13.scala.scalding.hbase.{OculusStringConversions, MyHBaseSource}
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import org.apache.hadoop.io.IntWritable
 
 class CompareTwoMoviesJob(args: Args) extends Job(args)
+  with OculusStringConversions
   with Hashing {
 
   /** seq file with images */
@@ -24,6 +25,14 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
 
   val id1 = inputMovie1.asImmutableBytesWriteable
   val id2 = inputMovie2.asImmutableBytesWriteable
+
+  val Hashes = new MyHBaseSource(
+    tableName = "hashes",
+    quorumNames = IPs.HadoopMasterWithPort,
+    keyFields = 'mhHash,
+    familyNames = Array("youtube", "youtube"),
+    valueFields = Array('id, 'frame)
+  )
 
   val movie1 = 
     WritableSequenceFile(inputMovie1, ('key1, 'value))
@@ -52,6 +61,10 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
       _.sortBy('distance)
     }
     .write(Csv(output, writeHeader = true, fields = ('distance, 'id1, 'id2, 'h1, 'h2)))
+
+  Hashes
+    .read
+    .filter('id) { id: ImmutableBytesWritable => ibwToString(id) !=  }
 
 }
 
