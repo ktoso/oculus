@@ -11,6 +11,7 @@ object FixCascading {
   def getApplicationJarClass(clazz: Class[_]) {
     mockStatic(classOf[AppProps])
 
-    doReturn(clazz).when(AppProps.getApplicationJarClass(anyObject[AnyMap]))
+    when(AppProps.getApplicationJarClass(anyObject[AnyMap]))
+      .thenReturn(clazz)
   }
 }
