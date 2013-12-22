@@ -9,6 +9,7 @@ import com.typesafe.config.{ConfigFactory, Config}
 import org.apache.hadoop.fs.{Path, FileSystem, FileUtil}
 import java.io.File
 import com.google.common.base.Stopwatch
+import com.twitter.scalding.{Args, Mode}
 
 object JobRunner extends App with OculusJobs {
 
@@ -61,9 +62,14 @@ trait OculusJobs {
         "--input", seq
       )
 
+      val (mode, args) = tool.parseModeArgs(allArgs)
+
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
+      println("mode = " + mode)
+      println("args = " + args)
       println("-----------------------------------")
+
 
       ToolRunner.run(conf, tool, allArgs)
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
