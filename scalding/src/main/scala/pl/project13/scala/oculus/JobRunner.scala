@@ -1,6 +1,6 @@
 package pl.project13.scala.oculus
 
-import pl.project13.scala.oculus.job.{HashVideoSeqFilesJob, WordCountJob}
+import pl.project13.scala.oculus.job.{CompareTwoMoviesJob, HashVideoSeqFilesJob, WordCountJob}
 import org.apache.hadoop.util._
 import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
@@ -11,8 +11,6 @@ import java.io.File
 import com.google.common.base.Stopwatch
 import com.twitter.scalding._
 import org.apache.hadoop
-import cascading.property.PropertyUtil
-import java.lang.Class
 
 object JobRunner extends App with OculusJobs {
 
@@ -20,6 +18,7 @@ object JobRunner extends App with OculusJobs {
 
   val availableJobs =
     (0, "hash all files", hashAllSequenceFiles _) ::
+    (1, "compare two movies", compareTwoMovies _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -30,7 +29,7 @@ object JobRunner extends App with OculusJobs {
 
   val task = selected._3
 
-  task()
+  task(args)
 
 }
 
@@ -49,7 +48,7 @@ trait OculusJobs {
   }
 
 
-  def hashAllSequenceFiles() = {
+  def hashAllSequenceFiles(args: Seq[String]) = {
     val fs = FileSystem.get(conf)
     val seqFiles = fs.listStatus(new Path("hdfs:///oculus/source/")).map(_.getPath.toString)
 
@@ -70,15 +69,10 @@ trait OculusJobs {
         "--input", seq
       )
 
-      tool.setConf(conf)
-      val (mode, args) = tool.parseModeArgs(allArgs)
-
-      println("-----------------------------------")
-      println("allArgs = " + allArgs.toList)
-      println("mode = " + mode)
-      println("args = " + args)
-      println("cascading.app.appjar.class = " + jobClassName)
-      println("-----------------------------------")
+      println("-----------------------------------".bold)
+      println(("allArgs = " + allArgs.toList).bold)
+      println(("cascading.app.appjar.class = " + jobClassName).bold)
+      println("-----------------------------------".bold)
 
       Mode.mode = Hdfs(false, conf)
 
@@ -97,9 +91,30 @@ trait OculusJobs {
   }
 
 
+  def compareTwoMovies(args: Seq[String]) = {
+    val totalStopwatch = (new Stopwatch).start()
+
+    val jobClass = classOf[CompareTwoMoviesJob]
+    val jobClassName = jobClass.getCanonicalName
+
+    println(s"Starting execution of job $jobClassName ...".green)
+
+    val allArgs = List(
+      jobClassName,
+      "--hdfs", IPs.HadoopMasterWithPort
+    ) ++ args.toList
+
+    println("-----------------------------------".bold)
+    println(("allArgs = " + allArgs.toList).bold)
+    println("-----------------------------------".bold)
+
+    HadoopProcessRunner(allArgs.toList).runAndWait()
+
+    println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
+  }
 
 
 
-    private def allOculusHadoopSettings(configuration: com.typesafe.config.Config) =
-      configuration.getConfig("oculus").getConfig("hadoop").entrySet().toList.map(a => (a.getKey, a.getValue))
+  private def allOculusHadoopSettings(configuration: com.typesafe.config.Config) =
+    configuration.getConfig("oculus").getConfig("hadoop").entrySet().toList.map(a => (a.getKey, a.getValue))
 }

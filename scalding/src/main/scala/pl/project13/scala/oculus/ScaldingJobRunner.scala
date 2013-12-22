@@ -15,7 +15,7 @@ object ScaldingJobRunner extends App {
 
   val availableJobs =
     classOf[HashVideoSeqFilesJob] ::
-    classOf[CompareTwoMovies] ::
+    classOf[CompareTwoMoviesJob] ::
     classOf[HistogramSeqFilesJob] ::
     classOf[FindSimilarMovies] ::
     classOf[WordCountJob] ::
