@@ -39,8 +39,8 @@ object PHash {
     val mh = lines.find(_ contains MhPrefix) map { _.replace(MhPrefix, "") } getOrElse { throw new RuntimeException(s"Unable to find mh hash, in: [$s]") }
     val dct = lines.find(_ contains DctPrefix) map { _.replace(DctPrefix, "") } getOrElse { throw new RuntimeException(s"Unable to find dct hash, in: [$s]") }
 
-    println("mh = " + mh)
-    println("dct = " + dct)
+//    println("mh = " + mh)
+//    println("dct = " + dct)
 
     PHashResult(
       mhHash = mh.split(" ").map(a => padLeft(a.toInt.toHexString, 2, Zero)).mkString,
