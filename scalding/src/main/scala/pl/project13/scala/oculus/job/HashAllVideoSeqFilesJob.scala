@@ -47,7 +47,7 @@ class HashAllVideoSeqFilesJob(args: Args) extends Job(args)
   override var youtubeId = "???"
 
 
-  
+
   seqFiles foreach { hashingJob }
 
 
