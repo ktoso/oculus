@@ -62,9 +62,5 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
     }
     .write(Csv(output, writeHeader = true, fields = ('distance, 'id1, 'id2, 'h1, 'h2)))
 
-  Hashes
-    .read
-    .filter('id) { id: ImmutableBytesWritable => ibwToString(id) !=  }
-
 }
 
