@@ -62,6 +62,7 @@ trait OculusJobs {
         "--input", seq
       )
 
+      println("tool = " + tool)
       val (mode, args) = tool.parseModeArgs(allArgs)
 
       println("-----------------------------------")
