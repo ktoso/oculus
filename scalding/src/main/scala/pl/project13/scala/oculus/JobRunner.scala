@@ -34,7 +34,7 @@ object JobRunner extends App with OculusJobs {
 trait OculusJobs {
   import pl.project13.scala.rainbow._
 
-  private val conf = new Configuration
+  private val conf = new Configuration(false)
   private val tool = new scalding.Tool
 
   /** Override if you need other than default settings - loads up ''application.conf'' */
