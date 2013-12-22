@@ -32,7 +32,7 @@ object JobRunner extends App with OculusJobs {
 
   val task = selected._3
 
-  task(args)
+  task(args.tail)
 
 }
 
