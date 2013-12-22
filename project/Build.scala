@@ -53,6 +53,7 @@ object Versions {
   val akka = "2.1.4"
 
   val scalding = "0.8.6"
+  val cascading = "2.1.6"
 
   val fest = "1.4"
   val lift = "2.5-M4"
@@ -64,13 +65,16 @@ object Dependencies {
   import Resolvers._
   import Versions._
 
+//  lazy val spyGlass     = "parallelai"       % "parallelai.spyglass" % "2.0.3"
+
   // scalding
-  lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
+  lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources() exclude("cascading", "cascading-local")
   lazy val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
   lazy val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
-  lazy val cascadingLocal = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
-//  lazy val spyGlass     = "parallelai"       % "parallelai.spyglass" % "2.0.3"
-  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
+
+  lazy val cascadingLocal = "cascading"      % "cascading-local"     % Versions.cascading % "test" withSources()
+
+  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, cascadingLocal)
 
   // hadoop
 //  lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
