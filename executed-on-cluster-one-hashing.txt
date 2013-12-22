@@ -1,0 +1,42 @@
+hadoop jar /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar pl.project13.scala.oculus.job.HashVideoSeqFilesJob --hdfs --input /oculus/source/XgHfHxKVM.mp4.seq
+
+13/12/22 17:11:39 INFO util.HadoopUtil: resolving application jar from found main method on: com.twitter.scalding.Tool$
+13/12/22 17:11:39 INFO planner.HadoopPlanner: using application jar: /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar
+13/12/22 17:11:39 INFO property.AppProps: using app.id: 022415155CAC634D0A6607FDCA934B82
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:zookeeper.version=3.4.5-1392090, built on 09/30/2012 17:52 GMT
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:host.name=oculus-master.c.oculus-hadoop.internal
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.version=1.7.0_25
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.vendor=Oracle Corporation
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.home=/usr/lib/jvm/java-7-openjdk-amd64/jre
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.class.path=/opt/hadoop-1.2.1/libexec/../conf:/usr/lib/jvm/java-1.7.0-openjdk-amd64/lib/tools.jar:/opt/hadoop-1.2.1/libexec/..:/opt/hadoop-1.2.1/libexec/../hadoop-core-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/asm-3.2.jar:/opt/hadoop-1.2.1/libexec/../lib/aspectjrt-1.6.11.jar:/opt/hadoop-1.2.1/libexec/../lib/aspectjtools-1.6.11.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-beanutils-1.7.0.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-beanutils-core-1.8.0.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-cli-1.2.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-codec-1.4.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-collections-3.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-configuration-1.6.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-daemon-1.0.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-digester-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-el-1.0.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-httpclient-3.0.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-io-2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-lang-2.4.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-logging-1.1.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-logging-api-1.0.4.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-math-2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-net-3.1.jar:/opt/hadoop-1.2.1/libexec/../lib/core-3.1.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hadoop-capacity-scheduler-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hadoop-fairscheduler-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hadoop-thriftfs-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hsqldb-1.8.0.10.jar:/opt/hadoop-1.2.1/libexec/../lib/jackson-core-asl-1.8.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jackson-mapper-asl-1.8.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jasper-compiler-5.5.12.jar:/opt/hadoop-1.2.1/libexec/../lib/jasper-runtime-5.5.12.jar:/opt/hadoop-1.2.1/libexec/../lib/jdeb-0.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jersey-core-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jersey-json-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jersey-server-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jets3t-0.6.1.jar:/opt/hadoop-1.2.1/libexec/../lib/jetty-6.1.26.jar:/opt/hadoop-1.2.1/libexec/../lib/jetty-util-6.1.26.jar:/opt/hadoop-1.2.1/libexec/../lib/jsch-0.1.42.jar:/opt/hadoop-1.2.1/libexec/../lib/junit-4.5.jar:/opt/hadoop-1.2.1/libexec/../lib/kfs-0.2.2.jar:/opt/hadoop-1.2.1/libexec/../lib/log4j-1.2.15.jar:/opt/hadoop-1.2.1/libexec/../lib/mockito-all-1.8.5.jar:/opt/hadoop-1.2.1/libexec/../lib/oro-2.0.8.jar:/opt/hadoop-1.2.1/libexec/../lib/servlet-api-2.5-20081211.jar:/opt/hadoop-1.2.1/libexec/../lib/slf4j-api-1.4.3.jar:/opt/hadoop-1.2.1/libexec/../lib/slf4j-log4j12-1.4.3.jar:/opt/hadoop-1.2.1/libexec/../lib/xmlenc-0.52.jar:/opt/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-api-2.1.jar
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.library.path=/opt/hadoop-1.2.1/libexec/../lib/native/Linux-amd64-64
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.io.tmpdir=/tmp
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:java.compiler=<NA>
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:os.name=Linux
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:os.arch=amd64
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:os.version=3.2.0-4-amd64
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:user.name=kmalawski
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:user.home=/home/kmalawski
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Client environment:user.dir=/home/kmalawski/oculus
+13/12/22 17:11:39 INFO zookeeper.ZooKeeper: Initiating client connection, connectString=108.59.81.83:2181 sessionTimeout=180000 watcher=hconnection
+13/12/22 17:11:39 INFO zookeeper.RecoverableZooKeeper: The identifier of this process is 26252@oculus-master.c.oculus-hadoop.internal
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: Opening socket connection to server 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181. Will not attempt to authenticate using SASL (unknown error)
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: Socket connection established to 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181, initiating session
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: Session establishment complete on server 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181, sessionid = 0x14317df59620171, negotiated timeout = 180000
+13/12/22 17:11:40 INFO zookeeper.ZooKeeper: Initiating client connection, connectString=108.59.81.83:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@2192f3a7
+13/12/22 17:11:40 INFO zookeeper.RecoverableZooKeeper: The identifier of this process is 26252@oculus-master.c.oculus-hadoop.internal
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: Opening socket connection to server 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181. Will not attempt to authenticate using SASL (unknown error)
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: Socket connection established to 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181, initiating session
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: Session establishment complete on server 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181, sessionid = 0x14317df59620172, negotiated timeout = 180000
+13/12/22 17:11:40 INFO zookeeper.ClientCnxn: EventThread shut down
+13/12/22 17:11:40 INFO zookeeper.ZooKeeper: Session: 0x14317df59620172 closed
+13/12/22 17:11:40 INFO util.Version: Concurrent, Inc - Cascading 2.1.6
+13/12/22 17:11:40 INFO flow.Flow: [pl.project13.scala.ocu...] starting
+13/12/22 17:11:40 INFO flow.Flow: [pl.project13.scala.ocu...]  source: Hfs["WritableSequenceFile[['key', 'value']]"]["/oculus/source/XMXgHfHxKVM.mp4.seq"]
+13/12/22 17:11:40 INFO flow.Flow: [pl.project13.scala.ocu...]  sink: HBaseTap["HBaseScheme[['mhHash', 'id', 'frame']]"]["e2104b13-941d-474b-bfd0-d3f8d261e361"]
+13/12/22 17:11:40 INFO flow.Flow: [pl.project13.scala.ocu...]  parallel execution is enabled: true
+13/12/22 17:11:40 INFO flow.Flow: [pl.project13.scala.ocu...]  starting jobs: 1
+13/12/22 17:11:40 INFO flow.Flow: [pl.project13.scala.ocu...]  allocating threads: 1
+13/12/22 17:11:40 INFO flow.FlowStep: [pl.project13.scala.ocu...] starting step: (1/1) ...1d-474b-bfd0-d3f8d261e361
+13/12/22 17:11:43 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/12/22 17:11:43 INFO flow.FlowStep: [pl.project13.scala.ocu...] submitted hadoop job: job_201312220106_0004

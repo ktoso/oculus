@@ -6,7 +6,7 @@ import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.io.IntWritable
 
-  class HashVideoSeqFilesJob(args: Args) extends Job(args)
+class HashVideoSeqFilesJob(args: Args) extends Job(args)
   with TupleConversions
   with Hashing {
 
