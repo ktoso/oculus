@@ -9,7 +9,7 @@ import com.typesafe.config.{ConfigFactory, Config}
 import org.apache.hadoop.fs.{Path, FileSystem, FileUtil}
 import java.io.File
 import com.google.common.base.Stopwatch
-import com.twitter.scalding.{Hdfs, Args, Mode}
+import com.twitter.scalding.{Job, Hdfs, Args, Mode}
 import org.apache.hadoop
 
 object JobRunner extends App with OculusJobs {
@@ -70,7 +70,7 @@ trait OculusJobs {
       tool.setConf(conf)
       val (mode, args) = tool.parseModeArgs(allArgs)
 
-      conf.setClass("cascading.app.appjar.class", jobClass, classOf[Class[_]])
+      conf.setClass("cascading.app.appjar.class", jobClass, classOf[Job])
 
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
