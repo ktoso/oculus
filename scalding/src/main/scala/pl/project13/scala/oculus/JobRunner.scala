@@ -10,6 +10,7 @@ import org.apache.hadoop.fs.{Path, FileSystem, FileUtil}
 import java.io.File
 import com.google.common.base.Stopwatch
 import com.twitter.scalding.{Args, Mode}
+import org.apache.hadoop
 
 object JobRunner extends App with OculusJobs {
 
@@ -58,7 +59,7 @@ trait OculusJobs {
       val stopwatch = (new Stopwatch).start()
       val allArgs = Array(
         classOf[HashVideoSeqFilesJob].getCanonicalName,
-        "--hdfs", IPs.HadoopMasterWithPort,
+        "--hdfs", //IPs.HadoopMasterWithPort,
         "--input", seq
       )
 
@@ -71,8 +72,7 @@ trait OculusJobs {
       println("args = " + args)
       println("-----------------------------------")
 
-
-      ToolRunner.run(conf, tool, allArgs)
+      hadoop.util.ToolRunner.run(new hadoop.conf.Configuration, new scalding.Tool, allArgs)
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
 
