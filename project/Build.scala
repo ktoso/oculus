@@ -177,11 +177,12 @@ object ScaldingAssembly {
 //    },
 
     mergeStrategy in assembly <<= (mergeStrategy in assembly) { old => {
-        case "project.clj"          => MergeStrategy.discard // Leiningen build files
-        case "MANIFEST.MF"          => MergeStrategy.discard // Leiningen build files
-        case "META-INF/MANIFEST.MF" => MergeStrategy.discard // Leiningen build files
-        case _                      => MergeStrategy.first // Leiningen build files
-//        case x => old(x)
+        case PathList("META-INF", xs @ _*) =>
+          xs map { _.toLowerCase } match {
+            case ("manifest.mf" :: Nil) | ("index.list" :: Nil) | ("dependencies" :: Nil) => MergeStrategy.discard
+            case _ => MergeStrategy.discard
+          }
+        case _ => MergeStrategy.first
       }
     }
   )
@@ -213,7 +214,8 @@ object OculusBuild extends Build {
     settings = buildSettings ++ assemblySettings ++ sbtAssemblySettings ++
       Seq(
         libraryDependencies ++= hadoops ++ scaldingAll ++ akka2Full ++ testing ++ Seq(hPaste), // ++ powerMockAll,
-        mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
+        mainClass in assembly := Some("com.twitter.scalding.Tool")
+//        mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   ) dependsOn (common)
 
@@ -222,8 +224,7 @@ object OculusBuild extends Build {
     file("downloader"),
     settings = buildSettings ++ assemblySettings ++ Seq(
       libraryDependencies ++= Seq(jsoup) ++ akka2Full ++ hadoops ++ testing ++ Seq(hPaste),
-      mainClass in assembly := Some("com.twitter.scalding.Tool")
-//      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
+      mainClass in assembly := Some("pl.project13.scala.oculus.DownloaderRunner")
     ) ++ Seq(
       mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
         {
