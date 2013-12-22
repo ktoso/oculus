@@ -23,7 +23,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'refHash,
-    familyNames = Array("youtube"),
+    familyNames = Array("youtube", "youtube"),
     valueFields = Array('id, 'second)
   )
 

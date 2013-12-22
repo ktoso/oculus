@@ -1,18 +1,14 @@
 package pl.project13.scala.oculus
 
 import pl.project13.scala.oculus.job._
-import org.apache.hadoop.util._
 import com.twitter.scalding
 import org.apache.hadoop.conf.Configuration
 import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
-import org.apache.hadoop.fs.{Path, FileSystem, FileUtil}
-import java.io.File
+import org.apache.hadoop.fs.{Path, FileSystem}
 import com.google.common.base.Stopwatch
 import com.twitter.scalding._
-import org.apache.hadoop
 import com.twitter.scalding.Hdfs
-import pl.project13.scala.oculus.HadoopProcessRunner
 
 object JobRunner extends App with OculusJobs {
 
