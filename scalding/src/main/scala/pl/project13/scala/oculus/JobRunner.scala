@@ -55,10 +55,13 @@ trait OculusJobs {
 
     val totalStopwatch = (new Stopwatch).start()
 
+    val jobClassName = classOf[HashVideoSeqFilesJob].getCanonicalName
+
     for(seq <- seqFiles) {
       val stopwatch = (new Stopwatch).start()
+
       val allArgs = Array(
-        classOf[HashVideoSeqFilesJob].getCanonicalName,
+        jobClassName,
         "--hdfs", IPs.HadoopMasterWithPort,
         "--input", seq
       )
@@ -66,11 +69,13 @@ trait OculusJobs {
       tool.setConf(conf)
       val (mode, args) = tool.parseModeArgs(allArgs)
 
+      conf.set("cascading.app.appjar.class", jobClassName)
+
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
       println("mode = " + mode)
       println("args = " + args)
-      println("Mode.mode = " + Mode.mode)
+      println("cascading.app.appjar.class = " + jobClassName)
       println("-----------------------------------")
 
       Mode.mode = Hdfs(strict = true, conf)
