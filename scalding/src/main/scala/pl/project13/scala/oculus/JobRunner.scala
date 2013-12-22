@@ -61,6 +61,7 @@ trait OculusJobs {
     val jobClassName = jobClass.getCanonicalName
 
     for(seq <- seqFiles) {
+      println(s"Starting execution of jobs for $seq ...".green)
       val stopwatch = (new Stopwatch).start()
 
       val allArgs = Array(
@@ -81,11 +82,14 @@ trait OculusJobs {
 
       Mode.mode = Hdfs(false, conf)
 
-      // todo oh my god, the pain!
+//      // todo oh my god, the pain!
 //      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
 //      FixCascading.getApplicationJarClass(classOf[hadoop.util.Tool])
+//
+//      hadoop.util.ToolRunner.run(conf, tool, allArgs)
 
-      hadoop.util.ToolRunner.run(conf, tool, allArgs)
+      HadoopProcessRunner(allArgs.toList).runAndWait()
+
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
 
