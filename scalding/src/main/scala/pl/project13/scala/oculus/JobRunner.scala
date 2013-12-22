@@ -82,9 +82,9 @@ trait OculusJobs {
       Mode.mode = Hdfs(false, conf)
 
       // todo oh my god, the pain!
-      FixCascading.getApplicationJarClass(jobClass)
+//      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
+      FixCascading.getApplicationJarClass(classOf[hadoop.util.Tool])
 
-      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
       hadoop.util.ToolRunner.run(conf, tool, allArgs)
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }

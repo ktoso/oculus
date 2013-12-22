@@ -7,6 +7,7 @@ import org.apache.hadoop.conf.Configuration
 import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
 import com.twitter.scalding.Mode
+import org.apache.hadoop
 
 object ScaldingJobRunner extends App {
 
@@ -32,6 +33,7 @@ object ScaldingJobRunner extends App {
   /** Override if you need other than default settings - loads up ''application.conf'' */
   def appConfig: Config = ConfigFactory.load()
 
+  conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
   conf.setStrings("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>
     conf.setStrings(key, value.unwrapped.toString)

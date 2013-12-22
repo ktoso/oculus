@@ -80,8 +80,7 @@ object Dependencies {
     Seq(
       "org.powermock" % "powermock"               % "1.5.2",
       "org.powermock" % "powermock-api-mockito"   % "1.5.2",
-      "org.powermock" % "powermock-module-junit4" % "1.5.2",
-      mockito
+      "org.powermock" % "powermock-module-junit4" % "1.5.2"
     )
 
   // hadoop
