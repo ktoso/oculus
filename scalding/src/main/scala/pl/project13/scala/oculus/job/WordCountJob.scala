@@ -1,4 +1,4 @@
-package pl.project13.scala.oculus.job
+  package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
 
