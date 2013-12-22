@@ -11,6 +11,8 @@ import java.io.File
 import com.google.common.base.Stopwatch
 import com.twitter.scalding.{Job, Hdfs, Args, Mode}
 import org.apache.hadoop
+import cascading.property.PropertyUtil
+import java.lang.Class
 
 object JobRunner extends App with OculusJobs {
 
@@ -70,7 +72,7 @@ trait OculusJobs {
       tool.setConf(conf)
       val (mode, args) = tool.parseModeArgs(allArgs)
 
-      conf.setClass("cascading.app.appjar.class", jobClass, classOf[Serializable])
+      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
 
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
