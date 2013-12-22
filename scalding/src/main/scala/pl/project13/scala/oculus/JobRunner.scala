@@ -70,8 +70,7 @@ trait OculusJobs {
       tool.setConf(conf)
       val (mode, args) = tool.parseModeArgs(allArgs)
 
-      conf.setClass("cascading.app.appjar.class", jobClass, classOf[Job])
-      conf.getClass("cascading.app.appjar.class", null)
+      conf.setClass("cascading.app.appjar.class", jobClass, null)
 
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
