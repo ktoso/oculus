@@ -44,16 +44,12 @@ class HashAllVideoSeqFilesJob(args: Args) extends Job(args)
     valueFields = Array('id, 'frame)
   )
 
-  override var youtubeId = "???"
-
-
+  override def youtubeId = "???"
 
   seqFiles foreach { hashingJob }
 
 
   def hashingJob(input: String) = {
-
-    youtubeId = FilenameUtils.getBaseName(input)
     WritableSequenceFile(input, ('key, 'value))
       .read
       .rename('key, 'frame)
