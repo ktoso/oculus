@@ -69,10 +69,7 @@ trait OculusJobs {
         "--input", seq
       )
 
-      tool.setConf(conf)
       val (mode, args) = tool.parseModeArgs(allArgs)
-
-      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
 
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
@@ -81,9 +78,8 @@ trait OculusJobs {
       println("cascading.app.appjar.class = " + jobClassName)
       println("-----------------------------------")
 
-      Mode.mode = Hdfs(strict = true, conf)
-      println("Mode.mode set manualy = " + Mode.mode)
 
+      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
       hadoop.util.ToolRunner.run(conf, tool, allArgs)
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
