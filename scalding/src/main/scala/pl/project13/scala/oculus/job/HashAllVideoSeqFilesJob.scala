@@ -52,6 +52,7 @@ class HashAllVideoSeqFilesJob(args: Args) extends Job(args)
   def hashingJob(input: String) = {
     WritableSequenceFile(input, ('key, 'value))
       .read
+      .name("phashing-" + FilenameUtils.getBaseName(input))
       .rename('key, 'frame)
       .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
         youtubeId.asImmutableBytesWriteable -> mhHash(p)
