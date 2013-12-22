@@ -68,13 +68,13 @@ object Dependencies {
 //  lazy val spyGlass     = "parallelai"       % "parallelai.spyglass" % "2.0.3"
 
   // scalding
-  lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources() exclude("cascading", "cascading-local")
+  lazy val scaldingCore = "com.twitter"     %% "scalding-core"       % Versions.scalding withSources()
   lazy val scaldingDate = "com.twitter"     %% "scalding-date"       % Versions.scalding withSources()
   lazy val scaldingArgs = "com.twitter"     %% "scalding-args"       % Versions.scalding withSources()
 
-  lazy val cascadingLocal = "cascading"      % "cascading-local"     % Versions.cascading % "test" withSources()
+//  lazy val cascadingLocal = "cascading"      % "cascading-local"     % Versions.cascading % "test" withSources()
 
-  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs, cascadingLocal)
+  lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
   // hadoop
 //  lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
