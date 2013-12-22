@@ -60,7 +60,7 @@ trait OculusJobs {
       val allArgs = Array(
         classOf[HashVideoSeqFilesJob].getCanonicalName,
         "--hdfs", //IPs.HadoopMasterWithPort,
-        "--input", seq
+        "--input", seq.toString.replaceAll("hdfs://108.59.81.83:9000", "")
       )
 
       tool.setConf(conf)
