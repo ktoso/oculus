@@ -55,7 +55,7 @@ trait OculusJobs {
 
     val totalStopwatch = (new Stopwatch).start()
 
-    val jobClass: Class[HashVideoSeqFilesJob] = classOf[HashVideoSeqFilesJob]
+    val jobClass = classOf[HashVideoSeqFilesJob]
     val jobClassName = jobClass.getCanonicalName
 
     for(seq <- seqFiles) {
@@ -70,7 +70,7 @@ trait OculusJobs {
       tool.setConf(conf)
       val (mode, args) = tool.parseModeArgs(allArgs)
 
-      conf.setClass("cascading.app.appjar.class", jobClass, null)
+      conf.setClass("cascading.app.appjar.class", jobClass, classOf[Serializable])
 
       println("-----------------------------------")
       println("allArgs = " + allArgs.toList)
