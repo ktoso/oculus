@@ -52,7 +52,8 @@ object Versions {
 
   val akka = "2.1.4"
 
-  val scalding = "0.8.8"
+//  val scalding = "0.8.8"
+  val scalding = "0.9.0rc4"
   val cascading = "2.1.6"
 
   val fest = "1.4"
