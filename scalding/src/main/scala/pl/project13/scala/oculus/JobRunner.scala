@@ -79,20 +79,10 @@ trait OculusJobs {
       println("cascading.app.appjar.class = " + jobClassName)
       println("-----------------------------------")
 
-      case class Hdfs(strict : Boolean, conf : Configuration) extends Mode(strict) with HadoopMode {
-        override def jobConf = conf
-        override def fileExists(filename : String) : Boolean =
-          FileSystem.get(jobConf).exists(new Path(filename))
-
-        override def config = {
-          val a = jobConf.foldLeft(Map[AnyRef, AnyRef]()) {
-            (acc, kv) => acc + ((kv.getKey, kv.getValue))
-          }
-          a
-        }
-      }
-
       Mode.mode = Hdfs(false, conf)
+
+      // todo oh my god, the pain!
+      FixCascading.getApplicationJarClass(jobClass)
 
       conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
       hadoop.util.ToolRunner.run(conf, tool, allArgs)
