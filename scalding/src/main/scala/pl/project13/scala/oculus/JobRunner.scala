@@ -9,7 +9,7 @@ import com.typesafe.config.{ConfigFactory, Config}
 import org.apache.hadoop.fs.{Path, FileSystem, FileUtil}
 import java.io.File
 import com.google.common.base.Stopwatch
-import com.twitter.scalding.{Job, Hdfs, Args, Mode}
+import com.twitter.scalding._
 import org.apache.hadoop
 import cascading.property.PropertyUtil
 import java.lang.Class
@@ -79,6 +79,20 @@ trait OculusJobs {
       println("cascading.app.appjar.class = " + jobClassName)
       println("-----------------------------------")
 
+      case class Hdfs(strict : Boolean, conf : Configuration) extends Mode(strict) with HadoopMode {
+        override def jobConf = conf
+        override def fileExists(filename : String) : Boolean =
+          FileSystem.get(jobConf).exists(new Path(filename))
+
+        override def config = {
+          val a = jobConf.foldLeft(Map[AnyRef, AnyRef]()) {
+            (acc, kv) => acc + ((kv.getKey, kv.getValue))
+          }
+          a
+        }
+      }
+
+      Mode.mode = Hdfs(false, conf)
 
       conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
       hadoop.util.ToolRunner.run(conf, tool, allArgs)

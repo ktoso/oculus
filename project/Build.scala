@@ -76,6 +76,8 @@ object Dependencies {
 
   lazy val scaldingAll = Seq(scaldingCore, scaldingDate, scaldingArgs)
 
+  lazy val powerMock = "org.powermock" % "powermock" % "1.5.2""
+
   // hadoop
 //  lazy val hadoopCore   = "org.apache.hadoop" % "hadoop-core"   % "2.0.0-mr1-cdh4.3.0"
 //  lazy val hadoopClient = "org.apache.hadoop" % "hadoop-client" % "2.0.0-mr1-cdh4.3.0"
@@ -203,7 +205,7 @@ object OculusBuild extends Build {
     file("scalding"),
     settings = buildSettings ++ assemblySettings ++ sbtAssemblySettings ++
       Seq(
-        libraryDependencies ++= hadoops ++ scaldingAll ++ akka2Full ++ testing ++ Seq(hPaste),
+        libraryDependencies ++= hadoops ++ scaldingAll ++ akka2Full ++ testing ++ Seq(hPaste, powerMock),
         mainClass in assembly := Some("pl.project13.scala.oculus.ScaldingJobRunner")
       ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
   ) dependsOn (common)
