@@ -176,10 +176,12 @@ object ScaldingAssembly {
 //      cp filter { jar => excludes(jar.data.getName) }
 //    },
 
-    mergeStrategy in assembly <<= (mergeStrategy in assembly) {
-      (old) => {
-        case "project.clj" => MergeStrategy.discard // Leiningen build files
-        case x => old(x)
+    mergeStrategy in assembly <<= (mergeStrategy in assembly) { old => {
+        case "project.clj"          => MergeStrategy.discard // Leiningen build files
+        case "MANIFEST.MF"          => MergeStrategy.discard // Leiningen build files
+        case "META-INF/MANIFEST.MF" => MergeStrategy.discard // Leiningen build files
+        case _                      => MergeStrategy.first // Leiningen build files
+//        case x => old(x)
       }
     }
   )
