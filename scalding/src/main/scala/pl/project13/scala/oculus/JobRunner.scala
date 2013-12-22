@@ -57,8 +57,8 @@ trait OculusJobs {
     for(seq <- seqFiles) {
       val stopwatch = (new Stopwatch).start()
       val allArgs = Array(
-        "--hdfs", IPs.HadoopMasterWithPort,
         classOf[HashVideoSeqFilesJob].getCanonicalName,
+        "--hdfs", IPs.HadoopMasterWithPort,
         "--input", seq
       )
 
