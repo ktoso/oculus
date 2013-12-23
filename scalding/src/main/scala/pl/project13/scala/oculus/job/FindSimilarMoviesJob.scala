@@ -9,15 +9,18 @@ import pl.project13.scala.oculus.distance.Distance
 import com.twitter.scalding.typed.Joiner
 import pl.project13.scala.oculus.phash.PHash
 import org.apache.hadoop.io.BytesWritable
+import pl.project13.scala.oculus.conversions.OculusRichPipe
 
 class FindSimilarMoviesJob(args: Args) extends Job(args)
+  with OculusRichPipe
+  with Histograms
   with Hashing {
 
   /** seq file with images */
   val inputId = args("id")
 
-//  val output = args("output")
-  val output = "/oculus/similar-to-" + inputId + ".out"
+  val outputDistances = "/oculus/similar-to-" + inputId + "-distances.out"
+  val outputRanking = "/oculus/similar-to-" + inputId + ".out"
 
   implicit val mode = Read
 
@@ -52,7 +55,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
   val otherHashes =
     Hashes
       .read
-      .filter('id) { id: ImmutableBytesWritable => ! (ibwToString(id) contains inputId) }
+      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
@@ -66,14 +69,24 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 
 //  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
 
-  otherHashes.crossWithTiny(inputHashes)
+  val distances = otherHashes.crossWithTiny(inputHashes)
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
     .groupAll { _.sortBy('distance) }
-    .write(Tsv(output, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
+
+  // write out, mostly for debugging
+  distances
+    .write(Tsv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
+
+  // group and find most similar movies
+  distances
+    .groupBy('idRef) { group =>
+      group.sum('distance -> 'totalDistance)
+    }
+    .write(Tsv(outputRanking, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
 
 //  referenceHashes.crossWithTiny(frameHashes)
 //    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>

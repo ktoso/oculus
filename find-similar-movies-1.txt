@@ -1,0 +1,53 @@
+Starting execution of job pl.project13.scala.oculus.job.FindSimilarMoviesJob ...
+-----------------------------------
+allArgs = List(pl.project13.scala.oculus.job.FindSimilarMoviesJob, --hdfs, 108.59.81.83:9000, --id, HTYBXw-RlzM)
+-----------------------------------
+hadoop: 13/12/23 18:46:06 INFO util.HadoopUtil: resolving application jar from found main method on: com.twitter.scalding.Tool$
+hadoop: 13/12/23 18:46:06 INFO planner.HadoopPlanner: using application jar: /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar
+hadoop: 13/12/23 18:46:06 INFO property.AppProps: using app.id: 9A3B7F2EADC0E7A2D14A83C03B8F63CE
+hadoop: 13/12/23 18:46:07 INFO util.Version: Concurrent, Inc - Cascading 2.1.6
+hadoop: 13/12/23 18:46:07 INFO flow.Flow: [pl.project13.scala.ocu...] starting
+hadoop: 13/12/23 18:46:07 INFO flow.Flow: [pl.project13.scala.ocu...]  source: HBaseTap["HBaseScheme[['hash', 'id', 'second']]"]["3b55d022-f0a3-4aa7-8c2b-e9bf55164230"]
+hadoop: 13/12/23 18:46:07 INFO flow.Flow: [pl.project13.scala.ocu...]  sink: Hfs["TextDelimited[['distance', 'idFrame', 'idRef', 'secondFrame', 'secondRef', 'hashFrame', 'hashRef']]"]["/oculus/similar-to-HTYBXw-RlzM.out"]
+hadoop: 13/12/23 18:46:07 INFO flow.Flow: [pl.project13.scala.ocu...]  parallel execution is enabled: true
+hadoop: 13/12/23 18:46:07 INFO flow.Flow: [pl.project13.scala.ocu...]  starting jobs: 2
+hadoop: 13/12/23 18:46:07 INFO flow.Flow: [pl.project13.scala.ocu...]  allocating threads: 2
+hadoop: 13/12/23 18:46:07 INFO flow.FlowStep: [pl.project13.scala.ocu...] starting step: (2/2)
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:zookeeper.version=3.4.5-1392090, built on 09/30/2012 17:52 GMT
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:host.name=oculus-master.c.oculus-hadoop.internal
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.version=1.7.0_25
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.vendor=Oracle Corporation
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.home=/usr/lib/jvm/java-7-openjdk-amd64/jre
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.class.path=/opt/hadoop-1.2.1/libexec/../conf:/usr/lib/jvm/java-1.7.0-openjdk-amd64/lib/tools.jar:/opt/hadoop-1.2.1/libexec/..:/opt/hadoop-1.2.1/libexec/../hadoop-core-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/asm-3.2.jar:/opt/hadoop-1.2.1/libexec/../lib/aspectjrt-1.6.11.jar:/opt/hadoop-1.2.1/libexec/../lib/aspectjtools-1.6.11.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-beanutils-1.7.0.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-beanutils-core-1.8.0.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-cli-1.2.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-codec-1.4.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-collections-3.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-configuration-1.6.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-daemon-1.0.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-digester-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-el-1.0.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-httpclient-3.0.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-io-2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-lang-2.4.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-logging-1.1.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-logging-api-1.0.4.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-math-2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/commons-net-3.1.jar:/opt/hadoop-1.2.1/libexec/../lib/core-3.1.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hadoop-capacity-scheduler-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hadoop-fairscheduler-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hadoop-thriftfs-1.2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/hsqldb-1.8.0.10.jar:/opt/hadoop-1.2.1/libexec/../lib/jackson-core-asl-1.8.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jackson-mapper-asl-1.8.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jasper-compiler-5.5.12.jar:/opt/hadoop-1.2.1/libexec/../lib/jasper-runtime-5.5.12.jar:/opt/hadoop-1.2.1/libexec/../lib/jdeb-0.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jersey-core-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jersey-json-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jersey-server-1.8.jar:/opt/hadoop-1.2.1/libexec/../lib/jets3t-0.6.1.jar:/opt/hadoop-1.2.1/libexec/../lib/jetty-6.1.26.jar:/opt/hadoop-1.2.1/libexec/../lib/jetty-util-6.1.26.jar:/opt/hadoop-1.2.1/libexec/../lib/jsch-0.1.42.jar:/opt/hadoop-1.2.1/libexec/../lib/junit-4.5.jar:/opt/hadoop-1.2.1/libexec/../lib/kfs-0.2.2.jar:/opt/hadoop-1.2.1/libexec/../lib/log4j-1.2.15.jar:/opt/hadoop-1.2.1/libexec/../lib/mockito-all-1.8.5.jar:/opt/hadoop-1.2.1/libexec/../lib/oro-2.0.8.jar:/opt/hadoop-1.2.1/libexec/../lib/servlet-api-2.5-20081211.jar:/opt/hadoop-1.2.1/libexec/../lib/slf4j-api-1.4.3.jar:/opt/hadoop-1.2.1/libexec/../lib/slf4j-log4j12-1.4.3.jar:/opt/hadoop-1.2.1/libexec/../lib/xmlenc-0.52.jar:/opt/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-2.1.jar:/opt/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-api-2.1.jar
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.library.path=/opt/hadoop-1.2.1/libexec/../lib/native/Linux-amd64-64
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.io.tmpdir=/tmp
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:java.compiler=<NA>
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:os.name=Linux
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:os.arch=amd64
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:os.version=3.2.0-4-amd64
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:user.name=kmalawski
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:user.home=/home/kmalawski
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Client environment:user.dir=/home/kmalawski/oculus
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ZooKeeper: Initiating client connection, connectString=108.59.81.83:2181 sessionTimeout=180000 watcher=hconnection
+hadoop: 13/12/23 18:46:12 INFO zookeeper.RecoverableZooKeeper: The identifier of this process is 5912@oculus-master.c.oculus-hadoop.internal
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ClientCnxn: Opening socket connection to server 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181. Will not attempt to authenticate using SASL (unknown error)
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ClientCnxn: Socket connection established to 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181, initiating session
+hadoop: 13/12/23 18:46:12 INFO zookeeper.ClientCnxn: Session establishment complete on server 83.81.59.108.bc.googleusercontent.com/108.59.81.83:2181, sessionid = 0x1431c9c99050fda, negotiated timeout = 180000
+hadoop: 13/12/23 18:46:13 INFO mapred.TableInputFormatBase: split: 0->oculus-1.c.oculus-hadoop.internal:,5e264746e23a569a8e3ad68713b3a0e4bfbb53629a4dae8d71929506ae964b9b5db169c6ccd2d57e1e1a5a48d7b624e2720fd136d9bce160301475101f747f493e7ab895dc47f431
+hadoop: 13/12/23 18:46:13 INFO mapred.TableInputFormatBase: split: 1->oculus-2.c.oculus-hadoop.internal:5e264746e23a569a8e3ad68713b3a0e4bfbb53629a4dae8d71929506ae964b9b5db169c6ccd2d57e1e1a5a48d7b624e2720fd136d9bce160301475101f747f493e7ab895dc47f431,
+hadoop: 13/12/23 18:46:13 INFO flow.FlowStep: [pl.project13.scala.ocu...] submitted hadoop job: job_201312222319_0079
+hadoop: 13/12/23 18:47:23 INFO flow.FlowStep: [pl.project13.scala.ocu...] starting step: (1/2) ...imilar-to-HTYBXw-RlzM.out
+hadoop: 13/12/23 18:47:29 INFO mapred.TableInputFormatBase: split: 0->oculus-1.c.oculus-hadoop.internal:,5e264746e23a569a8e3ad68713b3a0e4bfbb53629a4dae8d71929506ae964b9b5db169c6ccd2d57e1e1a5a48d7b624e2720fd136d9bce160301475101f747f493e7ab895dc47f431
+hadoop: 13/12/23 18:47:29 INFO mapred.TableInputFormatBase: split: 1->oculus-2.c.oculus-hadoop.internal:5e264746e23a569a8e3ad68713b3a0e4bfbb53629a4dae8d71929506ae964b9b5db169c6ccd2d57e1e1a5a48d7b624e2720fd136d9bce160301475101f747f493e7ab895dc47f431,
+hadoop: 13/12/23 18:47:29 INFO flow.FlowStep: [pl.project13.scala.ocu...] submitted hadoop job: job_201312222319_0080
+hadoop: 13/12/23 18:50:34 INFO util.Hadoop18TapUtil: deleting temp path /oculus/similar-to-HTYBXw-RlzM.out/_temporary
+Finished running all jobs. Took 289.5 s
+[success] Total time: 293 s, completed Dec 23, 2013 6:50:46 PM
+
+
+
+
+NOTICE
+it was 2 jobs
+2 maps
+1 map 1 reduce
