@@ -44,9 +44,22 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     .map(('frame, 'value) -> ('id, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: SeqFileElement =>
       val histogram = mkHistogram(p)
       val luminance = histogram.getLuminanceHistogram
-      val lumString = luminance.map(Integer.toHexString).mkString
+      val red = histogram.getRedHistogram
+      val green = histogram.getGreenHistogram
+      val blue = histogram.getBlueHistogram
 
-      youtubeId.asImmutableBytesWriteable -> lumString.asImmutableBytesWriteable
+      val lumString = luminance.map(Integer.toHexString).mkString
+      val redString = red.map(Integer.toHexString).mkString
+      val greenString = green.map(Integer.toHexString).mkString
+      val blueString = blue.map(Integer.toHexString).mkString
+
+      (
+        youtubeId.asImmutableBytesWriteable,
+        lumString.asImmutableBytesWriteable,
+        redString.asImmutableBytesWriteable,
+        greenString.asImmutableBytesWriteable,
+        blueString.asImmutableBytesWriteable
+      )
     }
 
     .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
