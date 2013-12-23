@@ -11,8 +11,6 @@ import pl.project13.common.utils.Histogram
 
 trait Histograms extends OculusTupleConversions with OculusStringConversions {
 
-  def youtubeId: String = "???"
-
 //  type SeqFileElement = (Int, BytesWritable)
 
   def mkHistogram(seqFileEl: (Int, BytesWritable)): Histogram = {
@@ -27,7 +25,7 @@ trait Histograms extends OculusTupleConversions with OculusStringConversions {
   }
 
   private def onTmpFile[T](bytes: Array[Byte])(block: File => T): T = {
-    val f = File.createTempFile("oculus-hashing", ".png")
+    val f = File.createTempFile("oculus-histograms", ".png")
     try {
       Files.write(bytes, f)
       block(f)
