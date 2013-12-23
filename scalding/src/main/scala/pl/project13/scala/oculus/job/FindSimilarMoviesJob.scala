@@ -43,6 +43,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     Hashes
       .read
       .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
+      .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
@@ -52,6 +53,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     Hashes
       .read
       .filter('id) { id: ImmutableBytesWritable => ! (ibwToString(id) contains inputId) }
+      .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
