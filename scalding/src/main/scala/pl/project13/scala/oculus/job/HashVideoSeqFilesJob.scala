@@ -37,7 +37,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     .read
     .rename('key, 'frame)
 
-    .map(('frame, 'value) -> ('idHash, 'mhHash, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: (Int, BytesWritable) =>
+    .map(('frame, 'value) -> ('id, 'mhHash, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: (Int, BytesWritable) =>
       val histogram = mkHistogram(p)
       val luminance = histogram.getLuminanceHistogram
       val red = histogram.getRedHistogram
@@ -62,13 +62,9 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
 
     calculateFlow
-      .rename('idHash -> 'id)
-//      .discard('lumHistogram)
       .write(Hashes)
 
   calculateFlow
-    .rename('idHist -> 'id)
-//    .discard('mhHash)
     .write(Histograms)
 
 }
