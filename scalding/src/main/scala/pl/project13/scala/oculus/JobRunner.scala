@@ -116,12 +116,6 @@ trait OculusJobs {
     println(("allArgs = " + allArgs.toList).bold)
     println("-----------------------------------".bold)
 
-    println(s"Writing DOT to $jobClassName ...")
-    hadoop.util.ToolRunner.run(
-      new scalding.Tool,
-      (List(jobClassName, "--tool-graph") ::: allArgs).toArray
-    )
-
     HadoopProcessRunner(allArgs.toList).runAndWait()
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
