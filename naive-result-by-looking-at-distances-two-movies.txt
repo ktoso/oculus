@@ -1,0 +1,4 @@
+kmalawski@oculus-master:~/oculus$ grep 1T__uN5xm similar-to-HTYBXw-RlzM.out/part-00000 | awk '{ print $1 }' | perl -nle '$sum += $_ } END { print $sum'
+11479858
+kmalawski@oculus-master:~/oculus$ grep XMX similar-to-HTYBXw-RlzM.out/part-00000 | awk '{ print $1 }' | perl -nle '$sum += $_ } END { print $sum'
+3438512}'
