@@ -21,7 +21,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
     valueFields = Array('id, 'frame)
   )
 
-  override val youtubeId = FilenameUtils.getBaseName(input)
+  val youtubeId = FilenameUtils.getBaseName(input)
 
   WritableSequenceFile(input, ('key, 'value))
     .read
