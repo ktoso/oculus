@@ -77,17 +77,11 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     }
     .groupAll { _.sortBy('distance) }
 
-  // write out, mostly for debugging
-  distances
-    .write(Tsv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
-
   // group and find most similar movies
   val totalDistances = distances
     .groupBy('idRef) {
       _.sum('distance -> 'totalDistance) // sum of distances = total distance from each movie to this one
-    }
-    .groupAll {
-      _.sortBy('totalDistance).reverse
+       .sortBy('totalDistance).reverse   // we want the lowest distance first
     }
     .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistance, 'idFrame, 'idRef, 'secondFrame, 'secondRef)))
 
