@@ -117,7 +117,7 @@ trait OculusJobs {
     println("-----------------------------------".bold)
 
     println(s"Writing DOT to $jobClassName ...")
-    jobClazz.newInstance().asInstanceOf[Job].buildFlow.writeDOT(jobClassName + ".dot")
+    hadoop.util.ToolRunner.run(new scalding.Tool, Array(jobClassName, "--tool-graph"))
 
     HadoopProcessRunner(allArgs.toList).runAndWait()
 
