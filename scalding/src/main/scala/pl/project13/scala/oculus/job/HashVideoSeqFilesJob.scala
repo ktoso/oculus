@@ -33,7 +33,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
 
   override val youtubeId = FilenameUtils.getBaseName(input)
 
-  val calculateFlow = WritableSequenceFile(input, ('key, 'value))
+  WritableSequenceFile(input, ('key, 'value))
     .read
     .rename('key, 'frame)
 
@@ -60,11 +60,7 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     }
 
     .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
-
-    calculateFlow
-      .write(Hashes)
-
-  calculateFlow
+    .write(Hashes)
     .write(Histograms)
 
 }
