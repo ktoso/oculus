@@ -46,7 +46,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
-      .limit(100)
+      .limit(10)
 
   val otherHashes =
     Hashes
@@ -68,9 +68,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 
-      val distance = Distance.hammingDistance(hashFrame.get, hashRef.get)
-      println("distance = " + distance)
-      distance
+      Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
     .groupAll { _.sortBy('distance) }
     .write(Tsv(output, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
