@@ -9,6 +9,7 @@ import org.apache.hadoop.fs.{Path, FileSystem}
 import com.google.common.base.Stopwatch
 import com.twitter.scalding._
 import com.twitter.scalding.Hdfs
+import org.apache.hadoop
 
 object JobRunner extends App with OculusJobs {
 
@@ -114,6 +115,9 @@ trait OculusJobs {
     println("-----------------------------------".bold)
     println(("allArgs = " + allArgs.toList).bold)
     println("-----------------------------------".bold)
+
+    println(s"Writing DOT to $jobClassName ...")
+    jobClazz.newInstance().asInstanceOf[Job].buildFlow.writeDOT(jobClassName + ".dot")
 
     HadoopProcessRunner(allArgs.toList).runAndWait()
 
