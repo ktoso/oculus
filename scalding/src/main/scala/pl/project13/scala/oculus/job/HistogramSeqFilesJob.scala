@@ -13,7 +13,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
 
   implicit val mode = Read
 
-  val Hashes = new MyHBaseSource(
+  val Histograms = new MyHBaseSource(
     tableName = "histograms",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'lumHistogram,
@@ -34,7 +34,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
       youtubeId.asImmutableBytesWriteable -> lumString.asImmutableBytesWriteable
     }
     .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
-    .write(Hashes)
+    .write(Histograms)
 
 }
 

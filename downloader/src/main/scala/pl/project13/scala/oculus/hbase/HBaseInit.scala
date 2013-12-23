@@ -1,6 +1,6 @@
 package pl.project13.scala.oculus.hbase
 
-import pl.project13.scala.oculus.hbase.tables.{HashesSchema, MetadataSchema}
+import pl.project13.scala.oculus.hbase.tables.{HistogramsSchema, HashesSchema, MetadataSchema}
 import com.gravity.hbase.schema.ColumnFamily
 import org.apache.hadoop.hbase.HColumnDescriptor
 import org.apache.hadoop.hbase.util.Bytes
@@ -12,7 +12,11 @@ object HBaseInit {
   def init() {
     println("Prepare HBase with the following tables:".green)
 
-    val tables = MetadataSchema.MetadataTable :: HashesSchema.HashesTable :: Nil
+    val tables =
+      MetadataSchema.MetadataTable ::
+        HashesSchema.HashesTable ::
+        HistogramsSchema.HistogramsTable ::
+        Nil
 
     tables foreach { table =>
       println {
