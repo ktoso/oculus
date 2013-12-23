@@ -14,54 +14,84 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
   with Hashing {
 
   /** seq file with images */
-  val inputMovie = args("input")
+  val inputId = args("id")
 
-  val output = args("output")
+//  val output = args("output")
+  val output = "/oculus/similar-to-" + inputId + ".out"
 
   implicit val mode = Read
 
   val Hashes = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'refHash,
+    keyFields = 'hash,
     familyNames = Array("youtube", "youtube"),
-    valueFields = Array('id, 'second)
+    valueFields = Array('id,       'second)
   )
 
-  var takeTopK = 50000
+  val Histograms = new MyHBaseSource(
+    tableName = "histograms",
+    quorumNames = IPs.HadoopMasterWithPort,
+    keyFields = 'lumHist,
+    familyNames = Array("youtube", "youtube", "hist",   "hist",     "hist"),
+    valueFields = Array('id,       'frame,    'redHist, 'greenHist, 'blueHist)
+  )
 
-  val frameHashes =
-    WritableSequenceFile(inputMovie, ('key, 'value))
-      .read
-      .mapTo(('key, 'value) -> 'frameHash) { p: (Int, BytesWritable) =>
-        takeTopK += 1 // we want to take as many top matches as we have movies
-        mhHash(p)
-      }
+  var takeTopK = 500
 
-  val referenceHashes =
+  val inputHashes =
     Hashes
       .read
-      .map('id -> 'id) { id: String => id.spaceSeparatedHexCodesToString }
+      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
+      .rename('id -> 'idFrame)
+      .rename('hash -> 'hashFrame)
+      .limit(100)
 
-  referenceHashes.crossWithTiny(frameHashes)
-    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
-      val (frame, reference) = x
+  val otherHashes =
+    Hashes
+      .read
+      .filter('id) { id: ImmutableBytesWritable => ! (ibwToString(id) contains inputId) }
+      .rename('id -> 'idRef)
+      .rename('hash -> 'hashRef)
 
-      (
-        frame.get.mkString(" "),
-        reference.get.mkString(" "),
-        Distance.hammingDistance(reference.get, frame.get)
-      )
+//  val inputHistograms =
+//    Histograms
+//      .read
+//      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
+//      .rename('id -> 'histId)
+
+//  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
+
+  otherHashes.crossWithTiny(inputHashes)
+    .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+      val (hashFrame, hashRef) = x
+
+      val distance = Distance.hammingDistance(hashFrame.get, hashRef.get)
+      println("distance = " + distance)
+      distance
     }
-    .insert('inputId, FilenameUtils.getBaseName(inputMovie))
-    .groupAll {
-      _.sortBy('distance)
-//      _.sortWithTake('distance -> 'out, TakeTopK) {
-//        (d0: Int, d1: Int) => d0 < d1
-//      }
-    }
-    .limit(takeTopK)
-    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'inputId, 'frameHash, 'frame, 'refHash, 'ref)))
+    .groupAll { _.sortBy('distance) }
+    .write(Tsv(output, writeHeader = true, fields = ('distance, 'idFrame, 'idRef)))
+
+//  referenceHashes.crossWithTiny(frameHashes)
+//    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+//      val (frame, reference) = x
+//
+//      (
+//        frame.get.mkString(" "),
+//        reference.get.mkString(" "),
+//        Distance.hammingDistance(reference.get, frame.get)
+//      )
+//    }
+//    .insert('inputId, FilenameUtils.getBaseName(inputId))
+//    .groupAll {
+//      _.sortBy('distance)
+////      _.sortWithTake('distance -> 'out, TakeTopK) {
+////        (d0: Int, d1: Int) => d0 < d1
+////      }
+//    }
+//    .limit(takeTopK)
+//    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'inputId, 'frameHash, 'frame, 'refHash, 'ref)))
 
 
 //  override val youtubeId = FilenameUtils.getBaseName(input)
