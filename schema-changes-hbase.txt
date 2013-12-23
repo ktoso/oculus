@@ -1,0 +1,19 @@
+base(main):005:0> disable 'histograms'
+0 row(s) in 0.0270 seconds
+
+hbase(main):006:0> list
+TABLE
+hashes
+histograms
+metadata
+3 row(s) in 0.0130 seconds
+
+hbase(main):008:0> alter 'histograms', NAME => 'hist', VERSIONS => 1
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+0 row(s) in 12.6650 seconds
+
+hbase(main):009:0> enable 'histograms'
+0 row(s) in 146.5510 seconds
+
