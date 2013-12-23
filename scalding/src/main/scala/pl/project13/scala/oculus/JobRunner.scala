@@ -62,14 +62,14 @@ trait OculusJobs {
       println(s"Starting execution of jobs for $seq ...".green)
       val stopwatch = (new Stopwatch).start()
 
-      val allArgs = Array(
+      val allArgs = List(
         jobClassName,
         "--hdfs", IPs.HadoopMasterWithPort,
         "--input", seq
-      )
+      ) ++ args.toList
 
       println("-----------------------------------".bold)
-      println(("allArgs = " + allArgs.toList).bold)
+      println(("allArgs = " + allArgs).bold)
       println(("cascading.app.appjar.class = " + jobClassName).bold)
       println("-----------------------------------".bold)
 
@@ -81,7 +81,7 @@ trait OculusJobs {
 //
 //      hadoop.util.ToolRunner.run(conf, tool, allArgs)
 
-      HadoopProcessRunner(allArgs.toList).runAndWait()
+      HadoopProcessRunner(allArgs).runAndWait()
 
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
