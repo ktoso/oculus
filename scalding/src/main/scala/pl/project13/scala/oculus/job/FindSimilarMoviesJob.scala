@@ -44,6 +44,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .read
       .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
       .rename('id -> 'idFrame)
+      .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
       .limit(100)
 
@@ -52,6 +53,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .read
       .filter('id) { id: ImmutableBytesWritable => ! (ibwToString(id) contains inputId) }
       .rename('id -> 'idRef)
+      .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
 
 //  val inputHistograms =
@@ -71,7 +73,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       distance
     }
     .groupAll { _.sortBy('distance) }
-    .write(Tsv(output, writeHeader = true, fields = ('distance, 'idFrame, 'idRef)))
+    .write(Tsv(output, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
 
 //  referenceHashes.crossWithTiny(frameHashes)
 //    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
