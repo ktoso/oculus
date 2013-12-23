@@ -86,11 +86,13 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     .groupBy('idRef) {
       _.sum('distance -> 'totalDistance) // sum of distances = total distance from each movie to this one
     }
-    .write(Tsv(outputRanking, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef)))
-    .forceToDisk
+
+  totalDistances
+    .discard('distance)
     .groupBy('idRef) {
       _.reverse.sortBy('totalDistance)
     }
+    .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistance, 'idFrame, 'idRef, 'secondFrame, 'secondRef)))
 
 //  referenceHashes.crossWithTiny(frameHashes)
 //    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
