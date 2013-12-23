@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import com.twitter.scalding.typed.Joiner
 import pl.project13.scala.oculus.phash.PHash
+import org.apache.hadoop.io.BytesWritable
 
 class FindSimilarMoviesJob(args: Args) extends Job(args)
   with Hashing {
@@ -32,7 +33,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
   val frameHashes =
     WritableSequenceFile(inputMovie, ('key, 'value))
       .read
-      .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement =>
+      .mapTo(('key, 'value) -> 'frameHash) { p: (Int, BytesWritable) =>
         takeTopK += 1 // we want to take as many top matches as we have movies
         mhHash(p)
       }
@@ -67,7 +68,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 //
 //  Hashes
 //    .read
-////    .mapTo(('key, 'value) -> 'mhHash) { p: SeqFileElement => mhHash(p) }
+////    .mapTo(('key, 'value) -> 'mhHash) { p: (Int, BytesWritable) => mhHash(p) }
 ////    .map('mhHash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
 //  .map(('mhHash, 'youtube) -> 'pairs) {  }
 

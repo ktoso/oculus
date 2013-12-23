@@ -6,7 +6,7 @@ import pl.project13.scala.scalding.hbase.{OculusStringConversions, MyHBaseSource
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
-import org.apache.hadoop.io.IntWritable
+import org.apache.hadoop.io.{BytesWritable, IntWritable}
 
 class CompareTwoMoviesJob(args: Args) extends Job(args)
   with OculusStringConversions
@@ -37,13 +37,13 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
   val movie1 = 
     WritableSequenceFile(inputMovie1, ('key1, 'value))
       .read
-      .map(('key1, 'value) -> ('id1, 'frameHash1)) { p: SeqFileElement => id1 -> mhHash(p) }
+      .map(('key1, 'value) -> ('id1, 'frameHash1)) { p: (Int, BytesWritable) => id1 -> mhHash(p) }
       .discard('value)
 
   val movie2 = 
     WritableSequenceFile(inputMovie2, ('key2, 'value))
       .read
-      .map(('key2, 'value) -> ('id2, 'frameHash2)) { p: SeqFileElement => id2 -> mhHash(p) }
+      .map(('key2, 'value) -> ('id2, 'frameHash2)) { p: (Int, BytesWritable) => id2 -> mhHash(p) }
       .discard('value)
     
   
