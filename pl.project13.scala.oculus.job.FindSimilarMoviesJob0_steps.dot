@@ -1,3 +1,5 @@
 digraph G {
-  1 [label = "[(1/1) compare-2437MOA39iQ.out]\nsrc:[/oculus/source/2437MOA39iQ.mp4.seq][681118a7-1288-4d69-a28c-cf7f0493ca8b]\ngrp:_pipe_0*_pipe_1\nsnk:[compare-2437MOA39iQ.out]"];
+  1 [label = "[(1/2) ...imilar-to-HTYBXw-RlzM.out]\nsrc:[be7576c4-5c18-4bba-8942-a1358d488312]\ngrp:_pipe_0*_pipe_1\nsnk:[/oculus/similar-to-HTYBXw-RlzM.out]"];
+  2 [label = "[(2/2)]\nsrc:[be7576c4-5c18-4bba-8942-a1358d488312]"];
+  2 -> 1;
 }
