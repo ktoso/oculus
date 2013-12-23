@@ -27,12 +27,11 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     valueFields = Array('id, 'second)
   )
 
-  var takeTopK = 0
+  var takeTopK = 50000
 
   val frameHashes =
     WritableSequenceFile(inputMovie, ('key, 'value))
       .read
-      .limit(3)
       .mapTo(('key, 'value) -> 'frameHash) { p: SeqFileElement =>
         takeTopK += 1 // we want to take as many top matches as we have movies
         mhHash(p)
@@ -42,7 +41,6 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     Hashes
       .read
       .map('id -> 'id) { id: String => id.spaceSeparatedHexCodesToString }
-//      .limit(5000)
 
   referenceHashes.crossWithTiny(frameHashes)
     .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
