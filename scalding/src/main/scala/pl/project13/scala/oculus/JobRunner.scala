@@ -119,7 +119,7 @@ trait OculusJobs {
     println(s"Writing DOT to $jobClassName ...")
     hadoop.util.ToolRunner.run(
       new scalding.Tool,
-      (List(jobClassName, "--local", "--tool-graph") ::: allArgs.filterNot(_ == "--hdfs")).toArray
+      (List(jobClassName, "--tool-graph") ::: allArgs).toArray
     )
 
     HadoopProcessRunner(allArgs.toList).runAndWait()
