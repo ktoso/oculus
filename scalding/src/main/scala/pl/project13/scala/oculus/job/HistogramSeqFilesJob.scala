@@ -4,7 +4,7 @@ import com.twitter.scalding._
 import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
-import org.apache.hadoop.io.IntWritable
+import org.apache.hadoop.io.{BytesWritable, IntWritable}
 
 class HistogramSeqFilesJob(args: Args) extends Job(args)
   with Histograms {
@@ -26,7 +26,7 @@ class HistogramSeqFilesJob(args: Args) extends Job(args)
   WritableSequenceFile(input, ('key, 'value))
     .read
     .rename('key, 'frame)
-    .map(('frame, 'value) -> ('id, 'lumHistogram)) { p: SeqFileElement =>
+    .map(('frame, 'value) -> ('id, 'lumHistogram)) { p: (Int, BytesWritable) =>
       val histogram = mkHistogram(p)
       val luminance = histogram.getLuminanceHistogram
       val lumString = luminance.map(Integer.toHexString).mkString
