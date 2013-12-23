@@ -1,0 +1,36 @@
+digraph G {
+  1 [label = "Hfs['TextDelimited[['distance', 'id', 'inputId', 'frameHash', 'frame', 'refHash', 'ref']]']['compare-2437MOA39iQ.out']"];
+  2 [label = "Each('_pipe_0*_pipe_1')[Limit[decl:[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']]]"];
+  3 [label = "Each('_pipe_0*_pipe_1')[NoOp[decl:[{?}:NONE]]]"];
+  4 [label = "GroupBy('_pipe_0*_pipe_1')[by:['__groupAll__']]"];
+  5 [label = "Each('_pipe_0*_pipe_1')[MapFunction[decl:[{1}:'__groupAll__']]]"];
+  6 [label = "Each('_pipe_0*_pipe_1')[MapFunction[decl:[{1}:'inputId']]]"];
+  7 [label = "Each('_pipe_0*_pipe_1')[MapFunction[decl:[{3}:'frame', 'ref', 'distance']]]"];
+  8 [label = "Each('_pipe_0*_pipe_1')[NoOp[decl:[{?}:NONE]]]"];
+  9 [label = "HashJoin('_pipe_0*_pipe_1')[by:_pipe_0:['__joinBig__']_pipe_1:['__joinTiny__']]"];
+  10 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@67d66cb3')[MapFunction[decl:[{1}:'__joinBig__']]]"];
+  11 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@67d66cb3')[MapFunction[decl:[{1}:'id']]]"];
+  12 [label = "HBaseTap['HBaseScheme[['refHash', 'id', 'second']]']['681118a7-1288-4d69-a28c-cf7f0493ca8b']"];
+  13 [label = "Each('WritableSequenceFile(/oculus/source/2437MOA39iQ.mp4.seq,'key', 'value')')[MapFunction[decl:[{1}:'__joinTiny__']]]"];
+  14 [label = "Each('WritableSequenceFile(/oculus/source/2437MOA39iQ.mp4.seq,'key', 'value')')[MapFunction[decl:[{1}:'frameHash']]]"];
+  15 [label = "Hfs['WritableSequenceFile[['key', 'value']]']['/oculus/source/2437MOA39iQ.mp4.seq']"];
+  16 [label = "[head]\nConcurrent, Inc - Cascading 2.1.6\nHadoop:1.2.1:Apache"];
+  17 [label = "[tail]"];
+  11 -> 10 [label = "[{3}:'refHash', 'id', 'second']\n[{3}:'refHash', 'id', 'second']"];
+  14 -> 13 [label = "[{1}:'frameHash']\n[{1}:'frameHash']"];
+  9 -> 8 [label = "_pipe_0[{1}:'__joinBig__'],_pipe_1[{1}:'__joinTiny__']\n[{6}:'refHash', 'id', 'second', '__joinBig__', 'frameHash', '__joinTiny__']"];
+  8 -> 7 [label = "[{4}:'refHash', 'id', 'second', 'frameHash']\n[{4}:'refHash', 'id', 'second', 'frameHash']"];
+  7 -> 6 [label = "[{7}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance']\n[{7}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance']"];
+  6 -> 5 [label = "[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']\n[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']"];
+  5 -> 4 [label = "[{9}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId', '__groupAll__']\n[{9}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId', '__groupAll__']"];
+  4 -> 3 [label = "_pipe_0*_pipe_1[{1}:'__groupAll__']\n[{9}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId', '__groupAll__']"];
+  3 -> 2 [label = "[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']\n[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']"];
+  16 -> 15 [label = ""];
+  16 -> 12 [label = ""];
+  1 -> 17 [label = "[{7}:'distance', 'id', 'inputId', 'frameHash', 'frame', 'refHash', 'ref']\n[{7}:'distance', 'id', 'inputId', 'frameHash', 'frame', 'refHash', 'ref']"];
+  12 -> 11 [label = "[{3}:'refHash', 'id', 'second']\n[{3}:'refHash', 'id', 'second']"];
+  10 -> 9 [label = "[{4}:'refHash', 'id', 'second', '__joinBig__']\n[{4}:'refHash', 'id', 'second', '__joinBig__']"];
+  2 -> 1 [label = "[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']\n[{8}:'refHash', 'id', 'second', 'frameHash', 'frame', 'ref', 'distance', 'inputId']"];
+  15 -> 14 [label = "[{2}:'key', 'value']\n[{2}:'key', 'value']"];
+  13 -> 9 [label = "[{2}:'frameHash', '__joinTiny__']\n[{2}:'frameHash', '__joinTiny__']"];
+}
