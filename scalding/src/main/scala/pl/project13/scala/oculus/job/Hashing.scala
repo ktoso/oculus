@@ -13,10 +13,10 @@ trait Hashing extends OculusTupleConversions with OculusStringConversions {
 
   def youtubeId: String = "???"
 
-  type SeqFileElement = (Int, BytesWritable)
+//  type SeqFileElement = (Int, BytesWritable)
 
   // todo do the same with dct hash!!!!!
-  def mhHashString(seqFileEl: SeqFileElement) = {
+  def mhHashString(seqFileEl: (Int, BytesWritable)) = {
     val (idx, bytes) = seqFileEl
     val bs = bytes.getBytes
 
@@ -29,7 +29,7 @@ trait Hashing extends OculusTupleConversions with OculusStringConversions {
     result.mhHash
   }
 
-  def mhHash(seqFileEl: SeqFileElement): ImmutableBytesWritable =
+  def mhHash(seqFileEl: (Int, BytesWritable)): ImmutableBytesWritable =
     mhHashString(seqFileEl).asImmutableBytesWriteable
 
   def onTmpFile[T](bytes: Array[Byte])(block: File => T): T = {

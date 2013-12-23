@@ -4,7 +4,7 @@ import com.twitter.scalding._
 import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
-import org.apache.hadoop.io.IntWritable
+import org.apache.hadoop.io.{BytesWritable, IntWritable}
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
   with TupleConversions
@@ -37,11 +37,11 @@ class HashVideoSeqFilesJob(args: Args) extends Job(args)
     .read
     .rename('key, 'frame)
 
-    .map(('frame, 'value) -> ('id, 'mhHash)) { p: SeqFileElement =>
+    .map(('frame, 'value) -> ('id, 'mhHash)) { p: (Int, BytesWritable) =>
       youtubeId.asImmutableBytesWriteable -> mhHash(p)
     }
 
-    .map(('frame, 'value) -> ('id, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: SeqFileElement =>
+    .map(('frame, 'value) -> ('id, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: (Int, BytesWritable) =>
       val histogram = mkHistogram(p)
       val luminance = histogram.getLuminanceHistogram
       val red = histogram.getRedHistogram

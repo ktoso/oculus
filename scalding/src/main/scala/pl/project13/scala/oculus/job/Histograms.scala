@@ -13,9 +13,9 @@ trait Histograms extends OculusTupleConversions with OculusStringConversions {
 
   def youtubeId: String = "???"
 
-  type SeqFileElement = (Int, BytesWritable)
+//  type SeqFileElement = (Int, BytesWritable)
 
-  def mkHistogram(seqFileEl: SeqFileElement): Histogram = {
+  def mkHistogram(seqFileEl: (Int, BytesWritable)): Histogram = {
     val (idx, bytes) = seqFileEl
     val bs = bytes.getBytes
 
