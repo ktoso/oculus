@@ -81,7 +81,9 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
   val totalDistances = distances
     .groupBy('idRef) {
       _.sum('distance -> 'totalDistance) // sum of distances = total distance from each movie to this one
-       .sortBy('totalDistance).reverse   // we want the lowest distance first
+    }
+    .groupBy('idRef) {
+      _.sortBy('totalDistance).reverse   // we want the lowest distance first
     }
     .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistance, 'idFrame, 'idRef, 'secondFrame, 'secondRef)))
 
