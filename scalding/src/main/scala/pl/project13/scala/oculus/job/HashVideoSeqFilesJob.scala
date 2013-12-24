@@ -5,8 +5,10 @@ import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.io.{BytesWritable, IntWritable}
+import pl.project13.scala.oculus.conversions.WriteDOT
 
 class HashVideoSeqFilesJob(args: Args) extends Job(args)
+  with WriteDOT
   with TupleConversions
   with Histograms
   with Hashing {

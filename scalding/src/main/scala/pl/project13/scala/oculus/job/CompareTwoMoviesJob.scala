@@ -7,8 +7,10 @@ import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import org.apache.hadoop.io.{BytesWritable, IntWritable}
+import pl.project13.scala.oculus.conversions.WriteDOT
 
 class CompareTwoMoviesJob(args: Args) extends Job(args)
+  with WriteDOT
   with OculusStringConversions
   with Hashing {
 
