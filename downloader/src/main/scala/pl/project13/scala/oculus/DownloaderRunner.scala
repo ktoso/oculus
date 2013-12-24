@@ -39,5 +39,5 @@ object DownloaderRunner extends App {
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=GAkw_Wi4yIo") // tchaikovsky
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=hO6eQnH41ao") // project retouch, landscape
 
-  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=IPlA2yUN_Bk") // bartender - HAS SUBTITLES
+  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=IPlA2yUN_Bk", crawl = false) // bartender - HAS SUBTITLES
 }
