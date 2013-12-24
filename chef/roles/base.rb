@@ -13,4 +13,5 @@ run_list "recipe[apt]",
          "recipe[youtube-dl]",
          "recipe[ffmpeg]",
          "recipe[links]",
-         "recipe[phash]"
+         "recipe[phash]",
+         "recipe[tesseract]" # tesseract-ocr
