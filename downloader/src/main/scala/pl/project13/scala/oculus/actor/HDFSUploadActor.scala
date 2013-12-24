@@ -7,7 +7,7 @@ import pl.project13.scala.oculus.ffmpeg.FFMPEG
 import java.io.File
 import pl.project13.scala.rainbow._
 
-class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
+class HDFSUploadActor(hdfsLocation: String, fps: Int) extends Actor with ActorLogging
   with HDFSActions
   with HBaseActions {
 
@@ -21,8 +21,9 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if local.file.exists =>
       log.info("Got request to upload as sequence file [%s] to HDFS...".format(local.fullName))
 
-      val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = 10)
+      val images = FFMPEG.ffmpegToImages(local.file, framesPerSecond = fps)
       uploadAsSequenceFile(images, createTargetPath(local) + ".seq")
+      storeMetadataFor(local)
 
       cleanupDownloadedFiles(local, images)
 
@@ -36,7 +37,7 @@ class HDFSUploadActor(hdfsLocation: String) extends Actor with ActorLogging
       storeMetadataFor(local)
       log.info(s"Finished uploading file ${local.file.getAbsolutePath} into HDFS...".green)
 
-    case UploadFileToHDFS(local: DownloadedVideoFile) =>
+    case UploadFileToHDFS(local: DownloadedVideoFile) if !local.file.exists =>
       log.warning(s"Got request to upload ${local.file}, but it does not exists! Ignoring...")
   }
 

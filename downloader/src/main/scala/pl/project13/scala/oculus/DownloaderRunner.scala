@@ -9,7 +9,7 @@ import pl.project13.scala.oculus.hbase.HBaseInit
 object DownloaderRunner extends App {
 
   // config
-  val DownloaderNumber = 5
+  val DownloaderNumber = 3
   // end of config
 
   HBaseInit.init()
@@ -17,7 +17,10 @@ object DownloaderRunner extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("oculus-system", config)
 
-  val hdfsUploader = system.actorOf(Props(new HDFSUploadActor(config.getString("oculus.hadoop.fs.defaultFS"))).withRouter(FromConfig), "hdfs-uploader")
+  val fs = config.getString("oculus.hadoop.fs.defaultFS")
+  val fps = config.getInt("oculus.ffmpeg.framesPerSecond")
+
+  val hdfsUploader = system.actorOf(Props(new HDFSUploadActor(fs, fps)).withRouter(FromConfig), "hdfs-uploader")
   val youtubeDownloader = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)).withRouter(FromConfig), "youtube-downloader")
   val youtubeCrawler = system.actorOf(Props(new YoutubeCrawlActor(youtubeDownloader)), "youtube-crawler")
 
@@ -36,4 +39,5 @@ object DownloaderRunner extends App {
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=GAkw_Wi4yIo") // tchaikovsky
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=hO6eQnH41ao") // project retouch, landscape
 
+//  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=IPlA2yUN_Bk") // bartender - HAS SUBTITLES
 }
