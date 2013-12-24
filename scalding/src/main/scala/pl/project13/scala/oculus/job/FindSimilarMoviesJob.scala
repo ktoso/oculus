@@ -9,9 +9,10 @@ import pl.project13.scala.oculus.distance.Distance
 import com.twitter.scalding.typed.Joiner
 import pl.project13.scala.oculus.phash.PHash
 import org.apache.hadoop.io.BytesWritable
-import pl.project13.scala.oculus.conversions.OculusRichPipe
+import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
 
 class FindSimilarMoviesJob(args: Args) extends Job(args)
+  with WriteDOT
   with OculusRichPipe
   with Histograms
   with Hashing {
@@ -82,10 +83,11 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     .groupBy('idRef) {
       _.sum('distance -> 'totalDistance) // sum of distances = total distance from each movie to this one
     }
+    .map('totalDistance -> 'totalDistanceFormatted) { total: Double => f"$total%20.0f" } // simple formatting, instead of 23E7 notation
     .groupBy('idRef) {
       _.sortBy('totalDistance).reverse   // we want the lowest distance first
     }
-    .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistance, 'idRef)))
+    .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistanceFormatted, 'idRef)))
 
 //  referenceHashes.crossWithTiny(frameHashes)
 //    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
