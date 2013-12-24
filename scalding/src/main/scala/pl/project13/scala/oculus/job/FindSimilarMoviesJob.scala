@@ -41,8 +41,6 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     valueFields = Array('id,       'frame,    'redHist, 'greenHist, 'blueHist)
   )
 
-  var takeTopK = 500
-
   val inputHashes =
     Hashes
       .read
@@ -51,7 +49,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
-      .limit(50)
+      .limit(200)
 
   val otherHashes =
     Hashes
@@ -77,13 +75,14 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
     .groupAll { _.sortBy('distance) }
+    .write(Tsv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
 
   // group and find most similar movies
   val totalDistances = distances
     .groupBy('idRef) {
       _.sum('distance -> 'totalDistance) // sum of distances = total distance from each movie to this one
     }
-    .map('totalDistance -> 'totalDistanceFormatted) { total: Double => f"$total%20.0f" } // simple formatting, instead of 23E7 notation
+    .map('totalDistance -> 'totalDistanceFormatted) { total: Double => f"$total%020.0f" } // simple formatting, instead of 23E7 notation
     .groupBy('idRef) {
       _.sortBy('totalDistance).reverse   // we want the lowest distance first
     }
