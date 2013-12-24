@@ -17,8 +17,9 @@ object JobRunner extends App with OculusJobs {
 
   val availableJobs =
     (0, "hash all files", hashAllSequenceFiles _) ::
-    (1, "compare two movies", compareTwoMovies _) ::
-    (2, "find movies similar to given", findSimilarToGiven _) ::
+    (1, "hash one file", hashSequenceFile _) ::
+    (2, "compare two movies", compareTwoMovies _) ::
+    (3, "find movies similar to given", findSimilarToGiven _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -86,6 +87,26 @@ trait OculusJobs {
 
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
+
+    println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
+  }
+
+  def hashSequenceFile(args: Seq[String]) = {
+    val totalStopwatch = (new Stopwatch).start()
+
+    val jobClass = classOf[HashVideoSeqFilesJob]
+    val jobClassName = jobClass.getCanonicalName
+
+    val allArgs = List(
+      jobClassName,
+      "--hdfs", IPs.HadoopMasterWithPort
+    ) ++ args.toList
+
+    println("-----------------------------------".bold)
+    println(("allArgs = " + allArgs).bold)
+    println("-----------------------------------".bold)
+
+    HadoopProcessRunner(allArgs).runAndWait()
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
