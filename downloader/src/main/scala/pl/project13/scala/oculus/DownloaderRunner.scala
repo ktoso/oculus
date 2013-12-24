@@ -33,8 +33,8 @@ object DownloaderRunner extends App {
 //  youtubeCrawler ! CrawlYoutubePage(PreppedMovieUrls.Original.AttackOnTitan)
 //  youtubeCrawler ! CrawlYoutubePage(PreppedMovieUrls.Original.VocaloidIARevengeSyndrome)
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=g8evyE9TuYk") // batman
-  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=-fcGzCbnTQE") // top anime openings, includes titan (few seconds)
-//  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=fFK_YCS8ab0&list=WLFDF76FA8065675A9") // vocaloids
+//  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=-fcGzCbnTQE") // top anime openings, includes titan (few seconds)
+  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=fFK_YCS8ab0&list=WLFDF76FA8065675A9") // vocaloids
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=uAcD7H53220") // spiderman
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=GAkw_Wi4yIo") // tchaikovsky
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=hO6eQnH41ao") // project retouch, landscape
