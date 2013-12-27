@@ -12,6 +12,7 @@ trait WriteDOT {
     // Sources are good, now connect the flow:
     val flow = mode.newFlowConnector(config).connect(flowDef)
     flow.writeDOT(getClass.getSimpleName + ".dot")
+    flow.writeStepsDOT(getClass.getSimpleName + "-steps.dot")
     flow
   }
 
