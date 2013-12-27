@@ -187,7 +187,7 @@ object ScaldingAssembly {
             case ("manifest.mf" :: Nil) | ("index.list" :: Nil) | ("dependencies" :: Nil) => MergeStrategy.discard
             case _ => MergeStrategy.discard
           }
-        case x => old(x)
+        case x => MergeStrategy.first
       }
     }
   )
