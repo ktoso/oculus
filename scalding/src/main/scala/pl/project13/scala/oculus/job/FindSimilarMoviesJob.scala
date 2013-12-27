@@ -49,7 +49,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
-      .limit(200)
+      .limit(20)
 
   val otherHashes =
     Hashes
