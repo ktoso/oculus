@@ -75,6 +75,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 //  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
 
   val distances = otherHashes.crossWithTiny(inputHashes)
+    .sample(1.0)
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 
