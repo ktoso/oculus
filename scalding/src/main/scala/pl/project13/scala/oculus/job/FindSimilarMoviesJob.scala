@@ -20,8 +20,8 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
   /** seq file with images */
   val inputId = args("id")
 
-  val outputDistances = "/oculus/similar-to-" + inputId + "-distances.out"
-  val outputRanking = "/oculus/similar-to-" + inputId + ".out"
+  val outputDistances = "/oculus/similar-to-" + inputId + "-distances" + "-withself-25,50,50" + ".out"
+  val outputRanking   = "/oculus/similar-to-" + inputId                + "-withself-25,50,50" + ".out"
 
   implicit val mode = Read
 
@@ -49,7 +49,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
-      .limit(2)
+      .sample(25.0)
 
   val otherHashes =
     Hashes
@@ -59,6 +59,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
+      .sample(50.0)
 
 //  val inputHistograms =
 //    Histograms
@@ -75,7 +76,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 //  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
 
   val distances = otherHashes.crossWithTiny(inputHashes)
-    .sample(1.0)
+    .sample(50.0)
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 

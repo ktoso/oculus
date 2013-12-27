@@ -1,0 +1,11 @@
+2013-12-27 19:48:27,412 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Need another 26 map output(s) where 0 is already in progress
+2013-12-27 19:48:27,412 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 2 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:48:32,485 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 1 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:48:37,525 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 1 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:48:52,530 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 2 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:49:02,569 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 2 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:49:07,596 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 1 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:49:12,614 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 1 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:49:17,619 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 1 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:49:22,636 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Scheduled 1 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:49:27,646 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0045_r_000000_0 Need another 14 map output(s) where 0 is already in progress
