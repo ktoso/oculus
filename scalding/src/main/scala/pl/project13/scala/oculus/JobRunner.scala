@@ -38,7 +38,7 @@ object JobRunner extends App with OculusJobs {
 trait OculusJobs {
   import pl.project13.scala.rainbow._
 
-  private val conf = new Configuration(false)
+  private val conf = new Configuration()
 
   /** Override if you need other than default settings - loads up ''application.conf'' */
   def appConfig: Config = ConfigFactory.load()
@@ -75,8 +75,6 @@ trait OculusJobs {
       println(("cascading.app.appjar.class = " + jobClassName).bold)
       println("-----------------------------------".bold)
 
-      Mode.mode = Hdfs(false, conf)
-
       HadoopProcessRunner(allArgs).runAndWait(conf)
 
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
@@ -85,25 +83,8 @@ trait OculusJobs {
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
 
-  def hashSequenceFile(args: Seq[String]) = {
-    val totalStopwatch = (new Stopwatch).start()
-
-    val jobClass = classOf[HashVideoSeqFilesJob]
-    val jobClassName = jobClass.getCanonicalName
-
-    val allArgs = List(
-      jobClassName,
-      "--hdfs", IPs.HadoopMasterWithPort
-    ) ++ args.toList
-
-    println("-----------------------------------".bold)
-    println(("allArgs = " + allArgs).bold)
-    println("-----------------------------------".bold)
-
-    HadoopProcessRunner(allArgs).runAndWait(conf)
-
-    println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
-  }
+  def hashSequenceFile(args: Seq[String]) =
+    simpleHadoopRun(args, classOf[HashVideoSeqFilesJob])
 
   def extractText(args: Seq[String]) = {
     simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
