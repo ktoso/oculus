@@ -1,17 +1,11 @@
 package pl.project13.hadoop
 
 import org.apache.hadoop.classification.{InterfaceStability, InterfaceAudience}
-import com.twitter.scalding
 import org.apache.hadoop.util.{Tool, ToolRunner}
 import org.apache.hadoop.conf.Configuration
 import java.io.File
-import java.nio.file.FileVisitResult
-import java.nio.file.SimpleFileVisitor
-import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.{FileVisitResult, SimpleFileVisitor, Files, Path}
 import scala.collection.mutable.ListBuffer
-import java.nio.file.attribute.BasicFileAttributes
 import org.apache.hadoop
 import java.nio.file.attribute.BasicFileAttributes
 
@@ -49,6 +43,8 @@ class NoJarTool(
   ) extends Tool {
 
   private var config = new Configuration()
+
+  require(libJars.forall(_.exists()), "All libJars must exist! Given: " + libJars)
 
   protected def run(args: Array[String]): Int = {
     checkIfConfigValidForRealMode(config)
