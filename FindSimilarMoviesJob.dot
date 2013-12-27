@@ -12,7 +12,7 @@ digraph G {
   11 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@3284bb67')[Identity[decl:[{1}:'idRef']]]"];
   12 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@3284bb67')[MapFunction[decl:[{1}:'id']]]"];
   13 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@3284bb67')[FilterFunction[decl:[{3}:'hash', 'id', 'second']]]"];
-  14 [label = "HBaseTap['HBaseScheme[['hash', 'id', 'second']]']['281eee89-e3f2-444c-8d01-7a4166690187']"];
+  14 [label = "HBaseTap['HBaseScheme[['hash', 'id', 'second']]']['8c1a4258-35c3-4829-b954-86ef65f19685']"];
   15 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@3284bb67')[MapFunction[decl:[{1}:'__joinTiny__']]]"];
   16 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@3284bb67')[Limit[decl:[{3}:'idFrame', 'secondFrame', 'hashFrame']]]"];
   17 [label = "Each('pl.project13.scala.scalding.hbase.MyHBaseSource@3284bb67')[Identity[decl:[{1}:'hashFrame']]]"];
@@ -28,9 +28,9 @@ digraph G {
   27 [label = "Each('_pipe_0*_pipe_1')[CompositeFunction[decl:[{2}:'idRef', '__middlefield__0']]]"];
   28 [label = "[head]\nConcurrent, Inc - Cascading 2.1.6\nHadoop:1.2.1:Apache"];
   29 [label = "[tail]"];
-  30 [label = "TempHfs['SequenceFile[['idRef', 'secondRef', 'hashRef', 'idFrame', 'secondFrame', 'hashFrame', 'distance']]'][4258336345/_pipe_0__pipe_1/]"];
-  31 [label = "TempHfs['SequenceFile[['idRef', 'totalDistance', 'totalDistanceFormatted']]'][7976498217/_pipe_0__pipe_1/]"];
-  32 [label = "TempHfs['SequenceFile[['idFrame', 'secondFrame', 'hashFrame', '__joinTiny__']]'][2530515728/_pipe_1/]"];
+  30 [label = "TempHfs['SequenceFile[['idRef', 'secondRef', 'hashRef', 'idFrame', 'secondFrame', 'hashFrame', 'distance']]'][6612445595/_pipe_0__pipe_1/]"];
+  31 [label = "TempHfs['SequenceFile[['idRef', 'totalDistance', 'totalDistanceFormatted']]'][7731681663/_pipe_0__pipe_1/]"];
+  32 [label = "TempHfs['SequenceFile[['idFrame', 'secondFrame', 'hashFrame', '__joinTiny__']]'][951737979/_pipe_1/]"];
   13 -> 12 [label = "[{3}:'hash', 'id', 'second']\n[{3}:'hash', 'id', 'second']"];
   12 -> 11 [label = "[{3}:'hash', 'id', 'second']\n[{3}:'hash', 'id', 'second']"];
   11 -> 10 [label = "[{3}:'hash', 'second', 'idRef']\n[{3}:'hash', 'second', 'idRef']"];
