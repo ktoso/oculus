@@ -36,7 +36,7 @@ object ScaldingJobRunner extends App {
 
   val tool = new NoJarTool(
     wrappedTool = new scalding.Tool,
-    collectClassesFrom = Some(new File("target/scala-2.10/classes")),
+    collectClassesFrom = Some(new File("/home/kmalawski/oculus/scalding/target/scala-2.10/classes")),
     libJars = List(new File("/home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar"))
   )
 
