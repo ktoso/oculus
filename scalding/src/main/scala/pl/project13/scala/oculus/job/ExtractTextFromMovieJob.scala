@@ -25,7 +25,7 @@ class ExtractTextFromMovieJob(args: Args) extends Job(args)
   val Metadata = new MyHBaseSource(
     tableName = "metadata",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'id,
+    keyFields = 'rowId,
     familyNames = Array("youtube", "youtube",  "text"),
     valueFields = Array('id,       'crawledAt, 'text)
 
