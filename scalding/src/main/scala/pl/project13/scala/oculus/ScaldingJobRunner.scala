@@ -35,11 +35,7 @@ object ScaldingJobRunner extends App {
   val appConfig: Config = ConfigFactory.load()
 
   val projHome = "/home/kmalawski/oculus/scalding"
-  val tool = new NoJarTool(
-    wrappedTool = new scalding.Tool,
-    collectClassesFrom = Some(new File(projHome + "/target/scala-2.10/classes")),
-    libJars = List(new File(projHome + "/target/scalding-1.0.0.jar"))
-  )
+  val tool = new NoJarTool(new scalding.Tool)
 
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>
     conf.setStrings(key, value.unwrapped.toString)
