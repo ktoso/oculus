@@ -38,11 +38,10 @@ import java.nio.file.attribute.BasicFileAttributes
 @InterfaceStability.Unstable
 class NoJarTool(
     wrappedTool: hadoop.util.Tool,
+    config: Configuration,
     collectClassesFrom: Option[File] = Some(new File("/home/kmalawski/oculus/scalding" + "/target/scala-2.10/classes")),
     libJars: List[File] = List(new File("/home/kmalawski/oculus/scalding" + "/target/scalding-1.0.0.jar"))
   ) extends Tool {
-
-  private var config = new Configuration()
 
   require(libJars.forall(_.exists()), "All libJars must exist! Given: " + libJars)
 
@@ -106,7 +105,7 @@ class NoJarTool(
     config.setStrings("tmpjars", jarsOrClasses: _*)
   }
 
-  override def setConf(conf: Configuration): Unit = this.config = conf
+  override def setConf(conf: Configuration): Unit = {}
 
   override def getConf: Configuration = config
 

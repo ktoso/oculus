@@ -15,7 +15,7 @@ case class HadoopProcessRunner(args: List[String]) {
     val scaldingTool = new scalding.Tool
     scaldingTool.setConf(conf)
 
-    val tool = new NoJarTool(scaldingTool)
+    val tool = new NoJarTool(scaldingTool, conf)
     tool.setConf(conf)
 
     ToolRunner.run(conf, tool, args.toArray)
