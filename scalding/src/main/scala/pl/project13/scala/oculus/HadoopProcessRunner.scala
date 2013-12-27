@@ -15,7 +15,7 @@ case class HadoopProcessRunner(args: List[String]) {
     val tool = new NoJarTool(
       wrappedTool = new scalding.Tool,
       collectClassesFrom = Some(new File("target/scala-2.10/classes")),
-      libJars = List(new File("/home/kmalawski/oculus/scalding-dependencies.jar"))
+      libJars = List(new File("/home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar"))
     )
 
     ToolRunner.run(conf, tool, args.toArray)
