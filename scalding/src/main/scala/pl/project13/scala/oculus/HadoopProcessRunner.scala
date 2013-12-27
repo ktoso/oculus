@@ -12,17 +12,12 @@ case class HadoopProcessRunner(args: List[String]) {
   val hadoopBin = findHadoopBin()
 
   def runAndWait(conf: Configuration) = {
-    val scaldingTool = new scalding.Tool
-    scaldingTool.setConf(conf)
+//    val tool = new NoJarTool(new scalding.Tool, conf)
+//    ToolRunner.run(conf, tool, args.toArray)
 
-    val tool = new NoJarTool(scaldingTool, conf)
-    tool.setConf(conf)
+    val process = Process(hadoopBin :: "jar" :: locateOculusScaldingJar :: args)
 
-    ToolRunner.run(conf, tool, args.toArray)
-
-//    val process = Process(hadoopBin :: "jar" :: locateOculusScaldingJar :: args)
-//
-//    process.!(ProcessLogger(l => println("hadoop: " + l)))
+    process.!(ProcessLogger(l => println("hadoop: " + l)))
   }
 
 
