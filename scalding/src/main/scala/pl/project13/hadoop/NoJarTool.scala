@@ -44,8 +44,8 @@ import java.nio.file.attribute.BasicFileAttributes
 @InterfaceStability.Unstable
 class NoJarTool(
     wrappedTool: hadoop.util.Tool,
-    collectClassesFrom: Option[File] = Some(new File("target/scala-2.10/classes/")),
-    libJars: List[File] = Nil
+    collectClassesFrom: Option[File] = Some(new File("/home/kmalawski/oculus/scalding" + "/target/scala-2.10/classes")),
+    libJars: List[File] = List(new File("/home/kmalawski/oculus/scalding" + "/target/scalding-1.0.0.jar"))
   ) extends Tool {
 
   private var config = new Configuration()
@@ -112,7 +112,7 @@ class NoJarTool(
 
   private def prefixWithFileIfNeeded(path: String): String = {
     val prefix = "file:///"
-    
+
     if (path.startsWith(prefix)) path
     else prefix + path
   }

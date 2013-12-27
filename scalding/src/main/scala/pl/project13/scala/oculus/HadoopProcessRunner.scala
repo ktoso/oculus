@@ -12,11 +12,11 @@ case class HadoopProcessRunner(args: List[String]) {
   val hadoopBin = findHadoopBin()
 
   def runAndWait(conf: Configuration) = {
-    val projHome = "/home/kmalawski/oculus/scalding"
+    val projHome =
     val tool = new NoJarTool(
       wrappedTool = new scalding.Tool,
-      collectClassesFrom = Some(new File(projHome + "/target/scala-2.10/classes")),
-      libJars = List(new File(projHome + "/target/scalding-1.0.0.jar"))
+      collectClassesFrom = ,
+      libJars = List(new File(projHome + ))
     )
 
     ToolRunner.run(conf, tool, args.toArray)

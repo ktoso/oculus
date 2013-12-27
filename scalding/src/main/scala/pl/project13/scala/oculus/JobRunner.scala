@@ -44,7 +44,7 @@ trait OculusJobs {
   /** Override if you need other than default settings - loads up ''application.conf'' */
   def appConfig: Config = ConfigFactory.load()
 
-  conf.setStrings("", "org.apache.hadoop.hdfs.DistributedFileSystem")
+  conf.setStrings("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>
     conf.setStrings(key, value.unwrapped.toString)
   }
