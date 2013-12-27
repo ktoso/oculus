@@ -1,16 +1,29 @@
 package pl.project13.scala.oculus
 
 import java.io.File
+import com.twitter.scalding
 import scala.sys.process._
+import pl.project13.hadoop.NoJarTool
+import org.apache.hadoop.util.ToolRunner
+import org.apache.hadoop.conf.Configuration
 
 case class HadoopProcessRunner(args: List[String]) {
 
   val hadoopBin = findHadoopBin()
 
-  def runAndWait() = {
-    val process = Process(hadoopBin :: "jar" :: locateOculusScaldingJar :: args)
+  def runAndWait(conf: Configuration) = {
+    val tool = new NoJarTool(
+      wrappedTool = new scalding.Tool,
+      collectClassesFrom = Some(new File("target/scala-2.10/classes")),
+      libJars = List(new File("/home/kmalawski/oculus/scalding-dependencies.jar"))
+    )
 
-    process.!(ProcessLogger(l => println("hadoop: " + l)))
+    ToolRunner.run(conf, tool, args.toArray)
+
+
+//    val process = Process(hadoopBin :: "jar" :: locateOculusScaldingJar :: args)
+//
+//    process.!(ProcessLogger(l => println("hadoop: " + l)))
   }
 
 

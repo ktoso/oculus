@@ -20,6 +20,7 @@ object JobRunner extends App with OculusJobs {
     (1, "hash one file", hashSequenceFile _) ::
     (2, "compare two movies", compareTwoMovies _) ::
     (3, "find movies similar to given", findSimilarToGiven _) ::
+    (4, "extract text from movie", extractText _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -43,7 +44,7 @@ trait OculusJobs {
   /** Override if you need other than default settings - loads up ''application.conf'' */
   def appConfig: Config = ConfigFactory.load()
 
-  conf.setStrings("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
+  conf.setStrings("", "org.apache.hadoop.hdfs.DistributedFileSystem")
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>
     conf.setStrings(key, value.unwrapped.toString)
   }
@@ -77,13 +78,7 @@ trait OculusJobs {
 
       Mode.mode = Hdfs(false, conf)
 
-//      // todo oh my god, the pain!
-//      conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
-//      FixCascading.getApplicationJarClass(classOf[hadoop.util.Tool])
-//
-//      hadoop.util.ToolRunner.run(conf, tool, allArgs)
-
-      HadoopProcessRunner(allArgs).runAndWait()
+      HadoopProcessRunner(allArgs).runAndWait(conf)
 
       println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
@@ -106,9 +101,13 @@ trait OculusJobs {
     println(("allArgs = " + allArgs).bold)
     println("-----------------------------------".bold)
 
-    HadoopProcessRunner(allArgs).runAndWait()
+    HadoopProcessRunner(allArgs).runAndWait(conf)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
+  }
+
+  def extractText(args: Seq[String]) = {
+    simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
   }
 
 
@@ -137,7 +136,7 @@ trait OculusJobs {
     println(("allArgs = " + allArgs.toList).bold)
     println("-----------------------------------".bold)
 
-    HadoopProcessRunner(allArgs.toList).runAndWait()
+    HadoopProcessRunner(allArgs.toList).runAndWait(conf)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
