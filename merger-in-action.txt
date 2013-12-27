@@ -1,0 +1,81 @@
+2013-12-27 19:03:56,591 INFO org.apache.hadoop.mapred.MapTask: Finished spill 56
+2013-12-27 19:03:56,598 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:03:56,598 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:03:56,599 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:03:56,601 INFO org.apache.hadoop.mapred.Merger: Merging 57 sorted segments
+2013-12-27 19:03:56,689 INFO org.apache.hadoop.mapred.Merger: Merging 3 intermediate segments out of a total of 57
+2013-12-27 19:03:56,690 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:03:56,690 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:03:56,690 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:04:13,079 INFO org.apache.hadoop.mapred.Merger: Merging 10 intermediate segments out of a total of 55
+2013-12-27 19:04:13,080 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:04:13,080 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:04:13,080 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:05:09,390 INFO org.apache.hadoop.mapred.Merger: Merging 10 intermediate segments out of a total of 46
+2013-12-27 19:05:09,818 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:05:09,818 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:05:09,818 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:06:06,922 INFO org.apache.hadoop.mapred.Merger: Merging 10 intermediate segments out of a total of 37
+2013-12-27 19:06:06,923 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:06:06,923 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:06:06,923 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:07:07,458 INFO org.apache.hadoop.mapred.Merger: Merging 10 intermediate segments out of a total of 28
+2013-12-27 19:07:09,550 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:07:09,550 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:07:09,551 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+
+
+
+
+2013-12-27 19:08:04,749 INFO org.apache.hadoop.mapred.Merger: Merging 10 intermediate segments out of a total of 19
+2013-12-27 19:08:04,750 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:08:04,750 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:08:04,750 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:09:02,557 INFO org.apache.hadoop.mapred.Merger: Down to the last merge-pass, with 10 segments left of total size: 4546393446 bytes
+2013-12-27 19:09:02,557 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:09:02,557 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:09:02,557 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+
+
+
+
+
+
+THEN THE REDUCER DOES THE GROUP_ALL
+
+
+
+
+
+
+2013-12-27 19:21:01,695 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0044_r_000000_0 Need another 2 map output(s) where 2 is already in progress
+2013-12-27 19:21:01,695 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0044_r_000000_0 Scheduled 0 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:21:42,171 INFO org.apache.hadoop.mapred.ReduceTask: Read 4546393432 bytes from map-output for attempt_201312262230_0044_m_000000_0
+2013-12-27 19:21:42,178 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0044_r_000000_0 Thread waiting: Thread for merging on-disk files
+2013-12-27 19:22:02,186 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0044_r_000000_0 Need another 1 map output(s) where 1 is already in progress
+2013-12-27 19:22:02,186 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0044_r_000000_0 Scheduled 0 outputs (0 slow hosts and0 dup hosts)
+2013-12-27 19:22:34,593 INFO org.apache.hadoop.mapred.ReduceTask: Read 4550343488 bytes from map-output for attempt_201312262230_0044_m_000001_0
+2013-12-27 19:22:34,603 INFO org.apache.hadoop.mapred.ReduceTask: attempt_201312262230_0044_r_000000_0 Thread waiting: Thread for merging on-disk files
+2013-12-27 19:22:35,205 INFO org.apache.hadoop.mapred.ReduceTask: GetMapEventsThread exiting
+2013-12-27 19:22:35,206 INFO org.apache.hadoop.mapred.ReduceTask: getMapsEventsThread joined.
+2013-12-27 19:22:35,206 INFO org.apache.hadoop.mapred.ReduceTask: Closed ram manager
+2013-12-27 19:22:35,207 INFO org.apache.hadoop.mapred.ReduceTask: Interleaved on-disk merge complete: 2 files left.
+2013-12-27 19:22:35,207 INFO org.apache.hadoop.mapred.ReduceTask: In-memory merge complete: 0 files left.
+2013-12-27 19:22:35,654 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:22:42,014 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:22:42,071 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:22:42,353 INFO org.apache.hadoop.mapred.ReduceTask: Merging 2 files, 9096736920 bytes from disk
+2013-12-27 19:22:42,353 INFO org.apache.hadoop.mapred.ReduceTask: Merging 0 segments, 0 bytes from memory into reduce
+2013-12-27 19:22:42,355 INFO org.apache.hadoop.mapred.Merger: Merging 2 sorted segments
+2013-12-27 19:22:42,438 INFO org.apache.hadoop.mapred.Merger: Down to the last merge-pass, with 2 segments left of total size: 9096736912 bytes
+2013-12-27 19:22:42,452 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:22:42,453 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:22:42,453 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:22:42,815 INFO cascading.flow.hadoop.FlowReducer: cascading version: Concurrent, Inc - Cascading 2.1.6
+2013-12-27 19:22:42,815 INFO cascading.flow.hadoop.FlowReducer: child jvm opts: -Xmx200m
+2013-12-27 19:22:49,517 INFO cascading.flow.hadoop.FlowReducer: sourcing from: GroupBy(_pipe_0*_pipe_1)[by:[{1}:'__groupAll__']]
+2013-12-27 19:22:49,517 INFO cascading.flow.hadoop.FlowReducer: sinking to: TempHfs["SequenceFile[['idRef', 'secondRef', 'hashRef', 'idFrame', 'secondFrame', 'hashFrame', 'distance']]"][6612445595/_pipe_0__pipe_1/]
+2013-12-27 19:22:49,586 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
+2013-12-27 19:22:49,770 INFO cascading.tuple.hadoop.TupleSerialization: using hadoop serializations from the job conf: cascading.tuple.hadoop.TupleSerialization,org.apache.hadoop.io.serializer.WritableSerialization,com.twitter.scalding.serialization.KryoHadoop 
+2013-12-27 19:22:49,770 INFO cascading.tuple.hadoop.TupleSerialization: adding serialization token: 127, for classname: org.apache.hadoop.io.BytesWritable
+2013-12-27 19:22:49,963 INFO cascading.tuple.hadoop.TupleSerialization: using default comparator: com.twitter.scalding.IntegralComparator
