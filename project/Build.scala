@@ -160,21 +160,25 @@ object ScaldingAssembly {
     // Slightly cleaner jar name
     jarName in assembly <<= (name, version) { (name, version) => name + "-" + version + ".jar" },
 
-    // Drop these jars
-//    excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
-//      val excludes = Set(
-//        "jsp-api-2.1-6.1.14.jar",
-//        "jsp-2.1-6.1.14.jar",
-//        "jasper-compiler-5.5.12.jar",
-//        "minlog-1.2.jar", // Otherwise causes conflicts with Kyro (which bundles it)
-//        "janino-2.5.16.jar", // Janino includes a broken signature, and is not needed anyway
-//        "commons-beanutils-core-1.8.0.jar", // Clash with each other and with commons-collections
-//        "commons-beanutils-1.7.0.jar",      // "
-//        "hadoop-core-0.20.2.jar", // Provided by Amazon EMR. Delete this line if you're not on EMR
-//        "hadoop-tools-0.20.2.jar" // "
-//      )
-//      cp filter { jar => excludes(jar.data.getName) }
-//    },
+    // Drop these jars, most of which are dependencies of dependencies and already exist
+    // in Hadoop deployments or aren't needed for local mode execution. Some are older
+    // versions of jars that collide with newer versions in the dependency graph!!
+    excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
+      val excludes = Set(
+        "scala-compiler.jar",
+        "jsp-api-2.1-6.1.14.jar",
+        "jsp-2.1-6.1.14.jar",
+        "jasper-compiler-5.5.12.jar",
+        "minlog-1.2.jar", // Otherwise causes conflicts with Kyro (which Scalding pulls in)
+        "janino-2.5.16.jar", // Janino includes a broken signature, and is not needed anyway
+        "commons-beanutils-core-1.8.0.jar", // Clash with each other and with commons-collections
+        "commons-beanutils-1.7.0.jar",
+        "stax-api-1.0.1.jar",
+        "asm-3.1.jar",
+        "scalatest-2.0.jar"
+      )
+      cp filter { jar => excludes(jar.data.getName) }
+    },
 
     mergeStrategy in assembly <<= (mergeStrategy in assembly) { old => {
         case PathList("META-INF", xs @ _*) =>
@@ -182,7 +186,7 @@ object ScaldingAssembly {
             case ("manifest.mf" :: Nil) | ("index.list" :: Nil) | ("dependencies" :: Nil) => MergeStrategy.discard
             case _ => MergeStrategy.discard
           }
-        case _ => MergeStrategy.first
+        case x => old(x)
       }
     }
   )
@@ -202,7 +206,7 @@ object OculusBuild extends Build {
   lazy val common = Project(
     "common",
     file("common"),
-    settings = buildSettings ++ assemblySettings ++
+    settings = buildSettings ++
       Seq(
         libraryDependencies ++= Seq(logback, hbase, scalaz, guava, rainbow, json4sJackson) ++ logging ++ testing
       ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
@@ -211,7 +215,7 @@ object OculusBuild extends Build {
   lazy val scalding = Project(
     "scalding",
     file("scalding"),
-    settings = buildSettings ++ assemblySettings ++ sbtAssemblySettings ++
+    settings = buildSettings ++ sbtAssemblySettings ++
       Seq(
         libraryDependencies ++= hadoops ++ scaldingAll ++ akka2Full ++ testing ++ Seq(hPaste), // ++ powerMockAll,
         mainClass in assembly := Some("com.twitter.scalding.Tool")
