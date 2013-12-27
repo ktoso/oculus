@@ -53,7 +53,11 @@ class NoJarTool(
       val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
-      setLibJars(config, classes ++ jars)
+      val all = classes ++ jars
+
+    all foreach println
+
+      setLibJars(config, all)
     }
 
     ToolRunner.run(config, wrappedTool, args)

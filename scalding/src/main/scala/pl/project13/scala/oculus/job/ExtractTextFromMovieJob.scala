@@ -31,14 +31,14 @@ class ExtractTextFromMovieJob(args: Args) extends Job(args)
 
   )
 
-  val meta = MetadataSchema.MetadataTable
-    .query2
-    .withKey(id)
-    .withFamilies(_.youtube, _.textFamily)
-    .singleOption() match {
-      case Some(row) => row.column(_.text).get
-      case None      => throw new RuntimeException(s"Unable to find metadata row for $id!")
-    }
+//  val meta = MetadataSchema.MetadataTable
+//    .query2
+//    .withKey(id)
+//    .withFamilies(_.youtube, _.textFamily)
+//    .singleOption() match {
+//      case Some(row) => row.column(_.text).get
+//      case None      => throw new RuntimeException(s"Unable to find metadata row for $id!")
+//    }
 
 
 }
