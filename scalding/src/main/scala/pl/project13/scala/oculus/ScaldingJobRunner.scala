@@ -8,6 +8,8 @@ import collection.JavaConversions._
 import com.typesafe.config.{ConfigFactory, Config}
 import com.twitter.scalding.Mode
 import org.apache.hadoop
+import pl.project13.hadoop.NoJarTool
+import java.io.File
 
 object ScaldingJobRunner extends App {
 
@@ -28,13 +30,15 @@ object ScaldingJobRunner extends App {
   args foreach println
 
   val conf = new Configuration
-  val tool = new scalding.Tool
 
   /** Override if you need other than default settings - loads up ''application.conf'' */
-  def appConfig: Config = ConfigFactory.load()
+  val appConfig: Config = ConfigFactory.load()
 
-//  conf.setClass("cascading.app.appjar.class", classOf[scalding.Tool], classOf[hadoop.util.Tool])
-//  conf.setStrings("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
+  val tool = new NoJarTool(
+    wrappedTool = new scalding.Tool,
+    collectClassesFrom = Some(new File("target/scala-2.10/classes")),
+    libJars = List(new File("/home/kmalawski/oculus/scalding-dependencies.jar"))
+  )
 
   allOculusHadoopSettings(appConfig) foreach { case (key, value) =>
     conf.setStrings(key, value.unwrapped.toString)

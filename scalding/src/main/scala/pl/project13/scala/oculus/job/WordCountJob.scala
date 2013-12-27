@@ -1,8 +1,10 @@
   package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
+  import pl.project13.scala.oculus.conversions.WriteDOT
 
-class WordCountJob(args: Args) extends Job(args) {
+  class WordCountJob(args: Args) extends Job(args)
+  with WriteDOT {
 
   val inputFile = args("input")
   val outputFile = args("output")

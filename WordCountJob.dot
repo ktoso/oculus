@@ -1,0 +1,17 @@
+digraph G {
+  1 [label = "MemoryTap['TextDelimited[[UNKNOWN]->[ALL]]']['0.8390656805380428']"];
+  2 [label = "Every('TextLine(inFile)')[MRMAggregator[decl:[{1}:'size']]]"];
+  3 [label = "GroupBy('TextLine(inFile)')[by:['word']]"];
+  4 [label = "Each('TextLine(inFile)')[CompositeFunction[decl:[{2}:'word', '__middlefield__0']]]"];
+  5 [label = "Each('TextLine(inFile)')[FlatMapFunction[decl:[{1}:'word']]]"];
+  6 [label = "MemoryTap['TextLine[['offset', 'line']->[ALL]]']['0.98139572791271']"];
+  7 [label = "[head]\nConcurrent, Inc - Cascading 2.1.6\nlocal:2.1.6:Concurrent, Inc."];
+  8 [label = "[tail]"];
+  5 -> 4 [label = "[{3}:'offset', 'line', 'word']\n[{3}:'offset', 'line', 'word']"];
+  4 -> 3 [label = "[{2}:'word', '__middlefield__0']\n[{2}:'word', '__middlefield__0']"];
+  3 -> 2 [label = "TextLine(inFile)[{1}:'word']\n[{2}:'word', '__middlefield__0']"];
+  7 -> 6 [label = ""];
+  1 -> 8 [label = "[{2}:'word', 'size']\n[{2}:'word', 'size']"];
+  6 -> 5 [label = "[{2}:'offset', 'line']\n[{2}:'offset', 'line']"];
+  2 -> 1 [label = "[{2}:'word', 'size']\n[{2}:'word', '__middlefield__0']"];
+}

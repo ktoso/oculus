@@ -65,6 +65,12 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 //      .read
 //      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
 //      .rename('id -> 'histId)
+//
+//  val otherHistograms =
+//    Histograms
+//      .read
+//      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
+//      .rename('id -> 'histId)
 
 //  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
 
@@ -88,56 +94,6 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     }
     .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistanceFormatted, 'idRef)))
 
-//  referenceHashes.crossWithTiny(frameHashes)
-//    .map(('frameHash, 'refHash) -> ('frame, 'ref, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
-//      val (frame, reference) = x
-//
-//      (
-//        frame.get.mkString(" "),
-//        reference.get.mkString(" "),
-//        Distance.hammingDistance(reference.get, frame.get)
-//      )
-//    }
-//    .insert('inputId, FilenameUtils.getBaseName(inputId))
-//    .groupAll {
-//      _.sortBy('distance)
-////      _.sortWithTake('distance -> 'out, TakeTopK) {
-////        (d0: Int, d1: Int) => d0 < d1
-////      }
-//    }
-//    .limit(takeTopK)
-//    .write(Csv(output, writeHeader = true, fields = ('distance, 'id, 'inputId, 'frameHash, 'frame, 'refHash, 'ref)))
-
-
-//  override val youtubeId = FilenameUtils.getBaseName(input)
-//
-//  Hashes
-//    .read
-////    .mapTo(('key, 'value) -> 'mhHash) { p: (Int, BytesWritable) => mhHash(p) }
-////    .map('mhHash -> 'id) { h: ImmutableBytesWritable => youtubeId.asImmutableBytesWriteable } // because hbase Sink will cast to it, we need ALL fields as these
-//  .map(('mhHash, 'youtube) -> 'pairs) {  }
-
-
-
-
-/*
-val things = List(1, 2, 5, 36, 23, 76) // this is a huge hbase table
-val others = List(1, 2, 3) // this is a small (2000 items) collection
-
-def similar(a: Int, b: Int): Double = a - b // this is a smart comparator, it returns "similar in 86.5%"
-
-// I need to compare the small set, against all items from the huge table - one full scan
-val matchOrNot = things flatMap { h =>
-  others map { m => (h, m, similar(h, m)) }
-}
-
-// order by the ranking
-val ranking = matchOrNot sortBy { - _._3 }
-
-// get the best matches
-val topMatches = ranking take 3
-
-*/
 
 }
 

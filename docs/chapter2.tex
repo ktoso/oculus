@@ -1,12 +1,27 @@
-\section{Architecture overview}
+\chapter{Architecture overview}
 In this chapter I will present a broad overview on the system's design and various components.
 It should also provide some background to why a distributed file system was required in order to enable this system,
 and why only a distributed system is suited to handle the kind of jobs that Oculus is designed for.
 
-\section{HDFS - Distributed File System}
+\section{Hadoop Distributed File System - HDFS}
+
+The primary enabeler for this project, and many ,,big data'' projects in the recent years is Hadoop and it's Distributed File System -- for short \textit{HDFS}.
+
+Hadoop is a Java implementation of the ,,Map Reduce'' white paper published in 2004 by Google \todo{need ref}. It first  developed internally at \textit{Yahoo} and then open-sourced in 2007 and is now under the Apache Software Foundation's umbrella, 
 
 \todo{TODO explain why HDFS is the reasonable choice here}
 
-\section{Akka - Distributed Actor System}
+\section{Distributed Actor System - Akka}
+
+In order to enable fast downloading and uploading of video material into the system, an Actor System based solution was implemented.
+The used framework, which provided the basic Actor building blocks, is Akka, a JVM based implementation of the Erlang Actor Model of Concurrency. The implementation language selected was Scala, as it's a first-class citizen in the Akka world, as well as for it's conciseness and semantic power.
+
+\todo{image for actor system here}
+
+The Actor Model of computation raises the level of abstraction we operate on in parallel applications beyond threads, and instead
+we use Actors. An Actor can be described as an entity that can only recieve and send messages. An external system (the so-called "Actor System") is responsible for assigning Threads to Actors, so that they can perform the work - upon recieving a message.
+
+This model has the advantage of hiding any state the Actor may have from other Actors it interacts with, thus there are by definition no race conditions as no shared-mutable state can be observed in such a system. While the Actor Model of concurrency was designed for local interactions - that is, avoiding shared state in highly parallel systems it also has a significant impact on distributed systems. Because actors share no state, and it is only possible to interact with an Actor using messages it does not matter \textit{where} an Actor is residing -- for example it might reside on another node in our computation cluster. This property was used in Oclus in order to distribute the work-load related to downloading, pre-processing as well as initially uploading the raw video content into the distributed file system.
+
 
 \todo{TODO why do we need actors here? why does it make sense to distribute the work}

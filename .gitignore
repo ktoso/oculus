@@ -1,4 +1,5 @@
 .idea
+scalding-dependencies.jar
 *crc
 .idea_modules
 **/*.class

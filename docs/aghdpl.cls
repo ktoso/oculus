@@ -4,7 +4,7 @@
 %          
 % Author:  Marcin Szpyrka     (mszpyrka@agh.edu.pl)
 %          Grzegorz J. Nalepa (gjn@agh.edu.pl)
-%          AGH University of Science and Technology, Krak體, POLAND
+%          AGH University of Science and Technology, Krak贸w, POLAND
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -184,13 +184,13 @@ University of Science and Technology in Krakow}}}
 \flushbottom
 
 %---------------------------------------------------------------------------
-% Ustawienia parametr體 dla tytu丑w rozdzia丑w, podrozdzia丑w, itd.
+% Ustawienia parametr贸w dla tytu鲁贸w rozdzia鲁贸w, podrozdzia鲁贸w, itd.
 %---------------------------------------------------------------------------
 
 
 \titleformat{\chapter}[block]
 {\bfseries\LARGE}{\filright \LARGE\thechapter. }{0ex}{}
-%odst阷y: lewy, g髍a, d蟪
+%odst锚py: lewy, g贸ra, d贸鲁
 \titlespacing{\chapter}{0pt}{17mm}{19mm}
 \titleformat{\section}[block]
 {\bfseries\Large}{\filright \Large\thesection. }{0ex}{}
@@ -203,7 +203,7 @@ University of Science and Technology in Krakow}}}
 \titlespacing{\subsubsection}{7mm}{3mm}{1.5mm}
 
 %---------------------------------------------------------------------------
-% Ustawienia parametr體 generowania spisu tre禼i i spisu rysunk體
+% Ustawienia parametr贸w generowania spisu tre露ci i spisu rysunk贸w
 %---------------------------------------------------------------------------
 
 \renewcommand{\cfttoctitlefont}{\bfseries\Large}

@@ -3,13 +3,13 @@
 The system, from here to be refered to by the name ,,\textit{Oculus}'', is designed with an asynchronous as well as distributed aproach in mind. In order to achieve high asynchronousity between obtaining new reference data, and running jobs such as ,,compare video1 with the reference database'', the system was split into two primary components: 
 
 \begin{itemize}
-  \item \textbf{downloader} -- which is responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata,
+  \item \textbf{loader} -- which is responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata,
   \item and the \textbf{job runner} -- which is responsible for running computations on top of the hadoop cluster and reference databases.
 \end{itemize}
 
 In this chapter I will discuss the high-level design of these subsystems, and how they interact with each other. In the next chapter I will describe each of the systems technical challanges and how they were solved.
 
-\section{Downloader}
+\section{Loader}
 The downloader is responsible for obtaining as much as possible ,,reference data'', by which I mean video material -- from sites such as \textit{youtube.com} or video hosting sites.
 
 It should be also noted that while I refer to this system as ,,the'' downloader, in fact it is composed out of many instances of the same application, sharing the common workload of downloading and converting the input data. The deployment diagram on drawing [12] explains the interactions between the nodes.
@@ -33,4 +33,12 @@ As mentioned before, the system is fully distributed and \textit{any node can pe
 
 
 \section{Job Runner}
-The job runners responsility is at the core of the systems
+The job runners responsibility is at the core of the systems... \todo{finish me}
+
+\subsection{Tackling the ,,small-files problem'' on HDFS}
+In this section I will explain the ,,small-files problem'' which would lead to major performance degradation of the Hadoop cluster is left undressed, and how I solved it in the reference system -- Oculus.
+
+The so called ,,\textit{small files problem}'' is a known problem in the Hadoop world relating to how HDFS stores files. 
+The problem arises whenever we try to store files smaller than the block size used by HDFS to allocate files. One can think of it as wasting space -- because Hadoop allocates at least one block per file we store in it, and all operations (such as migrating data between nodes, reading files into memory etc.) are optimised towards larger block-sizes (usually around 32MB or 64MB). 
+
+To illustrate the problem with an example: if we try storing a 2MB file in HDFS we'll in fact produce 62MB of ,,wasted space'', reducing the cluster's capacity way faster than we ought to. Another p

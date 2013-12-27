@@ -19,6 +19,8 @@ object MetadataSchema extends Schema with HBaseConfig {
     val json = column(youtube, "json", classOf[String])
     val crawledAt = column(youtube, "crawledAt", classOf[DateTime])
 
+    val textFamily = family[String, String, Any]("text")
+    val text = column(youtube, "text", classOf[String])
   }
 
   class PropsTableRow(table: MetadataTable, result: DeserializedResult) extends HRow[MetadataTable, String](result, table)
