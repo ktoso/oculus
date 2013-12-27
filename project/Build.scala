@@ -174,6 +174,7 @@ object ScaldingAssembly {
         "commons-beanutils-core-1.8.0.jar", // Clash with each other and with commons-collections
         "commons-beanutils-1.7.0.jar",
         "stax-api-1.0.1.jar",
+        "mockito-all-1.9.0.jar",
         "asm-3.1.jar",
         "scalatest-2.0.jar"
       )
