@@ -14,42 +14,48 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
   with OculusStringConversions
   with Hashing {
 
-  /** seq file with images */
-  val inputMovie1 = args("input1")
-
-  /** seq file with images */
-  val inputMovie2 = args("input2")
+  val id1 = args("id1")
+  val id2 = args("id2")
 
   val output = args("output")
   
 
   // --- 
 
-  val id1 = inputMovie1.asImmutableBytesWriteable
-  val id2 = inputMovie2.asImmutableBytesWriteable
-
-  val Hashes = new MyHBaseSource(
+  val Hashes1 = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'mhHash,
     familyNames = Array("youtube", "youtube"),
-    valueFields = Array('id, 'frame)
+    valueFields = Array('id,       'frame)
+  )
+
+  val Hashes2 = new MyHBaseSource(
+    tableName = "hashes",
+    quorumNames = IPs.HadoopMasterWithPort,
+    keyFields = 'mhHash,
+    familyNames = Array("youtube", "youtube"),
+    valueFields = Array('id,       'frame)
   )
 
   val movie1 = 
-    WritableSequenceFile(inputMovie1, ('key1, 'value))
+    Hashes1
       .read
-      .map(('key1, 'value) -> ('id1, 'frameHash1)) { p: (Int, BytesWritable) => id1 -> mhHash(p) }
-      .discard('value)
+      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains id1 }
+      .rename('id -> 'id1)
+      .rename('mhHash -> 'mhHash1)
+      .rename('frame -> 'frame1)
 
   val movie2 = 
-    WritableSequenceFile(inputMovie2, ('key2, 'value))
+    Hashes2
       .read
-      .map(('key2, 'value) -> ('id2, 'frameHash2)) { p: (Int, BytesWritable) => id2 -> mhHash(p) }
-      .discard('value)
-    
+      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains id2 }
+      .rename('id -> 'id2)
+      .rename('mhHash -> 'mhHash2)
+      .rename('frame -> 'frame2)
+
   
-  movie1.joinWithLarger('key1 -> 'key2, movie2)
+  movie1.joinWithSmaller('key1 -> 'key2, movie2)
     .map(('frameHash1, 'frameHash2) -> ('h1, 'h2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (h1, h2) = x
 

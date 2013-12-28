@@ -59,7 +59,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
-      .sample(50.0)
+      .sample(25.0)
 
 //  val inputHistograms =
 //    Histograms
@@ -83,7 +83,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
     .groupAll { _.sortBy('distance) }
-    .write(Tsv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
+    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
 
   // group and find most similar movies
   val totalDistances = distances
@@ -94,7 +94,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     .groupBy('idRef) {
       _.sortBy('totalDistance).reverse   // we want the lowest distance first
     }
-    .write(Tsv(outputRanking, writeHeader = true, fields = ('totalDistanceFormatted, 'idRef)))
+    .write(Csv(outputRanking, writeHeader = true, fields = ('totalDistanceFormatted, 'idRef)))
 
 
 }

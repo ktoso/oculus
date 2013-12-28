@@ -1,0 +1,4 @@
+Cleaning trash cleares up data from /trash.
+A deleted file stays there for a configurable time.
+
+Since we don't need our exported data anymore, I can -rmr and then: `hadoop fs -expunge` which saved my 20G of data right away.
