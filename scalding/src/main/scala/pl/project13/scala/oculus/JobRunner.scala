@@ -105,7 +105,7 @@ trait OculusJobs {
 
     val jobClassName = jobClazz.getCanonicalName
 
-    println(s"Starting execution of job $jobClassName ...".green)
+    println(s"Starting execution of job ${jobClassName.bold} ...".green)
 
     val allArgs = List(
       jobClassName,
@@ -113,7 +113,7 @@ trait OculusJobs {
     ) ++ args.toList
 
     println("-----------------------------------".bold)
-    println(("allArgs = " + allArgs.toList).bold)
+    println(("args = " + allArgs.toList).bold)
     println("-----------------------------------".bold)
 
     HadoopProcessRunner(allArgs.toList).runAndWait(conf)
