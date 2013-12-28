@@ -113,6 +113,9 @@ class NoJarTool(
   override def getConf: Configuration = config
 
   private def prefixWithFileIfNeeded(path: String): String = {
-    path
+    val prefix = "file:///"
+
+    if (path.startsWith(prefix)) path
+    else prefix + path
   }
 }
