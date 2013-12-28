@@ -3,12 +3,15 @@ package pl.project13.hadoop
 import org.apache.hadoop.classification.{InterfaceStability, InterfaceAudience}
 import org.apache.hadoop.util.{GenericOptionsParser, Tool, ToolRunner}
 import org.apache.hadoop.conf.Configuration
-import java.io.File
-import java.nio.file.{FileVisitResult, SimpleFileVisitor, Files, Path}
+import java.io.{FileOutputStream, FileInputStream, File}
+import java.nio.file._
 import scala.collection.mutable.ListBuffer
 import org.apache.hadoop
 import java.nio.file.attribute.BasicFileAttributes
 import java.net.{URLClassLoader, URL}
+import org.apache.hadoop.io.IOUtils
+import java.util.zip.{ZipOutputStream, ZipEntry}
+import scala.Some
 
 /**
  * Allows running jobs in "real mode", instead of Cascading's "local mode" straight from the sbt console.
@@ -40,6 +43,7 @@ import java.net.{URLClassLoader, URL}
 class NoJarTool(
     wrappedTool: hadoop.util.Tool,
     config: Configuration,
+    buildMockJar: Boolean = true,
     collectClassesFrom: Option[File] = Some(new File("/home/kmalawski/oculus/scalding" + "/target/scala-2.10/classes")),
     libJars: List[File] = List(new File("/home/kmalawski/oculus/scalding" + "/target/scalding-1.0.0.jar"))
   ) extends Tool {
@@ -50,11 +54,15 @@ class NoJarTool(
     checkIfConfigValidForRealMode(config)
 
     collectClassesFrom map { classesDir =>
-      val classHome = List(prefixWithFileIfNeeded(classesDir.getAbsolutePath), prefixWithFileIfNeeded("/home/kmalawski/jobs.jar"))
+      val classHomeOrMockJars = if (buildMockJar)
+        List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
+      else
+        List(prefixWithFileIfNeeded(buildMockJar(classesDir).getAbsolutePath))
+
       val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
-      val all = classHome ++ classes ++ jars
+      val all = classHomeOrMockJars ++ classes ++ jars
 
       setLibJars(config, all)
     }
@@ -80,6 +88,38 @@ class NoJarTool(
     })
 
     buffer.toList
+  }
+
+  /**
+   * @return path to created mock zip
+   */
+  def buildMockJar(classesDir: File): String = {
+    val base = Paths.get("/target/scala-2.10/classes")
+
+    // Create a buffer for reading the files
+    val classes = collectClasses(classesDir)
+    val target = "target/jobs-mock.jar"
+    val zos = new ZipOutputStream(new FileOutputStream(target))
+
+    // Compress the files
+    classes.foreach { clazzPath =>
+        val in = new FileInputStream(clazzPath.toFile.getAbsoluteFile)
+
+        // Add ZIP entry to output stream.
+        zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toString))
+
+        // Transfer bytes from the file to the ZIP file
+        IOUtils.copyBytes(in, zos, 215)
+
+        // Complete the entry
+        zos.closeEntry()
+        in.close()
+    }
+
+    zos.close()
+    println("Created mock jar with target's classes: " + target)
+
+    target
   }
 
   /**
