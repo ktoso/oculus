@@ -8,7 +8,7 @@ import java.nio.file.{FileVisitResult, SimpleFileVisitor, Files, Path}
 import scala.collection.mutable.ListBuffer
 import org.apache.hadoop
 import java.nio.file.attribute.BasicFileAttributes
-import java.net.URL
+import java.net.{URLClassLoader, URL}
 
 /**
  * Allows running jobs in "real mode", instead of Cascading's "local mode" straight from the sbt console.
@@ -51,11 +51,10 @@ class NoJarTool(
 
     collectClassesFrom map { classesDir =>
       val classHome = List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
-//      val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
+      val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
-//      val all = classHome ++ classes ++ jars
-      val all = classHome ++ jars
+      val all = classHome ++ classes ++ jars
 
       setLibJars(config, all)
     }
@@ -110,7 +109,14 @@ class NoJarTool(
     config.setStrings("tmpjars", jarsOrClasses: _*)
     println("config.getStrings(tmpjars) = " + config.getStrings("tmpjars"))
 
-    GenericOptionsParser.getLibJars(config) foreach { lib =>
+    val libjars: Array[URL] = GenericOptionsParser.getLibJars(config)
+
+    if (libjars != null && libjars.length > 0) {
+      config.setClassLoader(new URLClassLoader(libjars, config.getClassLoader))
+      Thread.currentThread.setContextClassLoader(new URLClassLoader(libjars, Thread.currentThread.getContextClassLoader))
+    }
+
+    libjars foreach { lib =>
       println("got lib = " + lib)
     }
   }
