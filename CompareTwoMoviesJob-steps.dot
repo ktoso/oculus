@@ -1,0 +1,5 @@
+digraph G {
+  1 [label = "[(1/2)]\nsrc:[a81ee552-8b50-44b0-a48c-43d2a6a6fc23][8cc69a84-be89-419c-bd0c-23120a9b7bb4]\ngrp:_pipe_1*_pipe_2"];
+  2 [label = "[(2/2) ...HxKVM_AND_HTYBXw-RlzM.out]\ngrp:_pipe_1*_pipe_2\nsnk:[/oculus/compare-XMXgHfHxKVM_AND_HTYBXw-RlzM.out]"];
+  1 -> 2;
+}

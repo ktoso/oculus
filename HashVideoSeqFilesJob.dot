@@ -1,17 +1,17 @@
 digraph G {
-  1 [label = "HBaseTap['HBaseScheme[['mhHash', 'id', 'frame']]']['6ce479cd-fea8-4cc8-a234-ae4cde66c01f']"];
-  2 [label = "Each('WritableSequenceFile(hdfs://108.59.81.83:9000/oculus/source/1T__uN5xmC0.mp4.seq,'key', 'value')')[MapFunction[decl:[{1}:'frame']]]"];
-  3 [label = "Each('WritableSequenceFile(hdfs://108.59.81.83:9000/oculus/source/1T__uN5xmC0.mp4.seq,'key', 'value')')[MapFunction[decl:[{6}:'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']]]"];
-  4 [label = "Each('WritableSequenceFile(hdfs://108.59.81.83:9000/oculus/source/1T__uN5xmC0.mp4.seq,'key', 'value')')[Identity[decl:[{1}:'frame']]]"];
-  5 [label = "Hfs['WritableSequenceFile[['key', 'value']]']['hdfs://108.59.81.83:9000/oculus/source/1T__uN5xmC0.mp4.seq']"];
-  6 [label = "HBaseTap['HBaseScheme[['lumHist', 'id', 'frame', 'redHist', 'greenHist', 'blueHist']]']['09214dbf-5da9-4f07-b1d5-0e520d921c02']"];
+  1 [label = "HBaseTap['HBaseScheme[['mhHash', 'id', 'frame']]']['ede6c6ba-210f-4ca5-9579-31bd098e8e8a']"];
+  2 [label = "Each('WritableSequenceFile(/oculus/source/QaRmIOOKLE0.mp4.seq,'key', 'value')')[MapFunction[decl:[{1}:'frame']]]"];
+  3 [label = "Each('WritableSequenceFile(/oculus/source/QaRmIOOKLE0.mp4.seq,'key', 'value')')[MapFunction[decl:[{6}:'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']]]"];
+  4 [label = "Each('WritableSequenceFile(/oculus/source/QaRmIOOKLE0.mp4.seq,'key', 'value')')[Identity[decl:[{1}:'frame']]]"];
+  5 [label = "Hfs['WritableSequenceFile[['key', 'value']]']['/oculus/source/QaRmIOOKLE0.mp4.seq']"];
+  6 [label = "HBaseTap['HBaseScheme[['lumHist', 'id', 'frame', 'redHist', 'greenHist', 'blueHist']]']['606ce4c7-eb6d-4c99-bad8-67b139f46e4b']"];
   7 [label = "[head]\nConcurrent, Inc - Cascading 2.1.6\nHadoop:1.1.2:Apache"];
   8 [label = "[tail]"];
   4 -> 3 [label = "[{2}:'value', 'frame']\n[{2}:'value', 'frame']"];
   3 -> 2 [label = "[{8}:'value', 'frame', 'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']\n[{8}:'value', 'frame', 'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']"];
   7 -> 5 [label = ""];
-  6 -> 8 [label = "[{6}:'lumHist', 'id', 'frame', 'redHist', 'greenHist', 'blueHist']\n[{6}:'lumHist', 'id', 'frame', 'redHist', 'greenHist', 'blueHist']"];
   1 -> 8 [label = "[{3}:'mhHash', 'id', 'frame']\n[{3}:'mhHash', 'id', 'frame']"];
+  6 -> 8 [label = "[{6}:'lumHist', 'id', 'frame', 'redHist', 'greenHist', 'blueHist']\n[{6}:'lumHist', 'id', 'frame', 'redHist', 'greenHist', 'blueHist']"];
   5 -> 4 [label = "[{2}:'key', 'value']\n[{2}:'key', 'value']"];
   2 -> 6 [label = "[{8}:'value', 'frame', 'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']\n[{8}:'value', 'frame', 'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']"];
   2 -> 1 [label = "[{8}:'value', 'frame', 'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']\n[{8}:'value', 'frame', 'id', 'mhHash', 'lumHist', 'redHist', 'greenHist', 'blueHist']"];
