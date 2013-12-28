@@ -115,7 +115,8 @@ class NoJarTool(
       println("clazzPath = " + clazzPath)
       println("base = " + base)
       println("base.relativize(clazzPath).toString = " + base.relativize(clazzPath).toString)
-    
+      println("clazzPath.relativize(base) = " + clazzPath.relativize(base))
+
         zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toFile.toString))
 
         // Transfer bytes from the file to the ZIP file
