@@ -55,8 +55,8 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
       .rename('frame -> 'frame2)
 
   
-  movie1.joinWithSmaller('key1 -> 'key2, movie2)
-    .map(('frameHash1, 'frameHash2) -> ('h1, 'h2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+  movie1.joinWithSmaller('frame1 -> 'frame2, movie2)
+    .map(('mhHash1, 'mhHash2) -> ('h1, 'h2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (h1, h2) = x
 
       (
