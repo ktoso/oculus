@@ -59,7 +59,7 @@ class NoJarTool(
     }
 
     val libs = GenericOptionsParser.getLibJars(config)
-    val setTo: List[String] = "/home/kmalawski/oculus/scalding/target/scala-2.10/classes/" :: libs.map(_.toString).toList
+    val setTo: List[String] = "file:///home/kmalawski/oculus/scalding/target/scala-2.10/classes/" :: libs.map(_.toString).toList
     config.setStrings("tmpjars", setTo: _*)
 
     ToolRunner.run(config, wrappedTool, args)
