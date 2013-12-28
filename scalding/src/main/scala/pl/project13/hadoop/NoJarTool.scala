@@ -100,7 +100,7 @@ class NoJarTool(
    * @return path to created mock zip
    */
   def buildMockJar(classesDir: File): String = {
-    val base = new File("target/scala-2.10/classes").toPath
+    val base = new File("target/scala-2.10/classes").getAbsoluteFile.toPath
 
     // Create a buffer for reading the files
     val classes = collectClasses(classesDir)
@@ -115,6 +115,7 @@ class NoJarTool(
       println("clazzPath = " + clazzPath)
       println("base = " + base)
       println("base.relativize(clazzPath).toString = " + base.relativize(clazzPath).toString)
+    
         zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toFile.toString))
 
         // Transfer bytes from the file to the ZIP file
