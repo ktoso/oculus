@@ -1,7 +1,7 @@
 package pl.project13.hadoop
 
 import org.apache.hadoop.classification.{InterfaceStability, InterfaceAudience}
-import org.apache.hadoop.util.{Tool, ToolRunner}
+import org.apache.hadoop.util.{GenericOptionsParser, Tool, ToolRunner}
 import org.apache.hadoop.conf.Configuration
 import java.io.File
 import java.nio.file.{FileVisitResult, SimpleFileVisitor, Files, Path}
@@ -54,8 +54,6 @@ class NoJarTool(
 
       val all = classes ++ jars
 
-    all foreach println
-
       setLibJars(config, all)
     }
 
@@ -103,6 +101,11 @@ class NoJarTool(
    */
   def setLibJars(config: Configuration, jarsOrClasses: List[String]) {
     config.setStrings("tmpjars", jarsOrClasses: _*)
+    println("config.getStrings(tmpjars) = " + config.getStrings("tmpjars"))
+
+    GenericOptionsParser.getLibJars(config) foreach { lib =>
+      println("got lib = " + lib)
+    }
   }
 
   override def setConf(conf: Configuration): Unit = {}
@@ -114,5 +117,6 @@ class NoJarTool(
 
     if (path.startsWith(prefix)) path
     else prefix + path
+//    path
   }
 }
