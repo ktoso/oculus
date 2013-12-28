@@ -8,6 +8,7 @@ import java.nio.file.{FileVisitResult, SimpleFileVisitor, Files, Path}
 import scala.collection.mutable.ListBuffer
 import org.apache.hadoop
 import java.nio.file.attribute.BasicFileAttributes
+import java.net.URL
 
 /**
  * Allows running jobs in "real mode", instead of Cascading's "local mode" straight from the sbt console.
@@ -56,6 +57,10 @@ class NoJarTool(
 
       setLibJars(config, all)
     }
+
+    val libs = GenericOptionsParser.getLibJars(config)
+    val setTo: List[String] = "/home/kmalawski/oculus/scalding/target/scala-2.10/classes/" :: libs.map(_.toString).toList
+    config.setStrings("tmpjars", setTo: _*)
 
     ToolRunner.run(config, wrappedTool, args)
   }
