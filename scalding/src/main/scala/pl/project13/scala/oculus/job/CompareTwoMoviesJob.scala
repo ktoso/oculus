@@ -17,7 +17,7 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
   val id1 = args("id1")
   val id2 = args("id2")
 
-  val output = args("output")
+  val output = s"/oculus/compare-${id1}_AND_${id2}.out"
   
 
   // --- 
@@ -25,7 +25,7 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
   val Hashes1 = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'mhHash,
+    keyFields = 'mhHash1,
     familyNames = Array("youtube", "youtube"),
     valueFields = Array('id,       'frame)
   )
@@ -33,7 +33,7 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
   val Hashes2 = new MyHBaseSource(
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'mhHash,
+    keyFields = 'mhHash2,
     familyNames = Array("youtube", "youtube"),
     valueFields = Array('id,       'frame)
   )
@@ -41,22 +41,20 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
   val movie1 = 
     Hashes1
       .read
-      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains id1 }
-      .rename('id -> 'id1)
-      .rename('mhHash -> 'mhHash1)
+      .mapTo('id -> 'id1) { id: ImmutableBytesWritable => ibwToString(id) }
+      .filter('id1) { id: String => id contains id1 }
       .rename('frame -> 'frame1)
 
   val movie2 = 
     Hashes2
       .read
-      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains id2 }
-      .rename('id -> 'id2)
-      .rename('mhHash -> 'mhHash2)
+      .mapTo('id -> 'id2) { id: ImmutableBytesWritable => ibwToString(id) }
+      .filter('id2) { id: String => id contains id2 }
       .rename('frame -> 'frame2)
 
   
   movie1.joinWithSmaller('frame1 -> 'frame2, movie2)
-    .map(('mhHash1, 'mhHash2) -> ('h1, 'h2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+    .map(('mhHash1, 'mhHash2) -> ('hash1, 'hash2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (h1, h2) = x
 
       (
@@ -68,7 +66,7 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
     .groupAll {
       _.sortBy('distance)
     }
-    .write(Csv(output, writeHeader = true, fields = ('distance, 'id1, 'id2, 'h1, 'h2)))
+    .write(Csv(output, writeHeader = true, fields = ('distance, 'id1, 'id2, 'frame1, 'frame2, 'hash1, 'hash2)))
 
 }
 
