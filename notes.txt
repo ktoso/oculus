@@ -1,0 +1,2 @@
+DISTANCE
+between a video and its mirror is less than 400,
