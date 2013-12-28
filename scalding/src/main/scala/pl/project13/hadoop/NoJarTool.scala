@@ -60,7 +60,12 @@ class NoJarTool(
         else
           List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
 
-      val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
+      val classes =
+        if (buildMockJar)
+          Nil
+        else
+          collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
+
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
       val all = classHomeOrMockJars ++ classes ++ jars
@@ -95,7 +100,7 @@ class NoJarTool(
    * @return path to created mock zip
    */
   def buildMockJar(classesDir: File): String = {
-    val base = Paths.get("/target/scala-2.10/classes")
+    val base = new File("target/scala-2.10/classes").toPath
 
     // Create a buffer for reading the files
     val classes = collectClasses(classesDir)
