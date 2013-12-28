@@ -100,7 +100,7 @@ class NoJarTool(
    * @return path to created mock zip
    */
   def buildMockJar(classesDir: File): String = {
-    val base = new File("target/scala-2.10/classes").getAbsoluteFile.toPath
+    val base = Paths.get("/home/kmalawski/oculus/scalding", "/target/scala-2.10/classes")
 
     // Create a buffer for reading the files
     val classes = collectClasses(classesDir)
@@ -109,22 +109,17 @@ class NoJarTool(
 
     // Compress the files
     classes.foreach { clazzPath =>
-        val in = new FileInputStream(clazzPath.toFile.getAbsoluteFile)
+      val in = new FileInputStream(clazzPath.toFile.getAbsoluteFile)
 
-        // Add ZIP entry to output stream.
-      println("clazzPath = " + clazzPath)
-      println("base = " + base)
-      println("base.relativize(clazzPath).toString = " + base.relativize(clazzPath).toString)
-      println("clazzPath.relativize(base) = " + clazzPath.relativize(base))
+      // Add ZIP entry to output stream.
+      zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toFile.toString))
 
-        zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toFile.toString))
+      // Transfer bytes from the file to the ZIP file
+      IOUtils.copyBytes(in, zos, 215)
 
-        // Transfer bytes from the file to the ZIP file
-        IOUtils.copyBytes(in, zos, 215)
-
-        // Complete the entry
-        zos.closeEntry()
-        in.close()
+      // Complete the entry
+      zos.closeEntry()
+      in.close()
     }
 
     zos.close()
