@@ -104,7 +104,7 @@ class NoJarTool(
 
     // Create a buffer for reading the files
     val classes = collectClasses(classesDir)
-    val target = "target/jobs-mock.jar"
+    val target = File.createTempFile("target/jobs-mock", ".jar")
     val zos = new ZipOutputStream(new FileOutputStream(target))
 
     // Compress the files
@@ -125,7 +125,7 @@ class NoJarTool(
     zos.close()
     println("Created mock jar with target's classes: " + target)
 
-    target
+    target.getAbsolutePath
   }
 
   /**
