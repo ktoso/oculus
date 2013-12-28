@@ -54,10 +54,11 @@ class NoJarTool(
     checkIfConfigValidForRealMode(config)
 
     collectClassesFrom map { classesDir =>
-      val classHomeOrMockJars = if (buildMockJar)
-        List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
-      else
-        List(prefixWithFileIfNeeded(buildMockJar(classesDir)))
+      val classHomeOrMockJars =
+        if (buildMockJar)
+          List(prefixWithFileIfNeeded(buildMockJar(classesDir)))
+        else
+          List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
 
       val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
