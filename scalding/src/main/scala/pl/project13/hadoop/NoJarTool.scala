@@ -44,8 +44,10 @@ class NoJarTool(
     wrappedTool: hadoop.util.Tool,
     config: Configuration,
     buildMockJar: Boolean = true,
-    collectClassesFrom: Option[File] = Some(new File("/home/kmalawski/oculus/scalding" + "/target/scala-2.10/classes")),
-    libJars: List[File] = List(new File("/home/kmalawski/oculus/scalding" + "/target/scalding-1.0.0.jar"))
+
+    collectClassesFrom: List[File] = List(new File("/home/kmalawski/oculus/scalding/target/scala-2.10/classes"),
+                                          new File("/home/kmalawski/oculus/common/target/scala-2.10/classes")),
+    libJars: List[File] = List(new File("/home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar")) // scalding deps, exclude classes from here: zip -d zip \*oculus\*
   ) extends Tool {
 
   require(libJars.forall(_.exists()), "All libJars must exist! Given: " + libJars)
@@ -53,25 +55,21 @@ class NoJarTool(
   protected def run(args: Array[String]): Int = {
     checkIfConfigValidForRealMode(config)
 
-    collectClassesFrom map { classesDir =>
+    val all = collectClassesFrom flatMap { classesDir =>
       val classHomeOrMockJars =
-        if (buildMockJar)
-          List(prefixWithFileIfNeeded(buildMockJar(classesDir)))
-        else
-          List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
+        if (buildMockJar) List(prefixWithFileIfNeeded(buildMockJar(classesDir)))
+        else List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
 
       val classes =
-        if (buildMockJar)
-          Nil
-        else
-          collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
+        if (buildMockJar) Nil
+        else collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
 
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
-      val all = classHomeOrMockJars ++ classes ++ jars
-
-      setLibJars(config, all)
+      classHomeOrMockJars ++ classes ++ jars
     }
+
+    setLibJars(config, all.toSet)
 
     val libs = GenericOptionsParser.getLibJars(config)
     val setTo: List[String] = "file:///home/kmalawski/oculus/scalding/target/scala-2.10/classes/" :: libs.map(_.toString).toList
@@ -151,8 +149,8 @@ class NoJarTool(
    * @param config config to be updated
    * @param jarsOrClasses '''local''' paths to dependencies, such as class files of your Job, or Scalding's jar itself.
    */
-  def setLibJars(config: Configuration, jarsOrClasses: List[String]) {
-    config.setStrings("tmpjars", jarsOrClasses: _*)
+  def setLibJars(config: Configuration, jarsOrClasses: Set[String]) {
+    config.setStrings("tmpjars", jarsOrClasses.toList: _*)
     println("config.getStrings(tmpjars) = " + config.getStrings("tmpjars"))
 
     val libjars: Array[URL] = GenericOptionsParser.getLibJars(config)
