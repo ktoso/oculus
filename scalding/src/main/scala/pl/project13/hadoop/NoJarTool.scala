@@ -50,10 +50,11 @@ class NoJarTool(
     checkIfConfigValidForRealMode(config)
 
     collectClassesFrom map { classesDir =>
+      val classHome = List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
       val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
-      val all = classes ++ jars
+      val all = classHome ++ classes ++ jars
 
       setLibJars(config, all)
     }
