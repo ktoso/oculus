@@ -113,9 +113,9 @@ class NoJarTool(
 
         // Add ZIP entry to output stream.
       println("clazzPath = " + clazzPath)
-    
+      println("base = " + base)
       println("base.relativize(clazzPath).toString = " + base.relativize(clazzPath).toString)
-        zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toString))
+        zos.putNextEntry(new ZipEntry(base.relativize(clazzPath).toFile.toString))
 
         // Transfer bytes from the file to the ZIP file
         IOUtils.copyBytes(in, zos, 215)
