@@ -57,7 +57,7 @@ class NoJarTool(
       val classHomeOrMockJars = if (buildMockJar)
         List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
       else
-        List(prefixWithFileIfNeeded(buildMockJar(classesDir).getAbsolutePath))
+        List(prefixWithFileIfNeeded(buildMockJar(classesDir)))
 
       val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
