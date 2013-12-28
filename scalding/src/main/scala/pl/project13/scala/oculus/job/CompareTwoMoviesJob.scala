@@ -42,6 +42,7 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
     Hashes1
       .read
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
+      .map('frame -> 'frame) { f : ImmutableBytesWritable => ibwToLong(f) }
       .filter('id) { id: String => id contains id1 }
       .rename('id -> 'id1)
       .rename('frame -> 'frame1)
@@ -50,6 +51,7 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
     Hashes2
       .read
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
+      .map('frame -> 'frame) { f : ImmutableBytesWritable => ibwToLong(f) }
       .filter('id) { id: String => id contains id2 }
       .rename('id -> 'id2)
       .rename('frame -> 'frame2)
