@@ -98,7 +98,7 @@ class NoJarTool(
    * @return path to created mock zip
    */
   def buildMockJar(classesDir: File): String = {
-    val base = Paths.get("/home/kmalawski/oculus/scalding", "/target/scala-2.10/classes")
+    val base = Paths.get(classesDir.getAbsolutePath)
 
     // Create a buffer for reading the files
     val classes = collectClasses(classesDir)
