@@ -51,10 +51,11 @@ class NoJarTool(
 
     collectClassesFrom map { classesDir =>
       val classHome = List(prefixWithFileIfNeeded(classesDir.getAbsolutePath))
-      val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
+//      val classes = collectClasses(classesDir) map { clazz => prefixWithFileIfNeeded(clazz.toFile.getAbsolutePath) }
       val jars = libJars.map(jar => prefixWithFileIfNeeded(jar.toString))
 
-      val all = classHome ++ classes ++ jars
+//      val all = classHome ++ classes ++ jars
+      val all = classHome ++ jars
 
       setLibJars(config, all)
     }
