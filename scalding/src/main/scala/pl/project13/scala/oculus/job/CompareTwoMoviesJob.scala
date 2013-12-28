@@ -42,15 +42,15 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
     Hashes1
       .read
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
-      .filter('id1) { id: String => id contains id1 }
+      .filter('id) { id: String => id contains id1 }
       .rename('id -> 'id1)
       .rename('frame -> 'frame1)
 
   val movie2 = 
     Hashes2
       .read
-      .map('id -> 'id2) { id: ImmutableBytesWritable => ibwToString(id) }
-      .filter('id2) { id: String => id contains id2 }
+      .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
+      .filter('id) { id: String => id contains id2 }
       .rename('id -> 'id2)
       .rename('frame -> 'frame2)
 
