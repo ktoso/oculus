@@ -16,7 +16,8 @@ object JobRunner extends App with OculusJobs {
   import pl.project13.scala.rainbow._
 
   var i = 0
-  def inc = { i += 1; i }
+  def inc = { val j = i; i += 1; j }
+  
   val availableJobs =
     (inc, "hash all files", hashAllSequenceFiles _) ::
     (inc, "hash one file", hashSequenceFile _) ::
