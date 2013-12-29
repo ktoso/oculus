@@ -11,8 +11,8 @@ trait HashesSource {
     tableName = "hashes",
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'mhHash,
-    familyNames = Array("youtube", "youtube", "youtube"),
-    valueFields = Array('id,       'frame,    'second)
+    familyNames = Array("youtube", "youtube"),
+    valueFields = Array('id,       'frame)
   )
 
 }
