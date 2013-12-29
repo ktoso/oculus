@@ -90,11 +90,8 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
         (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
       }
     }
-    .map('totalDistance -> 'totalDistanceFormatted) { total: Double => f"$total%020.0f" } // simple formatting, instead of 23E7 notation
-    .groupBy('idRef) {
-      _.sortBy('totalDistance).reverse   // we want the lowest distance first
-    }
-    .write(Csv(outputRanking, writeHeader = true, fields = ('totalDistanceFormatted, 'idRef)))
+    .debug
+    .write(Csv(outputRanking, writeHeader = true, fields = ('idFrame, 'idRef, 'secondFrame, 'secondRef, 'distanceForFrame)))
 
 
 }
