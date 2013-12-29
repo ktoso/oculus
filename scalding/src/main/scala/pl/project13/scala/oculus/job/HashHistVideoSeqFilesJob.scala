@@ -43,6 +43,7 @@ class HashHistVideoSeqFilesJob(args: Args) extends Job(args) with TupleConversio
       )
     }
 
+    .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
     .write(HashesTable)
     .write(HistogramsTable)
 

@@ -87,7 +87,6 @@ trait OculusJobs {
 
       println("-----------------------------------".bold)
       println(("allArgs = " + allArgs).bold)
-      println(("cascading.app.appjar.class = " + jobClassName).bold)
       println("-----------------------------------".bold)
 
       val future = HadoopProcessRunner(allArgs).runAsync(conf)
