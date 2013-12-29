@@ -26,6 +26,10 @@ end
 
 bash 'trust repo' do
   code 'wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -'
+  end
+
+bash 'update apt db' do
+  code 'apt-get update'
 end
 
 package 'newrelic-sysmond'
