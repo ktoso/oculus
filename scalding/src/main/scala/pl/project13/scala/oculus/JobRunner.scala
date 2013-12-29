@@ -29,6 +29,11 @@ object JobRunner extends App with OculusJobs {
   println("Available jobs to run: \n".bold + availableJobsString)
   println("Please run with [id] of task you want to execute.")
 
+  if (args.isEmpty) {
+    println("no arguments, exiting.")
+    System.exit(-1)
+  }
+
   val selected = availableJobs.drop(args(0).toInt).head
 
   val task = selected._3
