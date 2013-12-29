@@ -3,25 +3,23 @@ package pl.project13.scala.oculus.job
 import com.twitter.scalding._
 import pl.project13.scala.oculus.IPs
 import pl.project13.scala.scalding.hbase.MyHBaseSource
-import org.apache.commons.io.FilenameUtils
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
-import com.twitter.scalding.typed.Joiner
-import pl.project13.scala.oculus.phash.PHash
-import org.apache.hadoop.io.BytesWritable
 import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
 
-class FindSimilarMoviesJob(args: Args) extends Job(args)
+class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with WriteDOT
   with OculusRichPipe
   with Histograms
   with Hashing {
 
+  val TopNForFrame = 10
+
   /** seq file with images */
   val inputId = args("id")
 
-  val outputDistances = "/oculus/similar-to-" + inputId + "-distances" + "-25,50,50" + ".out"
-  val outputRanking   = "/oculus/similar-to-" + inputId                + "-25,50,50" + ".out"
+  val outputDistances = "/oculus/similar-to-" + inputId + "-distances" + "-withself-25,50,50" + ".out"
+  val outputRanking   = "/oculus/similar-to-" + inputId                + "-withself-25,50,50" + ".out"
 
   implicit val mode = Read
 
@@ -53,8 +51,8 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 
   val otherHashes =
     Hashes
-      .read
-      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
+      .read // todo enable filter not!!!
+//      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
@@ -87,8 +85,10 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
 
   // group and find most similar movies
   val totalDistances = distances
-    .groupBy('idRef) {
-      _.sum('distance -> 'totalDistance) // sum of distances = total distance from each movie to this one
+    .groupBy('secondFrame) {
+      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopNForFrame) {
+        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
+      }
     }
     .map('totalDistance -> 'totalDistanceFormatted) { total: Double => f"$total%020.0f" } // simple formatting, instead of 23E7 notation
     .groupBy('idRef) {

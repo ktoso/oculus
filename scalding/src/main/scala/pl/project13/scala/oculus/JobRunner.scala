@@ -15,12 +15,14 @@ object JobRunner extends App with OculusJobs {
 
   import pl.project13.scala.rainbow._
 
+  var i = 0
   val availableJobs =
-    (0, "hash all files", hashAllSequenceFiles _) ::
-    (1, "hash one file", hashSequenceFile _) ::
-    (2, "compare two movies", compareTwoMovies _) ::
-    (3, "find movies similar to given", findSimilarToGiven _) ::
-    (4, "extract text from movie", extractText _) ::
+    (i += 1, "hash all files", hashAllSequenceFiles _) ::
+    (i += 1, "hash one file", hashSequenceFile _) ::
+    (i += 1, "compare two movies", compareTwoMovies _) ::
+    (i += 1, "find movies similar to given", findSimilarToGiven _) ::
+    (i += 1, "find movies similar to given, v2", findSimilarToGivenV2 _) ::
+    (i += 1, "extract text from movie", extractText _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -99,6 +101,9 @@ trait OculusJobs {
     simpleHadoopRun(args, classOf[FindSimilarMoviesJob])
   }
 
+  def findSimilarToGivenV2(args: Seq[String]) = {
+    simpleHadoopRun(args, classOf[FindSimilarMoviesV2Job])
+  }
 
   def simpleHadoopRun(args: Seq[String], jobClazz: Class[_]) {
     val totalStopwatch = (new Stopwatch).start()
