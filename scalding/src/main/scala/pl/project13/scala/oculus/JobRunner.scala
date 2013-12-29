@@ -10,14 +10,19 @@ import com.google.common.base.Stopwatch
 import com.twitter.scalding._
 import com.twitter.scalding.Hdfs
 import org.apache.hadoop
+import scala.util.{Failure, Success}
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
 
 object JobRunner extends App with OculusJobs {
 
   import pl.project13.scala.rainbow._
 
+  import scala.concurrent.ExecutionContext.Implicits.global
+
   var i = 0
   def inc = { val j = i; i += 1; j }
-  
+
   val availableJobs =
     (inc, "hash all files", hashAllSequenceFiles _) ::
     (inc, "hash one file", hashSequenceFile _) ::
@@ -69,7 +74,7 @@ trait OculusJobs {
     val jobClass = classOf[HashHistVideoSeqFilesJob]
     val jobClassName = jobClass.getCanonicalName
 
-    for(seq <- seqFiles) {
+    val jobFutures = seqFiles map { seq =>
       println(s"Starting execution of jobs for $seq ...".green)
       val stopwatch = (new Stopwatch).start()
 
@@ -84,10 +89,20 @@ trait OculusJobs {
       println(("cascading.app.appjar.class = " + jobClassName).bold)
       println("-----------------------------------".bold)
 
-      HadoopProcessRunner(allArgs).runAndWait(conf)
+      val future = HadoopProcessRunner(allArgs).runAsync(conf)
+      future.onComplete {
+        case Success(returnCode) =>
+          println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
 
-      println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
+        case Failure(ex) =>
+          println(s"Failed running scalding job for [$seq}]. Took ${stopwatch.stop()}".red)
+      }
+      future
     }
+
+    println("Awaiting on all jobs...".bold)
+    val waitForAll = Future.sequence(jobFutures)
+    Await.ready(waitForAll, 7.days)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
@@ -98,7 +113,6 @@ trait OculusJobs {
   def extractText(args: Seq[String]) = {
     simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
   }
-
 
   def compareTwoMovies(args: Seq[String]) = {
     simpleHadoopRun(args, classOf[CompareTwoMoviesJob])
