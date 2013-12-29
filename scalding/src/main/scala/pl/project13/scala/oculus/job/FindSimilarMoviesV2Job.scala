@@ -48,6 +48,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
       .sample(25.0)
+      .limit(2)
 
   val otherHashes =
     Hashes
@@ -58,6 +59,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
       .sample(25.0)
+      .limit(100)
 
 //  val inputHistograms =
 //    Histograms
@@ -74,7 +76,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 //  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
 
   val distances = otherHashes.crossWithTiny(inputHashes)
-    .sample(50.0)
+//    .sample(50.0)
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 
