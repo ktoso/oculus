@@ -102,7 +102,7 @@ trait OculusJobs {
     }
 
     println("Awaiting on all jobs...".bold)
-    val waitForAll = Future.sequence(jobFutures)
+    val waitForAll = Future.sequence(jobFutures.toList)
     Await.ready(waitForAll, 7.days)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
