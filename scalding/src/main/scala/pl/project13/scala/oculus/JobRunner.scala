@@ -18,8 +18,6 @@ object JobRunner extends App with OculusJobs {
 
   import pl.project13.scala.rainbow._
 
-  import scala.concurrent.ExecutionContext.Implicits.global
-
   var i = 0
   def inc = { val j = i; i += 1; j }
 
@@ -51,6 +49,9 @@ object JobRunner extends App with OculusJobs {
 
 trait OculusJobs {
   import pl.project13.scala.rainbow._
+
+  import scala.concurrent.ExecutionContext.Implicits.global
+
 
   private val conf = new Configuration()
 
