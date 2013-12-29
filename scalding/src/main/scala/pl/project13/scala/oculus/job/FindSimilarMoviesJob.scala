@@ -30,7 +30,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
     quorumNames = IPs.HadoopMasterWithPort,
     keyFields = 'hash,
     familyNames = Array("youtube", "youtube"),
-    valueFields = Array('id,       'second)
+    valueFields = Array('id,       'frame)
   )
 
   val Histograms = new MyHBaseSource(
@@ -47,7 +47,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idFrame)
-      .rename('second -> 'secondFrame)
+      .rename('frame -> 'frameFrame)
       .rename('hash -> 'hashFrame)
       .sample(25.0)
 
@@ -57,7 +57,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idRef)
-      .rename('second -> 'secondRef)
+      .rename('frame -> 'frameRef)
       .rename('hash -> 'hashRef)
       .sample(25.0)
 
@@ -83,7 +83,7 @@ class FindSimilarMoviesJob(args: Args) extends Job(args)
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
     .groupAll { _.sortBy('distance) }
-    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
+    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
 
   // group and find most similar movies
   val totalDistances = distances

@@ -16,7 +16,7 @@ object ScaldingJobRunner extends App {
   import pl.project13.scala.rainbow._
 
   val availableJobs =
-    classOf[HashVideoSeqFilesJob] ::
+    classOf[HashHistVideoSeqFilesJob] ::
     classOf[CompareTwoMoviesJob] ::
     classOf[HistogramSeqFilesJob] ::
     classOf[FindSimilarMoviesJob] ::

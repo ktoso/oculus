@@ -149,7 +149,7 @@ Run the phash job
 This calculates phashes of all seq files (well, here just one):
 
 ```
-run pl.project13.scala.oculus.job.HashVideoSeqFilesJob --hdfs --input hdfs://10.240.57.179:9000/oculus/source/0a78kzAffb4.webm.seq --output hdfs://10.240.57.179:9000/ignore.out
+run pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob --hdfs --input hdfs://10.240.57.179:9000/oculus/source/0a78kzAffb4.webm.seq --output hdfs://10.240.57.179:9000/ignore.out
 ```
 
 Install tooling

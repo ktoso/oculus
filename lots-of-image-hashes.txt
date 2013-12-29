@@ -1,9 +1,9 @@
-[info] Running pl.project13.scala.oculus.ScaldingJobRunner pl.project13.scala.oculus.job.HashVideoSeqFilesJob --input hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq
+[info] Running pl.project13.scala.oculus.ScaldingJobRunner pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob --input hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq
 Available jobs to run:
-  pl.project13.scala.oculus.job.HashVideoSeqFilesJob
+  pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob
   pl.project13.scala.oculus.job.WordCountJob
 
-pl.project13.scala.oculus.job.HashVideoSeqFilesJob
+pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob
 --input
 hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq
 SLF4J: Class path contains multiple SLF4J bindings.
@@ -51,7 +51,7 @@ SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 
 SLF4J: Actual binding is of type [ch.qos.logback.classic.selector.DefaultContextSelector]
 -----------------------------------
-allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq, --hdfs, 10.240.57.179:9000)
+allArgs = List(pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob, --input, hdfs:///oculus/source/HTYBXw-RlzM.mp4.seq, --hdfs, 10.240.57.179:9000)
 -----------------------------------
 20/Nov/13 02:11:12.276 [run-main] INFO  c.flow.hadoop.util.HadoopUtil - resolving application jar from found main method on: scala.App$class
 20/Nov/13 02:11:12.293 [run-main] INFO  c.flow.hadoop.planner.HadoopPlanner - using application jar: /home/ktoso/.sbt/boot/scala-2.10.2/lib/scala-library.jar
@@ -83,13 +83,13 @@ allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --input, hdfs
 20/Nov/13 02:11:13.233 [run-main-SendThread(master.c.oculus-hadoop.internal:2181)] INFO  org.apache.zookeeper.ClientCnxn - Session establishment complete on server master.c.oculus-hadoop.internal/10.240.57.179:2181, sessionid = 0x1426da97e0f004f, negotiated timeout = 180000
 20/Nov/13 02:11:13.314 [run-main-EventThread] INFO  org.apache.zookeeper.ClientCnxn - EventThread shut down
 20/Nov/13 02:11:13.315 [run-main] INFO  org.apache.zookeeper.ZooKeeper - Session: 0x1426da97e0f004f closed
-20/Nov/13 02:11:13.429 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.util.Version - Concurrent, Inc - Cascading 2.1.6
-20/Nov/13 02:11:13.431 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...] starting
-20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  source: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
-20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  sink: HBaseTap["HBaseScheme[['mhHash', 'id']]"]["04aa29b2-86cb-48a9-a7de-f7afa268fb28"]
-20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  parallel execution is enabled: false
-20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  starting jobs: 1
-20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  allocating threads: 1
+20/Nov/13 02:11:13.429 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.util.Version - Concurrent, Inc - Cascading 2.1.6
+20/Nov/13 02:11:13.431 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...] starting
+20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  source: Hfs["WritableSequenceFile[['key', 'value']]"]["hdfs:/oculus/source/HTYBXw-RlzM.mp4.seq"]
+20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  sink: HBaseTap["HBaseScheme[['mhHash', 'id']]"]["04aa29b2-86cb-48a9-a7de-f7afa268fb28"]
+20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  parallel execution is enabled: false
+20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  starting jobs: 1
+20/Nov/13 02:11:13.432 [flow pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob] INFO  cascading.flow.Flow - [pl.project13.scala.ocu...]  allocating threads: 1
 20/Nov/13 02:11:13.435 [pool-8-thread-1] INFO  cascading.flow.FlowStep - [pl.project13.scala.ocu...] starting step: (1/1) ...cb-48a9-a7de-f7afa268fb28
 20/Nov/13 02:11:13.468 [pool-8-thread-1] WARN  o.a.hadoop.util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 20/Nov/13 02:11:13.579 [pool-8-thread-1] INFO  o.a.hadoop.mapred.FileInputFormat - Total input paths to process : 1

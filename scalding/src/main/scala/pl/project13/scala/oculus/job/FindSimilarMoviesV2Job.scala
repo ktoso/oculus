@@ -1,18 +1,16 @@
 package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
-import pl.project13.scala.oculus.IPs
-import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
-import org.apache.hadoop.filecache.DistributedCache
+import pl.project13.scala.oculus.source.hbase.{HashesSource, HistogramsSource}
 
 class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with WriteDOT
   with OculusRichPipe
-  with Histograms
-  with Hashing {
+  with HistogramsSource with HashesSource
+  with Histograms with Hashing {
 
   val TopKForFrame = 10
 
@@ -24,40 +22,24 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
   implicit val mode = Read
 
-  val Hashes = new MyHBaseSource(
-    tableName = "hashes",
-    quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'hash,
-    familyNames = Array("youtube", "youtube"),
-    valueFields = Array('id,       'second)
-  )
-
-  val Histograms = new MyHBaseSource(
-    tableName = "histograms",
-    quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'lumHist,
-    familyNames = Array("youtube", "youtube", "hist",   "hist",     "hist"),
-    valueFields = Array('id,       'frame,    'redHist, 'greenHist, 'blueHist)
-  )
-
   val inputHashes =
-    Hashes
+    HashesTable
       .read
       .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idFrame)
-      .rename('second -> 'secondFrame)
+      .mapTo('frame -> 'frameFrame) { sec: ImmutableBytesWritable => ibwToLong(sec) }
       .rename('hash -> 'hashFrame)
       .debug
       .limit(5)
 
   val otherHashes =
-    Hashes
+    HashesTable
       .read // todo enable filter not!!!
 //      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idRef)
-      .rename('second -> 'secondRef)
+      .mapTo('frame -> 'frameRef) { sec: ImmutableBytesWritable => ibwToLong(sec) }
       .rename('hash -> 'hashRef)
       .sample(5.0)
       .limit(100)
@@ -85,18 +67,18 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
     .groupAll { _.sortBy('distance) }
-    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
+    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
 
   // group and find most similar movies
   val totalDistances = distances
     .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
     .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
-//    .groupBy('secondFrame) {
-//      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
+//    .groupBy('frameFrame) {
+//      _.sortWithTake(('distance, 'idRef, 'frameRef) -> 'distanceForFrame, TopKForFrame) {
 //        (t1: (Int, Any, Any), t2: (Int, Any, Any)) => t1._1 < t2._1
 //      }
 //    }
-    .write(Csv(outputRanking, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
+    .write(Csv(outputRanking, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
 
   val mostSimilarMovie = totalDistances
     .groupBy('idRef) { _.size('countOfSimilarMovie) }

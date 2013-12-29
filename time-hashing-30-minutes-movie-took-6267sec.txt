@@ -1,5 +1,5 @@
 -----------------------------------
-allArgs = List(pl.project13.scala.oculus.job.HashVideoSeqFilesJob, --hdfs, 108.59.81.83:9000, --input, /oculus/source/IPlA2yUN_Bk.mp4.seq)
+allArgs = List(pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob, --hdfs, 108.59.81.83:9000, --input, /oculus/source/IPlA2yUN_Bk.mp4.seq)
 -----------------------------------
 hadoop: 13/12/24 02:43:57 INFO util.HadoopUtil: resolving application jar from found main method on: com.twitter.scalding.Tool$
 hadoop: 13/12/24 02:43:57 INFO planner.HadoopPlanner: using application jar: /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar

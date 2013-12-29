@@ -9,27 +9,19 @@ import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop._
 import org.apache.hadoop.hbase.util.Bytes
+import pl.project13.scala.oculus.source.hbase.MetadataSource
 
 class ExtractTextFromMovieJob(args: Args) extends Job(args)
   with WriteDOT
   with OculusRichPipe
-  with Histograms
-  with Hashing {
+  with MetadataSource
+  with Histograms with Hashing {
 
   /** seq file with images */
   val input = args("input")
 
   /** id to look for metadata */
   val id = args("id")
-
-  val Metadata = new MyHBaseSource(
-    tableName = "metadata",
-    quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'rowId,
-    familyNames = Array("youtube", "youtube",  "text"),
-    valueFields = Array('id,       'crawledAt, 'text)
-
-  )
 
 //  val meta = MetadataSchema.MetadataTable
 //    .query2

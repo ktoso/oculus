@@ -1,4 +1,4 @@
-hadoop jar /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar pl.project13.scala.oculus.job.HashVideoSeqFilesJob --hdfs --input /oculus/source/XgHfHxKVM.mp4.seq
+hadoop jar /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar pl.project13.scala.oculus.job.HashHistVideoSeqFilesJob --hdfs --input /oculus/source/XgHfHxKVM.mp4.seq
 
 13/12/22 17:11:39 INFO util.HadoopUtil: resolving application jar from found main method on: com.twitter.scalding.Tool$
 13/12/22 17:11:39 INFO planner.HadoopPlanner: using application jar: /home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar

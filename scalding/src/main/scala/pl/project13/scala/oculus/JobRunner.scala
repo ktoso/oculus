@@ -64,7 +64,7 @@ trait OculusJobs {
 
     val totalStopwatch = (new Stopwatch).start()
 
-    val jobClass = classOf[HashVideoSeqFilesJob]
+    val jobClass = classOf[HashHistVideoSeqFilesJob]
     val jobClassName = jobClass.getCanonicalName
 
     for(seq <- seqFiles) {
@@ -91,7 +91,7 @@ trait OculusJobs {
   }
 
   def hashSequenceFile(args: Seq[String]) =
-    simpleHadoopRun(args, classOf[HashVideoSeqFilesJob])
+    simpleHadoopRun(args, classOf[HashHistVideoSeqFilesJob])
 
   def extractText(args: Seq[String]) = {
     simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
