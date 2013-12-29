@@ -16,13 +16,14 @@ object JobRunner extends App with OculusJobs {
   import pl.project13.scala.rainbow._
 
   var i = 0
+  def inc = { i += 1; i }
   val availableJobs =
-    (i += 1, "hash all files", hashAllSequenceFiles _) ::
-    (i += 1, "hash one file", hashSequenceFile _) ::
-    (i += 1, "compare two movies", compareTwoMovies _) ::
-    (i += 1, "find movies similar to given", findSimilarToGiven _) ::
-    (i += 1, "find movies similar to given, v2", findSimilarToGivenV2 _) ::
-    (i += 1, "extract text from movie", extractText _) ::
+    (inc, "hash all files", hashAllSequenceFiles _) ::
+    (inc, "hash one file", hashSequenceFile _) ::
+    (inc, "compare two movies", compareTwoMovies _) ::
+    (inc, "find movies similar to given", findSimilarToGiven _) ::
+    (inc, "find movies similar to given, v2", findSimilarToGivenV2 _) ::
+    (inc, "extract text from movie", extractText _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
