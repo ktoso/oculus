@@ -89,20 +89,10 @@ trait OculusJobs {
       println(("allArgs = " + allArgs).bold)
       println("-----------------------------------".bold)
 
-      val future = HadoopProcessRunner(allArgs).runAsync(conf)
-      future.onComplete {
-        case Success(returnCode) =>
-          println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
+      HadoopProcessRunner(allArgs).runAndWait(conf)
 
-        case Failure(ex) =>
-          println(s"Failed running scalding job for [$seq}]. Took ${stopwatch.stop()}".red)
-      }
-      future
+      println(s"Finished running scalding job for [$seq}]. Took ${stopwatch.stop()}".green)
     }
-
-    println("Awaiting on all jobs...".bold)
-    val waitForAll = Future.sequence(jobFutures.toList)
-    Await.ready(waitForAll, 7.days)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
