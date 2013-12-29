@@ -92,10 +92,10 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
     .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
     .groupBy('secondFrame) {
-//        _.sortBy('distance).take(TopKForFrame)
-      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
-        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
-      }
+        _.sortBy('distance).take(TopKForFrame)
+//      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
+//        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
+//      }
     }
     .debug
     .write(Csv(outputRanking, writeHeader = true))
