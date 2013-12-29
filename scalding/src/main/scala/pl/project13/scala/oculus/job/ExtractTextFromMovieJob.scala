@@ -40,7 +40,6 @@ class ExtractTextFromMovieJob(args: Args) extends Job(args)
 //      case None      => throw new RuntimeException(s"Unable to find metadata row for $id!")
 //    }
 
-
 }
 
 
