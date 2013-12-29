@@ -93,7 +93,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       }
     }
     .debug
-    .write(Csv(outputRanking, writeHeader = true, fields = ('idFrame, 'idRef, 'secondFrame, 'secondRef, 'distanceForFrame)))
+    .write(Csv(outputRanking, writeHeader = true))
 
 
 }
