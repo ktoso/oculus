@@ -13,7 +13,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with Histograms
   with Hashing {
 
-  val TopNForFrame = 10
+  val TopKForFrame = 10
 
   /** seq file with images */
   val inputId = args("id")
@@ -87,10 +87,12 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
   // group and find most similar movies
   val totalDistances = distances
+    .debug
     .groupBy('secondFrame) {
-      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopNForFrame) {
-        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
-      }
+        _.sortBy('distance).take(TopKForFrame)
+//      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopNForFrame) {
+//        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
+//      }
     }
     .debug
     .write(Csv(outputRanking, writeHeader = true))

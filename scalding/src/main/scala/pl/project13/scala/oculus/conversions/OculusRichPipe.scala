@@ -17,4 +17,5 @@ trait OculusRichPipe {
         new Each(pipe, f, new FilterFunction(negated, conv))
       }
   }
+
 }
