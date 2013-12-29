@@ -48,8 +48,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
-      .limit(20)
-      .sample(5.0)
+      .limit(5)
 
   val otherHashes =
     Hashes
@@ -59,8 +58,8 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
-      .limit(50)
       .sample(5.0)
+      .limit(100)
 
 //  val inputHistograms =
 //    Histograms
@@ -92,13 +91,13 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
     .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
     .groupBy('secondFrame) {
-        _.sortBy('distance).take(TopKForFrame)
-//      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
-//        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
-//      }
+//        _.sortBy('distance).take(TopKForFrame)
+      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
+        (t1: (Int, Any, Any), t2: (Int, Any, Any)) => t1._1 < t2._1
+      }
     }
     .debug
-    .write(Csv(outputRanking, writeHeader = true))
+    .write(Csv(outputRanking, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'secondFrame, 'secondRef, 'hashFrame, 'hashRef)))
 
   val mostSimilarMovie = totalDistances
     .groupBy('idRef) { _.size('countOfSimilarMovie) }
