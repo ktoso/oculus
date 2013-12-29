@@ -6,6 +6,7 @@ import pl.project13.scala.scalding.hbase.MyHBaseSource
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
+import org.apache.hadoop.filecache.DistributedCache
 
 class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with WriteDOT
@@ -47,6 +48,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
+      .limit(20)
       .sample(5.0)
 
   val otherHashes =
@@ -57,6 +59,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
+      .limit(50)
       .sample(5.0)
 
 //  val inputHistograms =
