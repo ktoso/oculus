@@ -18,8 +18,8 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   /** seq file with images */
   val inputId = args("id")
 
-  val outputDistances = "/oculus/similar-to-" + inputId + "-distances" + "-withself-25,50,50" + ".out"
-  val outputRanking   = "/oculus/similar-to-" + inputId                + "-withself-25,50,50" + ".out"
+  val outputDistances = "/oculus/similar-to-" + inputId + "-distances" + "-withself-5_5" + ".out"
+  val outputRanking   = "/oculus/similar-to-" + inputId                + "-withself-5_5" + ".out"
 
   implicit val mode = Read
 
@@ -47,8 +47,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('id -> 'idFrame)
       .rename('second -> 'secondFrame)
       .rename('hash -> 'hashFrame)
-      .sample(25.0)
-      .limit(2)
+      .sample(5.0)
 
   val otherHashes =
     Hashes
@@ -58,8 +57,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('id -> 'idRef)
       .rename('second -> 'secondRef)
       .rename('hash -> 'hashRef)
-      .sample(25.0)
-      .limit(100)
+      .sample(5.0)
 
 //  val inputHistograms =
 //    Histograms
@@ -89,11 +87,13 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   val totalDistances = distances
     .debug
     .groupBy('secondFrame) {
-        _.sortBy('distance).take(TopKForFrame)
-//      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
-//        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
-//      }
+//        _.sortBy('distance).take(TopKForFrame)
+      _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
+        (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
+      }
     }
+    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
+    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
     .debug
     .write(Csv(outputRanking, writeHeader = true))
 
