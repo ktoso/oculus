@@ -19,7 +19,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   val inputId = args("id")
 
   val outputDistances = "/oculus/similar-to-" + inputId + "-distances" + "-withself-5_5" + ".out"
-  val outputRanking   = "/oculus/similar-to-" + inputId                + "-withself-5_5" + ".out"
+  val outputRanking   = "/oculus/similar-to-" + inputId + "-ranking"   + "-withself-5_5" + ".out"
 
   implicit val mode = Read
 
@@ -86,17 +86,19 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   // group and find most similar movies
   val totalDistances = distances
     .debug
+    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
+    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
     .groupBy('secondFrame) {
 //        _.sortBy('distance).take(TopKForFrame)
       _.sortWithTake(('distance, 'idRef, 'secondRef) -> 'distanceForFrame, TopKForFrame) {
         (t1: (Long, Any, Any), t2: (Long, Any, Any)) => t1._1 < t2._1
       }
     }
-    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
-    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
     .debug
     .write(Csv(outputRanking, writeHeader = true))
 
+  val mostSimilarMovie = totalDistances
+    .groupBy('idRef) { _.size('countOfSimilarMovie) }
 
 }
 
