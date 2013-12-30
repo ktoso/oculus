@@ -29,7 +29,10 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idFrame)
-      .mapTo('frame -> 'frameFrame) { sec: ImmutableBytesWritable => ibwToLong(sec) }
+
+      .map('frame -> 'frameFrame) { sec: ImmutableBytesWritable => ibwToLong(sec) }
+      .discard('frame)
+
       .rename('hash -> 'hashFrame)
       .limit(100)
 
@@ -39,7 +42,10 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 //      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .rename('id -> 'idRef)
-      .mapTo('frame -> 'frameRef) { sec: ImmutableBytesWritable => ibwToLong(sec) }
+
+      .map('frame -> 'frameRef) { sec: ImmutableBytesWritable => ibwToLong(sec) }
+      .discard('frame)
+
       .rename('hash -> 'hashRef)
       .sample(5.0)
       .limit(200)
