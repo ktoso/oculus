@@ -44,8 +44,6 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashRef)
-      .sample(.0)
-      .debug
 
 //  val inputHistograms =
 //    Histograms
