@@ -12,8 +12,6 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with HistogramsSource with HashesSource
   with Histograms with Hashing {
 
-  val TopKForFrame = 10
-
   /** seq file with images */
   val inputId = args("id")
 
@@ -34,7 +32,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashFrame)
-      .limit(10)
+      .limit(1)
 
   val otherHashes =
     HashesTable
