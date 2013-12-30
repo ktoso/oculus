@@ -29,7 +29,7 @@ bash 'trust repo' do
   end
 
 bash 'update apt db' do
-  code 'apt-get update'
+  code 'apt-get update || echo "success anyway"'
 end
 
 package 'newrelic-sysmond'

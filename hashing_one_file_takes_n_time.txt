@@ -1,1 +1,24 @@
+3 normal nodes
+==============
+
+hashing a movie
+---------------
+
 Finished running scalding job for [hdfs://10.240.57.179:9000/oculus/source/-ZOPlZTAPDs.webm.seq}]. Took 822.0 s
+
+
+3 normal, 1 high-cpu nodes
+==========================
+
+hashing a movie
+---------------
+
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/2437MOA39iQ.mp4.seq}]. Took 470.6 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/2437MOA39iQ.mp4.seq}]. Took 462.2 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/3wSvrBxzX4o.mp4.seq}]. Took 582.9 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/3wSvrBxzX4o.mp4.seq}]. Took 586.7 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/CGjwsowDDhI.mp4.seq}]. Took 510.7 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/CGjwsowDDhI.mp4.seq}]. Took 510.9 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/HTYBXw-RlzM.mp4.seq}]. Took 389.0 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/HTYBXw-RlzM.mp4.seq}]. Took 414.8 s
+Finished running scalding job for [hdfs://108.59.81.83:9000/oculus/source/IPlA2yUN_Bk.mp4.seq}]. Took 4167 s

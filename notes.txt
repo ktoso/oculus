@@ -1,2 +1,7 @@
 DISTANCE
 between a video and its mirror is less than 400,
+
+LOAD
+talk about how 99% load on a new node, makes it unable to take over more of the HDFS resources.
+
+Talk about data balancing in HDFS.

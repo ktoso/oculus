@@ -1,3 +1,0 @@
-[submodule "vagrant-cascading-hadoop-cluster"]
-	path = vagrant-cascading-hadoop-cluster
-	url = git@github.com:ktoso/vagrant-cascading-hadoop-cluster.git
