@@ -34,7 +34,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashFrame)
-      .limit(100)
+      .limit(10)
 
   val otherHashes =
     HashesTable
@@ -87,11 +87,13 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
   /** find most similar reference frame for each input frame */
   val bestMatchingFrames = distances
+    .debug
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
         (t1: (Long, String, String), t2: (Long, String, String)) => t1._1 < t2._1
       }
     }
+    .debug
     .map('topMatch -> 'topMatch) { l: List[_] => l.head }
     .write(Csv(outputTopMostSimilarForFrame, writeHeader = true))
 
