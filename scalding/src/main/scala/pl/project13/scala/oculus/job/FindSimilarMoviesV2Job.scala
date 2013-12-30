@@ -73,6 +73,8 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
+    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
+    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
 
   /**
    * write all distances we've calculated
