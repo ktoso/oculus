@@ -87,6 +87,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   val bestMatchingFrames = distances
     .map('distance -> 'distance) { d: Long => longToIbw(d) }
     .debugWithFields
+    .addTrap(Csv("/oculus/error-tuples", writeHeader = true))
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
         (t1: (AnyRef, AnyRef, AnyRef), t2: (AnyRef, AnyRef, AnyRef)) =>
