@@ -61,7 +61,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
 
   val distances = otherHashes.crossWithTiny(inputHashes)
-//    .sample(50.0)
+    .forceToDisk
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 
@@ -69,6 +69,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     }
     .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
     .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
+    .forceToDisk
 
   /**
    * write all distances we've calculated
