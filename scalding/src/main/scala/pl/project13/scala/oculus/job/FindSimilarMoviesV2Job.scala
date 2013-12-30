@@ -33,7 +33,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .map('frame -> 'frameFrame) { sec: ImmutableBytesWritable => ibwToLong(sec) }
       .discard('frame)
 
-      .rename('hash -> 'hashFrame)
+      .rename('mhHash -> 'hashFrame)
       .limit(100)
 
   val otherHashes =
@@ -46,7 +46,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .map('frame -> 'frameRef) { sec: ImmutableBytesWritable => ibwToLong(sec) }
       .discard('frame)
 
-      .rename('hash -> 'hashRef)
+      .rename('mhHash -> 'hashRef)
       .sample(5.0)
       .limit(200)
       .debug
