@@ -1,9 +1,11 @@
 package pl.project13.scala.oculus.conversions
 
-import com.twitter.scalding.{FilterFunction, TupleConverter}
+import com.twitter.scalding._
 import cascading.tuple.Fields
 import cascading.pipe.{Each, Pipe}
 import cascading.operation.Debug
+import cascading.flow.FlowDef
+import com.twitter.scalding.Csv
 
 trait OculusRichPipe {
 
@@ -21,6 +23,11 @@ trait OculusRichPipe {
     def debugWithFields = {
       val d = new Debug(true)
       new Each(pipe, d)
+    }
+
+    def trapOculusErrorTuples(implicit flowDef : FlowDef, mode : Mode) = {
+      flowDef.addTrap(pipe, Csv("/oculus/error-tuples", writeHeader = true).createTap(Write)(mode))
+      pipe
     }
   }
 
