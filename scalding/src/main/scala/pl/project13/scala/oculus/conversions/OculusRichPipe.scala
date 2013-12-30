@@ -30,16 +30,7 @@ trait OculusRichPipe {
       pipe
     }
 
-    /**
-     * @param name the step's name, will be visible in the web ui etc.
-     */
-    def named(name: String) = {
-      pipe
-        .getStepConfigDef
-        .setProperty("mapred.job.name", name)
-
-      pipe
-    }
   }
+
 
 }
