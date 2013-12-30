@@ -1,10 +1,10 @@
 digraph G {
-  1 [label = "MemoryTap['TextDelimited[[UNKNOWN]->[ALL]]']['1.6105714170078222E-4']"];
+  1 [label = "MemoryTap['TextDelimited[[UNKNOWN]->[ALL]]']['0.666879154308606']"];
   2 [label = "Every('TextLine(inFile)')[MRMAggregator[decl:[{1}:'size']]]"];
   3 [label = "GroupBy('TextLine(inFile)')[by:['word']]"];
   4 [label = "Each('TextLine(inFile)')[CompositeFunction[decl:[{2}:'word', '__middlefield__0']]]"];
   5 [label = "Each('TextLine(inFile)')[FlatMapFunction[decl:[{1}:'word']]]"];
-  6 [label = "MemoryTap['TextLine[['offset', 'line']->[ALL]]']['0.48981222768496024']"];
+  6 [label = "MemoryTap['TextLine[['offset', 'line']->[ALL]]']['0.9301810757591946']"];
   7 [label = "[head]\nConcurrent, Inc - Cascading 2.1.6\nlocal:2.1.6:Concurrent, Inc."];
   8 [label = "[tail]"];
   5 -> 4 [label = "[{3}:'offset', 'line', 'word']\n[{3}:'offset', 'line', 'word']"];
