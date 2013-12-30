@@ -85,10 +85,11 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
   /** find most similar reference frame for each input frame */
   val bestMatchingFrames = distances
+    .map('distance -> 'distance) { d: Long => longToIbw(d) }
     .debugWithFields
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
-        (t1: (Any, Any, Any), t2: (Any, Any, Any)) =>
+        (t1: (AnyRef, AnyRef, AnyRef), t2: (AnyRef, AnyRef, AnyRef)) =>
           println("t1 = " + t1)
           println("t2 = " + t2)
           false
