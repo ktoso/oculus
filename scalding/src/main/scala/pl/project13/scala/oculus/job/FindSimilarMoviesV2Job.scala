@@ -32,7 +32,6 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashFrame)
-      .sample(10.0)
 
   val otherHashes =
     HashesTable
