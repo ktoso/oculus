@@ -44,6 +44,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
       .rename('mhHash -> 'hashFrame)
       .sample(5.0)
+      .limit(5)
 
   val otherHashes =
     HashesTable
@@ -57,6 +58,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
       .rename('mhHash -> 'hashRef)
       .sample(50.0)
+      .limit(200)
 
 //  val inputHistograms =
 //    Histograms
