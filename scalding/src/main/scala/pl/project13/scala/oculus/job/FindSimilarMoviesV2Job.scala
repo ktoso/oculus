@@ -44,7 +44,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashRef)
-      .sample(50.0)
+      .sample(.0)
       .debug
 
 //  val inputHistograms =
@@ -85,11 +85,8 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   val bestMatchingFrames = distances
     .trapOculusErrorTuples
     .groupBy('frameFrame) {
-      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
-        (t1: (Int, String, String), t2: (Int, String, String)) =>
-          println("t1 = " + t1)
-          println("t2 = " + t2)
-          t1._1 < t2._1
+      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 3) {
+        (t1: (Int, String, String), t2: (Int, String, String)) => t1._1 < t2._1
       }
     }
     .map('topMatch -> 'topMatch) { l: List[_] => l.head }
