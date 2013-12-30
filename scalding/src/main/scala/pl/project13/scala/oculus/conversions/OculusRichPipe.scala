@@ -3,6 +3,7 @@ package pl.project13.scala.oculus.conversions
 import com.twitter.scalding.{FilterFunction, TupleConverter}
 import cascading.tuple.Fields
 import cascading.pipe.{Each, Pipe}
+import cascading.operation.Debug
 
 trait OculusRichPipe {
 
@@ -16,6 +17,11 @@ trait OculusRichPipe {
         val negated = (a: A) => !fn(a)
         new Each(pipe, f, new FilterFunction(negated, conv))
       }
+
+    def debugWithFields = {
+      val d = new Debug(true)
+      new Each(pipe, d)
+    }
   }
 
 }
