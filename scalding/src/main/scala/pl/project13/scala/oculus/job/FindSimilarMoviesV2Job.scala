@@ -90,7 +90,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .debug
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
-        case (t1: Any, t2: (Any)) =>
+        (t1: Any, t2: (Any)) =>
           println("t1 = " + t1)
           println("t2 = " + t2)
           false
