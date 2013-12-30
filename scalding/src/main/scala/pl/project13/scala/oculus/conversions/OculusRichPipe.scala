@@ -29,6 +29,17 @@ trait OculusRichPipe {
       flowDef.addTrap(pipe, Csv("/oculus/error-tuples", writeHeader = true).createTap(Write)(mode))
       pipe
     }
+
+    /**
+     * @param name the step's name, will be visible in the web ui etc.
+     */
+    def named(name: String) = {
+      pipe
+        .getStepConfigDef
+        .setProperty("mapred.job.name", name)
+
+      pipe
+    }
   }
 
 }

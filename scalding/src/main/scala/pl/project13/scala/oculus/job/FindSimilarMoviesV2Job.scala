@@ -5,6 +5,17 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
 import pl.project13.scala.oculus.source.hbase.{HashesSource, HistogramsSource}
+import cascading.tap._
+import cascading.scheme._
+import cascading.pipe._
+import cascading.pipe.assembly._
+import cascading.pipe.joiner._
+import cascading.flow._
+import cascading.operation._
+import cascading.operation.aggregator._
+import cascading.operation.filter._
+import cascading.tuple._
+import cascading.cascade._
 
 class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with WriteDOT
@@ -64,6 +75,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
   val distances = otherHashes.crossWithTiny(inputHashes)
     .forceToDisk
+    .named("calc distances")
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (hashFrame, hashRef) = x
 
