@@ -18,4 +18,5 @@ class WordCountJobTest extends FlatSpec with ShouldMatchers with TupleConversion
       .finish
   }
 
+
 }

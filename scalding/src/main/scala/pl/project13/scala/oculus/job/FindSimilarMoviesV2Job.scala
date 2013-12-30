@@ -65,6 +65,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
 //  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
 
+
   val distances = otherHashes.crossWithTiny(inputHashes)
 //    .sample(50.0)
     .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
@@ -72,26 +73,44 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
       Distance.hammingDistance(hashFrame.get, hashRef.get)
     }
+
+  /**
+   * write all distances we've calculated
+   * TODO this can be probably skipped
+   */
+  val allDistancesSorted = distances
     .groupAll { _.sortBy('distance) }
     .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
 
-  // group and find most similar movies
-  val totalDistances = distances
-    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
-    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
+
+  /** find most similar reference frame for each input frame */
+  val bestMatchingFrames = distances
     .groupBy('frameFrame) {
-      _.sortWithTake(('distance, 'idRef, 'frameRef) -> 'distanceForFrame, TopKForFrame) {
-        (t1: (Int, Any, Any), t2: (Int, Any, Any)) => t1._1 < t2._1
+      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
+        (t1: (Long, String, String), t2: (Long, String, String)) => t1._1 < t2._1
       }
     }
-    .write(Csv(outputRanking, writeHeader = true, fields = ('distance,   'idFrame, 'frameFrame,   'idRef, 'frameRef,   'distanceForFrame)))
+    .map('topMatch -> 'topMatch) { l: List[_] => l.head }
+    .write(Csv(outputTopMostSimilarForFrame, writeHeader = true))
 
-  val mostSimilarMovie = totalDistances
-    .groupBy('idRef) {
-      _.size('countOfSimilarMovie)
-       .sortWithTake('countOfSimilarMovie -> 'c, 2) { (c1: Int, c2: Int) => c1 < c2 }
-    }
-    .write(Csv(outputTopMostSimilarForFrame, writeHeader = true, fields = ('idRef, 'c)))
+
+//  val totalDistances = distances
+//    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
+//    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
+//    .groupBy('frameFrame) {
+//      _.sortedTake[Long]('distance -> 'distanceForFrame, TopKForFrame)
+//    }
+//    .write(Csv(outputRanking, writeHeader = true, fields = ('distance,   'idFrame, 'frameFrame,   'idRef, 'frameRef,   'distanceForFrame)))
+
+//  override def next = Some(
+//    new FindTopMatchFromFrameMatchesJob(
+//      Args(
+//        "--id"    :: inputId ::
+//        "--input" :: outputRanking ::
+//          Nil
+//      )
+//    )
+//  )
 
 }
 
