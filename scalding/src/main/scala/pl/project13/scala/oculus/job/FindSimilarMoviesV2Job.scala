@@ -89,10 +89,13 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   val bestMatchingFrames = distances
     .debug
     .groupBy('frameFrame) {
-      _.sortBy('distance).take(1)
-//      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
-//        (t1: (Long, String, String), t2: (Long, String, String)) => t1._1 < t2._1
-//      }
+      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
+        case (t1: Any, t2: (Any)) =>
+          println("t1 = " + t1)
+          println("t2 = " + t2)
+          false
+//        case (t1: (Long, String, String), t2: (Long, String, String)) => t1._1 < t2._1
+      }
     }
     .debug
     .map('topMatch -> 'topMatch) { l: List[_] => l.head }
