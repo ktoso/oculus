@@ -45,7 +45,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('mhHash -> 'hashFrame)
       .sample(5.0)
       .limit(1)
-      .forceToDisk
+
 
   val otherHashes =
     HashesTable
@@ -60,7 +60,6 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .rename('mhHash -> 'hashRef)
 //      .sample(50.0)
       .limit(20)
-      .forceToDisk
 
 //  val inputHistograms =
 //    Histograms
@@ -85,7 +84,6 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     }
     .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
     .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
-    .forceToDisk
 
   /**
    * write all distances we've calculated
@@ -98,7 +96,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
   /** find most similar reference frame for each input frame */
   val bestMatchingFrames = distances
-    .addTrap(Csv("/oculus/errors"))
+    .trapOculusErrorTuples
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 3) {
         (t1: (Int, String, String), t2: (Int, String, String)) => t1._1 < t2._1
