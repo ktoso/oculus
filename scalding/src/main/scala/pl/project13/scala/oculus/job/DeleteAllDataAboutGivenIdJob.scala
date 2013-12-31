@@ -34,21 +34,21 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
   HashesTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('mhHash -> 'del) { key: ImmutableBytesWritable =>
+    .map('mhHash -> ()) { key: ImmutableBytesWritable =>
       HashesHTable.delete(new Delete(key.get))
     }
 
   HistogramsTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('lumHist -> 'del) { key: ImmutableBytesWritable =>
+    .map('lumHist -> ()) { key: ImmutableBytesWritable =>
       HashesHTable.delete(new Delete(key.get))
     }
 
   MetadataTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('rowId -> 'del) { key: ImmutableBytesWritable =>
+    .map('rowId -> ()) { key: ImmutableBytesWritable =>
       MetadataHTable.delete(new Delete(key.get))
     }
 
