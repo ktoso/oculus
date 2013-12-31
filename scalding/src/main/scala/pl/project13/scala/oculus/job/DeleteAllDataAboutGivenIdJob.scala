@@ -42,7 +42,7 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
 //      MetadataHTable.delete(new Delete(key.get))
 //    }
 //    .map('rowId -> 'rowId) { key: ImmutableBytesWritable => ibwToString(key) }
-    .write(Csv("/ trash/del-3", fields = 'rowId))
+    .write(Csv("/trash/del-3", fields = 'rowId))
 
 }
 
