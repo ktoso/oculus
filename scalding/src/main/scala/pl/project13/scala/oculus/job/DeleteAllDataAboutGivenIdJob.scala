@@ -12,13 +12,23 @@ import pl.project13.scala.oculus.hbase.HBaseConfig
 import java.lang.String
 import scala.Predef.String
 import com.gravity.hbase.schema.DeserializedResult
+import org.apache.hadoop.hbase.HBaseConfiguration
 
 class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
   with WriteDOT
   with OculusRichPipe
   with HistogramsSource with HashesSource with MetadataSource
-  with HBaseConfig
   with Histograms {
+
+  implicit val hbaseConf = {
+    val c = HBaseConfiguration.create()
+    c.set("fs.default.name", "hdfs://10.240.57.179:9000")
+    c.set("hbase.rootdir", "hdfs://10.240.57.179:9000/hbase")
+    c.set("hbase.cluster.distributed", "true")
+    c.set("hbase.zookeeper.quorum", "10.240.57.179")
+    c
+  }
+
 
   val inputId = args("id")
 
@@ -31,21 +41,21 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
   HashesTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('mhHash -> 'lol) { key: ImmutableBytesWritable =>
+    .map('mhHash -> 'del) { key: ImmutableBytesWritable =>
       HashesHTable.delete(new Delete(key.get))
     }
 
   HistogramsTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('lumHist -> 'lol) { key: ImmutableBytesWritable =>
+    .map('lumHist -> 'del) { key: ImmutableBytesWritable =>
       HashesHTable.delete(new Delete(key.get))
     }
 
   MetadataTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('rowId -> 'lol) { key: ImmutableBytesWritable =>
+    .map('rowId -> 'del) { key: ImmutableBytesWritable =>
       MetadataHTable.delete(new Delete(key.get))
     }
 
