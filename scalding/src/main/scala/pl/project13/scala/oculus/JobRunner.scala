@@ -76,9 +76,8 @@ trait OculusJobs {
       println(s"Starting execution of jobs for $seq ...".green)
       val stopwatch = (new Stopwatch).start()
 
-      val allArgs = List(
+      val allArgs = hdfsOptionsIfNoneGiven(args.toList) ++ List(
         jobClassName,
-        "--hdfs", IPs.HadoopMasterWithPort,
         "--input", seq
       ) ++ args.toList
 
@@ -133,6 +132,10 @@ trait OculusJobs {
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
   }
+
+  def hdfsOptionsIfNoneGiven(args: List[String]): List[String] =
+    if (args.contains("--hdfs") || args.contains("--local")) Nil
+    else List("--hdfs", IPs.HadoopMasterWithPort)
 
   private def allOculusHadoopSettings(configuration: com.typesafe.config.Config) =
     configuration.getConfig("oculus").getConfig("hadoop").entrySet().toList.map(a => (a.getKey, a.getValue))
