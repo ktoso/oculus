@@ -34,26 +34,26 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
   HashesTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('mhHash -> ()) { key: ImmutableBytesWritable =>
-      HashesHTable.delete(new Delete(key.get))
-    }
-    .write(Csv("/trash/del-1"))
+//    .map('mhHash -> ()) { key: ImmutableBytesWritable =>
+//      HashesHTable.delete(new Delete(key.get))
+//    }
+    .write(Csv("/trash/del-1", fields = 'mhHash))
 
   HistogramsTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('lumHist -> ()) { key: ImmutableBytesWritable =>
-      HashesHTable.delete(new Delete(key.get))
-    }
-    .write(Csv("/trash/del-2"))
+//    .map('lumHist -> ()) { key: ImmutableBytesWritable =>
+//      HashesHTable.delete(new Delete(key.get))
+//    }
+    .write(Csv("/trash/del-2", fields = 'lumHist))
 
   MetadataTable
     .read
     .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-    .map('rowId -> ()) { key: ImmutableBytesWritable =>
-      MetadataHTable.delete(new Delete(key.get))
-    }
-    .write(Csv("/trash/del-3"))
+//    .map('rowId -> ()) { key: ImmutableBytesWritable =>
+//      MetadataHTable.delete(new Delete(key.get))
+//    }
+    .write(Csv("/trash/del-3", fields = 'rowId))
 
 }
 
