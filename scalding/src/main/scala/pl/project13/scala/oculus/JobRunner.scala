@@ -98,21 +98,20 @@ trait OculusJobs {
   def hashSequenceFile(args: Seq[String]) =
     simpleHadoopRun(args, classOf[HashHistVideoSeqFilesJob])
 
-  def extractText(args: Seq[String]) = {
+  def extractText(args: Seq[String]) = 
     simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
-  }
 
-  def compareTwoMovies(args: Seq[String]) = {
+  def compareTwoMovies(args: Seq[String]) =
     simpleHadoopRun(args, classOf[CompareTwoMoviesJob])
-  }
-  
-  def findSimilarToGiven(args: Seq[String]) = {
-    simpleHadoopRun(args, classOf[FindSimilarMoviesJob])
-  }
 
-  def findSimilarToGivenV2(args: Seq[String]) = {
+  def findSimilarToGiven(args: Seq[String]) =
+    simpleHadoopRun(args, classOf[FindSimilarMoviesJob])
+
+  def findSimilarToGivenV2(args: Seq[String]) =
     simpleHadoopRun(args, classOf[FindSimilarMoviesV2Job])
-  }
+
+  def deleteAllDataAboutMovieWithId(args: Seq[String]) =
+    simpleHadoopRun(args, classOf[DeleteAllDataAboutGivenIdJob])
 
   def simpleHadoopRun(args: Seq[String], jobClazz: Class[_]) {
     val totalStopwatch = (new Stopwatch).start()
@@ -133,14 +132,6 @@ trait OculusJobs {
     HadoopProcessRunner(allArgs.toList).runAndWait(conf)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
-  }
-
-  def deleteAllDataAboutMovieWithId(args: String) = {
-    val args = Args
-    val id = args("--id")
-
-    new Delete()
-
   }
 
   def hdfsOptionsIfNoneGiven(args: List[String]): List[String] =
