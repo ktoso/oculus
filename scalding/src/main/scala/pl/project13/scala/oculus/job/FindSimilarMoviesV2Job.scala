@@ -91,6 +91,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .debugWithFields
     .addTrap(Csv("/oculus/error-tuples", writeHeader = true))
     .debug
+    .map('distance -> 'distance) { d: Int => d }
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
         (t1: (Int, String, String), t2: (Int, String, String)) =>
