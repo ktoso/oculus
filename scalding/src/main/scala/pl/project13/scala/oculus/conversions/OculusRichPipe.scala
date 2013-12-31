@@ -25,6 +25,11 @@ trait OculusRichPipe {
       new Each(pipe, d)
     }
 
+    def debugWithFields(prefix: String) = {
+      val d = new Debug(prefix, true)
+      new Each(pipe, d)
+    }
+
     def trapOculusErrorTuples(implicit flowDef : FlowDef, mode : Mode) = {
       flowDef.addTrap(pipe, Csv("/oculus/error-tuples", writeHeader = true).createTap(Write)(mode))
       pipe
