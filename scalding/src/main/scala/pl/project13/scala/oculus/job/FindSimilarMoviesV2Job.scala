@@ -32,8 +32,6 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashFrame)
-      .sample(0.10)
-      .limit(2)
       .debug
 
   val otherHashes =
@@ -47,8 +45,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
       .discard('frame)
 
       .rename('mhHash -> 'hashRef)
-      .sample(5.0)
-      .limit(200)
+      .sample(50.0)
       .debug
 
 //  val inputHistograms =
@@ -95,14 +92,14 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
         (t1: (Int, String, String), t2: (Int, String, String)) =>
-          println("t1 = " + t1)
-          println("t2 = " + t2)
-          t1._1 < t2._1
+          if (t1 == null)      false
+          else if (t2 == null) true
+          else                 t1._1 < t2._1
       }
     }
+    .map('topMatch -> ('distance, 'frameRef, 'idRef)) { l: List[(Int, String, String)] => l.head }
     .debug
-    .map('topMatch -> 'topMatch) { l: List[_] => l.head }
-    .write(Csv(outputTopMostSimilarForFrame, writeHeader = true))
+    .write(Csv(outputTopMostSimilarForFrame, writeHeader = true, fields = ('frameFrame, 'distance, 'frameRef, 'idRef)))
 
 
 //  val totalDistances = distances
