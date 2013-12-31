@@ -13,18 +13,20 @@ import org.apache.hadoop
 import scala.util.{Failure, Success}
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
+import org.apache.hadoop.hbase.client.Delete
 
 object JobRunner extends App with OculusJobs {
 
   import pl.project13.scala.rainbow._
 
   val availableJobs =
-    (0, "hash all files", hashAllSequenceFiles _) ::
-    (1, "hash one file", hashSequenceFile _) ::
-    (2, "compare two movies", compareTwoMovies _) ::
-    (3, "find movies similar to given", findSimilarToGiven _) ::
-    (4, "find movies similar to given, v2", findSimilarToGivenV2 _) ::
-    (5, "extract text from movie", extractText _) ::
+    (0,   "hash all files", hashAllSequenceFiles _) ::
+    (1,   "hash one file", hashSequenceFile _) ::
+    (2,   "compare two movies", compareTwoMovies _) ::
+    (3,   "find movies similar to given", findSimilarToGiven _) ::
+    (4,   "find movies similar to given, v2", findSimilarToGivenV2 _) ::
+    (5,   "extract text from movie", extractText _) ::
+    (100, "delete all data about [id]", deleteAllDataAboutMovieWithId _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -131,6 +133,14 @@ trait OculusJobs {
     HadoopProcessRunner(allArgs.toList).runAndWait(conf)
 
     println(s"Finished running all jobs. Took ${totalStopwatch.stop()}".green)
+  }
+
+  def deleteAllDataAboutMovieWithId(args: String) = {
+    val args = Args
+    val id = args("--id")
+
+    new Delete()
+
   }
 
   def hdfsOptionsIfNoneGiven(args: List[String]): List[String] =
