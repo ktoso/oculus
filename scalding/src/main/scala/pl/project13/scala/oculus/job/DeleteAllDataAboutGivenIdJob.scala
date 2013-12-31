@@ -37,6 +37,7 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
     .map('mhHash -> ()) { key: ImmutableBytesWritable =>
       HashesHTable.delete(new Delete(key.get))
     }
+    .write(NullSource)
 
   HistogramsTable
     .read
@@ -44,6 +45,7 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
     .map('lumHist -> ()) { key: ImmutableBytesWritable =>
       HashesHTable.delete(new Delete(key.get))
     }
+    .write(NullSource)
 
   MetadataTable
     .read
@@ -51,6 +53,7 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
     .map('rowId -> ()) { key: ImmutableBytesWritable =>
       MetadataHTable.delete(new Delete(key.get))
     }
+    .write(NullSource)
 
 }
 
