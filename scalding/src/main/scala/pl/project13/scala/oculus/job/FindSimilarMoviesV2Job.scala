@@ -33,6 +33,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
 
       .rename('mhHash -> 'hashFrame)
       .sample(0.10)
+      .limit(2)
 
   val otherHashes =
     HashesTable
@@ -78,9 +79,9 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
    * write all distances we've calculated
    * TODO this can be probably skipped
    */
-  val allDistancesSorted = distances
-    .groupAll { _.sortBy('distance) }
-    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
+//  val allDistancesSorted = distances
+//    .groupAll { _.sortBy('distance) }
+//    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
 
 
   /** find most similar reference frame for each input frame */
@@ -88,7 +89,7 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .debugWithFields
     .addTrap(Csv("/oculus/error-tuples", writeHeader = true))
     .groupBy('frameFrame) {
-      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 3) {
+      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
         (t1: (Int, String, String), t2: (Int, String, String)) =>
           println("t1 = " + t1)
           println("t2 = " + t2)
