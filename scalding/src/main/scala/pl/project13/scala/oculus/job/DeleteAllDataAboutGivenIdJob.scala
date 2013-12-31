@@ -2,16 +2,9 @@ package pl.project13.scala.oculus.job
 
 import com.twitter.scalding._
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import pl.project13.scala.oculus.distance.Distance
 import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
 import pl.project13.scala.oculus.source.hbase.{MetadataSource, HashesSource, HistogramsSource}
 import org.apache.hadoop.hbase.client.{HTable, Delete}
-import org.apache.hadoop.hbase.ipc.HBaseClient
-import com.gravity.hbase.schema._
-import pl.project13.scala.oculus.hbase.HBaseConfig
-import java.lang.String
-import scala.Predef.String
-import com.gravity.hbase.schema.DeserializedResult
 import org.apache.hadoop.hbase.HBaseConfiguration
 
 class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
