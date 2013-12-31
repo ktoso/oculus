@@ -23,6 +23,7 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
 //    .map('mhHash -> ()) { key: ImmutableBytesWritable =>
 //      HashesHTable.delete(new Delete(key.get))
 //    }
+    .map('mhHash -> 'mhHash) { key: ImmutableBytesWritable => ibwToString(key) }
     .write(Csv("/trash/del-1", fields = 'mhHash))
 
   HistogramsTable
@@ -31,6 +32,7 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
 //    .map('lumHist -> ()) { key: ImmutableBytesWritable =>
 //      HashesHTable.delete(new Delete(key.get))
 //    }
+    .map('lumHist -> 'lumHist) { key: ImmutableBytesWritable => ibwToString(key) }
     .write(Csv("/trash/del-2", fields = 'lumHist))
 
   MetadataTable
@@ -39,7 +41,8 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
 //    .map('rowId -> ()) { key: ImmutableBytesWritable =>
 //      MetadataHTable.delete(new Delete(key.get))
 //    }
-    .write(Csv("/trash/del-3", fields = 'rowId))
+//    .map('rowId -> 'rowId) { key: ImmutableBytesWritable => ibwToString(key) }
+    .write(Csv("/ trash/del-3", fields = 'rowId))
 
 }
 
