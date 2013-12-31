@@ -25,9 +25,9 @@ class DeleteAllDataAboutGivenIdJob(args: Args) extends Job(args)
 
   val inputId = args("id")
 
-  val HashesHTable     = new HTable(hbaseConf, "hashes")
-  val HistogramsHTable = new HTable(hbaseConf, "histograms")
-  val MetadataHTable   = new HTable(hbaseConf, "metadata")
+//  val HashesHTable     = new HTable(hbaseConf, "hashes")
+//  val HistogramsHTable = new HTable(hbaseConf, "histograms")
+//  val MetadataHTable   = new HTable(hbaseConf, "metadata")
 
   implicit val mode = Read
 
