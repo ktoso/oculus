@@ -98,7 +98,7 @@ trait OculusJobs {
   def hashSequenceFile(args: Seq[String]) =
     simpleHadoopRun(args, classOf[HashHistVideoSeqFilesJob])
 
-  def extractText(args: Seq[String]) = 
+  def extractText(args: Seq[String]) =
     simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
 
   def compareTwoMovies(args: Seq[String]) =
