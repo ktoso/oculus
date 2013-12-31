@@ -91,9 +91,17 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
     .groupBy('frameFrame) {
       _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
         (t1: (Int, String, String), t2: (Int, String, String)) =>
-          if (t1 == null)      false
-          else if (t2 == null) true
-          else                 t1._1 < t2._1
+          if (t1 == null || t2 == null) false
+          else try {
+            t1._1 < t2._1
+          } catch {
+            case n: NullPointerException =>
+              System.err.println(s"Error: Got ${n.getClass.getName}, for t1:${t1}, t2:${t2}")
+              false
+            case ex: Throwable =>
+              System.err.println(s"Error: Got , for t1:${t1}, t2:${t2}")
+              false
+          }
       }
     }
     .map('topMatch -> ('distance, 'frameRef, 'idRef)) { l: List[(Int, String, String)] => l.head }
