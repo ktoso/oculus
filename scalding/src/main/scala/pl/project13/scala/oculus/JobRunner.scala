@@ -26,7 +26,7 @@ object JobRunner extends App with OculusJobs {
     (3,   "find movies similar to given", findSimilarToGiven _) ::
     (4,   "find movies similar to given, v2", findSimilarToGivenV2 _) ::
     (5,   "extract text from movie", extractText _) ::
-    (100, "delete all data about [id]", deleteAllDataAboutMovieWithId _) ::
+    (6, "delete all data about [id]", deleteAllDataAboutMovieWithId _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
