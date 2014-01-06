@@ -1,3 +1,13 @@
+Disclaimer
+==========
+
+This project is pretty chaotically developed, as this is the easies flow for me.
+
+*None of this code is meant for "general consumption".*
+
+Links
+-----
+
 http://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/
 
 
