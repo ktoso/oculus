@@ -1,21 +1,28 @@
-\chapter{Problem definition}
-The primary goal of this work is to research how to efficiently work with large amounts of multimedia data in distributed systems. 
-In order to guarantee the devised aproach would make sense
+\chapter{Introduction}
 
-\section{Use cases}
 
-One of the simplest use cases in which this system might be used is trivial \textit{duplicate detection} of video files.
-One might think that a simple checksum of the video files would suffice, but imagine a system like \textit{YouTube} where hours of video content are uploaded 
-each second. It's easy to imagine two people uploading the same trailer for an upcoming movie during the same day. In the easiest case, a simple checksum
-check would suffice, but what if the videos where encoded using different codecs or even were uploaded in different resolutions?
 
-To further represent how difficult it may be to answer the question of ,,Are those two files the same material?'' let's go back to the example of users
-uploading video content to our YouTube-like service. What if the users knew the uploaded material is copy righted and should not be uploaded to the public
-internet? As one might imagine, this might happen quite often on a service like YouTube. Let's assume our users know about our ,,duplicate'' detection
-algorithm and that we might be partnering with movie companies, so that we have reference material on the servers we can compare the uploaded videos to.
+\section{Goals of this work}
+The primary goal of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting, and weather this approach is the tight one.
+
+In order to guarantee that recommendations and measurements made during this research are applicable in the ,,real world'', outside of laboratory or ,,experiment'' environments, I have defined a series of problems (described in the next section) and implemented a system which is able to solve those problems as well as easily adapt to any new requirements benefiting from the use of parallel access to hundreds of gigabytes of reference video material.
+
+\section{Targeted use cases}
+
+As stated in the introduction section, in order to be able reliably verify criteria such as responsiveness, cost-efficiency, performance and of course scalability of distributed systems, there must be some reference problem and solution the measurements will be made on. 
+
+For the sake of this paper I propose a ,,video material analysis platform'' from here on referred to as the ,,\textit{Oculus}'' system.
+In the following two sub sections I will explain the use cases (thus - requirements) this system will aim to solve, which while being a very interesting 
+topic of research by itself already, will provide me a platform to measure the usefulness of the selected distributed system building blocks used for it. 
+
+\subsection{Video similarity calculation}
+One of the simplest use cases in which this system might be used is trivial \textit{near--duplicate detection} of video files.
+One might think that a simple checksum of the video files would suffice, but imagine a system like \textit{YouTube} \ref{youtube} where many hours of video content are uploaded \textit{each second}. It is easy to imagine two (or more) people uploading the same trailer for an upcoming movie during the same day. In the easiest case, a simple checksum check would suffice, but in practice the uploaded materials may be in different resolutions or qualities. Such system must also account for intended malice in uploaded materials - such as a practice of ,,mirroring'' the video material, or slightly brightening every frame. These modifications are often seen on content on services such as YouTube, Dailymotion and others.
+
+The goal of our system is to reliably determine similarity between movies, as well as sub-sections of movies,
 Obviously the users will try to trick our algorithm into not recognising that the uploaded content is the same as our reference material. One of the tricks
 often seen on YouTube.com is that the users upload the material ,,mirrored'' which further complicates our matching algorithm -- we must now also be 
-resiliant aganist data modified especialy for the goal of us not being able to detect it.
+resilient against data modified especially for the goal of us not being able to detect it.
 
 Another, less copyright focused, goal of the presented system is to be able to extensively mine data from the uploaded video content.
 Here the canonical example would be a ,,\textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies,
@@ -26,16 +33,11 @@ this thesis work might do, but it will be our test case that we'll be working to
 
 The system implemented during this work represents a basic effort to tackle the above problems as well as these goa
 
+\section{Paper structure}
+In section 1 I will describe the architecture of the system, and briefly go over how this architecture benefits future extension.
 
+In section 2 I will focus in the technical challenges encountered and solved during implementing the reference system.
 
-\chapter{Preparing the cluster}
+In the last section I will summarise the findings.
 
-Hadoop's filesystem must be formated before put into use. This is achieved by issuing the \verb|-format| command to the namenode:
-
-\begin{verbatim}
-kmalawski@oculus-master > hadoop namenode -format
-\end{verbatim}
-
-It is worth pointing out that a "format" takes place only on the namenode, it does not actually touch the datab stored on the datanodes,
-but instead it deleted the data stored on the namenode. The Namenode, as explained previously, stores all metadata about where a file is located,
-thus, cleaning it's data makes the files stores in HDFS un-usable, since we don't know "where a file's chunks are stored".
+\todo{This is not done until I'm done with the paper ;-)Oculus}

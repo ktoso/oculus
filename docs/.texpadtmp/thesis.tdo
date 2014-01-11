@@ -1,5 +1,3 @@
-\contentsline {todo}{need ref}{10}{section*.2}
-\contentsline {todo}{TODO explain why HDFS is the reasonable choice here}{10}{section*.3}
-\contentsline {todo}{image for actor system here}{10}{section*.4}
-\contentsline {todo}{TODO why do we need actors here? why does it make sense to distribute the work}{11}{section*.5}
-\contentsline {todo}{finish me}{13}{section*.6}
+\contentsline {todo}{This is not done until I'm done with the paper ;-)Oculus}{8}{section*.3}
+\contentsline {todo}{finish me}{11}{section*.4}
+\contentsline {todo}{scale it to more nodes...}{12}{section*.5}

@@ -10,6 +10,11 @@ A level-1 auxiliary file: appendixA.aux
 The style file: alpha.bst
 I found no \citation commands---while reading file thesis.aux
 Database file #1: ../bibliography.bib
+I was expecting a `,' or a `}'---line 15 of file ../bibliography.bib
+ :   
+ :   author = {Google},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 You've used 0 entries,
             2543 wiz_defined-function locations,
             564 strings with 4519 characters,
@@ -51,4 +56,4 @@ warning$ -- 0
 while$ -- 0
 width$ -- 0
 write$ -- 2
-(There was 1 error message)
+(There were 2 error messages)

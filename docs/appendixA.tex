@@ -1,0 +1,12 @@
+
+\chapter{Preparing the cluster}
+
+Hadoop's filesystem must be formated before put into use. This is achieved by issuing the \verb|-format| command to the namenode:
+
+\begin{verbatim}
+kmalawski@oculus-master > hadoop namenode -format
+\end{verbatim}
+
+It is worth pointing out that a "format" takes place only on the namenode, it does not actually touch the datab stored on the datanodes,
+but instead it deleted the data stored on the namenode. The Namenode, as explained previously, stores all metadata about where a file is located,
+thus, cleaning it's data makes the files stores in HDFS un-usable, since we don't know "where a file's chunks are stored".
