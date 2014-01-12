@@ -15,20 +15,21 @@ For the sake of this paper I propose a ,,video material analysis platform'' from
 In the following two sub sections I will explain the use cases (thus - requirements) this system will aim to solve, which while being a very interesting 
 topic of research by itself already, will provide me a platform to measure the usefulness of the selected distributed system building blocks used for it. 
 
-\subsection{Video similarity calculation}
+\subsection{Near--duplicate detection}
 One of the simplest use cases in which this system might be used is trivial \textit{near--duplicate detection} of video files.
 Note the term ,,near--duplicate'' here, as exact duplicates are not the biggest problem -- and the designed system must also be able to identify ,,almost identical'' material.
 
 It might be easier to imagine the bellow use-cases if we think of a system like \textit{youtube.com} \ref{youtube}, where vast amounts of content are uploaded \textit{each second}. An example of why ,,almost identical'' material in this setting would be a movie trailer, which has just been released and many fans want to put it online on youtube, in order to share this trailer. It is very likely that they would add slight modifications, such as their own voice-over with comments, or resize the video for example. It is also fairly common that users apply malicious modifications to the video material in order to make 1:1 identification with copyrighted material harder - such modifications are typically ,,mirroring'' the video material, or slightly brightening every frame. The system proposed in this work identifies content properly even after such modifications have been applied to the source content.
 
+\subsection{Data extraction}
+
 Another, less copyright focused, goal of the presented system is to be able to extensively mine data directly from the uploaded video content.
-Here the canonical example would be a ,,\textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies,
+Here the canonical example would be a \textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies,
 usualy in the order of 10th, 9th ... until the 1st (best) movie of all time. If we would be able to match parts of each video to their corresponding 
 reference materials, we would be able to get meta data about the now recognised movies and even mine out the data what is the best / worst movie of all time,
-even without it being written per se - only by looking at the frames in the video. This idea only scratches the surface of what the system implemented during
-this thesis work might do, but it will be our test case that we'll be working towards during this paper.
+even without it being written per se -- only by looking at the frames in the video. 
 
-The system implemented during this work represents a basic effort to tackle the above problems as well as these goa
+While talking about extracting data from movies one cannot skip extracting text from images which seems both one of the most valuable things we can extract as well as with existing open source solutions for text recognition should not be hard to enable, given all the previous work which will be required to fulfil the above use case.
 
 \section{Paper structure}
 In section 1 I will describe the architecture of the system, and briefly go over how this architecture benefits future extension.
