@@ -13,10 +13,10 @@ As stated in the introduction section, in order to be able reliably verify crite
 
 For the sake of this paper I propose a ,,video material analysis platform'' from here on referred to as the ,,\textit{Oculus}'' system.
 In the following two sub sections I will explain the use cases (thus - requirements) this system will aim to solve, which while being a very interesting 
-topic of research by itself already, will provide me a platform to measure the usefulness of the selected distributed system building blocks used for it. 
+topic of research by itself, will provide me a platform to measure the usefulness of the selected distributed system building blocks used for it. 
 
 \subsection{Near--duplicate detection}
-One of the simplest use cases in which this system might be used is trivial \textit{near--duplicate detection} of video files.
+One of the simplest use cases in which this system might be used is \textit{near--duplicate detection} of video files.
 Note the term ,,near--duplicate'' here, as exact duplicates are not the biggest problem -- and the designed system must also be able to identify ,,almost identical'' material.
 
 It might be easier to imagine the bellow use-cases if we think of a system like \textit{youtube.com} \ref{youtube}, where vast amounts of content are uploaded \textit{each second}. An example of why ,,almost identical'' material in this setting would be a movie trailer, which has just been released and many fans want to put it online on youtube, in order to share this trailer. It is very likely that they would add slight modifications, such as their own voice-over with comments, or resize the video for example. It is also fairly common that users apply malicious modifications to the video material in order to make 1:1 identification with copyrighted material harder - such modifications are typically ,,mirroring'' the video material, or slightly brightening every frame. The system proposed in this work identifies content properly even after such modifications have been applied to the source content.
