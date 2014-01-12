@@ -41,13 +41,29 @@ The underlying Actor System is implemented by a project called Akka \ref{akkaDoc
 As mentioned before, the system is fully distributed and \textit{any node can perform any task} submited to the cluster. For example let's take the first step in the processing pipeline in Oculus, which is \verb|Download video from http://www.youtube.com/watch?v=-X9bcrJ3TjY| -- such message will be emited by the \verb|YoutubeCrawlerActor| and sent via a \verb|Router| instance to an \verb|YoutubeDownloadActor| which has the ,,smallest inbox''.
 
 
-\section{Job Runner}
-The job runners responsibility is at the core of the systems... \todo{finish me}
+\section{Analyser}
+The job runners responsibility is at the core of the systems... \todo{finish describing the analyser}
 
-\subsection{Tackling the ,,small-files problem'' on HDFS}
-In this section I will explain the ,,small-files problem'' which would lead to major performance degradation of the Hadoop cluster is left undressed, and how I solved it in the reference system -- Oculus.
+\subsection{Tackling the ,,small--files problem'' on HDFS}
+In this section I will explain the ,,small-files problem'' which would lead to major performance degradation of the Hadoop cluster is left undressed and how it was solved
+in the face of having to work with millions of small files -- frames of the analysed movies.
 
-The so called ,,\textit{small files problem}'' is a known problem in the Hadoop world relating to how HDFS stores files. 
-The problem arises whenever we try to store files smaller than the block size used by HDFS to allocate files. One can think of it as wasting space -- because Hadoop allocates at least one block per file we store in it, and all operations (such as migrating data between nodes, reading files into memory etc.) are optimised towards larger block-sizes (usually around 32MB or 64MB). 
+Hadoop uses so called ,,blocks'' as smallest atomic unit that can be used to move data between the cluster.
+This also means that if the DFS takes a write of one file (assuming the replication factor equals 1)
 
-To illustrate the problem with an example: if we try storing a 2MB file in HDFS we'll in fact produce 62MB of ,,wasted space'', reducing the cluster's capacity way faster than we ought to. Another p
+The meaning behind ,,HDFS Block Size'' differs from the term ,,block size'' used in most local file systems, such as EXT3 for example.
+In local file systems
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[scale=0.9]{diagrams/no-sequence-file.pdf}
+  \caption{When storing a small file in HDFS, it still takes up an entire block. The grey space is not wasted on disk, but causes the \textit{name-node} memory problems.}
+  \label{no-sequence-file}
+\end{figure}
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[scale=0.9]{diagrams/sequence-file.pdf}
+  \caption{A SequenceFile allows storing of multiple small chunks of data in one HDFS Block.}
+  \label{sequence-file}
+\end{figure}
