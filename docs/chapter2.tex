@@ -3,15 +3,18 @@ As the core of this work will focus on analysing and benchmarking usage of popul
 
 This chapter should be treated as a brief introduction into the selected technologies, as very detailed explanations and and implementation details will be provided throughout chapters \ref{chap:system-design} through \ref{chap:perf-scalability}.
 
+% ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Hadoop DFS}
 As the system will require the storage of many gigabytes (hundreds) of data the core of the system will be pretty much dominated by writing and reading to / from a datastore that contains all our reference video material.
 
 Hadoop's \ref{hadoop} Distributed File System was designed with such thoughts in mind, and is able to scale an abstract file system over many servers, yet providing tools to make it visible as if it was one file system.
 
+% ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Akka}
 
 \todo{say why akka was selected...}
 
+% ------------------------------------------------------------------------------------------------------------------------------------------------
 \chapter{System and design overview}
 \label{chap:system-design}
 
@@ -31,6 +34,7 @@ To further illustrate
   \label{fig:system-overview}
 \end{figure}
 
+% ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Loader}
 The downloader is responsible for obtaining as much as possible ,,reference data'', by which I mean video material -- from sites such as \textit{youtube.com} or video hosting sites.
 
@@ -56,12 +60,30 @@ The underlying Actor System is implemented by a project called Akka \cite{akka-d
 As mentioned before, the system is fully distributed and \textit{any node can perform any task} submited to the cluster. For example let's take the first step in the processing pipeline in Oculus, which is \verb|Download video from http://www.youtube.com/watch?v=-X9bcrJ3TjY| -- such message will be emited by the \verb|YoutubeCrawlerActor| and sent via a \verb|Router| instance to an \verb|YoutubeDownloadActor| which has the ,,smallest inbox''.
 
 
-\section{Analyser}
-The job runners responsibility is at the core of the systems... \todo{finish describing the analyser}
+% ------------------------------------------------------------------------------------------------------------------------------------------------
 
-\subsection{Tackling the ,,small--files problem'' on HDFS}
-In this section I will explain the ,,small-files problem'' which would lead to major performance degradation of the Hadoop cluster is left undressed and how it was solved
-in the face of having to work with millions of small files -- frames of the analysed movies.
+\section{Analyser}
+The analyser component is responsible for orchestrating Map Reduce jobs and submitting them to the cluster. Results of jobs are written to either HBase or plain TSV (\textit{Tab Separated Values}) Files. Figure \ref{fig:analyser-high-level} depicts the typical execution flow of an analysis process issued by Oculus.
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[scale=0.9]{diagrams/analyser-high-level.pdf}
+  \caption{When storing a small file in HDFS, it still takes up an entire block. The grey space is not wasted on disk, but causes the \textit{name-node} memory problems.}
+  \label{fig:analyser-high-level}
+\end{figure}
+
+In step 1 the \textit{job pipeline} is being prepared by the program by aggregating required metadata and preparing the job pipeline, which often consists of more than just one Map Reduce job -- in fact, most analysis jobs performed by Oculus require at least 3 or more Map Reduce jobs to be issued to the cluster. It is important to note that some of these jobs may be dependent on another task's output and this cannot be run in parallel. On the other hand, if a job requires calculating all histograms for all frames of a movie as well as calculating something different for each of these frames -- these jobs can be executed in parallel and will benefit from the large number of data nodes which can execute these jobs.
+
+The 2nd step on Figure \ref{fig:analyser-high-level} is important because Oculus may react with launching another analysis job based on the notification that one pipeline has completed. This allows to keep different pipelines separate, and trigger them reactively when for example all it's dependencies have been computed in another pipeline.
+
+For most applications though the 3rd step in a typical Oculus Job would be to read and present top N results to the issuer of the job, which for a question like ,,Which movie is similar to this one?'' would be the top N most similar movies (their names, identifiers as well as match percentage).
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Frame-by-frame data and the HDFS ,,small--files problem''}
+Most algorithms used in Oculus operate on a frame-by-frame basis, which means that it is most natural to store all data as ,,data for frame 343 from movie XYZ''.
+This applies to everything from plain bitmap data of a frame to metrics such as histograms of colours of a given frame or other metadata like the extracted text content found in this frame.
+
+Sadly this abstraction does not work nicely with Hadoop, it would cause the well--known ,,small-files problem'' which leads to \textit{major} performance degradation of the Hadoop cluster is left undressed. In this section I will focus on explaining the problem and what steps have been taken to prevent it from manifesting in the presence of millions of ,,by-frame'' data points.
 
 Hadoop uses so called ,,blocks'' as smallest atomic unit that can be used to move data between the cluster.
 The default block size is set to \textit{64 megabytes} on most Hadoop distributions (including vanilla Apache Hadoop which this implementation is using).
@@ -81,6 +103,17 @@ The problem stemming from writing small files manifests not directly by impactin
 
 It should be also noted, that when running map-reduce jobs, Hadoop will by default start one map task for each block it's processing in the given Job. Spinning up a task is an expensive process, so this too is a cause for performance degradation, since having small files causes more \textit{Map tasks} being issued for the same amount of actual data Hadoop will spend more time waiting for tasks to finish starting and collecting data from them than it would have to.
 
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Defining Map Reduce Pipelines using Scalding and Cascading}
+The primary language used for implementing all Oculus jobs, including Map Reduce jobs is Scala \cite{scala}
+
+\begin{lstlisting}[caption={Simplest Scalding job used in Oculus -- each frame perceptual hashing}, label={lst:simplest-scalding-job}]
+
+\end{lstlisting}
+
+
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Sequence Files}
 \label{sequence-file}
 The solution applied in the implemented system to resolve the small files problem is based on a technique called ,,Sequence Files'', which are a manually controlled layer of abstraction on top of HDFS blocks. There are multiple Sequence file formats accepted by the common utilities that Hadoop provides \cite{hadoop-seq-files} but they all are \textit{binary header-prefixed key-value formats}, as visualised Figure \ref{fig:sequence-file}.
