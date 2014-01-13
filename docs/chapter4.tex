@@ -1,4 +1,18 @@
-\chapter{Results and processing times}
-\todo{nothing said about results yet...}
+\chapter{Performance and scalability analysis}
+\label{chap:perf-scalability}
 
-\todo{add some cool images so it's visual...}
+In this section I will analyse the devised system on such aspects as general performance, ability (and ease) of scaling the system
+to support larger amounts of data or to speed-up the processing times by adding more servers to the cluster.
+
+These measurements will be made in the previously described system and backed by measurements 
+
+\section{Scaling Hadoop}
+In this section I will investigate the impact of scaling the Hadoop cluster vertically (by adding more nodes) on processing times of movies.
+
+The task used to measure will be the longest pipeline available in the oculus system - comparing a movie, percentage wise with all other movies in the database.
+This process touches a tremendous amount of data, and is also very parallelizable.
+
+At first I measured the time to process the input movie ....
+
+\section{Scaling the Loader (actor system)}
+\todo{scale it to more nodes...}

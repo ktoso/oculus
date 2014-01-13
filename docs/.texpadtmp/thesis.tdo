@@ -1,6 +1,8 @@
-\contentsline {todo}{This is not done until I'm done with the paper ;-)Oculus}{8}{section*.3}
+\contentsline {todo}{This is not done until I'm done with the paper ;-) Oculus}{8}{section*.3}
 \contentsline {todo}{say why akka was selected...}{9}{section*.4}
-\contentsline {todo}{scale it to more nodes...}{16}{section*.7}
-\contentsline {todo}{nothing said about results yet...}{17}{section*.8}
-\contentsline {todo}{add some cool images so it's visual...}{17}{section*.9}
-\contentsline {todo}{conclude stuff...}{18}{section*.10}
+\contentsline {todo}{explain in detail actor interaction}{12}{section*.5}
+\contentsline {todo}{explain that we don't kill IO}{12}{section*.6}
+\contentsline {todo}{scale it to more nodes...}{18}{section*.9}
+\contentsline {todo}{nothing said about results yet...}{19}{section*.10}
+\contentsline {todo}{add some cool images so it's visual...}{19}{section*.11}
+\contentsline {todo}{conclude stuff...}{20}{section*.12}

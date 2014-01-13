@@ -1,7 +1,7 @@
 package pl.project13.scala.oculus
 
 import actor._
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{AddressFromURIString, Props, ActorSystem}
 import akka.routing.{FromConfig, RoundRobinRouter}
 import com.typesafe.config.ConfigFactory
 import pl.project13.scala.oculus.hbase.HBaseInit
@@ -17,8 +17,16 @@ object DownloaderRunner extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("oculus-system", config)
 
+  val remoteSystem = ActorSystem("remote-oculus-system", config)
+
   val fs = config.getString("oculus.hadoop.fs.defaultFS")
   val fps = config.getInt("oculus.ffmpeg.framesPerSecond")
+
+
+  val addr = AddressFromURIString("akka://remote-oculus-system@127.0.0.1:1234")
+  val remote = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)), "remote-youtube-downloader")
+
+  remote ! "Hello!"
 
   val hdfsUploader = system.actorOf(Props(new HDFSUploadActor(fs, fps)).withRouter(FromConfig), "hdfs-uploader")
   val youtubeDownloader = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)).withRouter(FromConfig), "youtube-downloader")
@@ -40,5 +48,5 @@ object DownloaderRunner extends App {
 //  youtubeCrawler ! CrawlYoutubePage("http://www.youtube.com/watch?v=hO6eQnH41ao") // project retouch, landscape
 //
 //  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=IPlA2yUN_Bk", crawl = false) // bartender - HAS SUBTITLES
-  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=bcITDAXU5Vg", crawl = false) // TOP 50 anime
+//  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=bcITDAXU5Vg", crawl = false) // TOP 50 anime
 }

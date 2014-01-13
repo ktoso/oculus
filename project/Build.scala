@@ -139,6 +139,7 @@ object Dependencies {
 
   // akka2
   lazy val akka2Actor             = "com.typesafe.akka" %% "akka-actor"          % Versions.akka
+  lazy val akka2Remoting          = "com.typesafe.akka" %% "akka-remote"         % Versions.akka
   lazy val akka2Slf4j             = "com.typesafe.akka" %% "akka-slf4j"          % Versions.akka
   lazy val akka2TestKit           = "com.typesafe.akka" %% "akka-testkit"        % Versions.akka % "test"
   lazy val akka2Full              = Seq(akka2Actor, akka2Slf4j, akka2TestKit)
