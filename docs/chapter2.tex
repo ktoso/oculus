@@ -1,16 +1,72 @@
-\chapter{Selected technologies}
+\chapter{Technologies}
 As the core of this work will focus on analysing and benchmarking usage of popular distributed system stacks, it is only fair to begin with introducing the selected components from which the system consist.
 
 This chapter should be treated as a brief introduction into the selected technologies, as very detailed explanations and and implementation details will be provided throughout chapters \ref{chap:system-design} through \ref{chap:perf-scalability}.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Hadoop DFS}
+\section{Apache Hadoop}
+\label{sec:hadoop}
 As the system will require the storage of many gigabytes (hundreds) of data the core of the system will be pretty much dominated by writing and reading to / from a datastore that contains all our reference video material.
 
 Hadoop's \ref{hadoop} Distributed File System was designed with such thoughts in mind, and is able to scale an abstract file system over many servers, yet providing tools to make it visible as if it was one file system.
 
+\todo{explain more about hadoop, where it came from. Reference BigTable paper.}
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Apache HBase}
+\label{sec:hbase}
+
+\todo{explain why hbase makes sense}
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Scala}
+\label{sec:scala}
+
+\todo{explain why scala}
+
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Akka}
-\label{sec:why-akka}
+\label{sec:akka}
 
 \todo{say why akka was selected...}
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Cascading \& Scalding}
+\label{sec:chef}
+Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ,,flows'' 
+and job ,,pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
+
+Scalding is a library developed by Twitter...
+
+During the work on this paper several contributions to Scalding have been provided and merged in by the library authors. 
+
+\todo{link to patches included}
+\todo{explain what scalding and cascading are}
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{phash}
+\label{sec:phash}
+PHash is short for ,,Perceptual Hash''
+
+\todo{explain phase, link to paper}
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Chef}
+\label{sec:chef}
+
+\todo{explain chef}
+
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Other tools and technologies used}
+\label{sec:other tools}
+
+\subsection{youtube-dl}
+Youtube-dl is a small library written in python and distributed in the the .... license. 
+It was used in order to download movies from youtube.
+
+\todo{explain youtubedl}
+
+\subsection{tesseract-ocr}
+
+\todo{maybe tesseract?}

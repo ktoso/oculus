@@ -15,7 +15,7 @@ To further illustrate the separate components and their interactions Figure \ref
 \begin{figure}[hc!]
  \centering
   \includegraphics[scale=0.9]{./diagrams/high-level-system.pdf}
-  \caption{High level overview of the sys"fake tem's architecture}
+  \caption{High level overview of the system's architecture}
   \label{fig:system-overview}
 \end{figure}
 
@@ -26,34 +26,37 @@ The Loader component is responsible for obtaining as much as possible ,,referenc
 While I will refer to the Loader (as a system) in singular, it should be noted that in fact there are multiple instances of it running in the cluster.
 Thanks to the use of Akka's \cite{akka-docs} Actor Model abstractions (and \textit{remoting} module \cite{akka-remoting}), in which the physical location of an Actor plays is of no importance -- meaning, that the receiving Actor does not have to be on the same host as the sending Actor.
 
-The system consists of 4 types of Actors, that can react and generate only specific types of messages:
+The system consists of 4 types of Actors each of which has multiple instances which are spread out on many nodes in the cluster.
+Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading
+the video material can be spread throughout the cluster. I will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
 
 \begin{itemize}
-  \item \verb|YouTubeCrawlActor| -- is capable of fetching and YouTube websites and generate Messages triggering
+  \item \textbf{YouTubeCrawlActor} -- is capable of fetching and YouTube websites and generate Messages triggering
                                     either further crawling of ,,related video sites'' (\verb|Crawl(siteId: String)|) or downloading of the 
                                     currently accessed video (by sending a \verb|Download(movieId)| message),
-    \subitem receives:
+    \subitem  \textbf{receives:}
       \subsubitem 1 -- \verb|Crawl(siteId: String)| message
-    \subitem sends:
+    \subitem  \textbf{sends:}
       \subsubitem 0 or n -- \verb|Crawl(siteId: String)| - where n is the number of ,,related video'' links found on the site. 
                                                            If crawling is turned off, no messages will be sent.
 
-  \item \verb|DownloadActor| -- is responsible for downloading the movie from youtube in it's original format (in the presence of many formats, 
+  \item \textbf{DownloadActor} -- is responsible for downloading the movie from youtube in it's original format (in the presence of many formats, 
                                 the highest quality file will be downloaded). This Actor decides if a video is legal to download or not, because it also
                                 obtains the movie's metadata -- only trailers and opening sequences of series are downloaded during for the sake of this 
                                 thesis.
                                 
-  \item \verb|ConversionActor| -- is responsible for converting the downloaded video material into raw frame data (bitmaps).
-    \subitem receives:
+  \item \textbf{ConversionActor} -- is responsible for converting the downloaded video material into raw frame data (bitmaps).
+    \subitem  \textbf{receives:}
       \subsubitem \verb|Convert(localVideoFile: java.util.File)| -- This message must come from a local Actor, since the path refers to the local file system.
-    \subitem sends:
+    \subitem  \textbf{sends:}
       \subsubitem \verb|Upload(framesDirectory: java.util.File)| -- when the finished converting to bitmaps, it will send and \verb|Upload| 
                                                                     message to one of the\verb|HDFSUploadActors|, pointing to the directory where the 
                                                                     output bitmaps have been written.
-  \item \verb|HDFSUploadActor| -- is responsible for optimally storing the sequence of bitmaps in Hadoop. This includes converting a series of 
+                                                                    
+  \item \textbf{HDFSUploadActor} -- is responsible for optimally storing the sequence of bitmaps in Hadoop. This includes converting a series of 
                                   relatively small (around 2MB per frame) files into one Sequence File on HDFS. Sequence Files and the need for their use
                                   will be explained in detail in section \ref{sec:sequence-files}.
-  \subitem receives:
+  \subitem \textbf{receives:}
     \subsubitem \verb|Upload(framesDirectory: java.util.File)| -- pointing to a local directory where the bitmap files have been stored.
                                                                  This message must come from a local actor, since the path refers to the local file system.
 \end{itemize}
@@ -62,14 +65,11 @@ The system consists of 4 types of Actors, that can react and generate only speci
 \begin{figure}[ch!]
   \centering
   \includegraphics[scale=0.9]{./diagrams/loader-high-level.pdf}
-  \caption{High level overview of messages passed within the Loader's actor system. Greyed out messages are also sent, but are not on the critical path leading to obtaining material from \textit{siteX} into Oculus.}
+  \caption{Overview of messages passed within the Loader's actor system. Greyed out messages are also sent, but are not on the critical path leading to obtaining material from \textit{siteX} into HDFS.}
   \label{fig:high-level-loader}
 \end{figure}
 
 Since the reference data is fetched from youtube, implementing a crawler is fairly simple and requires only to fetch the site's HTML source and extract any ,,related'' video pages (which are contained on the right hand side on the youtube website). Using this the system will automatically continue fetching similar videos, for a few \textit{seed sites}. This is done by sending an initial message (1) via an asynchronous call to \verb|YouTubeCrawlActor|. It will fetch the page's sources, parse out all ,,related video'' urls and then send these to other \verb|YouTubeCrawlActor|s in the it's own local system or across the network, to another node in the cluster running another Actor System with the same types of Actors -- this remoting technique has many benefits which will be discussed in the subsection \ref{sec:location-transparency}.
-
-Figure \ref{fig:high-level-loader} illustrates what kinds of actors and messages the Loader system consists of.
-An important benefit for 
 
 
 \todo{explain in detail actor interaction}
@@ -78,30 +78,33 @@ An important benefit for
 \subsection{Spreading network IO usage by using remote Actors}
 \label{sec:location-transparency}
 
-This section will expand on the topic of remote actors, and what gains this has yielded to the system in general.
+This section will expand on the topic of remote Actors, and show how this has benefited the application.
 
 \todo{explain that we don't kill IO}
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Work sharing in an actor-based cluster}
+\subsection{Employing message routing in order to load-balance the cluster}
 
+Since all communication between Actors is done via messages, we can influence where more work will be enqueued simply by providing a routing implementation
+taking responsibility of selecting the target actor of an sent message.
 
-This sub-system is implemented the so-called ,,message passing style'', which means that the work requests to the cluster come in as \textit{messages}, and then are \textit{routed} to an \textit{actor}, who performs the work, and then responds with another message -- in other words, all comunication between Actor instances is performed via messages and there is no shared state between them. 
-This also applies to Actor instances residing in the same JVM - for the user of an ,,Actor System'', the location (on which phisical node the actor is actually executing) of an actor remains fully transparent - this has huge gains in terms of load balancing the message execution on the cluster - the router decides who will be notified on which message, the listing \ref{lst:akka-router-smallest-inbox} shows a typical workflow using the so-called ,,smallest inbox'' routing strategy \ref{akkaDocs}.
+This applies both to local actors as well as spreading the work load evenly among the remote Actors. I will first describe the 
+
+The listing \ref{lst:akka-router-smallest-inbox} shows the routing mechanism called ,,Smallest Inbox'' routing strategy \ref{akkaDocs}.
 
 % TODO replace with a drawing with actors
 \begin{lstlisting}[caption={smallest-inbox routing algorithm},label={lst:akka-router-smallest-inbox}]
-                                                           ---> [inbox1, size = 3] => YoutubeDownloadActor(1)
- YoutubeCrawlerActor -- Msg(url=http://...) --> router ---/
-                                                          \     [inbox2, size = 5] => YoutubeDownloadActor(2)
+                                                  ---> [inbox1, size = 3] => YoutubeDownloadActor(1)
+ YouTubeCrawlActor -- Crawl(siteX) --> router ---/
+                                                 \____> [inbox2, size = 5] => YoutubeDownloadActor(2)
                                                                    
                                   /* because inbox1.size < inbox2.size */ 
 \end{lstlisting}
 
-The underlying Actor System is implemented by a project called Akka \cite{akka-docs}, and can be easiest explained as ,,porting Erlang concepts of the Actor Model to the JVM''. I selected the ,,Smallest Inbox'' routing strategy instead of the other widely used ,,Round Robin'' approach in order to guarantee not overloading any Actor with too many requests to download movies (which is a relatively slow process). Thanks to the smallest inbox routing, I can guarantee that if some of the nodes have a faster connection to the Internet, they will get more movie download requests, than nodes located on a slower network.
+I selected the ,,Smallest Inbox'' routing strategy instead of the other widely used ,,Round Robin'' approach in order to guarantee not overloading any Actor with too many requests to download movies (which is a relatively slow process). Thanks to the smallest inbox routing, I can guarantee that if some of the nodes have a faster connection to the Internet, they will get more movie download requests, than nodes located on a slower network.
 
-As mentioned before, the system is fully distributed and \textit{any node can perform any task} submited to the cluster. For example let's take the first step in the processing pipeline in Oculus, which is \verb|Download video from http://www.youtube.com/watch?v=-X9bcrJ3TjY| -- such message will be emited by the \verb|YoutubeCrawlerActor| and sent via a \verb|Router| instance to an \verb|YoutubeDownloadActor| which has the ,,smallest inbox''.
+As mentioned before, the system is fully distributed and \textit{any node can perform any task} submitted to the cluster. For example let's take the first step in the processing pipeline in Oculus, which is \verb|Download video from http://www.youtube.com/watch?v=-X9bcrJ3TjY| -- such message will be emitted by the \verb|YoutubeCrawlerActor| and sent via a \verb|Router| instance to an \verb|YoutubeDownloadActor| which has the ,,smallest inbox''.
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------

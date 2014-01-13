@@ -1,8 +1,17 @@
-\contentsline {todo}{This is not done until I'm done with the paper ;-) Oculus}{8}{section*.3}
-\contentsline {todo}{say why akka was selected...}{9}{section*.4}
-\contentsline {todo}{explain in detail actor interaction}{12}{section*.5}
-\contentsline {todo}{explain that we don't kill IO}{12}{section*.6}
-\contentsline {todo}{scale it to more nodes...}{18}{section*.9}
-\contentsline {todo}{nothing said about results yet...}{19}{section*.10}
-\contentsline {todo}{add some cool images so it's visual...}{19}{section*.11}
-\contentsline {todo}{conclude stuff...}{20}{section*.12}
+\contentsline {todo}{This is not done until I'm done with the paper ;-) Oculus}{9}{section*.3}
+\contentsline {todo}{explain more about hadoop, where it came from. Reference BigTable paper.}{10}{section*.4}
+\contentsline {todo}{explain why hbase makes sense}{10}{section*.5}
+\contentsline {todo}{explain why scala}{10}{section*.6}
+\contentsline {todo}{say why akka was selected...}{10}{section*.7}
+\contentsline {todo}{link to patches included}{11}{section*.8}
+\contentsline {todo}{explain what scalding and cascading are}{11}{section*.9}
+\contentsline {todo}{explain phase, link to paper}{11}{section*.10}
+\contentsline {todo}{explain chef}{11}{section*.11}
+\contentsline {todo}{explain youtubedl}{11}{section*.12}
+\contentsline {todo}{maybe tesseract?}{11}{section*.13}
+\contentsline {todo}{explain in detail actor interaction}{14}{section*.14}
+\contentsline {todo}{explain that we don't kill IO}{14}{section*.15}
+\contentsline {todo}{scale it to more nodes...}{20}{section*.18}
+\contentsline {todo}{nothing said about results yet...}{21}{section*.19}
+\contentsline {todo}{add some cool images so it's visual...}{21}{section*.20}
+\contentsline {todo}{conclude stuff...}{22}{section*.21}
