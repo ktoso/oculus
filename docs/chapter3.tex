@@ -61,6 +61,11 @@ the video material can be spread throughout the cluster. I will now briefly desc
                                                                  This message must come from a local actor, since the path refers to the local file system.
 \end{itemize}
 
+% -------------------------------------------------------------------------------------------------------------------------------------------------
+\newpage
+\subsection{Obtaining reference video material}
+\label{sec:obtaining-reference-material}
+In this subsection I will discuss the process of obtaining video material by the Loader subsystem, as well as explain which parts can be executed on different nodes of the cluster. The Figure \ref{fig:high-level-loader} should help in understanding the basic workflow.
 
 \begin{figure}[ch!]
   \centering
@@ -69,47 +74,25 @@ the video material can be spread throughout the cluster. I will now briefly desc
   \label{fig:high-level-loader}
 \end{figure}
 
+\subsubsection{Step 1 - \textit{Crawl} messages}
+The initiating message for each flow within the Loader is a \textit{Crawl(siteUrl)}, where siteUrl is a valid youtube video url.
+The receiving YouTubeCrawlActor will react to such message by fetching and extracting the related video site urls and will forward those using the same kind of \textit{Crawl} messages. The second, yet most important, reaction is sending a \textit{Download(movieId)} message to an instance of an DownloadActor -- it  can reside on any node in the cluster, which allows us to spread the down-link utilisation between different nodes in the cluster.
+
+It is worth pointing out that the receivers of these messages can be remote Actors, that is, can be located on a different node in the cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), I am using a strategy called ,,Smallest Inbox Routing''. This technique uses a special ,,Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message
+only to the Actor who has the smallest amount of messages ,,not yet processed'' (which are kept in an Queue called the ,,Inbox'', hence the strategy's name).
+
+\subsubsection{Step 2 - \textit{Download} messages}
+
+
+\subsubsection{Step 3 - \textit{Convert} messages}
+\subsubsection{Step 4 - \textit{Convert} messages}
+\subsubsection{Step 4 - Writing the data to HDFS}
+
 Since the reference data is fetched from youtube, implementing a crawler is fairly simple and requires only to fetch the site's HTML source and extract any ,,related'' video pages (which are contained on the right hand side on the youtube website). Using this the system will automatically continue fetching similar videos, for a few \textit{seed sites}. This is done by sending an initial message (1) via an asynchronous call to \verb|YouTubeCrawlActor|. It will fetch the page's sources, parse out all ,,related video'' urls and then send these to other \verb|YouTubeCrawlActor|s in the it's own local system or across the network, to another node in the cluster running another Actor System with the same types of Actors -- this remoting technique has many benefits which will be discussed in the subsection \ref{sec:location-transparency}.
 
-
-\todo{explain in detail actor interaction}
-
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Spreading network IO usage by using remote Actors}
-\label{sec:location-transparency}
-
-This section will expand on the topic of remote Actors, and show how this has benefited the application.
-
-\todo{explain that we don't kill IO}
-
-
-% ------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Employing message routing in order to load-balance the cluster}
-
-Since all communication between Actors is done via messages, we can influence where more work will be enqueued simply by providing a routing implementation
-taking responsibility of selecting the target actor of an sent message.
-
-This applies both to local actors as well as spreading the work load evenly among the remote Actors. I will first describe the 
-
-The listing \ref{lst:akka-router-smallest-inbox} shows the routing mechanism called ,,Smallest Inbox'' routing strategy \ref{akkaDocs}.
-
-% TODO replace with a drawing with actors
-\begin{lstlisting}[caption={smallest-inbox routing algorithm},label={lst:akka-router-smallest-inbox}]
-                                                  ---> [inbox1, size = 3] => YoutubeDownloadActor(1)
- YouTubeCrawlActor -- Crawl(siteX) --> router ---/
-                                                 \____> [inbox2, size = 5] => YoutubeDownloadActor(2)
-                                                                   
-                                  /* because inbox1.size < inbox2.size */ 
-\end{lstlisting}
-
-I selected the ,,Smallest Inbox'' routing strategy instead of the other widely used ,,Round Robin'' approach in order to guarantee not overloading any Actor with too many requests to download movies (which is a relatively slow process). Thanks to the smallest inbox routing, I can guarantee that if some of the nodes have a faster connection to the Internet, they will get more movie download requests, than nodes located on a slower network.
-
-As mentioned before, the system is fully distributed and \textit{any node can perform any task} submitted to the cluster. For example let's take the first step in the processing pipeline in Oculus, which is \verb|Download video from http://www.youtube.com/watch?v=-X9bcrJ3TjY| -- such message will be emitted by the \verb|YoutubeCrawlerActor| and sent via a \verb|Router| instance to an \verb|YoutubeDownloadActor| which has the ,,smallest inbox''.
-
-
-% ------------------------------------------------------------------------------------------------------------------------------------------------
-
 \section{Analyser}
+\label{sec:analyser}
 The analyser component is responsible for orchestrating Map Reduce jobs and submitting them to the cluster. Results of jobs are written to either HBase or plain TSV (\textit{Tab Separated Values}) Files. Figure \ref{fig:analyser-high-level} depicts the typical execution flow of an analysis process issued by Oculus.
 
 \begin{figure}[ch!]
