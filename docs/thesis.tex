@@ -25,8 +25,9 @@
   morecomment=[l]{//},
   morecomment=[n]{/*}{*/},
   morestring=[b]",
-  morestring=[b]',
-  morestring=[b]"""
+  morestring=[b]""",
+  morestring=[s][\color{blue}]{'}{a},
+  morestring=[s][\color{blue}]{'}{d}
 }
 
 % IntelliJ Colors for listings
@@ -44,20 +45,19 @@
   showstringspaces=false,
   columns=flexible,
   basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numberstyle=\small\color{gray},
   keywordstyle=\color{blue},
   commentstyle=\color{gray},
   stringstyle=\color{dkgreen},
   frame=single,
   breaklines=true,
   breakatwhitespace=true
-  tabsize=3
+  tabsize=2
 }
 
 \lstloadlanguages{TeX}
 
-\lstloadlanguages{TeX}
 
 \lstset{
   literate={ą}{{\k{a}}}1

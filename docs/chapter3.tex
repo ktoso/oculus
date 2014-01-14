@@ -147,11 +147,14 @@ The problem stemming from writing small files manifests not directly by impactin
 It should be also noted, that when running map-reduce jobs, Hadoop will by default start one map task for each block it's processing in the given Job. Spinning up a task is an expensive process, so this too is a cause for performance degradation, since having small files causes more \textit{Map tasks} being issued for the same amount of actual data Hadoop will spend more time waiting for tasks to finish starting and collecting data from them than it would have to.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\subsubsection{Defining Map Reduce Pipelines using Scalding and Cascading}
+\subsection{Defining Map Reduce Pipelines using Scalding and Cascading}
 The primary language used for implementing all Oculus jobs, including Map Reduce jobs is Scala \cite{scala}
 
 \begin{lstlisting}[caption={Simplest Scalding job used in Oculus -- each frame perceptual hashing}, label={lst:simplest-scalding-job}]
-
+  Tsv("input.tsv")
+    .map('line -> 'word) { line: String => line.split }
+    .groupBy('word) { _.count }
+    .write(Tsv("output.tsv"))
 \end{lstlisting}
 
 
