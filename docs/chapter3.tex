@@ -26,6 +26,9 @@ The Loader component is responsible for obtaining as much as possible ,,referenc
 While I will refer to the Loader (as a system) in singular, it should be noted that in fact there are multiple instances of it running in the cluster.
 Thanks to the use of Akka's \cite{akka-docs} Actor Model abstractions (and \textit{remoting} module \cite{akka-remoting}), in which the physical location of an Actor plays is of no importance -- meaning, that the receiving Actor does not have to be on the same host as the sending Actor.
 
+\subsection{Types of Actors used in the system}
+\label{sec:types-of-actors}
+
 The system consists of 4 types of Actors each of which has multiple instances which are spread out on many nodes in the cluster.
 Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading
 the video material can be spread throughout the cluster. I will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
@@ -78,17 +81,26 @@ In this subsection I will discuss the process of obtaining video material by the
 The initiating message for each flow within the Loader is a \textit{Crawl(siteUrl)}, where siteUrl is a valid youtube video url.
 The receiving YouTubeCrawlActor will react to such message by fetching and extracting the related video site urls and will forward those using the same kind of \textit{Crawl} messages. The second, yet most important, reaction is sending a \textit{Download(movieId)} message to an instance of an DownloadActor -- it  can reside on any node in the cluster, which allows us to spread the down-link utilisation between different nodes in the cluster.
 
-It is worth pointing out that the receivers of these messages can be remote Actors, that is, can be located on a different node in the cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), I am using a strategy called ,,Smallest Inbox Routing''. This technique uses a special ,,Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message
-only to the Actor who has the smallest amount of messages ,,not yet processed'' (which are kept in an Queue called the ,,Inbox'', hence the strategy's name).
+It is worth pointing out that the receivers of these messages can be remote Actors, that is, can be located on a different node in the cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), I am using a strategy called ,,Smallest Inbox Routing''. This technique uses a special ,,Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message only to the Actor who has the smallest amount of messages ,,not yet processed'' (which are kept in an Queue called the ,,Inbox'', hence the strategy's name).
 
 \subsubsection{Step 2 - \textit{Download} messages}
+In the second step an \textit{YouTubeDownloadActor} instance receives a message asking it to download a movie.
+It does so by invoking the native app \textit{youtube-dl}, which is an open source program specialised in downloading movies from YouTube.
+Other than the video file (in an open source format) we also download a metadata description during this step, such metadata includes for example the date of publication, author, title and description of the movie. From this message including, all messages will be routed only to Actors local to the current node, because messages include \textit{File} objects, pointing to locations on-disk.
 
+The metadata is then used to determine if it can be used in the context of this work, as only movie trailers and and opening / ending sequences are downloaded into the Oculus system. If the content is OK to use, the Actor sends an \textit{Convert(movieLocation)} message to an instance of \textit{ConversionActor}.
 
 \subsubsection{Step 3 - \textit{Convert} messages}
-\subsubsection{Step 4 - \textit{Convert} messages}
-\subsubsection{Step 4 - Writing the data to HDFS}
+The next step is executed by an instance of an \textit{ConversionActor} recieving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over uncompression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabeled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyzer system immensely.
 
-Since the reference data is fetched from youtube, implementing a crawler is fairly simple and requires only to fetch the site's HTML source and extract any ,,related'' video pages (which are contained on the right hand side on the youtube website). Using this the system will automatically continue fetching similar videos, for a few \textit{seed sites}. This is done by sending an initial message (1) via an asynchronous call to \verb|YouTubeCrawlActor|. It will fetch the page's sources, parse out all ,,related video'' urls and then send these to other \verb|YouTubeCrawlActor|s in the it's own local system or across the network, to another node in the cluster running another Actor System with the same types of Actors -- this remoting technique has many benefits which will be discussed in the subsection \ref{sec:location-transparency}.
+The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, which is why the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
+
+\subsubsection{Step 4 & 5 - \textit{Upload} messages}
+The last step is an \textit{HDFSUploadActor} recieving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages around 2MB (depending on the movie resolution).
+
+In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ,,Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ,,frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
+
+This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyser by running Map Reduce jobs on Sequence Files prepared in the above flow.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Analyser}
