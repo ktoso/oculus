@@ -95,7 +95,7 @@ The next step is executed by an instance of an \textit{ConversionActor} recievin
 
 The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, which is why the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
 
-\subsubsection{Step 4 & 5 - \textit{Upload} messages}
+\subsubsection{Step 4 \& 5 - \textit{Upload} messages}
 The last step is an \textit{HDFSUploadActor} recieving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages around 2MB (depending on the movie resolution).
 
 In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ,,Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ,,frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
