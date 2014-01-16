@@ -1,15 +1,16 @@
 \contentsline {todo}{This is not done until I'm done with the paper ;-) Oculus}{9}{section*.3}
-\contentsline {todo}{explain more about hadoop, where it came from. Reference BigTable paper.}{10}{section*.4}
-\contentsline {todo}{explain why hbase makes sense}{10}{section*.5}
-\contentsline {todo}{explain why scala}{10}{section*.6}
-\contentsline {todo}{say why akka was selected...}{10}{section*.7}
-\contentsline {todo}{link to patches included}{11}{section*.8}
-\contentsline {todo}{explain what scalding and cascading are}{11}{section*.9}
-\contentsline {todo}{explain phase, link to paper}{11}{section*.10}
-\contentsline {todo}{explain chef}{11}{section*.11}
-\contentsline {todo}{explain youtubedl}{11}{section*.12}
-\contentsline {todo}{maybe tesseract?}{11}{section*.13}
-\contentsline {todo}{scale it to more nodes...}{21}{section*.19}
-\contentsline {todo}{nothing said about results yet...}{22}{section*.20}
-\contentsline {todo}{add some cool images so it's visual...}{22}{section*.21}
-\contentsline {todo}{conclude stuff...}{23}{section*.22}
+\contentsline {todo}{where?}{11}{section*.4}
+\contentsline {todo}{link contributions}{11}{section*.5}
+\contentsline {todo}{link to patches included}{11}{section*.6}
+\contentsline {todo}{explain what scalding and cascading are}{11}{section*.7}
+\contentsline {todo}{is this needed?}{12}{section*.8}
+\contentsline {todo}{can i notice ebay?}{12}{section*.9}
+\contentsline {todo}{more?}{12}{section*.10}
+\contentsline {todo}{TODO TODO THIS IS JUST SAMPLES}{20}{section*.15}
+\contentsline {todo}{the steps DOT is wrong here}{23}{section*.17}
+\contentsline {todo}{use I, not WE this is not a blog post...}{23}{section*.18}
+\contentsline {todo}{needs complete rewrite, slower with examples, show code of the task}{23}{section*.19}
+\contentsline {todo}{scale it to more nodes...}{25}{section*.21}
+\contentsline {todo}{nothing said about results yet...}{26}{section*.22}
+\contentsline {todo}{add some cool images so it's visual...}{26}{section*.23}
+\contentsline {todo}{conclude stuff...}{27}{section*.24}

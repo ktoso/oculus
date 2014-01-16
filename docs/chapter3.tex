@@ -148,7 +148,12 @@ It should be also noted, that when running map-reduce jobs, Hadoop will by defau
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Defining Map Reduce Pipelines using Scalding and Cascading}
+TODO TODO THIS IS JUST SAMPLES
+\todo{TODO TODO THIS IS JUST SAMPLES}
+
 The primary language used for implementing all Oculus jobs, including Map Reduce jobs is Scala \cite{scala}
+
+This is how an example job would look like:
 
 \begin{lstlisting}[caption={Simplest Scalding job used in Oculus -- each frame perceptual hashing}, label={lst:simplest-scalding-job}]
   Tsv("input.tsv")
@@ -158,6 +163,59 @@ The primary language used for implementing all Oculus jobs, including Map Reduce
 \end{lstlisting}
 
 
+\subsubsection{Parallel execution and job ordering}
+Because a Scalding job (which effectively is an Cascading ,,\textit{Pipeline}'') can span multiple Map Reduce Job invocations,
+it is important to visualise how many actual Jobs will be submitted to the cluster and also if they can be run in parallel.
+
+In order to visualise how jobs actually will be executed on the cluster Cascading provides a very important option allowing to print the resulting job
+graph using the widely accepted graph-description language DOT \cite{dot}.
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{img/FindSimilarMoviesJob_dot.png}
+  \label{fig:find-similar-movies-most-complicated}
+  \caption{This flow represents the most longest Pipeline preset in Oculus -- finding which movies are similar to the current one, ordered by ranking. It is constructed from 5 Map Reduce jobs.}
+\end{figure}
+
+Figure \ref{fig:find-similar-movies-most-complicated} represents the ,,Find similar movies to the given one'' pipeline. Each circle represents an operation (such as emitting a tuple, grouping etc) and lines represent the data flowing through the Map Reduce jobs. It is also clearly visible that this pipeline consists of 5 map reduce jobs, where the 3rd job's input depends on jobs 1 and 2, and only after job 3 has completed jobs 4 and 5 can be executed (in parallel).
+
+Sometimes though it is not easy to determine from this diagram alone how many actual MR Jobs a pipeline has emitted. For this reason we can instruct Cascading to print a DOT file containing the ,,steps'', which for the algorithm represented in Listing \ref{lst:find-similar-movies-most-complicated-lst} Figure \ref{fig:find-similar-movies-most-complicated} would look like Figure \ref{fig:find-similar-movies-most-complicated-steps}.
+
+\begin{lstlisting}[caption={Fragments of FindMostSimilarMoviesJob.dot}, label={lst:find-similar-movies-most-complicated-lst}]
+digraph G {
+1  [label = "Hfs['TextDelimited[[UNKNOWN] -> 
+               ['refHash', 'frameHash', 'distance']]']['out']"];
+2  [label = "Each('_pipe_0*_pipe_1')[NoOp[decl:[{?}:NONE]]]"];
+3  [label = "GroupBy('_pipe_0*_pipe_1')[by:['__groupAll__']]"];
+15 [label = "[tail]"];
+# ...
+    
+4->3  [label = "[{4}:'refHash', 'frameHash', 'distance', '__groupAll__']
+                [{4}:'refHash', 'frameHash', 'distance', '__groupAll__']"];
+3->2  [label = "_pipe_0*_pipe_1[{1}:'__groupAll__']
+                [{4}:'refHash', 'frameHash', 'distance', '__groupAll__']"];
+1->15 [label = "[{3}:'refHash', 'frameHash', 'distance']
+                [{3}:'refHash', 'frameHash', 'distance']"];
+2->1  [label = "[{3}:'refHash', 'frameHash', 'distance']
+                [{3}:'refHash', 'frameHash', 'distance']"];
+# ...
+}
+\end{lstlisting}
+
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{img/FindSimilarMoviesV2Job-steps_dot.png}
+  \label{fig:find-similar-movies-most-complicated-steps}
+  \caption{A graph representation of the Map Reduce jobs that have to be run in order to complete the pipeline.}
+\end{figure}
+\todo{the steps DOT is wrong here}
+
+The graph represented on Figure \ref{fig:find-similar-movies-most-complicated-steps} displays the same pipeline as Figure \ref{fig:find-similar-movies-most} but on a higher level -- displaying only the order and dependencies of each Map Reduce job. Step \verb|3/4| is easily identifiable as ,,groupBy'' here, although from this graph we are unable to determine on what field we're grouping.
+
+\todo{use I, not WE this is not a blog post...}
+
+\todo{needs complete rewrite, slower with examples, show code of the task}
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Sequence Files}

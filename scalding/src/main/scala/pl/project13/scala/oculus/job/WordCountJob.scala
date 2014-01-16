@@ -9,11 +9,18 @@ import com.twitter.scalding._
   val inputFile = args("input")
   val outputFile = args("output")
 
-  TextLine(inputFile)
-    .read
-    .flatMap('line -> 'word) { line: String => tokenize(line) }
-    .groupBy('word) { _.size }
-    .write(Tsv(outputFile))
+    IterableSource(
+      List(
+        (1, 2, 3),
+        (1, 2, 3),
+      )
+    )
+
+//  TextLine(inputFile)
+//    .read
+//    .flatMap('line -> 'word) { line: String => tokenize(line) }
+//    .groupBy('word) { _.size }
+//    .write(Tsv(outputFile))
 
 
   def tokenize(text: String): Array[String] =
