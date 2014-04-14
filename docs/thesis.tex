@@ -1,6 +1,7 @@
-\documentclass[pdflatex,12pt,en]{aghdpl}
+\documentclass[en,11pt]{aghdpl}  % praca w języku angielskim
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
+
 
 \usepackage{enumerate}
 \usepackage{enumitem}
@@ -13,7 +14,7 @@
 % Scala listings
 % "define" Scala
 \lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
+  morekeywords={abstract,case,catch,class,def,%\include{aghdpl}
     do,else,extends,false,final,finally,%
     for,if,implicit,import,match,mixin,%
     new,null,object,override,package,%
@@ -58,6 +59,27 @@
 
 \lstloadlanguages{TeX}
 
+\lstset{
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'c}}1
+           {ę}{{\k{e}}}1
+           {ó}{{\'o}}1
+           {ń}{{\'n}}1
+           {ł}{{\l{}}}1
+           {ś}{{\'s}}1
+           {ź}{{\'z}}1
+           {ż}{{\.z}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'C}}1
+           {Ę}{{\k{E}}}1
+           {Ó}{{\'O}}1
+           {Ń}{{\'N}}1
+           {Ł}{{\L{}}}1
+           {Ś}{{\'S}}1
+           {Ź}{{\'Z}}1
+           {Ż}{{\.Z}}1
+}
+
 
 \lstset{
   literate={ą}{{\k{a}}}1
@@ -88,26 +110,27 @@
 \titlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym}
 \titleEN{Processing and analisys of multimedia in distributed systems}
 
-\shorttitlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym}
+\shorttitlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym} % skrócona wersja tytułu jeśli jest bardzo długi
 \shorttitleEN{Processing and analisys of multimedia in distributed systems}
 
-\thesistypePL{Praca magisterska}
-\thesistypeEN{Master of Science Thesis}
+%\thesistype{Praca dyplomowa magisterska}
+\thesistype{Master of Science Thesis}
 
-\supervisorPL{dr inż. Sebastian Ernst}
-\supervisorEN{Sebastian Ernst Ph.D}
+\supervisor{Sebastian Ernst PhD}
+%\supervisor{Marcin Szpyrka PhD, DSc}
+
+\degreeprogramme{Informatyka}
+%\degreeprogramme{Computer Science}
 
 \date{2014}
 
-\departmentPL{Katedra Informatyki Stosowanej}
-\departmentEN{Department of Applied Computer Science}
+\department{Department of Applied Computer Science}
 
-\facultyPL{Wydział Elektrotechniki, Automatyki, Informatyki i Elektroniki}
-\facultyEN{Faculty of Electrical Engineering, Automatics, Computer Science and Electronics}
+%\faculty{Wydział Elektrotechniki, Automatyki,\protect\\[-1mm] Informatyki i Inżynierii Biomedycznej}
+\faculty{Faculty of Electrical Engineering, Automatics, Computer Science and Biomedical Engineering}
 
-\acknowledgements{Acknowledgements...}
+\acknowledgements{I would like to thank \dots for all the support given to me during the creation of this thesis.}
 
-\usepackage{tocbibind}
 
 \setlength{\cftsecnumwidth}{10mm}
 
@@ -118,7 +141,6 @@
 \titlepages
 
 \tableofcontents
-
 \clearpage
 
 \listoftodos
@@ -132,12 +154,12 @@
 \include{chapter5}
 \include{chapter6}
 
-\appendix
-\include{appendixA}
+%\appendix
+%\include{appendixA}
 
-\nocite{*}
-\bibliography{bibliography}{}
-\bibliographystyle{alpha}
+%\nocite{*}
+%\bibliography{bibliography}{}
+%\bibliographystyle{alpha}
 
 
 \end{document}

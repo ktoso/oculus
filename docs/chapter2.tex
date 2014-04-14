@@ -1,4 +1,4 @@
-\chapter{Technologies}
+\chapter{Analysis of available technologies}
 As the core of this work will focus on analysing and benchmarking usage of popular distributed system stacks, it is only fair to begin with introducing the selected components from which the system consist.
 
 This chapter should be treated as a brief introduction into the selected technologies, as very detailed explanations and and implementation details will be provided throughout chapters \ref{chap:system-design} through \ref{chap:perf-scalability}.
@@ -6,11 +6,31 @@ This chapter should be treated as a brief introduction into the selected technol
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Apache Hadoop}
 \label{sec:hadoop}
-As the system will require the storage of many gigabytes (hundreds) of data the heart of the system will be an appropriate Distributed File System designed to handle such requirements. 
 
-Apache's Hadoop is an umbrella project which includes projects such the \textit{Hadoop Distributed File System} (or \textit{HDFS} for short) which satisfies the requirement of easily enabling space replication factors in distributed environments. Another project related to Hadoop is the ,,Map Reduce'' framework based on the Google white paper \cite{map-reduce} from 2004, yet the re-implementation was first taken up by Yahoo and then open sourced -- becoming what came to be known as \textit{Hadoop}.
+Apache Hadoop is a suite of tools and libraries modeled after a number of Google's most fameous whitepapers concerning ,,Big Data'', such as \textit{Chubby} \cite{chubby} (on which the \textit{Google Distributed File System} \cite{gfs} was built) and later papers like the ground breaking \textit{Map Reduce} \cite{map-reduce} whitepaper concerning parallelisation of computation over massive amounts of data.
+The re-implementation of these whitepapers which has become known as Hadoop was originaly an implementation used by Yahoo \cite{yahoo} internally, and then released to the general public in late 2007 under the Apache Free Software License.
 
-Both HDFS as well as the Map Reduce framework will be used predominantly in this work.
+The general use-case of Hadoop based system revolves around massively parallel computation over humongous amounts of data. Thanks to employing functional programming paradigms in multi-server environments Hadoop makes it possible, and simple, to distribute so called ,,Map Reduce Jobs'' across thousands of servers which execute the given \textit{map} (also known as ,,\textit{transform}'') and \textit{reduce} (also known as ,,\textit{fold}'') functions in a paralle, distributed fashion. Complex computations, which can not be represented as single Map Reduce jobs, are often executed as a series of jobs, so called Job Pipelines. This method will be leveraged and explained in detail in Chapter \ref{chap:implementation}, together with the introduction of Scalding (see Section \ref{sec:scalding-info}) a Domain Specific Language built specifically to ease building such pipelines.
+
+The promise of Hadoop is practically linear scalability of Hadoop clusters when adding more resources to such cluster -- these claims will be investigates in Chapter \ref{chap:perf-scalability}, where results of different cluster configurations will be compared. The computation model proposed by Hadoop will be examined and explained in detail in later sections of this paper, as it is the dominating model chosen for the implementation of the presented system.
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Scalding \& Cascading}
+\label{sec:scalding-info}
+
+Scalding is a Domain Specific Language implemented using the Scala \cite{scala} programming language developer at Twitter \cite{twitter} for their internal needs, and then released under the GPL license. It is aimed at proving a more expressive and powerful language for writing Map Reduce Job definitions, which otherwise
+would be implemented in the Java \cite{java}, which would often result in very verbose and hard to understand code (especialy due to the verbosity of Hadoop's core APIs).
+
+Scalding is a thin layer on top
+
+Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ,,flows'' 
+and job ,,pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
+
+During the work on this thesis several I have pushed several contributions to the Scalding open source project.
+\todo{link contributions}
+
+\todo{link to patches included}
+\todo{explain what scalding and cascading are}
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Apache HBase}
@@ -41,18 +61,6 @@ This model may be familiar to some as it has gained popularity thanks to Erlang 
 
 For the sake of this thesis, Akka has been used both in local (in-jvm) parallel execution as well as remote (across nodes) message passing mode,
 in order to balance the workload generated by actors across the entire cluster. This is explained in detail in Chapter \todo{where?}.
-
-% ------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Cascading \& Scalding}
-\label{sec:chef}
-Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ,,flows'' 
-and job ,,pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
-
-During the work on this thesis several I have pushed several contributions to the Scalding open source project.
-\todo{link contributions}
-
-\todo{link to patches included}
-\todo{explain what scalding and cascading are}
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{phash}
