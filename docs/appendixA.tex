@@ -66,7 +66,7 @@ oculus-master  n1-standard-1  23.x.x.x   m-0,large-3  us-central1-a
 
 Chef is a tool which enables to easily manage configuration and deployment of services and apps across cloud infrastructure. It consists of a set of tools using which one can describe a servers configurational requirements, such as what services it should have installed. It provides multiple ways to execute the provisioning step yet for the sake of this thesis the simplest ''solo'' mode was used. 
 
-When using Chef in solo mode, one prepares a specific ''run_list'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ''run_list'' to a given server.
+When using Chef in solo mode, one prepares a specific ''$run\_list$'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ''$run\_list$'' to a given server.
 
 \begin{lstlisting}[caption={Preparing and Cooking a server with in order to prepare it for becoming a Hadoop data-node},label={lst:cheffing-data-node}]
 # knife solo prepare kmalawski@108.59.81.222 nodes/data-node.json
