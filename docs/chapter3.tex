@@ -1,9 +1,9 @@
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\chapter{System and design overview}
+\chapter{System and design}
 \label{chap:system-design}
 
-The system, from here to be referred to by the name ,,\textit{Oculus}'', is designed with an asynchronous as well as distributed aproach in mind. In order to achieve high asynchrononisity between obtaining new reference data, and running jobs such as ,,\textit{compare video1 with the reference database}'', the system was split into two primary components: 
+The system, from here to be referred to by the name ''\textit{Oculus}'', is designed with an asynchronous as well as distributed aproach in mind. In order to achieve high asynchrononisity between obtaining new reference data, and running jobs such as ''\textit{compare video1 with the reference database}'', the system was split into two primary components: 
 
 \begin{itemize}
   \item \textbf{loader} -- which is responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata. In a real system this reference data would be provided by partnering content providers, yet for this 
@@ -21,7 +21,7 @@ To further illustrate the separate components and their interactions Figure \ref
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Loader}
-The Loader component is responsible for obtaining as much as possible ,,reference data'', by which I mean video material -- from sites such as \textit{youtube.com} or video hosting sites. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening, ending sequences.
+The Loader component is responsible for obtaining as much as possible ''reference data'', by which I mean video material -- from sites such as \textit{youtube.com} or video hosting sites. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening, ending sequences.
 
 While I will refer to the Loader (as a system) in singular, it should be noted that in fact there are multiple instances of it running in the cluster.
 Thanks to the use of Akka's \cite{akka-docs} Actor Model abstractions (and \textit{remoting} module \cite{akka-remoting}), in which the physical location of an Actor plays is of no importance -- meaning, that the receiving Actor does not have to be on the same host as the sending Actor.
@@ -35,12 +35,12 @@ the video material can be spread throughout the cluster. I will now briefly desc
 
 \begin{itemize}
   \item \textbf{YouTubeCrawlActor} -- is capable of fetching and YouTube websites and generate Messages triggering
-                                    either further crawling of ,,related video sites'' (\verb|Crawl(siteId: String)|) or downloading of the 
+                                    either further crawling of ''related video sites'' (\verb|Crawl(siteId: String)|) or downloading of the 
                                     currently accessed video (by sending a \verb|Download(movieId)| message),
     \subitem  \textbf{receives:}
       \subsubitem 1 -- \verb|Crawl(siteId: String)| message
     \subitem  \textbf{sends:}
-      \subsubitem 0 or n -- \verb|Crawl(siteId: String)| - where n is the number of ,,related video'' links found on the site. 
+      \subsubitem 0 or n -- \verb|Crawl(siteId: String)| - where n is the number of ''related video'' links found on the site. 
                                                            If crawling is turned off, no messages will be sent.
 
   \item \textbf{DownloadActor} -- is responsible for downloading the movie from youtube in it's original format (in the presence of many formats, 
@@ -81,7 +81,7 @@ In this subsection I will discuss the process of obtaining video material by the
 The initiating message for each flow within the Loader is a \textit{Crawl(siteUrl)}, where siteUrl is a valid youtube video url.
 The receiving YouTubeCrawlActor will react to such message by fetching and extracting the related video site urls and will forward those using the same kind of \textit{Crawl} messages. The second, yet most important, reaction is sending a \textit{Download(movieId)} message to an instance of an DownloadActor -- it  can reside on any node in the cluster, which allows us to spread the down-link utilisation between different nodes in the cluster.
 
-It is worth pointing out that the receivers of these messages can be remote Actors, that is, can be located on a different node in the cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), I am using a strategy called ,,Smallest Inbox Routing''. This technique uses a special ,,Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message only to the Actor who has the smallest amount of messages ,,not yet processed'' (which are kept in an Queue called the ,,Inbox'', hence the strategy's name).
+It is worth pointing out that the receivers of these messages can be remote Actors, that is, can be located on a different node in the cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), I am using a strategy called ''Smallest Inbox Routing''. This technique uses a special ''Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message only to the Actor who has the smallest amount of messages ''not yet processed'' (which are kept in an Queue called the ''Inbox'', hence the strategy's name).
 
 \subsubsection{Step 2 - \textit{Download} messages}
 In the second step an \textit{YouTubeDownloadActor} instance receives a message asking it to download a movie.
@@ -91,16 +91,16 @@ Other than the video file (in an open source format) we also download a metadata
 The metadata is then used to determine if it can be used in the context of this work, as only movie trailers and and opening / ending sequences are downloaded into the Oculus system. If the content is OK to use, the Actor sends an \textit{Convert(movieLocation)} message to an instance of \textit{ConversionActor}.
 
 \subsubsection{Step 3 - \textit{Convert} messages}
-The next step is executed by an instance of an \textit{ConversionActor} recieving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over uncompression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabeled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyzer system immensely.
+The next step is executed by an instance of an \textit{ConversionActor} recieving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over uncompression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabeled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyser system immensely.
 
 The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, which is why the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
 
 \subsubsection{Step 4 \& 5 - \textit{Upload} messages}
 The last step is an \textit{HDFSUploadActor} recieving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages around 2MB (depending on the movie resolution).
 
-In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ,,Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ,,frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
+In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ''Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ''frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
 
-This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyser by running Map Reduce jobs on Sequence Files prepared in the above flow.
+This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyzer by running Map Reduce jobs on Sequence Files prepared in the above flow.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Analyser}
@@ -118,17 +118,17 @@ In step 1 the \textit{job pipeline} is being prepared by the program by aggregat
 
 The 2nd step on Figure \ref{fig:analyser-high-level} is important because Oculus may react with launching another analysis job based on the notification that one pipeline has completed. This allows to keep different pipelines separate, and trigger them reactively when for example all it's dependencies have been computed in another pipeline.
 
-For most applications though the 3rd step in a typical Oculus Job would be to read and present top N results to the issuer of the job, which for a question like ,,Which movie is similar to this one?'' would be the top N most similar movies (their names, identifiers as well as match percentage).
+For most applications though the 3rd step in a typical Oculus Job would be to read and present top N results to the issuer of the job, which for a question like ''Which movie is similar to this one?'' would be the top N most similar movies (their names, identifiers as well as match percentage).
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Frame-by-frame data and the HDFS ,,small--files problem''}
+\subsection{Frame-by-frame data and the HDFS ''small--files problem''}
 \label{sec:sequence-files}
-Most algorithms used in Oculus operate on a frame-by-frame basis, which means that it is most natural to store all data as ,,data for frame 343 from movie XYZ''.
+Most algorithms used in Oculus operate on a frame-by-frame basis, which means that it is most natural to store all data as ''data for frame 343 from movie XYZ''.
 This applies to everything from plain bitmap data of a frame to metrics such as histograms of colours of a given frame or other metadata like the extracted text content found in this frame.
 
-Sadly this abstraction does not work nicely with Hadoop, it would cause the well--known ,,small-files problem'' which leads to \textit{major} performance degradation of the Hadoop cluster is left undressed. In this section I will focus on explaining the problem and what steps have been taken to prevent it from manifesting in the presence of millions of ,,by-frame'' data points.
+Sadly this abstraction does not work nicely with Hadoop, it would cause the well--known ''small-files problem'' which leads to \textit{major} performance degradation of the Hadoop cluster is left undressed. In this section I will focus on explaining the problem and what steps have been taken to prevent it from manifesting in the presence of millions of ''by-frame'' data points.
 
-Hadoop uses so called ,,blocks'' as smallest atomic unit that can be used to move data between the cluster.
+Hadoop uses so called ''blocks'' as smallest atomic unit that can be used to move data between the cluster.
 The default block size is set to \textit{64 megabytes} on most Hadoop distributions (including vanilla Apache Hadoop which this implementation is using).
 
 This also means that if the DFS takes a write of one file (assuming the \textit{replication factor} equals 1) it will use up one block.
@@ -164,7 +164,7 @@ This is how an example job would look like:
 
 
 \subsubsection{Parallel execution and job ordering}
-Because a Scalding job (which effectively is an Cascading ,,\textit{Pipeline}'') can span multiple Map Reduce Job invocations,
+Because a Scalding job (which effectively is an Cascading ''\textit{Pipeline}'') can span multiple Map Reduce Job invocations,
 it is important to visualise how many actual Jobs will be submitted to the cluster and also if they can be run in parallel.
 
 In order to visualise how jobs actually will be executed on the cluster Cascading provides a very important option allowing to print the resulting job
@@ -177,9 +177,9 @@ graph using the widely accepted graph-description language DOT \cite{dot}.
   \caption{This flow represents the most longest Pipeline preset in Oculus -- finding which movies are similar to the current one, ordered by ranking. It is constructed from 5 Map Reduce jobs.}
 \end{figure}
 
-Figure \ref{fig:find-similar-movies-most-complicated} represents the ,,Find similar movies to the given one'' pipeline. Each circle represents an operation (such as emitting a tuple, grouping etc) and lines represent the data flowing through the Map Reduce jobs. It is also clearly visible that this pipeline consists of 5 map reduce jobs, where the 3rd job's input depends on jobs 1 and 2, and only after job 3 has completed jobs 4 and 5 can be executed (in parallel).
+Figure \ref{fig:find-similar-movies-most-complicated} represents the ''Find similar movies to the given one'' pipeline. Each circle represents an operation (such as emitting a tuple, grouping etc) and lines represent the data flowing through the Map Reduce jobs. It is also clearly visible that this pipeline consists of 5 map reduce jobs, where the 3rd job's input depends on jobs 1 and 2, and only after job 3 has completed jobs 4 and 5 can be executed (in parallel).
 
-Sometimes though it is not easy to determine from this diagram alone how many actual MR Jobs a pipeline has emitted. For this reason we can instruct Cascading to print a DOT file containing the ,,steps'', which for the algorithm represented in Listing \ref{lst:find-similar-movies-most-complicated-lst} Figure \ref{fig:find-similar-movies-most-complicated} would look like Figure \ref{fig:find-similar-movies-most-complicated-steps}.
+Sometimes though it is not easy to determine from this diagram alone how many actual MR Jobs a pipeline has emitted. For this reason we can instruct Cascading to print a DOT file containing the ''steps'', which for the algorithm represented in Listing \ref{lst:find-similar-movies-most-complicated-lst} Figure \ref{fig:find-similar-movies-most-complicated} would look like Figure \ref{fig:find-similar-movies-most-complicated-steps}.
 
 \begin{lstlisting}[caption={Fragments of FindMostSimilarMoviesJob.dot}, label={lst:find-similar-movies-most-complicated-lst}]
 digraph G {
@@ -211,7 +211,7 @@ digraph G {
 \end{figure}
 \todo{the steps DOT is wrong here}
 
-The graph represented on Figure \ref{fig:find-similar-movies-most-complicated-steps} displays the same pipeline as Figure \ref{fig:find-similar-movies-most} but on a higher level -- displaying only the order and dependencies of each Map Reduce job. Step \verb|3/4| is easily identifiable as ,,groupBy'' here, although from this graph we are unable to determine on what field we're grouping.
+The graph represented on Figure \ref{fig:find-similar-movies-most-complicated-steps} displays the same pipeline as Figure \ref{fig:find-similar-movies-most} but on a higher level -- displaying only the order and dependencies of each Map Reduce job. Step \verb|3/4| is easily identifiable as ''groupBy'' here, although from this graph we are unable to determine on what field we're grouping.
 
 \todo{use I, not WE this is not a blog post...}
 
@@ -220,7 +220,7 @@ The graph represented on Figure \ref{fig:find-similar-movies-most-complicated-st
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Sequence Files}
 \label{sequence-file}
-The solution applied in the implemented system to resolve the small files problem is based on a technique called ,,Sequence Files'', which are a manually controlled layer of abstraction on top of HDFS blocks. There are multiple Sequence file formats accepted by the common utilities that Hadoop provides \cite{hadoop-seq-files} but they all are \textit{binary header-prefixed key-value formats}, as visualised Figure \ref{fig:sequence-file}.
+The solution applied in the implemented system to resolve the small files problem is based on a technique called ''Sequence Files'', which are a manually controlled layer of abstraction on top of HDFS blocks. There are multiple Sequence file formats accepted by the common utilities that Hadoop provides \cite{hadoop-seq-files} but they all are \textit{binary header-prefixed key-value formats}, as visualised Figure \ref{fig:sequence-file}.
 
 
 \begin{figure}[ch!]
@@ -230,10 +230,10 @@ The solution applied in the implemented system to resolve the small files proble
   \label{fig:sequence-file}
 \end{figure}
 
-Using Sequence Files resolves all previously described problems related to small files on top of HDFS. Files are no longer ,,small'', at least in Hadoop's perception,
+Using Sequence Files resolves all previously described problems related to small files on top of HDFS. Files are no longer ''small'', at least in Hadoop's perception,
 since access of frames of a movie is most often bound to access other frames of this movie we don't suffer any drawbacks from such storage format.
 
-Another solution that could have been applied here is the use of HBase and it's key-value design instead of the explicit use of Sequence Files, yet this would not yield much performance nor storage benefits as HBase stores it's Table data in a very similar format as Sequence Files. The one benefit from using HBase in order to avoid the small files problem would have been random access to any frame, not to ,,frames of this movie'', but since I don't have such access patterns and it would complicate the design of the system I decided to use Sequence Files instead.
+Another solution that could have been applied here is the use of HBase and it's key-value design instead of the explicit use of Sequence Files, yet this would not yield much performance nor storage benefits as HBase stores it's Table data in a very similar format as Sequence Files. The one benefit from using HBase in order to avoid the small files problem would have been random access to any frame, not to ''frames of this movie'', but since I don't have such access patterns and it would complicate the design of the system I decided to use Sequence Files instead.
 
 
 

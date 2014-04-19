@@ -1,2 +1,1 @@
-# gcutil --service_version="v1beta15" --project="oculus-hadoop" ssh  --zone="us-central1-a" "master"
-ssh -o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no -i /Users/kmalawski/.ssh/google_compute_engine -A -p 22 kmalawski@23.236.57.222
+gcutil ssh oculus-1

@@ -7,10 +7,10 @@ This chapter should be treated as a brief introduction into the selected technol
 \section{Apache Hadoop}
 \label{sec:hadoop}
 
-Apache Hadoop is a suite of tools and libraries modeled after a number of Google's most fameous whitepapers concerning ,,Big Data'', such as \textit{Chubby} \cite{chubby} (on which the \textit{Google Distributed File System} \cite{gfs} was built) and later papers like the ground breaking \textit{Map Reduce} \cite{map-reduce} whitepaper concerning parallelisation of computation over massive amounts of data.
+Apache Hadoop is a suite of tools and libraries modeled after a number of Google's most fameous whitepapers concerning ''Big Data'', such as \textit{Chubby} \cite{chubby} (on which the \textit{Google Distributed File System} \cite{gfs} was built) and later papers like the ground breaking \textit{Map Reduce} \cite{map-reduce} whitepaper concerning parallelisation of computation over massive amounts of data.
 The re-implementation of these whitepapers which has become known as Hadoop was originaly an implementation used by Yahoo \cite{yahoo} internally, and then released to the general public in late 2007 under the Apache Free Software License.
 
-The general use-case of Hadoop based system revolves around massively parallel computation over humongous amounts of data. Thanks to employing functional programming paradigms in multi-server environments Hadoop makes it possible, and simple, to distribute so called ,,Map Reduce Jobs'' across thousands of servers which execute the given \textit{map} (also known as ,,\textit{transform}'') and \textit{reduce} (also known as ,,\textit{fold}'') functions in a paralle, distributed fashion. Complex computations, which can not be represented as single Map Reduce jobs, are often executed as a series of jobs, so called Job Pipelines. This method will be leveraged and explained in detail in Chapter \ref{chap:implementation}, together with the introduction of Scalding (see Section \ref{sec:scalding-info}) a Domain Specific Language built specifically to ease building such pipelines.
+The general use-case of Hadoop based system revolves around massively parallel computation over humongous amounts of data. Thanks to employing functional programming paradigms in multi-server environments Hadoop makes it possible, and simple, to distribute so called ''Map Reduce Jobs'' across thousands of servers which execute the given \textit{map} (also known as ''\textit{transform}'') and \textit{reduce} (also known as ''\textit{fold}'') functions in a paralle, distributed fashion. Complex computations, which can not be represented as single Map Reduce jobs, are often executed as a series of jobs, so called Job Pipelines. This method will be leveraged and explained in detail in Chapter \ref{chap:implementation}, together with the introduction of Scalding (see Section \ref{sec:scalding-info}) a Domain Specific Language built specifically to ease building such pipelines.
 
 The promise of Hadoop is practically linear scalability of Hadoop clusters when adding more resources to such cluster -- these claims will be investigates in Chapter \ref{chap:perf-scalability}, where results of different cluster configurations will be compared. The computation model proposed by Hadoop will be examined and explained in detail in later sections of this paper, as it is the dominating model chosen for the implementation of the presented system.
 
@@ -23,8 +23,8 @@ would be implemented in the Java \cite{java}, which would often result in very v
 
 Scalding is a thin layer on top
 
-Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ,,flows'' 
-and job ,,pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
+Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ''flows'' 
+and job ''pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
 
 During the work on this thesis several I have pushed several contributions to the Scalding open source project.
 \todo{link contributions}
@@ -36,7 +36,7 @@ During the work on this thesis several I have pushed several contributions to th
 \section{Apache HBase}
 \label{sec:hbase}
 
-HBase is a column-oriented database \cite{columnar-database} designed by following the Google white paper on their ,,BigTable'' datastore published in 2007.
+HBase is a column-oriented database \cite{columnar-database} designed by following the Google white paper on their ''BigTable'' datastore published in 2007.
 Column oriented storage of data, as opposed to row oriented (as most SQL databases), as huge advantages when many aggregations over only given columns are performed.
 
 It was selected for this project because it's excellent random-access to data as well as being perfectly suited for sourcing Map Reduce tasks.
@@ -50,7 +50,7 @@ I selected it as primary implementation language for this project (though other 
 libraries for building distributed systems using it, such as \textit{Akka} and \textit{Scalding} (introduced in the sections \ref{sec:akka} and \ref{sec:scalding}).
 
 It's functional nature (making it similar to languages such as Lisp or Haskell) is very helpful when performing transform / aggregate operations over collections of data. It should be also noted that Hadoop itself was inspired by languages such as this, because the canonical names of the functions 
-performing data transformation and aggregation in functional languages are: ,,map'' and ,,reduce''.
+performing data transformation and aggregation in functional languages are: ''map'' and ''reduce''.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Akka}

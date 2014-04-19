@@ -1,2 +1,2 @@
-knife google server list --google-compute-zone us-central1-a
+knife google server list --gce-zone us-central1-a
 

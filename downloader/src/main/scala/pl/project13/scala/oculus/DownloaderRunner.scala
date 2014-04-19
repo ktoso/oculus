@@ -31,9 +31,13 @@ object DownloaderRunner extends App {
   val hdfsUploader = system.actorOf(Props(new HDFSUploadActor(fs, fps)).withRouter(FromConfig), "hdfs-uploader")
   val youtubeDownloader = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)).withRouter(FromConfig), "youtube-downloader")
   val youtubeCrawler = system.actorOf(Props(new YoutubeCrawlActor(youtubeDownloader)), "youtube-crawler")
-  val conversionActor = system.actorOf(Props(new ConversionActor(hdfsUploader)))
+  val conversionActor = system.actorOf(Props(new ConversionActor(hdfsUploader, "oculus/conv", 10)))
 
   // download specific videos
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=YE7VzlLtp-4", crawl = false) // big buck bunny, creative commons
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=TLkA0RELQ1g", crawl = false) // elephants dream, creative commons
+
+
 //  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=fFK_YCS8ab0&list=WLFDF76FA8065675A9", crawl = false)
 
 //  youtubeDownloader ! DownloadFromYoutube(PreppedMovieUrls.Mirrored.AttackOnTitan, crawl = true)

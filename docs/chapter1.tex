@@ -1,41 +1,44 @@
 \chapter{Introduction}
 
+This section will introduce the problem areas covered by this thesis, briefly describing a few of the the use-cases of distributed multimedia analysis systems. It then introduces the two use-cases that are explicitly targeted by an reference system implemented as part of this thesis, in order to benchmark the usability of existing technologies in the area. Lastly it briefly outlines each of the following chapters.
 
 
-\section{Goal of this thesis}
+\section{General problem area}
+\todo{opisac ogolnmie o czym tu mowa, i dlaczego skupiam sie na rozproszonym i hadoop}
+
 The primary goal of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting, and weather this approach is the tight one.
 
-In order to guarantee that recommendations and measurements made during this research are applicable in the ,,real world'', outside of laboratory or ,,experiment'' environments, I have defined a series of problems (described in the next section) and implemented a system which is able to solve those problems as well as easily adapt to any new requirements benefiting from the use of parallel access to hundreds of gigabytes of reference video material.
+In order to guarantee that recommendations and measurements made during this research are applicable in the ''real world'', outside of laboratory environments, I have defined a series of problems (described in the next section) and implemented a system which is able to solve those problems as well as easily adapt to any new requirements benefiting from the use of parallel access to hundreds of gigabytes of reference video material.
 
 \section{Reference system - investigated use cases}
 
 As stated in the introduction section, in order to be able reliably verify criteria such as responsiveness, cost-efficiency, performance and of course scalability of distributed systems, there must be some reference problem and solution the measurements will be made on. 
 
-For the sake of this paper I propose a ,,video material analysis platform'' from here on referred to as the ,,\textit{Oculus}'' system.
+For the sake of this paper I propose a ''video material analysis platform'' from here on referred to as the ''\textit{Oculus}'' system.
 In the following two sub sections I will explain the use cases (thus - requirements) this system will aim to solve, which while being a very interesting 
 topic of research by itself, will provide me a platform to measure the usefulness of the selected distributed system building blocks used for it. 
 
 \subsection{Near--duplicate detection}
 One of the simplest use cases in which this system might be used is \textit{near--duplicate detection} of video files.
-Note the term ,,near--duplicate'' here, as exact duplicates are not the biggest problem -- and the designed system must also be able to identify ,,almost identical'' material.
+Note the term ''near--duplicate'' here, as exact duplicates are not the biggest problem -- and the designed system must also be able to identify ''almost identical'' material.
 
-It might be easier to imagine the bellow use-cases if we think of a system like \textit{youtube.com} \ref{youtube}, where vast amounts of content are uploaded \textit{each second}. An example of why ,,almost identical'' material in this setting would be a movie trailer, which has just been released and many fans want to put it online on youtube, in order to share this trailer. It is very likely that they would add slight modifications, such as their own voice-over with comments, or resize the video for example. It is also fairly common that users apply malicious modifications to the video material in order to make 1:1 identification with copyrighted material harder - such modifications are typically ,,mirroring'' the video material, or slightly brightening every frame. The system proposed in this work identifies content properly even after such modifications have been applied to the source content.
+It might be easier to imagine the bellow use-cases if we think of a system like \textit{youtube.com} \ref{youtube}, where vast amounts of content are uploaded \textit{each second}. An example of why ''almost identical'' material in this setting would be a movie trailer, which has just been released and many fans want to put it online on youtube, in order to share this trailer. It is very likely that they would add slight modifications, such as their own voice-over with comments, or resize the video for example. It is also fairly common that users apply malicious modifications to the video material in order to make 1:1 identification with copyrighted material harder - such modifications are typically ''mirroring'' the video material, or slightly brightening every frame. The system proposed in this work identifies content properly even after such modifications have been applied to the source content.
 
 \subsection{Data extraction}
 
 Another, less copyright focused, goal of the presented system is to be able to extensively mine data directly from the uploaded video content.
-Here the canonical example would be a \textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies,
+Here the canonical example would be a ''\textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies,
 usualy in the order of 10th, 9th ... until the 1st (best) movie of all time. If we would be able to match parts of each video to their corresponding 
 reference materials, we would be able to get meta data about the now recognised movies and even mine out the data what is the best / worst movie of all time,
 even without it being written per se -- only by looking at the frames in the video. 
 
 While talking about extracting data from movies one cannot skip extracting text from images which seems both one of the most valuable things we can extract as well as with existing open source solutions for text recognition should not be hard to enable, given all the previous work which will be required to fulfil the above use case.
 
-\section{Paper structure}
+\section{Thesis structure}
 In section 1 I will describe the architecture of the system, and briefly go over how this architecture benefits future extension.
 
 In section 2 I will focus in the technical challenges encountered and solved during implementing the reference system.
 
-In the last section I will summarise the the findings.
+The last section
 
 \todo{This is not done until I'm done with the paper ;-) Oculus}

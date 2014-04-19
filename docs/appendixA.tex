@@ -1,7 +1,91 @@
 \chapter{Automated cluster deployment}
-As part of this thesis, it 
+This chapter describes the automated tooling which has been used during the implementation of the reference system mentioned in this thesis in order to drastically increase turnaround time during development as well as cluster scaling.
 
-\section{Chef - automated server configu}
+Due to the complexities of maintaining possibly hundreds of virtual machines with similar (or even identical) configurations the time it would take to provision, configure and deplot applications on each new server in the cluster would render this process very slow and fiesable. Instead, tools and platforms have been applied to simplify and speed-up the turnaround time when adding new servers to the cluster. 
+
+In Section \ref{sec:automated-server-provisioning} the used cloud intrafstucture is introduced, along with a few examples of automating server provisioning using simple yet powerful command-line tools. 
+
+In Section \ref{sec:automated-conf-provisioning} Opscode Chef -- the tool used to configure, as well as install dependencies and deploy applications is introduced.
+
+\label{sec:automated-server-provisioning}
+\section{Automated server provisioning -- Google Compute Engine}
+
+In order to provision virtual machines for running the applicationc cluster Google's Compute Engine ''Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used. 
+
+Creating a new instance on GCE (\textit{Google Compute Engine}) can be done via an admin console under \verb|cloud.google.com| or using command line tooling (or plain JSON API calls). During this project the most used method was the command line API, as it is simple to prepare scripts for spinning up multiple VMs and combining this step with provisioning configuration to them using Chef (which will be explained in Section \ref{sec:automated-conf-provisioning}. An example of how a new instance on GCE can be started is illustrated on Listing \ref{lst:new-gce-instance-bash}.
+
+\begin{lstlisting}[caption={Creating new instance on GCE}, label={lst:new-gce-instance-bash}]
+gcutil --service_version="v1" --project="oculus-hadoop" 
+  addinstance "oculus-3" 
+  --machine_type="n1-standard-1" 
+  --zone="us-central1-a" 
+  --tags="hadoop,datanode"
+  --disk="large-4,deviceName=large-4,mode=READ_WRITE"
+  --network="default" 
+  --external_ip_address="ephemeral" 
+  --service_account_scopes="https://www.googleapis.com/auth/..." 
+  --image="https://www.googleapis.com/.../images/debian-7-wheezy-v20140408" 
+  --persistent_boot_disk="true" 
+  --auto_delete_boot_disk="false"
+\end{lstlisting}
+
+
+Listing \ref{lst:gcutil-list} shows the current cluster's status.
+
+\todo{listing needs label}
+
+\label{lst:gcutil-list}
+\begin{verbatim}
+# gcutil listinstances
+
++---------------+---------------+---------+------------+------------+
+| name          | zone          | status  | network-ip | pub-ip     |
++---------------+---------------+---------+------------+------------+
+| oculus-1      | us-central1-a | RUNNING | 10.240.x.x | 23.236.x.x |
++---------------+---------------+---------+------------+------------+
+| oculus-2      | us-central1-a | RUNNING | 10.240.x.x | 108.59.x.x |
++---------------+---------------+---------+------------+------------+
+| oculus-master | us-central1-a | RUNNING | 10.240.x.x | 108.59.x.x |
++---------------+---------------+---------+------------+------------+
+\end{verbatim}
+
+It it also possibe to invoke typical compute engine tasks using it's Chef (which is described in detail in Section \ref{sec:automated-conf-provisioning}) plugins, so that an it's even easier to use and investigate the running cluster:
+
+\begin{verbatim}
+# knife google server list --gce-zone us-central1-a
+
+name           type           public ip  disks        zone           
+oculus-1       n1-standard-1  23.x.x.x   d-1,large-4  us-central1-a  
+oculus-2       n1-standard-1  23.x.x.x   d-2,large-1  us-central1-a  
+oculus-master  n1-standard-1  23.x.x.x   m-0,large-3  us-central1-a  
+\end{verbatim}
+
+
+\label{sec:automated-conf-provisioning}
+\section{Automated configuration and deployment -- Opscode Chef}
+
+Chef is a tool which enables to easily manage configuration and deployment of services and apps across cloud infrastructure. It consists of a set of tools using which one can describe a servers configurational requirements, such as what services it should have installed. It provides multiple ways to execute the provisioning step yet for the sake of this thesis the simplest ''solo'' mode was used. 
+
+When using Chef in solo mode, one prepares a specific ''run_list'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ''run_list'' to a given server.
+
+\begin{lstlisting}[caption={Preparing and Cooking a server with in order to prepare it for becoming a Hadoop data-node},label={lst:cheffing-data-node}]
+# knife solo prepare kmalawski@108.59.81.222 nodes/data-node.json
+...
+(Reading database ... 42465 files and directories currently installed.)
+Preparing to replace chef 11.8.2-1.debian.6.0.5 (using .../chef_11.12.2-1_amd64.deb) ...
+Unpacking replacement chef ...
+Setting up chef (11.12.2-1) ...
+
+# knife solo cook kmalawski@108.59.81.222 nodes/data-node.json
+Uploading the kitchen...
+
+\end{lstlisting}
+
+
+
+\todo{finish}
+
+
 
 Hadoop's filesystem must be formated before put into use. This is achieved by issuing the \verb|-format| command to the namenode:
 
