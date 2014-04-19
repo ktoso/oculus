@@ -35,8 +35,8 @@ object DownloaderRunner extends App {
 
   // download specific videos
   youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=YE7VzlLtp-4", crawl = false) // big buck bunny, creative commons
-  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=TLkA0RELQ1g", crawl = false) // elephants dream, creative commons
-
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=e98uKex3hSw", crawl = false) // big buck bunny, mirror, creative commons
+//  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=TLkA0RELQ1g", crawl = false) // elephants dream, creative commons
 
 //  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=fFK_YCS8ab0&list=WLFDF76FA8065675A9", crawl = false)
 
