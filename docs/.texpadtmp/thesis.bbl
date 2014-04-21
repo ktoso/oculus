@@ -1,0 +1,75 @@
+\begin{thebibliography}{Com01}
+
+\bibitem[ble]{blender-foundation}
+Blender foundation website.
+
+\bibitem[CH73]{actor-model}
+Richard~Steiger Carl~Hewitt, Peter~Bishop.
+\newblock A universal modular actor formalism for artificial intelligence,
+  1973.
+
+\bibitem[Com01]{creative-commons}
+Creative Commons.
+\newblock Creative commons license -- https://creativecommons.org, 2001.
+
+\bibitem[DG04]{map-reduce}
+Jeffrey Dean and Sanjay Ghemawat.
+\newblock Mapreduce: Simplified data processing on large clusters.
+\newblock Technical report, 2004.
+
+\bibitem[erl]{erlang}
+Erlang programming language homepage -- http://www.erlang.org/.
+
+\bibitem[ffm]{ffmpeg}
+ffmpeg project site.
+
+\bibitem[Fou08]{big-buck-bunny}
+Blender Foundation.
+\newblock Big buck bunny, movie, 2008.
+
+\bibitem[Goo]{youtube}
+Google.
+\newblock {\em http://youtube.com}.
+
+\bibitem[Goo13]{tesseract}
+Google.
+\newblock Google's tesseract-ocr text recognition library, 1985 - 2013.
+
+\bibitem[Had12]{hadoop-seq-files}
+Apache Hadoop.
+\newblock Hadoop sequence files format documentation, 2012.
+
+\bibitem[Inc13]{akka-remoting}
+Typesafe Inc.
+\newblock Akka remoting documentation, 2013.
+
+\bibitem[JB13]{akka-docs}
+Victor Klang et~al. Jonar~Boner.
+\newblock Akka documentation, 2013.
+
+\bibitem[kmp]{kmp-string-search}
+Fast pattern matching in strings.
+
+\bibitem[Ode13]{scala}
+Martin Odersky.
+\newblock Scala -- http://scala-lang.org, 2003 -- 2013.
+
+\bibitem[PH07]{odersky-actors}
+Martin~Odersky Phillip~Haller.
+\newblock Actors that unify threads and events, 2007.
+
+\bibitem[RSB77]{boyer-string-search}
+J.~Strother~Moore Robert S.~Boyer.
+\newblock A fast string searching algorithm.
+\newblock 1977.
+
+\bibitem[Wik]{columnar-database}
+Wikipedia.
+\newblock Column-oriented database.
+
+\bibitem[Zau10]{phash}
+Christoph Zauner.
+\newblock Implementation and benchmarking of perceptual image hash functions,
+  2010.
+
+\end{thebibliography}

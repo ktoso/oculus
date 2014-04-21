@@ -1,44 +1,76 @@
 \chapter{Introduction}
+\label{cha:intro}
 
 This section will introduce the problem areas covered by this thesis, briefly describing a few of the the use-cases of distributed multimedia analysis systems. It then introduces the two use-cases that are explicitly targeted by an reference system implemented as part of this thesis, in order to benchmark the usability of existing technologies in the area. Lastly it briefly outlines each of the following chapters.
 
 
+\section{Goals of this thesis}
+The primary goal of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting. The results of this thesis include best practices and recommendations towards dealing with big-data applications, which have been aquired and tested while implementing a real system leveraging these lessons. 
+
+As will be described in more detail in Section \ref{sec:ref-system}, a large part of the work that was performed during this thesis has been focused on implementing a reference system on which stress and scalability tests would then be performed.
+
+For the sake of this thesis, the focus will be on video material, of which the amounts of freely and legally  available materials are significant -- esp. thanks to many materials licensed under the Creative Commons family of licenses \cite{creative-commons}.
+
+
 \section{General problem area}
-\todo{opisac ogolnmie o czym tu mowa, i dlaczego skupiam sie na rozproszonym i hadoop}
+Image analysis over huge amounts of data is common place in todays world, where everything is recorded, published, possibly modified and distributed again, all this using digital media and digital storage formats. Starting from simple movies of cats uploaded to public video hosting services all the way through to sophisticated urban area monitoring services -- everything can be, and is, recorded -- yielding previously unbelievable amounts of digital multimedia data.
 
-The primary goal of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting, and weather this approach is the tight one.
+All this leads to the challanging task of efficiently handling this data. Tasks such as de-duplicating, searching, categorizing or extracting features (e.g. text) are now even more challanging and exciting than ever before. Together with the huge amounts of data these systems have to deal with, this new range of applications poses a significant challange and interesting opportunity to develop new kinds of paradigms as well as algorithms, geared specifinally towards dealing with big data and distributed computations.
 
-In order to guarantee that recommendations and measurements made during this research are applicable in the ''real world'', outside of laboratory environments, I have defined a series of problems (described in the next section) and implemented a system which is able to solve those problems as well as easily adapt to any new requirements benefiting from the use of parallel access to hundreds of gigabytes of reference video material.
 
-\section{Reference system - investigated use cases}
+\section{Reference system -- investigated use cases}
+\label{sec:ref-system}
 
-As stated in the introduction section, in order to be able reliably verify criteria such as responsiveness, cost-efficiency, performance and of course scalability of distributed systems, there must be some reference problem and solution the measurements will be made on. 
+In order to guarantee that recommendations and measurements made during this research are applicable in the ''real world'', outside of experimental environments, a set of problems has been defined and a ''reference system'' has been implemented in order to solve these.
 
-For the sake of this paper I propose a ''video material analysis platform'' from here on referred to as the ''\textit{Oculus}'' system.
-In the following two sub sections I will explain the use cases (thus - requirements) this system will aim to solve, which while being a very interesting 
-topic of research by itself, will provide me a platform to measure the usefulness of the selected distributed system building blocks used for it. 
+The system, from here on sometimes refered to as \textit{''Oculus -- the video material analysis platform''}, will be tasked at processing huge amounts of video data. The videos to be fed into the system will be scraped from publicly available video hosting websites, such as YouTube. It should be also made clear that videos imported into the system are all public domain or creative commons licensed material, so that even accidental copyright infrigement can be avoided.
+
+The primary goal for this application is to expose and highlight challanges faced by application developers during the design, implementation and deployment phases of such applications. Using it as a point of reference, as well as test system, the problems given to the system (described in Sections \ref{sec:goal-near-dup} and \ref{sec:goal-sub-movie}) will be solved. Issues encountered during the implementation of that reference system will provide crucial hands--on expirience required in order to provide recommendations and best practices about building such systems -- these will be captured in Chapter \ref{chap:perf-scalability}.
+
+The next sections will expand on the tasks presented to the reference system.
+
 
 \subsection{Near--duplicate detection}
-One of the simplest use cases in which this system might be used is \textit{near--duplicate detection} of video files.
-Note the term ''near--duplicate'' here, as exact duplicates are not the biggest problem -- and the designed system must also be able to identify ''almost identical'' material.
+\label{sec:goal-near-dup}
+One of the simplest use cases in which this system should be used is \textit{near--duplicate detection} of video files. The term ''near--duplicate'' is used in order to highlight the possibility (and anticipation of) distorted data. The system must be capable of identifying videos of slightly lower or higher quality than the reference material as the same movie. This use case is very near to what YouTube's \cite{youtube} internal copyright protection mechanisms are implementing -- thus is is a valid as well as real--life usage scenario.
 
-It might be easier to imagine the bellow use-cases if we think of a system like \textit{youtube.com} \ref{youtube}, where vast amounts of content are uploaded \textit{each second}. An example of why ''almost identical'' material in this setting would be a movie trailer, which has just been released and many fans want to put it online on youtube, in order to share this trailer. It is very likely that they would add slight modifications, such as their own voice-over with comments, or resize the video for example. It is also fairly common that users apply malicious modifications to the video material in order to make 1:1 identification with copyrighted material harder - such modifications are typically ''mirroring'' the video material, or slightly brightening every frame. The system proposed in this work identifies content properly even after such modifications have been applied to the source content.
+An example of why ''almost identical'' material in this setting would be a movie trailer, which has just been released and many fans want to put it online on youtube, in order to share this trailer. It is very likely that they would add slight modifications, such as their own voice-over with comments, or resize the video for example. It is also fairly common that users apply malicious modifications to the video material in order to make 1:1 identification with copyrighted material harder - such modifications are typically ''mirroring'' the video material, or slightly brightening every frame. 
 
-\subsection{Data extraction}
+The system implemented as part of this thesis identifies content properly even after such malicious modifications have been applied to video materials.
 
-Another, less copyright focused, goal of the presented system is to be able to extensively mine data directly from the uploaded video content.
-Here the canonical example would be a ''\textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies,
-usualy in the order of 10th, 9th ... until the 1st (best) movie of all time. If we would be able to match parts of each video to their corresponding 
-reference materials, we would be able to get meta data about the now recognised movies and even mine out the data what is the best / worst movie of all time,
-even without it being written per se -- only by looking at the frames in the video. 
 
-While talking about extracting data from movies one cannot skip extracting text from images which seems both one of the most valuable things we can extract as well as with existing open source solutions for text recognition should not be hard to enable, given all the previous work which will be required to fulfil the above use case.
+\subsection{Scene positioning}
+\label{sec:goal-sub-movie}
+The problem of scene positioning can be explained as trying to locate ''when'' during a full movie a given scene appears.
+
+One might imagine a scenario in which a friend shows us a funny video from some series, available on-line. The snippet is only 30 seconds long -- long enough to get the joke, but not long enough to figure out just based on this video from which episode, season or even from which show (if the scene movie was not properly titled) this scene comes from. A user might be intrigued by this scene and willing to pay a the content owner for viewing the entire series. 
+
+Instead of putting ourselfes in the position of taking down such copyrighted material, a system could detect from which exact show, season and episode the scene originates from and offer the user an option to, for example: ''See the whole episode at HubbleTube!''. The fictionary service HubbleTube could be a paid service, yet thanks to the convinience of directly linking to the exact content the user wants to see -- the user is more willing to continue and pay to see the show. This way the content owner also profitsm, without having to take down any of his copyrighted content -- instead it was used as crowd-sourced advertisement vector.
+
+In order to enable use-cases like this, scene detection and positioning must be implemented within the reference system. A detailed analysis of this problem and results achieved by \textit{Oculus} will be shown Section \ref{sec:scene-detection}.
+
+
+%\subsection{Data extraction}
+%
+%Another, less copyright focused, goal of the presented system is to be able to extensively mine data directly from the uploaded video content.
+%Here the canonical example would be a ''\textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies, usualy in the order of 10th, 9th ... until the 1st (best) movie of all time. If we would be able to match parts of each video to their corresponding reference materials, we would be able to get meta data about the now recognised movies and even mine out the data what is the best / worst movie of all time, even without it being written per se -- only by looking at the frames in the video. 
+%
+%While talking about extracting data from movies one cannot skip extracting text from images which seems both one of the most valuable things we can extract as well as with existing open source solutions for text recognition should not be hard to enable, given all the previous work which will be required to fulfil the above use case.
+
 
 \section{Thesis structure}
-In section 1 I will describe the architecture of the system, and briefly go over how this architecture benefits future extension.
+Chapter \ref{cha:intro} seved as broad overview and introduction into the problem area of this thesis. It also introduces the need for an reference implementation on top of which recommendations will be made in latter chapters of the thesis. Lastly, a number of goals are given to the reference system.
 
-In section 2 I will focus in the technical challenges encountered and solved during implementing the reference system.
+Chapter \ref{cha:existing-and-selected-tech} focuses on describing the available and selected technologies used in this project. It also explains the choice of tools, as well as briefly introduces paradigms implemented by them, such as distributed file systems or the concept of \textit{Map Reduce} \cite{map-reduce} based applications.
 
-The last section
+Chapter \ref{chap:system-design} describes the overall design choices as well as flows of data throughout the system. It covers two applications which together form the ''reference system'' named Oculus, on which experiments as well as tuning will be performed in the following chapters.
 
-\todo{This is not done until I'm done with the paper ;-) Oculus}
+Chapter \ref{chap:analysis-examples} provides examples and results of using the system in scenarios which have been given to it as part of it's goals (in Chapter \ref{cha:intro}). A brief discussion on applied and possible optimizations closes this chapter.
+
+Chapter \ref{chap:perf-scalability} focuses on performance measurements as well as tuning techniques applied and recommended when running large scale Hadoop deployments. Provided measurements will serve as significant data point in determining wether or not the selected technologies are in fact scalable or not.
+
+Chapter \ref{chap:conclusions} will gather and summarise all recommendations gartered from implementing and tuning the system as if it was an in-production running system. Lastly it will judge wether or not the taken aproach seems to be a feasible one to pursue in future applications.
+
+
+
+

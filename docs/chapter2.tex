@@ -1,4 +1,6 @@
 \chapter{Analysis of available technologies}
+\label{cha:existing-and-selected-tech}
+
 As the core of this work will focus on analysing and benchmarking usage of popular distributed system stacks, it is only fair to begin with introducing the selected components from which the system consist.
 
 This chapter should be treated as a brief introduction into the selected technologies, as very detailed explanations and and implementation details will be provided throughout chapters \ref{chap:system-design} through \ref{chap:perf-scalability}.
@@ -25,9 +27,6 @@ Scalding is a thin layer on top
 
 Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ''flows'' 
 and job ''pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
-
-During the work on this thesis several I have pushed several contributions to the Scalding open source project.
-\todo{link contributions}
 
 \todo{link to patches included}
 \todo{explain what scalding and cascading are}
@@ -72,7 +71,6 @@ This algorithm is used by the system to perform initial similarity analysis betw
 The algorithm is publicly available, including sources (in C), and may be used in non-commercial applications.
 
 As the goal of this thesis is not introducing such algorithm, but focusing on image analysis in distributed systems,
-I decided to use the provided implementation and focus on clustering and scaling problems.
 \todo{is this needed?}
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -84,9 +82,7 @@ way and apply them to a given set of machines.
 
 Using it as well as cloud providers such as Amazon's EC2, Google's ComputeEngine I was able to fully automate a cluster's deployment.
 
-\todo{can i notice ebay?}
-
-Details about the implementation of these recipes are featured in Appendix A.
+Details about the implementation of these recipes are featured in Appendix \ref{app:chef}.
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -97,9 +93,9 @@ Details about the implementation of these recipes are featured in Appendix A.
 Youtube-dl is a small library written in python and freely available under an Open Source license. 
 It was used in order to make downloading source video files from youtube more efficient, as it is aware of multiple available video formats (high / low quality), and offers multiple options useful yet hard to implement for this project -- including for example ,,preferring to download open source video formats'', which allowed me to avoid installing proprietary video codecs on the servers.
 
-\subsection{tesseract-ocr}
-
-Tesseract \cite{tesseract} is a text recognition library developed by Google and freely available to use (including language stems for most popular languages).
-This tool has been used in order to extract text from analysed images, providing even more data.
-
-\todo{more?}
+%\subsection{tesseract-ocr}
+%
+%Tesseract \cite{tesseract} is a text recognition library developed by Google and freely available to use (including language stems for most popular languages).
+%This tool has been used in order to extract text from analysed images, providing even more data.
+%
+% remove sesseract IMO...

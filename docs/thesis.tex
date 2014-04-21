@@ -7,7 +7,13 @@
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage{hyperref}
+
 \usepackage[titletoc,title]{appendix}
+\usepackage[nottoc,numbib]{tocbibind}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \usepackage{todonotes}
 
@@ -109,7 +115,7 @@
 \shortauthor{K. Malawski}
 
 \titlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym}
-\titleEN{Processing and analisys of multimedia in distributed systems}
+\titleEN{Processing and analysis of multimedia in distributed systems}
 
 \shorttitlePL{Przetwarzanie i analiza danych multimedialnych w środowisku rozproszonym} % skrócona wersja tytułu jeśli jest bardzo długi
 \shorttitleEN{Processing and analisys of multimedia in distributed systems}
@@ -155,12 +161,12 @@
 \include{chapter5}
 \include{chapter6}
 
+\nocite{*}
+\bibliography{bibliography}{}
+\bibliographystyle{alpha}
+
 \appendix
 \include{appendixA}
-
-%\nocite{*}
-%\bibliography{bibliography}{}
-%\bibliographystyle{alpha}
 
 
 \end{document}

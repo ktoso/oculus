@@ -22,20 +22,20 @@ object DownloaderRunner extends App {
   val fs = config.getString("oculus.hadoop.fs.defaultFS")
   val fps = config.getInt("oculus.ffmpeg.framesPerSecond")
 
-
-  val addr = AddressFromURIString("akka://remote-oculus-system@127.0.0.1:1234")
-  val remote = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)), "remote-youtube-downloader")
-
-  remote ! "Hello!"
-
   val hdfsUploader = system.actorOf(Props(new HDFSUploadActor(fs, fps)).withRouter(FromConfig), "hdfs-uploader")
   val youtubeDownloader = system.actorOf(Props(new YoutubeDownloadActor(hdfsUploader)).withRouter(FromConfig), "youtube-downloader")
   val youtubeCrawler = system.actorOf(Props(new YoutubeCrawlActor(youtubeDownloader)), "youtube-crawler")
   val conversionActor = system.actorOf(Props(new ConversionActor(hdfsUploader, "oculus/conv", 10)))
 
   // download specific videos
-  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=YE7VzlLtp-4", crawl = false) // big buck bunny, creative commons
-  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=e98uKex3hSw", crawl = false) // big buck bunny, mirror, creative commons
+
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=YE7VzlLtp-4", crawl = false) // big buck bunny,                  creative commons
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=e98uKex3hSw", crawl = false) // big buck bunny, mirror,          creative commons
+
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=BHmGzBUIcAM", crawl = false) // big buck bunny, 60s-90s,         creative commons
+  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=bb0B316n1o8", crawl = false) // big buck bunny, 60s-90s, mirror, creative commons
+
+
 //  youtubeDownloader ! DownloadFromYoutube("https://www.youtube.com/watch?v=TLkA0RELQ1g", crawl = false) // elephants dream, creative commons
 
 //  youtubeDownloader ! DownloadFromYoutube("http://www.youtube.com/watch?v=fFK_YCS8ab0&list=WLFDF76FA8065675A9", crawl = false)

@@ -7,47 +7,67 @@ A level-1 auxiliary file: chapter3.aux
 A level-1 auxiliary file: chapter4.aux
 A level-1 auxiliary file: chapter5.aux
 A level-1 auxiliary file: chapter6.aux
-I found no \bibdata command---while reading file thesis.aux
-I found no \bibstyle command---while reading file thesis.aux
-You've used 14 entries,
-            0 wiz_defined-function locations,
-            103 strings with 677 characters,
-and the built_in function-call counts, 0 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 0
-:= -- 0
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
-chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 0
-format.name$ -- 0
-if$ -- 0
-int.to.chr$ -- 0
+The style file: alpha.bst
+A level-1 auxiliary file: appendixA.aux
+Database file #1: ../bibliography.bib
+I was expecting a `,' or a `}'---line 76 of file ../bibliography.bib
+ :   
+ :   author = { Blender Foundation }
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "chubby"
+Warning--I didn't find a database entry for "gfs"
+Warning--I didn't find a database entry for "yahoo"
+Warning--I didn't find a database entry for "twitter"
+Warning--I didn't find a database entry for "java"
+Warning--I didn't find a database entry for "dot"
+Warning--to sort, need author or key in erlang
+Warning--to sort, need author or key in ffmpeg
+Warning--to sort, need author or key in blender-foundation
+Warning--to sort, need author or key in kmp-string-search
+Warning--empty institution in map-reduce
+Warning--empty publisher in youtube
+Warning--empty year in youtube
+Warning--empty journal in boyer-string-search
+You've used 18 entries,
+            2543 wiz_defined-function locations,
+            631 strings with 5779 characters,
+and the built_in function-call counts, 4471 in all, are:
+= -- 401
+> -- 127
+< -- 13
++ -- 34
+- -- 32
+* -- 213
+:= -- 665
+add.period$ -- 34
+call.type$ -- 18
+change.case$ -- 87
+chr.to.int$ -- 18
+cite$ -- 30
+duplicate$ -- 202
+empty$ -- 447
+format.name$ -- 55
+if$ -- 946
+int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 0
-num.names$ -- 0
-pop$ -- 0
-preamble$ -- 0
-purify$ -- 0
+missing$ -- 3
+newline$ -- 73
+num.names$ -- 42
+pop$ -- 173
+preamble$ -- 1
+purify$ -- 105
 quote$ -- 0
-skip$ -- 0
+skip$ -- 212
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
-text.prefix$ -- 0
+substring$ -- 132
+swap$ -- 16
+text.length$ -- 13
+text.prefix$ -- 9
 top$ -- 0
-type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 0
-(There were 2 error messages)
+type$ -- 140
+warning$ -- 8
+while$ -- 29
+width$ -- 21
+write$ -- 171
+(There was 1 error message)
