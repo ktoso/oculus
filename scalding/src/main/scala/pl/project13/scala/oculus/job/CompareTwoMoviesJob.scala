@@ -56,6 +56,10 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
       .rename('id -> 'id2)
       .rename('frame -> 'frame2)
 
+  movie1.write(Csv(s"/oculus/raw-$id1"))
+
+  movie2.write(Csv(s"/oculus/raw-$id2"))
+
   
   movie1.joinWithSmaller('frame1 -> 'frame2, movie2)
     .map(('mhHash1, 'mhHash2) -> ('hash1, 'hash2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
