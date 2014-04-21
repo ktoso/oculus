@@ -45,9 +45,9 @@ class NoJarTool(
     config: Configuration,
     buildMockJar: Boolean = true,
 
-    collectClassesFrom: List[File] = List(new File("/home/kmalawski/oculus/scalding/target/scala-2.10/classes"),
-                                          new File("/home/kmalawski/oculus/common/target/scala-2.10/classes")),
-    libJars: List[File] = List(new File("/home/kmalawski/oculus/scalding/target/scalding-1.0.0.jar")) // scalding deps, exclude classes from here: zip -d zip \*oculus\*
+    collectClassesFrom: List[File] = List(new File("/home/ktoso/oculus/scalding/target/scala-2.10/classes"),
+                                          new File("/home/ktoso/oculus/common/target/scala-2.10/classes")),
+    libJars: List[File] = List(new File("/home/ktoso/oculus/scalding/target/scalding-1.0.0.jar")) // scalding deps, exclude classes from here: zip -d zip \*oculus\*
   ) extends Tool {
 
   require(libJars.forall(_.exists()), "All libJars must exist! Given: " + libJars)
@@ -72,7 +72,7 @@ class NoJarTool(
     setLibJars(config, all.toSet)
 
     val libs = GenericOptionsParser.getLibJars(config)
-    val setTo: List[String] = "file:///home/kmalawski/oculus/scalding/target/scala-2.10/classes/" :: libs.map(_.toString).toList
+    val setTo: List[String] = "file:///home/ktoso/oculus/scalding/target/scala-2.10/classes/" :: libs.map(_.toString).toList
     config.setStrings("tmpjars", setTo: _*)
 
     ToolRunner.run(config, wrappedTool, args)
