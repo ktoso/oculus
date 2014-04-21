@@ -62,8 +62,8 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
       val (h1, h2) = x
 
       (
-        h1.get.mkString(" "),
-        h2.get.mkString(" "),
+        h1.get.mkString(""),
+        h2.get.mkString(""),
         Distance.hammingDistance(h1.get, h2.get)
       )
     }
