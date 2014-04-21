@@ -12,7 +12,7 @@ import com.twitter.scalding._
     IterableSource(
       List(
         (1, 2, 3),
-        (1, 2, 3),
+        (1, 2, 3)
       )
     )
 
