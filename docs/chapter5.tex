@@ -88,15 +88,83 @@ By increasing the replication factor of paths that we know they will be used in 
   \centering
   \includegraphics[width=\textwidth]{img/hadoop/hdfs_show-replication}
   \label{fig:hdfs-replication-factors}
-  \caption{HDFS on-line browser, running on datanode (port: 50075)}
+  \caption{HDFS on-line browser, running on datanode (port: 50075), displaying replication factors of files (4th column)}
 \end{figure}
 
 The replication factor of a file (or path) is such an important value, it's usually always displayed along side any file listing within the Hadoop UIs (see Figure \ref{fig:hdfs-replication-factors}) as well as command line tools. It should also be noted that it is impossible to set the replication factor to a higher number than there are datanodes present in the cluster -- as the replication requirement would not be possible to be fulfilled (for obvious reasons).
 
 
-\subsection{Tuning number of nodes}
+\subsection{Tuning numbers of nodes, map and reduce slots}
 \label{sec:tuning-number-of-nodes}
+Hadoop aims to deliver on the promise of ''nearly linear horizontal scalability'', which means that speed-up expirienced from adding more nodes to the cluster should impact the processing times positively in a linear fashion. Of course, adding more nodes also means that operational costs are higher, so one has to ballance the number of nodes with their fine-tuning as well as project needs. In order to test the systems behavior, the cluster was configured with 1 map slot on each datanode, and was initially running using 3 datanodes. This section aims to verify the horizontal scalability of the produced cluster, in the case of CPU intensive tasks -- such as computing phashes and histograms from movies (the pre-processing step as explained in Chapter \ref{chap:analysis-examples}.
 
+Because the Map Reduce framework relies on parallelising computing of the map function supplied by the user, the goal of the cluster administrator should be to enable the maximum number of map slots. A map slot is defined as one ''slot'' in which the task scheduler may allocate work, in order to process a part of the map computation. The same can be specified for the reduce step, in which case one refers to \textit{reduce slots}.
+
+\subsubsection{Growing the cluster}
+With the base size of the cluster being 3 nodes (with one virtual machine hosting the namenode as well as a datanode, and the rest hosting only datanodes), this section aims to determine the horizontal scalability of the cluster, by sheer adding of datanodes to the hadoop cluster.
+
+Adding nodes to the cluster is a very simple operation, and can be performed without any disruption of the already running cluster. During the tests performed for this section, additional VMs have been provisioned and added to the cluster by using the commands shown in Listing \ref{lst:adding-new-node-cluster}. It should be noted that the provisioned VMs would re-use an existing snapshot image of an instance prepared using OpsCode Chef, which is an configuration provisioning tool explained in detail in Appendix \ref{app:chef}. The usual time from starting a new node on Google Compute Engine, and it starting to participate in the work distribution of the Hadoop cluster was \textit{less than 1 minute} (including the time to provision the fresh virtual machine)!
+
+\begin{lstlisting}[caption={Complete listing of adding a new worker node to the cluster, using GCE},label{lst:adding-new-node-cluster}]
+// provision new instance
+gcutil --service_version="v1" --project="oculus-hadoop" adddisk "oculus-4b" --zone="us-central1-a" --source_snapshot="oculus-slave-snapshot"
+
+gcutil --service_version="v1" --project="oculus-hadoop" addinstance "oculus-4b" --zone="us-central1-a" --machine_type="n1-standard-1" --network="default" --external_ip_address="ephemeral" --service_account_scopes="https://www.googleapis.com/auth/..." --tags="hadoop,datanode,hbase" --disk="oculus-4b,deviceName=oculus-4b,mode=READ_WRITE,boot" --auto_delete_boot_disk="true"
+
+// obtain ip address
+gcutil getinstance oculus-3b | grep ip
+// ip               10.240.80.181
+// external-ip  146.148.47.191
+
+// add internal ip to namenode masters config
+gcutil ssh oculus-master
+echo "10.240.80.181" >> /opt/hadoop.1.2.1/conf/slaves
+
+// start workers on added nodes
+/opt/hadoop-1.2.2/start-all.sh
+
+// add node aliases to local hosts
+echo "146.148.47.191  oculus-3b" >> /etc/hosts
+\end{lstlisting}
+
+The job used to measure the impact of adding new nodes was the most CPU intensive task present in the Oculus workflow, which is: computing the perceptual hash of each frame of a given movie. The movie selected for the process was the previously introduced ''Big Buck Bunny'' movie, amounting a total of 6.38 GB of frame data to process, split among 103 HDFS Blocks (each roughly 64 MB in size). Thanks to this large number of blocks, the task scheduler should be able to efficiently distribute the work to even large numbers of worker nodes (as seen on Figure \ref{fig:four-mappers}, with 4 mappers computing subsequent chunks of one job in parallel). It should
+
+Table \ref{tab:more-nodes-results} contains results of this test being run on differently sized clusters.
+
+\todo{TABLE HERE}
+
+It should also be noted that the 
+
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hadoop/4mappers}
+  \label{fig:four-mappers}
+  \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 4 physical nodes.}
+\end{figure}
+
+\todo{notice that when 10 nodes, the distributing of data hampers the performance -- can't use 100CPU on task}
+
+\todo{show the same 10 nodes, with data locallity}
+
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hadoop/monitoring-during-processing}
+  \label{fig:cpu-load-during-job}
+  \caption{Screenshot of New Relic (cluster monitoring software) displaying CPU and memory utilisation during the execution of an CPU intensive map reduce job.}
+\end{figure}
+
+lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum 
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hadoop/4node-cluster-config}
+  \label{fig:four-nodes-config}
+  \caption{Fragment of Web-UI displaying the connected datanodes. The oculus-3 node is an high-cpu instance, and has more slots than the remaining nodes.}
+\end{figure}
+
+lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum 
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------

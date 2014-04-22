@@ -1,1 +1,22 @@
 4842s = 2 frames, against entire DB - find similar movies
+
+
+hashing /oculus/source/e98uKex3hSw.mp4.seq
+3329 s   # on 3 nodes
+
+hashing /oculus/source/YE7VzlLtp-4.mp4.seq
+103 map tasks
+
+// 4 nodes
+Finished in: 21mins, 53sec
+Finished in: 41mins, 50sec
+
+// 7 nodes, 3 data local
+Finished in: 12mins, 37sec
+
+// 10 nodes, 3 data local, 7 rack local
+Finished in: 8mins, 59sec
+
+// 10 nodes, 10 data local
+Finished in: 9mins, 1sec // 105 data local, 4 rack local --retest!!!
+

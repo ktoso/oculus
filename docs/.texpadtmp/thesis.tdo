@@ -10,7 +10,10 @@
 \contentsline {todo}{mention somewhere before that we really extract data like ''mostly red''}{28}{section*.23}
 \contentsline {todo}{finish this scenario}{28}{section*.24}
 \contentsline {todo}{explain what section does what}{31}{section*.26}
-\contentsline {todo}{scale it to more nodes...}{35}{section*.32}
-\contentsline {todo}{conclude stuff...}{37}{section*.33}
-\contentsline {todo}{listing needs label}{40}{section*.34}
-\contentsline {todo}{finish}{41}{section*.35}
+\contentsline {todo}{TABLE HERE}{37}{section*.33}
+\contentsline {todo}{notice that when 10 nodes, the distributing of data hampers the performance -- can't use 100CPU on task}{37}{section*.35}
+\contentsline {todo}{show the same 10 nodes, with data locallity}{37}{section*.36}
+\contentsline {todo}{scale it to more nodes...}{38}{section*.39}
+\contentsline {todo}{conclude stuff...}{39}{section*.40}
+\contentsline {todo}{listing needs label}{42}{section*.41}
+\contentsline {todo}{finish}{43}{section*.42}
