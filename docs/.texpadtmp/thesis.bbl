@@ -63,6 +63,11 @@ J.~Strother~Moore Robert S.~Boyer.
 \newblock A fast string searching algorithm.
 \newblock 1977.
 
+\bibitem[Sam12]{hadoop-ops}
+Eric Sammer.
+\newblock {\em Hadoop Operations}.
+\newblock 2012.
+
 \bibitem[Wik]{columnar-database}
 Wikipedia.
 \newblock Column-oriented database.

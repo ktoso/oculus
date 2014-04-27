@@ -1,0 +1,14 @@
+# clustered graph example from Derek Bruening's CGO 2005 talk
+=patterns
+=table
+yformat=%g s
+=norotate
+ylabel=Total execution time (seconds)
+xlabel=Number of nodes
+
+#     main
+1,    5220
+3,    1634
+4,    1313
+7,    757
+10,   529

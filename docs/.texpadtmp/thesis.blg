@@ -10,7 +10,7 @@ A level-1 auxiliary file: chapter6.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: alpha.bst
 Database file #1: ../bibliography.bib
-I was expecting a `,' or a `}'---line 76 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 83 of file ../bibliography.bib
  :   
  :   author = { Blender Foundation }
 (Error may have been on previous line)
@@ -29,45 +29,46 @@ Warning--empty institution in map-reduce
 Warning--empty publisher in youtube
 Warning--empty year in youtube
 Warning--empty journal in boyer-string-search
-You've used 18 entries,
+Warning--empty publisher in hadoop-ops
+You've used 19 entries,
             2543 wiz_defined-function locations,
-            631 strings with 5779 characters,
-and the built_in function-call counts, 4471 in all, are:
-= -- 401
-> -- 127
-< -- 13
-+ -- 34
-- -- 32
-* -- 213
-:= -- 665
-add.period$ -- 34
-call.type$ -- 18
-change.case$ -- 87
-chr.to.int$ -- 18
-cite$ -- 30
-duplicate$ -- 202
-empty$ -- 447
-format.name$ -- 55
-if$ -- 946
+            634 strings with 5817 characters,
+and the built_in function-call counts, 4742 in all, are:
+= -- 423
+> -- 135
+< -- 14
++ -- 36
+- -- 34
+* -- 228
+:= -- 711
+add.period$ -- 37
+call.type$ -- 19
+change.case$ -- 91
+chr.to.int$ -- 19
+cite$ -- 32
+duplicate$ -- 218
+empty$ -- 472
+format.name$ -- 59
+if$ -- 1000
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 3
-newline$ -- 73
-num.names$ -- 42
-pop$ -- 173
+missing$ -- 5
+newline$ -- 78
+num.names$ -- 45
+pop$ -- 183
 preamble$ -- 1
-purify$ -- 105
+purify$ -- 111
 quote$ -- 0
-skip$ -- 212
+skip$ -- 221
 stack$ -- 0
-substring$ -- 132
-swap$ -- 16
-text.length$ -- 13
-text.prefix$ -- 9
+substring$ -- 139
+swap$ -- 17
+text.length$ -- 14
+text.prefix$ -- 10
 top$ -- 0
-type$ -- 140
-warning$ -- 8
-while$ -- 29
-width$ -- 21
-write$ -- 171
+type$ -- 144
+warning$ -- 9
+while$ -- 31
+width$ -- 23
+write$ -- 182
 (There was 1 error message)

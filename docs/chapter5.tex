@@ -94,7 +94,7 @@ By increasing the replication factor of paths that we know they will be used in 
 The replication factor of a file (or path) is such an important value, it's usually always displayed along side any file listing within the Hadoop UIs (see Figure \ref{fig:hdfs-replication-factors}) as well as command line tools. It should also be noted that it is impossible to set the replication factor to a higher number than there are datanodes present in the cluster -- as the replication requirement would not be possible to be fulfilled (for obvious reasons).
 
 
-\subsection{Tuning numbers of nodes, map and reduce slots}
+\subsection{Tuning the Cluster's size, in conjunction with replication factors}
 \label{sec:tuning-number-of-nodes}
 Hadoop aims to deliver on the promise of ''nearly linear horizontal scalability'', which means that speed-up expirienced from adding more nodes to the cluster should impact the processing times positively in a linear fashion. Of course, adding more nodes also means that operational costs are higher, so one has to ballance the number of nodes with their fine-tuning as well as project needs. In order to test the systems behavior, the cluster was configured with 1 map slot on each datanode, and was initially running using 3 datanodes. This section aims to verify the horizontal scalability of the produced cluster, in the case of CPU intensive tasks -- such as computing phashes and histograms from movies (the pre-processing step as explained in Chapter \ref{chap:analysis-examples}.
 
@@ -127,26 +127,89 @@ echo "10.240.80.181" >> /opt/hadoop.1.2.1/conf/slaves
 echo "146.148.47.191  oculus-3b" >> /etc/hosts
 \end{lstlisting}
 
-The job used to measure the impact of adding new nodes was the most CPU intensive task present in the Oculus workflow, which is: computing the perceptual hash of each frame of a given movie. The movie selected for the process was the previously introduced ''Big Buck Bunny'' movie, amounting a total of 6.38 GB of frame data to process, split among 103 HDFS Blocks (each roughly 64 MB in size). Thanks to this large number of blocks, the task scheduler should be able to efficiently distribute the work to even large numbers of worker nodes (as seen on Figure \ref{fig:four-mappers}, with 4 mappers computing subsequent chunks of one job in parallel). It should
-
-Table \ref{tab:more-nodes-results} contains results of this test being run on differently sized clusters.
-
-\todo{TABLE HERE}
-
-It should also be noted that the 
-
+The job used to measure the impact of adding new nodes was the most CPU intensive task present in the Oculus workflow, which is: computing the perceptual hash of each frame of a given movie. The movie selected for the process was the previously introduced ''Big Buck Bunny'' movie, amounting a total of 6.38 GB of frame data to process, split among 103 HDFS Blocks (each roughly 64 MB in size). Thanks to this large number of blocks, the task scheduler should be able to efficiently distribute the work to even large numbers of worker nodes. In fact, as visible on Figure \ref{fig:ten-mappers} with 10 mappers (10 datanodes, with 1 map slot each) are executing tasks from the same job in parallel, causing an obvious speedup in Map comptation.
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[width=\textwidth]{img/hadoop/4mappers}
-  \label{fig:four-mappers}
-  \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 4 physical nodes.}
+  \includegraphics[width=\textwidth]{img/hadoop/10tasks-parallel}
+  \label{fig:ten-mappers}
+  \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 10 physical nodes, with one map slot each.}
 \end{figure}
 
-\todo{notice that when 10 nodes, the distributing of data hampers the performance -- can't use 100CPU on task}
+Before explaining the results of the performed scalability tests, one more term needs to be introduced. Tasks can be executed in a number of different ways -- that is, they may be executed strictly local to the data they work on, or just ''near the data the task requires'' or really ''far away from the data the task requires'' -- these intuitive definitions have their named counterparts which are measured and reported for every run of a Map Reduce job, namely those types of Tasks are:
 
-\todo{show the same 10 nodes, with data locallity}
+\begin{itemize}
+  \item \textbf{Data Local Task} -- the Task is executed on the same datanode on which the data it requires resides. No data transfer between nodes is required for the task to start. This is the optimal type of Task, and one should aim at maximising their number during an execution of Map Reduce jobs.
+  \item \textbf{Rack Local Task} -- the Task is executed on a datanode that is located on the same rack (in the datacenter) as the node that the data it requires resides. This kind of task will require the data to be transfered between the two hosts, but since they are located on the same rack the transfer cost is still relatively small.
+  \item \textbf{Remaining Tasks} -- tasks that are not Data Local do not have a name of their own, and are not reported directly. Instead one aims to maximise the number of Data and Rack Local tasks, with the rest being simply \verb|notLocalTasks = totalTasks - dataLocalTasks - rackLocalTasks|. These tasks require transfering the data across the network for the job to start, and should be avoided at all costs -- in our use-cases it was possible to avoid triggering even one of these tasks.
+\end{itemize}
 
+The first row in Table \ref{table:more-nodes-results} represents the theoretical time to execute the job using only one node -- the aproximated time to complete the job using one thread (mapper) was calculated by calculating the average time of computing one split of data, which is equal to: \textit{47 seconds}. Other time characteristics of computing one task are listed, for reference, in Table \ref{table:task-compute-time}.
+
+\begin{table}[hbt]
+  \centering
+  \begin{tabular}{|c|c|}
+  \hline
+    min    &   41     \\ \hline
+    max	   &   71     \\ \hline
+    avg	   &   47.41  \\ \hline
+    stddev &   4.33   \\ \hline
+  \end{tabular}
+  \label{table:time-task}
+  \caption{Time characteristics of executing one Task of the analysed job.}
+\end{table}
+
+
+The experiment was then expanded to more nodes, and afterwards the replication factor was increased to increase the chance of triggering Data Local tasks. Results of the experiment are listed in Table \ref{table:more-nodes-results}.
+
+\begin{table}[hbt]
+  \centering
+  \begin{tabular}{|c c|c|c|c|c|c|}
+  \hline
+    \multicolumn{2}{|c|}{\textbf{Cluster configuration}} & \multicolumn{2}{|c|}{\textbf{{Tasks executed}} & \multicolumn{3}{|c|}{\textbf{Performance}} \\ \hline
+    Nr of nodes & Replication & Data local & Rack local   & Time              & Speed-up    & Abs. speed-up \\ \hline
+    1 node (simulated)    & 1 & 103 & 0                   & aprox. 87 mins    & --          & --            \\ \hline
+    3 nodes               & 3 & 103 & 0                   & 27 mins, 14 sec   & 3.19        & 3.19          \\ \hline
+    4 nodes               & 3 & 89  & 14                  & 21 mins, 53 sec   & 1.25        & 3.98          \\ \hline
+    7 nodes               & 4 & 67  & 36                  & 12 mins, 37 sec   & 1.73        & 6.90          \\ \hline
+    10 nodes              & 4 & 54  & 49                  & 9 mins, 1 sec     & 1.40        & 9.65          \\       
+                          & 6 & 99  & 4                   & 8 mins, 49 sec    & 1.02 (1.43) & 9.87          \\ \hline
+  \end{tabular}
+  \caption{Computation speed-up by adding nodes, and increasing replication factors, leading to increased data locality for exacuted jobs.}
+  \label{tab:more-nodes-results}
+\end{table}
+
+Analysing Table \ref{table:more-nodes-results} yields very interesting results. The most interesting metric in our case if of course the absolute speed-up of the process, yet the relative speed-up (as measured between previous and current configuration) is also quite interesting -- especialy in cases when the replication factor was modified.
+
+The first notable and interesting difference is of course between running the job on 1 node to 3 nodes, with the replication factor equal to the number of nodes to the cluster. This has the obvious effect of all tasks being executed local to the data they require (as each node has all the data). The total speed-up is around 3, which would indicate linear scalability in this case (!). Yet becuase of still small numerf of nodes, and everything being executed locally, this case is not very interesting from the ''introduction of cluster communication overhear'' perspective.
+
+The next notable effect demonstrated during this experiment is visible when scaling the cluster to 4 nodes, without increasing the replication factor (which stayed at 3). This forced the cluster to execute Rack Local tasks for the first time. The scheduler was forced into scheduling 14 tasks on nodes that did not have the data locally available, although it managed to schedule them on Rack Local tasks -- which still is an acceptable choice for most computations.
+
+After scaling the cluster to 10 nodes, and updating the replication factor to 4 -- specifically chosen because it being ''slightly bellow half the number of the nodes'', one can observe a significant drop in tasks being executed Data Locally -- this is because the scheduler has more nodes available, and since they are idle, it decides to use them instead of keeping them idle -- it will do so, even if there are no Data Local slots available. In the end it still results in an \verb|1.4| speed-up as related to the 7 nodes scenario, even if the number of Rack Local taks has incresed by a factor of \verb|3.5|.
+
+The last, and perhaps most interestning measured change to the cluster involved increasing the replication factor on an 10 nodes cluster to \verb|6| -- so that more than half of the servers would host the same piece of data. After waiting for the data to be propagated (notice that datanodes undergoing heavy migration can appear unavailable to the cluster (!)), the job was started again. This time, even though the relative number of nodes that have the data locally was not so much different (''slightly more thank half of the nodes'') as in the 7 nodes scenario, it's highly interesting to see that \verb|99| out of \verb|103| (96\%) tasks were executed as Data Local tasks. While the change in the numbers of Data Local tasks executed seems fantastic, the difference in relative speed-up between replication factors 4 and 6 in this case in relation to the 7 nodes case was a mere \verb|0.03| precentage points, and around 11 seconds, a speed-up most likely not not worth the added data duplication introduced to the cluster -- which also has a financial backlash (more data duplication, resulting in the need of even more disks, resulting in the need of even more servers).
+
+\begin{table}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hadoop/nodes-perf.eps}
+  \label{fig:nodes-pers-graph}
+  \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 10 physical nodes, with one map slot each.}
+\end{table}
+
+In order to summarise this section, one last observation should be made about Table \ref{table:more-nodes-results}, namely: in respect of adding more nodes to the Hadoop cluster, it seems that it scales nearly linear, as can be seen by comparing the number of nodes compared to the absolute speed-up, for example -- when running a cluster with \verb|10| nodes, the absolute speedup in relation to running on one node was \verb|9.87 times|, which is very near to a full 10. Thanks to this experiment one can conclude that (at least to such numbers of nodes) Hadoop is in fact _nearly linearili scalable_, which is considered quite an achievement and would serve the growing-over-time needs of a data processing platform very well.
+
+% ------------------------------------------------------------------------------------------
+\subsection{Tuning cluster utilization through setting map / reduce slot numbers}
+The last investigated option available for increasing cluster utilisation investigated was the \verb|mapred.map.tasks| setting and it's corresponding \verb|mapred.reduce.tasks|, as hinted by Eric Sammer in \cite{hadoop-ops}.
+
+These settings influence the number of Map and Reduce ''slots'' available for the scheduler on each node. By default these are set to 1 map task for each physical CPU available on 
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hadoop/10nodes-newrelic-suffering-from-no-data-locallity}
+  \label{fig:ten-under-utilised-cluster}
+  \caption{Cluster utilisation, when running one computation job, using 10 nodes, 1 mapper / reducer slot each}
+\end{figure}
 
 \begin{figure}[ch!]
   \centering
