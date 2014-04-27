@@ -204,8 +204,6 @@ In order to summarise this section, one last observation should be made about Ta
 \subsection{Tuning cluster utilization through setting map / reduce slot numbers}
 The last investigated option available for increasing cluster utilisation investigated was the \verb|mapred.map.tasks| setting and it's corresponding \verb|mapred.reduce.tasks|, as hinted by Eric Sammer in \cite{hadoop-ops}.
 
-These settings influence the number of Map and Reduce ''slots'' available for the scheduler on each node. By default these are set to 1 map task for each physical CPU available on the node. When running multiple example jobs on the cluster, it was discovered that some ''low utilisation'' jobs would needlessly occupy precious map slots on the cluster -- leading to such worst-case scenarios as depicted on Figure \ref{fig:ten-under-utilised-cluster}, where all nodes (all of which are of type: \textit{n1-standard-1 (1 vCPU, 3.8 GB memory)}) are processing one task and which occupies 100\% of their task slots (because each has 1 CPU), yet the task is \textit{not} CPU intensive, which leads to wasting precious CPU time. It would be much more efficient to allow these nodes to run at least 2 map and reduce tasks at the same time - since they they won't be competing for each other's CPU time.
-
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=0.8\textwidth]{img/hadoop/10nodes-newrelic-suffering-from-no-data-locallity}
@@ -213,7 +211,16 @@ These settings influence the number of Map and Reduce ''slots'' available for th
   \caption{An example of an underutilised cluster, where each node has 1 map and 1 reduce slot, yet the computed task is not draining the available CPU time, leading to wasting precious compute time.}
 \end{figure}
 
-In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under-utilised-cluster} (where 10 nodes are working, yet the vast majority of them only utilises around 30\% of their CPU), the number of concurrent tasks to be executed on one node was increased to 2 map and 2 reduce tasks. Literature recommends using \verb|rount(1.5 * nrOfCpu)| tasks per node, yet this setting should be always accustomed to the workload a cluster is expiriencing.
+These settings influence the number of Map and Reduce ''slots'' available for the scheduler on each node. By default these are set to 1 map task for each physical CPU available on the node (as can be seen on Figure \ref{fig:four-nodes-config}, where \textit{oculus-3-cpu} has 2 physical CPUs, and was automatically assigned 2 map and reduce slots). When running multiple example jobs on the cluster, it was discovered that some ''low utilisation'' jobs would needlessly occupy precious map slots on the cluster -- leading to such worst-case scenarios as depicted on Figure \ref{fig:ten-under-utilised-cluster}, where all nodes (all of which are of type: \textit{n1-standard-1 (1 vCPU, 3.8 GB memory)}) are processing one task and which occupies 100\% of their task slots (because each has 1 CPU), yet the task is \textit{not} CPU intensive, which leads to wasting precious CPU time. It would be much more efficient to allow these nodes to run at least 2 map and reduce tasks at the same time - since they they won't be competing for each other's CPU time.
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hadoop/4node-cluster-config}
+  \label{fig:four-nodes-config}
+  \caption{Fragment of Web-UI displaying the connected datanodes. The oculus-3 node is an high-cpu instance, and has more slots than the remaining nodes.}
+\end{figure}
+
+In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under-utilised-cluster} (where 10 nodes are working, yet the vast majority of them only utilises around 30\% of their CPU), the number of concurrent tasks to be executed on one node was increased to 2 map and 2 reduce tasks. Literature recommends using \verb|rount(1.5 * nrOfCpus)| tasks per node, yet this setting should be always accustomed to the workload a cluster is expiriencing. Having this in mind, a scaled down cluster may actually be more efficient on processing such jobs. The changed configuration included 4 nodes, all of which were set-up fo host 2 map slots and 2 reduce slots. The CPU load on the cluster in such configuration, performing the same job as seen on Figure \ref{fig:four-nodes-config}, can be seen on Figure \ref{fig:cpu-load-during-job}.
 
 \begin{figure}[ch!]
   \centering
@@ -222,12 +229,7 @@ In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under
   \caption{Screenshot of New Relic (cluster monitoring software) displaying CPU and memory utilisation during the execution of an CPU intensive map reduce job.}
 \end{figure}
 
-\begin{figure}[ch!]
-  \centering
-  \includegraphics[width=\textwidth]{img/hadoop/4node-cluster-config}
-  \label{fig:four-nodes-config}
-  \caption{Fragment of Web-UI displaying the connected datanodes. The oculus-3 node is an high-cpu instance, and has more slots than the remaining nodes.}
-\end{figure}
+It is worth keeping in mind that cost efficiency usually is also an important business need and simply adding more servers sometimes isn't an available option. Even more so, sometimes we may end up over provisioning servers -- as seen in Figure \ref{fig:ten-under-utilised-cluster}, so while simply adding more servers is very tempting and usually works very well on Hadoop clusters (as seen in Section \ref{sec:tuning-number-of-nodes}), one should always first try to fine tune the cluster to the specific work-load it is experiencing. In the case shown in this section, a fine-tuned 4 node cluster was able to perform almost as good (for this set of jobs), as the under utilised 10 node cluster. In real life clusters will always execute very different workloads at the same time, so it may be very hard to fine tune it for very percise scenarios, yet the effort of changing configurations of cluster members can sometimes prevent the need of adding more servers, so it should be always considered first -- unless a long term cluster expansion (e.g. ''adding 100 nodes, in the next 2 months'') is planned directly.
 
 
 
