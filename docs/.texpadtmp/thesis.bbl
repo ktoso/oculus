@@ -3,6 +3,10 @@
 \bibitem[ble]{blender-foundation}
 Blender foundation website.
 
+\bibitem[Bru]{graph-tooling}
+Derek Bruening.
+\newblock bargraph -- http://bargraphgen.googlecode.com/svn/trunk/bargraph.pl.
+
 \bibitem[CH73]{actor-model}
 Richard~Steiger Carl~Hewitt, Peter~Bishop.
 \newblock A universal modular actor formalism for artificial intelligence,
@@ -35,6 +39,9 @@ Google.
 Google.
 \newblock Google's tesseract-ocr text recognition library, 1985 - 2013.
 
+\bibitem[had]{hadoop-ops}
+
+
 \bibitem[Had12]{hadoop-seq-files}
 Apache Hadoop.
 \newblock Hadoop sequence files format documentation, 2012.
@@ -62,11 +69,6 @@ Martin~Odersky Phillip~Haller.
 J.~Strother~Moore Robert S.~Boyer.
 \newblock A fast string searching algorithm.
 \newblock 1977.
-
-\bibitem[Sam12]{hadoop-ops}
-Eric Sammer.
-\newblock {\em Hadoop Operations}.
-\newblock 2012.
 
 \bibitem[Wik]{columnar-database}
 Wikipedia.

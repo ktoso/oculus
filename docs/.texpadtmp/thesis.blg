@@ -10,7 +10,12 @@ A level-1 auxiliary file: chapter6.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: alpha.bst
 Database file #1: ../bibliography.bib
-I was expecting a `,' or a `}'---line 83 of file ../bibliography.bib
+You're missing a field name---line 40 of file ../bibliography.bib
+ : 
+ : %  title = {Hadoop Operations},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 88 of file ../bibliography.bib
  :   
  :   author = { Blender Foundation }
 (Error may have been on previous line)
@@ -25,50 +30,50 @@ Warning--to sort, need author or key in erlang
 Warning--to sort, need author or key in ffmpeg
 Warning--to sort, need author or key in blender-foundation
 Warning--to sort, need author or key in kmp-string-search
+Warning--to sort, need author or key in hadoop-ops
 Warning--empty institution in map-reduce
 Warning--empty publisher in youtube
 Warning--empty year in youtube
 Warning--empty journal in boyer-string-search
-Warning--empty publisher in hadoop-ops
-You've used 19 entries,
+You've used 20 entries,
             2543 wiz_defined-function locations,
-            634 strings with 5817 characters,
-and the built_in function-call counts, 4742 in all, are:
-= -- 423
-> -- 135
+            635 strings with 5883 characters,
+and the built_in function-call counts, 4910 in all, are:
+= -- 437
+> -- 136
 < -- 14
 + -- 36
 - -- 34
-* -- 228
-:= -- 711
+* -- 233
+:= -- 719
 add.period$ -- 37
-call.type$ -- 19
-change.case$ -- 91
-chr.to.int$ -- 19
-cite$ -- 32
-duplicate$ -- 218
-empty$ -- 472
+call.type$ -- 20
+change.case$ -- 95
+chr.to.int$ -- 20
+cite$ -- 34
+duplicate$ -- 223
+empty$ -- 499
 format.name$ -- 59
-if$ -- 1000
+if$ -- 1042
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 5
-newline$ -- 78
+missing$ -- 3
+newline$ -- 80
 num.names$ -- 45
-pop$ -- 183
+pop$ -- 194
 preamble$ -- 1
-purify$ -- 111
+purify$ -- 116
 quote$ -- 0
-skip$ -- 221
+skip$ -- 238
 stack$ -- 0
-substring$ -- 139
-swap$ -- 17
+substring$ -- 147
+swap$ -- 18
 text.length$ -- 14
 text.prefix$ -- 10
 top$ -- 0
-type$ -- 144
+type$ -- 156
 warning$ -- 9
 while$ -- 31
 width$ -- 23
-write$ -- 182
-(There was 1 error message)
+write$ -- 186
+(There were 2 error messages)
