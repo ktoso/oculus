@@ -22,17 +22,18 @@ To further illustrate the separate components and their interactions Figure \ref
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Loader}
 \label{sec:loader-basics}
-The Loader component is responsible for obtaining as much as possible ''reference data'', by which I mean video material -- from sites such as \textit{youtube.com} or video hosting sites. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening, ending sequences.
+The Loader component is responsible for obtaining as much as possible ''reference data'', by which video material from sites such as \textit{youtube.com} or video hosting sites is meant. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening, ending sequences.
 
-While I will refer to the Loader (as a system) in singular, it should be noted that in fact there are multiple instances of it running in the cluster.
-Thanks to the use of Akka's \cite{akka-docs} Actor Model abstractions (and \textit{remoting} module \cite{akka-remoting}), in which the physical location of an Actor plays is of no importance -- meaning, that the receiving Actor does not have to be on the same host as the sending Actor.
+While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \cite{akka-docs} Actor Model abstractions (and \textit{remoting} module \cite{akka-remoting}), in which the physical location of an Actor plays is of no importance -- meaning, that the receiving Actor does not have to be on the same host as the sending Actor.
 
 \subsection{Types of Actors used in the system}
 \label{sec:types-of-actors}
 
-The system consists of 4 types of Actors each of which has multiple instances which are spread out on many nodes in the cluster.
-Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading
-the video material can be spread throughout the cluster. I will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
+The system consists of 4 types of Actors each of which has multiple instances which are spread out on many nodes in the cluster. Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading the video material can be spread throughout the cluster. 
+
+The following Actor descriptions are aimed at explain
+
+will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
 
 \begin{itemize}
   \item \textbf{YouTubeCrawlActor} -- is capable of fetching and YouTube websites and generate Messages triggering
@@ -53,9 +54,7 @@ the video material can be spread throughout the cluster. I will now briefly desc
     \subitem  \textbf{receives:}
       \subsubitem \verb|Convert(localVideoFile: java.util.File)| -- This message must come from a local Actor, since the path refers to the local file system.
     \subitem  \textbf{sends:}
-      \subsubitem \verb|Upload(framesDirectory: java.util.File)| -- when the finished converting to bitmaps, it will send and \verb|Upload| 
-                                                                    message to one of the\verb|HDFSUploadActors|, pointing to the directory where the 
-                                                                    output bitmaps have been written.
+      \subsubitem \verb|Upload(framesDirectory: java.util.File)| -- when the finished converting to bitmaps, it will send and \verb|Upload| message to one of the\verb|HDFSUploadActors|, pointing to the directory where the output bitmaps have been written.
                                                                     
   \item \textbf{HDFSUploadActor} -- is responsible for optimally storing the sequence of bitmaps in Hadoop. This includes converting a series of 
                                   relatively small (around 2MB per frame) files into one Sequence File on HDFS. Sequence Files and the need for their use
@@ -63,13 +62,19 @@ the video material can be spread throughout the cluster. I will now briefly desc
   \subitem \textbf{receives:}
     \subsubitem \verb|Upload(framesDirectory: java.util.File)| -- pointing to a local directory where the bitmap files have been stored.
                                                                  This message must come from a local actor, since the path refers to the local file system.
+    \subitem  \textbf{sends:}
+      \subsubitem 0 or 1 -- \verb|ConfirmUpload(localFile: java.util.File)| -- sent back to the sender that requested the video to be uploaded.
 \end{itemize}
 
+Using these Actors and protocols between them, the application is able to progress safely without the possibility of getting stuck in a dead (or live) lock. 
+
+While discussing there protocols one should also mention that the messages that can be received and sent by Actors are not possible to verify using static typing -- an Actor can receive a message of ''Any'' type, and in case of not being able to act upon it - it will drop the message, but the delivery still happens.
+This is an inherent property of the Actor Model of concurrency -- which is why in such systems explaining the flows of mesages and Actors present in the system is of such importance. Having this in mind, the next Section (\ref{sec:obtaining-reference-material}) will focus on explaining one such message flow within the system.
+
 % -------------------------------------------------------------------------------------------------------------------------------------------------
-\newpage
 \subsection{Obtaining reference video material}
 \label{sec:obtaining-reference-material}
-In this subsection I will discuss the process of obtaining video material by the Loader subsystem, as well as explain which parts can be executed on different nodes of the cluster. The Figure \ref{fig:high-level-loader} should help in understanding the basic workflow.
+This section wills discuss the process of obtaining video material by the Loader subsystem, as well as explain which parts can be executed on different nodes of the cluster. The Figure \ref{fig:high-level-loader} should help in understanding the basic workflow.
 
 \begin{figure}[ch!]
   \centering
@@ -82,7 +87,7 @@ In this subsection I will discuss the process of obtaining video material by the
 The initiating message for each flow within the Loader is a \textit{Crawl(siteUrl)}, where siteUrl is a valid youtube video url.
 The receiving YouTubeCrawlActor will react to such message by fetching and extracting the related video site urls and will forward those using the same kind of \textit{Crawl} messages. The second, yet most important, reaction is sending a \textit{Download(movieId)} message to an instance of an DownloadActor -- it  can reside on any node in the cluster, which allows us to spread the down-link utilisation between different nodes in the cluster.
 
-It is worth pointing out that the receivers of these messages can be remote Actors, that is, can be located on a different node in the cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), I am using a strategy called ''Smallest Inbox Routing''. This technique uses a special ''Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message only to the Actor who has the smallest amount of messages ''not yet processed'' (which are kept in an Queue called the ''Inbox'', hence the strategy's name).
+It is worth pointing out that the receivers of these messages can be \textit{remote} Actors, that is, can be located on a different node in the Cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), a routing strategy called ''Smallest Inbox Routing'' was used. This technique uses a special ''Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message only to the Actor who has the smallest amount of messages ''not yet processed'' (which are kept in an Queue called the ''Inbox'', hence the strategy's name).
 
 \subsubsection{Step 2 - \textit{Download} messages}
 In the second step an \textit{YouTubeDownloadActor} instance receives a message asking it to download a movie.
@@ -124,12 +129,57 @@ For most applications though the 3rd step in a typical Oculus Job would be to re
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Defining Map Reduce Pipelines using Scalding and Cascading}
-TODO TODO THIS IS JUST SAMPLES
+\label{sec:scalding-jobs}
+The language and for implementing these processing pipelines used in this thesis was Scalding -- Twitter's home grown Scala DSL, which was already briefly introduced in Section Section \ref{sec:scalding-info}. The choice of using Scalding, and not Hadoop's plain Map Reduce API was mostly dictated by understandability and ease of modifying complicated job pipelines. 
+
+\subsubsection{Comparison of example Job implemented using Plain Hadoop and Scalding}
+
+This section aims to demonstrate what gains using Scalding over Hadoop yields, by showing the smallest possible example of an Map Reduce Job, implemented using both plain Hadoop APIs as well as Scalding. One should remember that Scalding is not a different framework than Hadoop, and in the end it will produce the exact same computations and classes (one instance of an \verb|Mapper| and one instance of an \verb|Reducer|).
+
+The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\texit{Given a huge input text file, count the occurances of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group such tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))| during the Reduce step.
+
+The difference in complexity should be obvious by looking  can compare the Listing \ref{lst:hadoop-mr} which represents the Map and Reduce classes which are used to represent the respectful Map and Reduce functions in the Java API, with Listing \ref{lst:scalding-wc} which is the complete code for a job performing the exact same in Scalding's Scala Domain Specific Language
+
+
 \todo{TODO TODO THIS IS JUST SAMPLES}
 
-The primary language used for implementing all Oculus jobs, including Map Reduce jobs is Scala \cite{scala}
+\begin{lstlisting}[caption={Word Count example Job, implemented using plain Java Map Reduce API}, label={lst:hadoop-mr}]
+public class Map 
+    extends MapReduceBase 
+    implements Mapper<LongWritable, Text, Text, IntWritable> {
 
-This is how an example job would look like:
+ private final static IntWritable one = new IntWritable(1);
+  private Text word = new Text();
+
+  public void map(LongWritable key, 
+                  Text value, OutputCollector<Text, IntWritable> output, 
+                  Reporter reporter) throws IOException {
+   String line = value.toString();
+   StringTokenizer tokenizer = new StringTokenizer(line);
+   while (tokenizer.hasMoreTokens()) {
+    word.set(tokenizer.nextToken());
+    output.collect(word, one);
+   }
+  }
+}
+
+public class Reduce 
+    extends MapReduceBase 
+    implements Reducer<Text, IntWritable, Text, IntWritable> {
+
+ public void reduce(Text key, 
+                    Iterator<IntWritable> values, 
+                    OutputCollector<Text, IntWritable> output, 
+                    Reporter reporter) throws IOException {
+  int sum = 0;
+  while (values.hasNext()) {
+   sum += values.next().get();
+  }
+  output.collect(key, new IntWritable(sum));
+ }
+}
+\end{lstlisting}
+
 
 \begin{lstlisting}[caption={Simplest Scalding job used in Oculus -- each frame perceptual hashing}, label={lst:simplest-scalding-job}]
   Tsv("input.tsv")

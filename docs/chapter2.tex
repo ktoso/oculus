@@ -23,13 +23,10 @@ The promise of Hadoop is practically linear scalability of Hadoop clusters when 
 Scalding \cite{scalding} is a Domain Specific Language implemented using the Scala \cite{scala} programming languagg. It has been developer at Twitter \cite{twitter} for their internal needs, and then released under the GPL license. It is aimed at proving a more expressive and powerful language for writing Map Reduce Job definitions, which otherwise
 would be implemented in the Java \cite{java}, which would often result in very verbose and hard to understand code (especialy due to the verbosity of Hadoop's core APIs).
 
-Scalding does not stand on it's own, as it is only a thin layer built on top of Concurrent Inc.'s \cite{concurrent-inc}
-
-Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ''flows'' 
+Scalding does not stand on it's own, as it is only a thin layer built on top of Concurrent Inc.'s \cite{concurrent-inc} Cascading library, which is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ''flows'' 
 and job ''pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
 
-\todo{link to patches included}
-\todo{explain what scalding and cascading are}
+
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Apache HBase}
@@ -38,40 +35,32 @@ and job ''pipelines'' (series of Map Reduce jobs executed in parallel or sequent
 HBase is a column-oriented database \cite{columnar-database} designed by following the Google white paper on their ''BigTable'' datastore published in 2007.
 Column oriented storage of data, as opposed to row oriented (as most SQL databases), as huge advantages when many aggregations over only given columns are performed.
 
-It was selected for this project because it's excellent random-access to data as well as being perfectly suited for sourcing Map Reduce tasks.
-HBase stores it Tables on the Hadoop Distributed File System, thus it scales similarly to it, which will be proven in a later section in Chapter \ref{chap:perf-scalability}.
+It was selected for this project because it's excellent random-access to data as well as being perfectly suited for sourcing Map Reduce tasks. HBase stores it Tables on the Hadoop Distributed File System, thus it scales similarly to it -- because it's Tables are layed out as Sequence Files that are a very performant way to store data (such as rows of a big table) on Hadoop's File System. Detailed investigation in Hadoop as well as Sequence File performance will be provided in a later section in Chapter \ref{chap:perf-scalability}.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Scala}
 \label{sec:scala}
-Scala is a functional \textit{and} object-oriented programming language designed by Martin Odersky \cite{scala} running on the Java Virtual Machine.
-I selected it as primary implementation language for this project (though other languages used include: ANSI C, Ruby and Bash) because of the compelling 
-libraries for building distributed systems using it, such as \textit{Akka} and \textit{Scalding} (introduced in the sections \ref{sec:akka} and \ref{sec:scalding}).
+Scala is a functional \textit{and} object-oriented programming language designed by Martin Odersky \cite{scala} running on the Java Virtual Machine. It was selected selected as primary implementation language for this project (although other languages used include: ANSI C, Ruby and Bash) because of the compelling libraries for building distributed systems using it, such as \textit{Akka} and \textit{Scalding} (both introduced in this section).
 
-It's functional nature (making it similar to languages such as Lisp or Haskell) is very helpful when performing transform / aggregate operations over collections of data. It should be also noted that Hadoop itself was inspired by languages such as this, because the canonical names of the functions 
-performing data transformation and aggregation in functional languages are: ''map'' and ''reduce''.
+It's functional nature (making it similar to languages such as Lisp or Haskell) is very helpful when performing transform / aggregate operations over collections of data. It should be also noted that Hadoop \textit{itself} was inspired by languages such as this, because the canonical names of the functions performing data transformation and aggregation in functional languages are: ''map'' and ''reduce''.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Akka}
 \label{sec:akka}
 
 Akka is a library providing an Actor Model \cite{actor-model} based concurrency for Scala (and Java) applications. 
-This model may be familiar to some as it has gained popularity thanks to Erlang \cite{erlang} which implements the same concepts.
+Using this concurrency model can be best explained using two rules ''share nothing'' and ''communicate via messages'' -- both steming from the programming language Erlang \cite{erlang}, and indeed both Erlang and Akka provide the same concepts and levels of abstraction. The general gain from using this model is that one is oblivious to \textit{where} an Actor (executor of code / reciver of messages) actually is running -- in terms of ''in local JVM'' or ''remotely, and the message will be delivered via TCP/UDP''. Thanks to this not-knowing, it is trivial to scale such applications horizontally, since the code does not need to change when moving from 1-node implementations to clustered environments.
 
-For the sake of this thesis, Akka has been used both in local (in-jvm) parallel execution as well as remote (across nodes) message passing mode,
-in order to balance the workload generated by actors across the entire cluster. This is explained in detail in Chapter \todo{where?}.
+For the sake of this thesis, Akka has been used both in local (in-jvm) parallel execution as well as clustered deployment (using Akka's built in clustering module), in order to balance the workload generated by actors across the entire cluster. Details on scaling Akka clusters have been provided in Section \ref{sec:scaling-akka}.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{phash}
 \label{sec:phash}
-PHash is short for ,,Perceptual Hash'' and is a sort of hashing algorithm (primarily aimed for use with images), which retains enough information to be 
-comparable with another has, yielding ,,how similar'' these hashes are. The details and implementation of it have been explained by Christoph Zauner's \cite{phash}.
+PHash is short for ,,Perceptual Hash'' and is a sort of hashing algorithm (primarily aimed for use with images), which retains enough information to be comparable with another has, yielding ,,how similar'' these hashes are. The details and implementation of it have been explained by Christoph Zauner's \cite{phash}.
 
-This algorithm is used by the system to perform initial similarity analysis between images. 
-The algorithm is publicly available, including sources (in C), and may be used in non-commercial applications.
+This algorithm is used by the system to perform initial similarity analysis between images. The algorithm is publicly available, including sources (in C), and may be used in \textit{non-commercial applications}. During the work on this thesis the source code of phash was slightly modified (in agreement with the software's license) to be adjusted to work better by being called from Java applications.
 
-As the goal of this thesis is not introducing such algorithm, but focusing on image analysis in distributed systems,
-\todo{is this needed?}
+As the goal of this thesis is not researching such algorithms, but focusing on scalable image analysis computations in distributed systems, it was deeped apropriate to use an existing perceptual hashing solution.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Chef}

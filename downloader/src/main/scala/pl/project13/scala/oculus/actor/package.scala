@@ -10,6 +10,7 @@ package object actor {
   case class RequestUploadToHDFS(file: LocalFile)
   case class UploadFileToHDFS(file: LocalFile)
   case class UploadAsSequenceFileToHDFS(file: LocalFile)
+  case class ConfirmUploadOf(file: LocalFile)
 
   case class Convert(file: LocalFile)
 

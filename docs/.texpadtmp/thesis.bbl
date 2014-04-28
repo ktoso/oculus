@@ -1,5 +1,8 @@
 \begin{thebibliography}{Com01}
 
+\bibitem[akk]{akka-tracing}
+
+
 \bibitem[ble]{blender-foundation}
 Blender foundation website.
 
@@ -15,6 +18,9 @@ Richard~Steiger Carl~Hewitt, Peter~Bishop.
 \bibitem[Com01]{creative-commons}
 Creative Commons.
 \newblock Creative commons license -- https://creativecommons.org, 2001.
+
+\bibitem[con]{concurrent-inc}
+Concurrent inc. website.
 
 \bibitem[DG04]{map-reduce}
 Jeffrey Dean and Sanjay Ghemawat.
@@ -54,6 +60,9 @@ Typesafe Inc.
 Victor Klang et~al. Jonar~Boner.
 \newblock Akka documentation, 2013.
 
+\bibitem[kam]{kamon}
+Kamon -- http://kamon.io.
+
 \bibitem[kmp]{kmp-string-search}
 Fast pattern matching in strings.
 
@@ -69,6 +78,9 @@ Martin~Odersky Phillip~Haller.
 J.~Strother~Moore Robert S.~Boyer.
 \newblock A fast string searching algorithm.
 \newblock 1977.
+
+\bibitem[sca]{scalding}
+
 
 \bibitem[Wik]{columnar-database}
 Wikipedia.

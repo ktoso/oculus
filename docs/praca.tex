@@ -1,0 +1,102 @@
+%\documentclass[pdflatex,11pt]{aghdpl}
+\documentclass[twoside]{aghdpl}               % przy kompilacji programem latex
+%\documentclass[pdflatex,en]{aghdpl}  % praca w języku angielskim
+%\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+% dodatkowe pakiety
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{amsthm}
+\usepackage{fancyref}
+\newtheorem{definition}{Definition}
+\lstset{
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'c}}1
+           {ę}{{\k{e}}}1
+           {ó}{{\'o}}1
+           {ń}{{\'n}}1
+           {ł}{{\l{}}}1
+           {ś}{{\'s}}1
+           {ź}{{\'z}}1
+           {ż}{{\.z}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'C}}1
+           {Ę}{{\k{E}}}1
+           {Ó}{{\'O}}1
+           {Ń}{{\'N}}1
+           {Ł}{{\L{}}}1
+           {Ś}{{\'S}}1
+           {Ź}{{\'Z}}1
+           {Ż}{{\.Z}}1,
+           language=Java,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{darkgreen}\ttfamily\bfseries\small,
+stringstyle=\color{red}\ttfamily\small,
+commentstyle=\color{grey}\ttfamily\small,
+numbers=left,
+numberstyle=\color{darkred}\ttfamily\scriptsize,
+identifierstyle=\ttfamily\small,
+showstringspaces=false,
+morekeywords={},
+captionpos=b
+}
+\widowpenalty10000  
+\clubpenalty10000 
+
+%---------------------------------------------------------------------------
+
+\author{Weronika \L{}abaj}
+\shortauthor{W. \L{}abaj}
+
+\titlePL{Modelowanie złożonych zdarzeń z wykorzystaniem reguł decyzyjnych}
+\titleEN{Complex events modeling using rule-based approach}
+
+\shorttitlePL{Complex events modeling using rule-based approach} % skrócona wersja tytułu jeśli jest bardzo długi
+\shorttitleEN{Complex events modeling using rule-based approach}
+
+\thesistypePL{Praca dyplomowa magisterska}
+\thesistypeEN{Master of Science Thesis}
+
+\supervisorPL{dr hab. inż. Grzegorz J. Nalepa}
+\supervisorEN{Grzegorz J. Nalepa Ph.D}
+
+\date{2014}
+
+\departmentPL{Katedra Informatyki Stosowanej}
+\departmentEN{Department of Applied Computer Science}
+
+\facultyPL{Wydział Elektrotechniki, Automatyki, Informatyki i Inżynierii Biomedycznej}
+\facultyEN{Faculty of Electrical Engineering, Automatics, Computer Science and Biomedical Engineering}
+
+\acknowledgements{Serdecznie dziękuję mojemu promotorowi za~cenne wskazówki i mobilizację do pracy.}
+
+
+
+\setlength{\cftsecnumwidth}{10mm}
+\lstset{language=Drools,breaklines=true}
+%---------------------------------------------------------------------------
+
+\begin{document}
+
+\titlepages
+
+\tableofcontents
+\clearpage
+
+\include{Introduction}
+\include{CEPStateOfTheArt}
+\include{ruleBasedCEP}
+\include{trafficCase}
+\include{results}
+\include{Summary}
+
+% itd.
+% \appendix
+% \include{dodatekA}
+% \include{dodatekB}
+% itd.
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+\end{document}

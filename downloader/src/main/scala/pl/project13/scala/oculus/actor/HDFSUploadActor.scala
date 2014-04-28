@@ -14,8 +14,7 @@ class HDFSUploadActor(hdfsLocation: String, fps: Int) extends Actor with ActorLo
   def receive = {
     case RequestUploadToHDFS(local: DownloadedVideoFile) =>
 //      not required to store entire video
-//      self ! UploadAsSequenceFileToHDFS(local) // and await
-      self ! UploadAsSequenceFileToHDFS(local)
+      self forward UploadAsSequenceFileToHDFS(local)
 
 
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if local.file.exists =>
@@ -26,6 +25,7 @@ class HDFSUploadActor(hdfsLocation: String, fps: Int) extends Actor with ActorLo
       storeMetadataFor(local)
 
       cleanupDownloadedFiles(local, images)
+      sender ! ConfirmUploadOf(local)
 
     case UploadAsSequenceFileToHDFS(local: DownloadedVideoFile) if !local.file.exists =>
       log.warning("Got request to upload not existing file[%s] to HDFS! Ignoring...".format(local.fullName))
