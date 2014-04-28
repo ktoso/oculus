@@ -8,7 +8,7 @@ In Section \ref{sec:scaling-hadoop} several challanges and typical problems with
 
 Section \ref{sec:scaling-akka} will briefly explain scalability concerns related to an Akka based cluster deployment, yet as this component has not been as critical to overal system performance as the Analyser and Hadoop cluster, the Akka cluster has been deemed ''good enough'' for the scope of this paper.
 
-\todo{explain what section does what}
+Lastly Section \ref{sec:scaling-summary} will summarise the findings from the scaling experiments conducted in the previous sections, by stating general recommendations and hints for scaling systems that process larget amounts of data.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Scaling Hadoop}
@@ -91,7 +91,7 @@ By increasing the replication factor of paths that we know they will be used in 
   \caption{HDFS on-line browser, running on datanode (port: 50075), displaying replication factors of files (4th column)}
 \end{figure}
 
-The replication factor of a file (or path) is such an important value, it's usually always displayed along side any file listing within the Hadoop UIs (see Figure \ref{fig:hdfs-replication-factors}) as well as command line tools. It should also be noted that it is impossible to set the replication factor to a higher number than there are datanodes present in the cluster -- as the replication requirement would not be possible to be fulfilled (for obvious reasons).
+The replication factor of a file (or path) is such an important value, it's usually always displayed along side any file listing within the Hadoop UIs (see Figure \ref{fig:hdfs-replication-factors}) as well as command line tools. It should also be noted that it is impossible to set the replication factor to a higher number than there are datanodes present in the cluster -- as the replication requirement would not be possible to be fulfilled.
 
 
 \subsection{Tuning the Cluster's size, in conjunction with replication factors}
@@ -101,6 +101,7 @@ Hadoop aims to deliver on the promise of ''nearly linear horizontal scalability'
 Because the Map Reduce framework relies on parallelising computing of the map function supplied by the user, the goal of the cluster administrator should be to enable the maximum number of map slots. A map slot is defined as one ''slot'' in which the task scheduler may allocate work, in order to process a part of the map computation. The same can be specified for the reduce step, in which case one refers to \textit{reduce slots}.
 
 \subsubsection{Growing the cluster}
+\label{sec:growing-the-cluster}
 With the base size of the cluster being 3 nodes (with one virtual machine hosting the namenode as well as a datanode, and the rest hosting only datanodes), this section aims to determine the horizontal scalability of the cluster, by sheer adding of datanodes to the hadoop cluster.
 
 Adding nodes to the cluster is a very simple operation, and can be performed without any disruption of the already running cluster. During the tests performed for this section, additional VMs have been provisioned and added to the cluster by using the commands shown in Listing \ref{lst:adding-new-node-cluster}. It should be noted that the provisioned VMs would re-use an existing snapshot image of an instance prepared using OpsCode Chef, which is an configuration provisioning tool explained in detail in Appendix \ref{app:chef}. The usual time from starting a new node on Google Compute Engine, and it starting to participate in the work distribution of the Hadoop cluster was \textit{less than 1 minute} (including the time to provision the fresh virtual machine)!
@@ -151,10 +152,11 @@ The first row in Table \ref{table:more-nodes-results} represents the theoretical
   \centering
   \begin{tabular}{|c|c|}
   \hline
-    min    &   41     \\ \hline
-    max    &   71     \\ \hline
-    avg	&   47.41  \\ \hline
-    stddev &   4.33   \\ \hline
+    \textbf{Characteristic} & \textbf{Value (seconds)} \\ \hline
+    min                     & 41     \\ \hline
+    max                     & 71     \\ \hline
+    avg                 	    & 47.41  \\ \hline
+    stddev                  & 4.33   \\ \hline
   \end{tabular}
   \label{table:time-task}
   \caption{Time characteristics of executing one Task of the analysed job.}
@@ -202,6 +204,7 @@ In order to summarise this section, one last observation should be made about Ta
 
 % ------------------------------------------------------------------------------------------
 \subsection{Tuning cluster utilization through setting map / reduce slot numbers}
+\label{sec:tuning-cluster-utilisation}
 The last investigated option available for increasing cluster utilisation investigated was the \verb|mapred.map.tasks| setting and it's corresponding \verb|mapred.reduce.tasks|, as hinted by Eric Sammer in \cite{hadoop-ops}.
 
 \begin{figure}[ch!]
@@ -237,7 +240,44 @@ It is worth keeping in mind that cost efficiency usually is also an important bu
 \section{Scaling the Loader (actor system)}
 \label{sec:scaling-akka}
 
-\todo{scale it to more nodes...}
+Scaling the Loader sub-system in this project was not very challanging because of the Actor System provided by Akka being so efficient where as the tasks performed by a node once it got a ''download movie'' message being measured in multiple minutes (up to 10 minutes for long movies -- since most creative commons licensed movies are not very long).
+
+\subsection{Scaling out by adding more nodes}
+\label{sec:scaling-akka-out}
+
+The one optimization performed during this work was distributing ''download'' tasks to different nodes, so that two nodes in the cluster would download movies and upload the raw data into HDFS, for later processing by the Hadoop Map Reduce Jobs. By being mostly responsible for downloading, and uploading large files from YouTube and into HDFS, and only the minority of time being spent on crawling YouTube for additional movies to download scaling out the Loader was not a priority in boosting the overall systems performance.
+
+Nevertheless, using Akka's clustering module it was possible to easily scale out the cluster and add new nodes to it, \textit{without the need of stopping the cluster}. The strategy was to deploy one downloader on each of the nodes, and make the node join the Akka cluster. Other nodes in the system would be notified that a new node has joined and can ask it to perform work. A full example of this workflow is presented in Listing \ref{lst:scaling-akka-cluster}, where the \verb|YoutubeCrawlActor| is configured to listen for cluster membership changes (on line 6), and then can react on members joining and leaving (lines 14 and 15) by adding and removing them from the RoundRobinRouter (which was explained in detail in Section \ref{sec:loader-basics}. Then, upon parsing a website and extracting links from it, the Router can be used to evenly distribute work among the registered downlaoder actors (lines 11 and 12).
+
+\newpage
+\begin{lstlisting}[caption={Listening for Cluster events in Akka allows the application to dynamically respond to nodes being added to the cluster, and spreading the load in application logic to other nodes.}, label={lst:scaling-akka-cluster}]
+class YoutubeCrawlActor extends Actor with OculusSelections {
+  val cluster = Cluster(context.system)
+
+  val downloadersRouter = Router(RoundRobinRoutingLogic())
+
+  override def preStart() = cluster.subscribe(self, classOf[MemberEvent])
+  override def postStop() = cluster.unsubscribe(self)
+
+  def receive = {
+    case CrawlYoutubePage(url) =>
+      val urls = extractVideoUrls(fetchPage(url))
+      urls foreach { downloadersRouter ! DownloadFromYoutube(_) }
+
+    case MemberUp(m) => 
+      downloadersRouter addRoutee downloaderSelection(m)
+    
+    case MemberDown(m) => 
+      downloadersRouter removeRoutee downloaderSelection(m)
+  }
+}
+\end{lstlisting}
+
+Using Akka's clustering module in the Loader allows the system to scale dynamically, without ever needing to be turned off -- an important thing in long running distributed systems. The system turned out to be hard to measure accurately, due to the many moving parts (such as queue build up, non-determinism of which node would join at what time, and which video it would be assigned to download), yet generally speaking adding one more node would simply add one processing slot for the Download action -- similarily as in the Hadoop scenario adding a node would.
+
+Akka by itself does not provide simple tracking of message and it's results, which is inherently a hard problem to solve, since one would have to track each message's ''parent''. Akka is a rather low level tool, whereas Hadoop is a dedicated platform for tracking progress od Jobs in distributed systems -- thus the conclusion is that it is easier to reason formally about a pure Actor systems behavior, than it is to strictly measure it (as least at the level of complication this problem is representing). Having this said, such monitoring would have to be built into the Oculus system, and is not provided by Akka itself -- sadly this feature was not implemented in the reference system, and remains an open problem, as well as field of intensive research -- as can be seen in multiple open source projects trying to solve this problem, such as Kamon \cite{kamon} or akka-tracing \cite{akka-tracing}.
+
+Summarising Akka's scalability -- as communication is done directly between two nodes after they have joined the Cluster, the overhead of communication is very low (as low as serializing a message and sending it over-the-wise). This also means that adding new nodes should have improved the system's performance in a nearly linear fashion, since the critical execution (slowest tasks) are executed in an ''one Downloader per node'' fashion, and these tasks consume the complete available memory and CPU limits given to JVMs running this application. Tracing the exact performance impact for such complex message flows however, proved to be non trivial and has not been implemented as part of this thesis.
 
 
 
@@ -245,5 +285,12 @@ It is worth keeping in mind that cost efficiency usually is also an important bu
 \section{Summary of scaling methods}
 \label{sec:scaling-summary}
 
-explain scaling up and down
+In this chapter we have seen multiple methods to scale distributed systems and encountered both gains and problems while doing so.
+
+Both systems (the Loader, as well as the Analyser) were able to \textit{scale-out} in a nearly linear fashion, although observing this exact change proved to be non trivial in the purely Akka based system. This is because Akka is rather meant to be as building block for systems such as Hadoop, and comparing them directly on this matter may seem unfair -- as in comparing a tool to a car, built using tools. One should remember this when selecting to either ''use'' or ''implement'' an distributed computation platform, and take into account that using some solutions the monitoring already comes built in -- as in the very old Hadoop eco-system -- and sometimes it does not (yet), as is currently the case with pure akka applications.
+
+The ease of scaling out both systems was really impressive, yet in the case of Hadoop one has to directly tell the master-node via configuration changes about the new slave node joining the cluster, as explained in Section \ref{sec:growing-the-cluster} (''Growing the Cluster''). This is an inherent design flaw in Hadoop systems, since they always have one master node (although recent versions try to go away from this centralised topology). Akka on the other hand, with it's \textit{masterless cluster} is able to join nodes automatically, if they get in contact with any node that is already part of the cluster. Here we can see Akka's clustering mechanisms being superior yet \textit{less specialised} than the Hadoop one.
+
+Summing up, both systems can be easily scaled up (by adding more powerful machines) or out (by adding more servers), and have displayed remarcable performance and stability throughout the tests conducted during this work. One should always remember that those two options should go in pair with each other, and that sometimes configuring the cluster in a better way may yield better results than blindy adding more nodes to the cluster. It is also crucial to have sophisticated monitoring installed in such cluster installations, as without them it would have been hard to detect and fix the cluster under-utilisation problem that was addressed in Section \ref{sec:tuning-cluster-utilisation}.
+
 

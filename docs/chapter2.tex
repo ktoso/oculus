@@ -20,10 +20,10 @@ The promise of Hadoop is practically linear scalability of Hadoop clusters when 
 \section{Scalding \& Cascading}
 \label{sec:scalding-info}
 
-Scalding is a Domain Specific Language implemented using the Scala \cite{scala} programming language developer at Twitter \cite{twitter} for their internal needs, and then released under the GPL license. It is aimed at proving a more expressive and powerful language for writing Map Reduce Job definitions, which otherwise
+Scalding \cite{scalding} is a Domain Specific Language implemented using the Scala \cite{scala} programming languagg. It has been developer at Twitter \cite{twitter} for their internal needs, and then released under the GPL license. It is aimed at proving a more expressive and powerful language for writing Map Reduce Job definitions, which otherwise
 would be implemented in the Java \cite{java}, which would often result in very verbose and hard to understand code (especialy due to the verbosity of Hadoop's core APIs).
 
-Scalding is a thin layer on top
+Scalding does not stand on it's own, as it is only a thin layer built on top of Concurrent Inc.'s \cite{concurrent-inc}
 
 Cascading is a framework built on top Apache Hadoop and enables map reduce authors to think in terms of high level abstractions, such as data ''flows'' 
 and job ''pipelines'' (series of Map Reduce jobs executed in parallel or sequentially) which have been used extensively in this project.
@@ -76,13 +76,9 @@ As the goal of this thesis is not introducing such algorithm, but focusing on im
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Chef}
 \label{sec:chef}
-Because of how tedious setting up Hadoop clusters is I have early on during the implementation phase of the project decided that cluster 
-provisioning and configuration must be fully automated. Opscode's Chef is a tool which enables preparing provisioning scripts in a very readable
-way and apply them to a given set of machines.
+OpsCode Chef is a set of tools aimed at automating server configuration and provisioning. Using it enabeled automating spinning up new servers which was a very large part of the work on this thesis, and also one such automation was prepared, it could also be applied to different cloud service provides -- which lead to exploring local virtual machines (Vagrant and VirtualBox) as well as Amazon's EC2 public cloud offering until lastly satteling for good on using Google's Compute Engine public cloud offering. The use of Chef enabled not spending tedious hour of reinstalling the cluster each time anew, but allowed to ''cook'' given virtual machines into the required state (that is, installing Hadoop, Hbase, Java and all the other dependencies needed for running the system implemented during this work).
 
-Using it as well as cloud providers such as Amazon's EC2, Google's ComputeEngine I was able to fully automate a cluster's deployment.
-
-Details about the implementation of these recipes are featured in Appendix \ref{app:chef}.
+Appendix \ref{app:chef} features a detailed overview and guide on the details on how Chef was used in this thesis, and what steps had to be taken in order to prepare the ''recipes'' it works on to be able to provision Hadoop automatically to any given GNU/Linux running instance.
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
