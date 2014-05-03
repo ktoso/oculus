@@ -94,7 +94,7 @@
 
 \begin{flushleft}
 \begin{minipage}[!h]{10.5cm}
-\emph{ O\'swiadczam, \'swiadoma odpowiedzialno\'sci karnej za po\'swiadczenie nieprawdy, \.ze niniejsz\k{a} prac\k{e} dyplomow\k{a} wykona\l{}am osobi\'scie i~samodzielnie, i nie korzysta\l{}am ze \'zr\'ode\l{} innych ni\.z wymienione w~pracy.}\\
+\emph{ O\'swiadczam, \'swiadomy odpowiedzialno\'sci karnej za po\'swiadczenie nieprawdy, \.ze niniejsz\k{a} prac\k{e} dyplomow\k{a} wykona\l{}em osobi\'scie i~samodzielnie, i nie korzysta\l{}em ze \'zr\'ode\l{} innych ni\.z wymienione w~pracy.}\\
 \end{minipage}
 
 \vspace{1cm}
