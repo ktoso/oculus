@@ -3,11 +3,11 @@
 \chapter{System design}
 \label{chap:system-design}
 
-The system, from here to be referred to by the name ''\textit{Oculus}'', is designed with an asynchronous as well as distributed aproach in mind. In order to achieve high asynchrononisity between obtaining new reference data, and running jobs such as ''\textit{compare video1 with the reference database}'', the system was split into two primary components: 
+The system, from here to be referred to by the name ''\textit{Oculus}'', is designed with both: asynchronous and distributed approaches in mind. In order to achieve high asynchronicity between obtaining new reference data, and running jobs such as ''\textit{compare video1 with the reference database}'', the system was split into two primary components: 
 
 \begin{itemize}
-  \item \textbf{loader} -- which is responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata. In a real system this reference data would be provided by partnering content providers, yet for this 
-  \item \textbf{analyser} -- which is responsible for preparing and scheduling job pipelines for execution on top of the Hadoop cluster and reference databases.
+  \item \textbf{Loader} -- responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata. In a real system this reference data would be provided by partnering content providers, yet for this 
+  \item \textbf{Analyser} -- responsible for preparing and scheduling job pipelines for execution on top of the Hadoop cluster and reference databases.
 \end{itemize}
 
 To further illustrate the separate components and their interactions Figure \ref{fig:system-overview} shows the different interactions within the system.
@@ -19,21 +19,21 @@ To further illustrate the separate components and their interactions Figure \ref
   \label{fig:system-overview}
 \end{figure}
 
-This section will focus on describing the general design of both systems, first the Loader's Actor based cluster model, and then the Analyser's Hadoop backed batch processing cluster.
+This section will focus on describing the general design of both systems, first the Loader's actor-based cluster model, and then the Analyser's Hadoop-backed batch processing cluster.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Loader}
 \label{sec:loader-basics}
-The Loader component is responsible for obtaining as much as possible ''reference data'', by which video material from sites such as \textit{youtube.com} or video hosting sites is meant. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening, ending sequences.
+The Loader component is responsible for obtaining as much as possible ''reference data'', by which video material from sites such as \textit{youtube.com} or video hosting sites is meant. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening or ending sequences.
 
-While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \cite{akka-docs} Actor Model abstractions (and \textit{remoting} module \cite{akka-remoting}), in which the physical location of an Actor plays is of no importance -- meaning, that the receiving Actor does not have to be on the same host as the sending Actor.
+While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \textit{Cluster} module \cite{akka-cluster}, it was also fairly easy to distribute actors among multiple physical nodes in the cluster, allowing the actor system to utilise the entire cluster's processing power. The use od messaging as default and only mean of communication with actors allowed to easily transition into the clustered model, where communication would he handled over the network, from a previously local-only model.
 
 \subsection{Types of Actors used in the system}
 \label{sec:types-of-actors}
 
-The system consists of 4 types of Actors each of which has multiple instances which are spread out on many nodes in the cluster. Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading the video material can be spread throughout the cluster. 
+The system consists of 4 types of Actors. Each of them has multiple instances which are spread out on many nodes in the cluster. Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading the video material can be spread throughout the cluster. 
 
-The following Actor descriptions are aimed at explain
+The following Actor descriptions are aimed at explaining the protocols used for comunication between them in the running system. These are very important as actors can communicate only via sending and receiving messages, and can not provide any type signatures that would help to identify what messages they can respond to. The also do not have methods that can be called directly on them -- this is a direct result of implementing actor model based concurrency, which would not be able to hold in face of direct access to an actors state.
 
 will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
 

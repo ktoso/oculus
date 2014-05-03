@@ -7,15 +7,15 @@ This section will introduce the problem areas covered by this thesis, briefly de
 \section{Goals of this thesis}
 The \textit{primary goal} of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting. The results of this thesis include best practices and recommendations towards dealing with big-data applications, which have been aquired and tested while implementing a real system leveraging these lessons. 
 
-As will be described in more detail in Section \ref{sec:ref-system}, a large part of the work that was performed during this thesis has been implementing a reference system on which stress and scalability tests would then be performed, as in order to research scalability problems a sufficiently sophisticated reference system was needed to benchmark scaling methods on. The system itself will be dealing with simple image processing algorithms and near-duplcicate detection of movies, or scenes within movies.
+As will be described in more detail in Section \ref{sec:ref-system}, a large part of the work that was performed during this thesis has been implementing a reference system on which stress and scalability tests would then be performed, as in order to research scalability problems a sufficiently sophisticated reference system was needed to benchmark scaling methods on. The system itself deals with simple image processing algorithms and near-duplcicate detection of movies, or scenes within movies.
 
-For the sake of this thesis, the focus will be on video material, of which the amounts of freely and legally  available materials are significant -- esp. thanks to many materials licensed under the Creative Commons family of licenses \cite{creative-commons}.
+For this thesis's brevity, the focus will be on video material, of which the amounts of freely and legally  available materials are significant -- especially thanks to many materials licensed under the Creative Commons family of licenses \cite{creative-commons}.
 
 
 \section{General problem area}
-Image analysis over huge amounts of data is common place in todays world, where everything is recorded, published, possibly modified and distributed again, all this using digital media and digital storage formats. Starting from simple movies of cats uploaded to public video hosting services all the way through to sophisticated urban area monitoring services -- everything can be, and is, recorded -- yielding previously unbelievable amounts of digital multimedia data.
+Image analysis over huge amounts of data is commonplace in today's world, where everything is recorded, published, possibly modified and distributed again, all while using digital media and digital storage formats. Starting from simple movies of cats uploaded to public video hosting services all the way through to sophisticated urban area monitoring services -- everything can be, and is, recorded -- yielding previously unbelievable amounts of digital multimedia data.
 
-All this leads to the challanging task of efficiently handling this data. Tasks such as de-duplicating, searching, categorizing or extracting features (e.g. text) are now even more challanging and exciting than ever before. Together with the huge amounts of data these systems have to deal with, this new range of applications poses a significant challange and interesting opportunity to develop new kinds of paradigms as well as algorithms, geared specifinally towards dealing with big data and distributed computations.
+All this leads to the challenging task of efficiently handling this data. Tasks such as de-duplicating, searching, categorizing or extracting features (e.g. text) are now even more challanging and exciting than ever before. Together with the staggering amounts of data these systems have to deal with, this new range of applications poses a significant challange and interesting opportunity to develop new kinds of paradigms as well as algorithms, geared specifinally towards dealing with big data and distributed computations.
 
 
 \section{Reference system -- investigated use cases}
@@ -23,11 +23,11 @@ All this leads to the challanging task of efficiently handling this data. Tasks 
 
 In order to guarantee that recommendations and measurements made during this research are applicable in the ''real world'', outside of experimental environments, a set of problems has been defined and a ''reference system'' has been implemented in order to solve these.
 
-The system, from here on sometimes refered to as \textit{''Oculus -- the video material analysis platform''}, will be tasked at processing huge amounts of video data. The videos to be fed into the system will be scraped from publicly available video hosting websites, such as YouTube. It should be also made clear that videos imported into the system are all public domain or creative commons licensed material, so that even accidental copyright infrigement can be avoided.
+The system, from here on sometimes referred to as \textit{''Oculus -- the video material analysis platform''}, will be tasked at processing enormous amounts of video data. The videos to be fed into the system will be scraped from publicly available video hosting websites, such as YouTube. It should be also made clear that videos imported into the system are all public domain or creative commons licensed material, so that even accidental copyright infrigement can be avoided.
 
 The primary goal for this application is to expose and highlight challanges faced by application developers during the design, implementation and deployment phases of such applications. Using it as a point of reference, as well as test system, the problems given to the system (described in Sections \ref{sec:goal-near-dup} and \ref{sec:goal-sub-movie}) will be solved. Issues encountered during the implementation of that reference system will provide crucial hands--on expirience required in order to provide recommendations and best practices about building such systems -- these will be captured in Chapter \ref{chap:perf-scalability}.
 
-The next sections will expand on the tasks presented to the reference system.
+The next sections will expand on the tasks the reference system needs to solve.
 
 
 \subsection{Near--duplicate detection}
@@ -47,19 +47,12 @@ One might imagine a scenario in which a friend shows us a funny video from some 
 
 Instead of putting ourselfes in the position of taking down such copyrighted material, a system could detect from which exact show, season and episode the scene originates from and offer the user an option to, for example: ''See the whole episode at HubbleTube!''. The fictionary service HubbleTube could be a paid service, yet thanks to the convinience of directly linking to the exact content the user wants to see -- the user is more willing to continue and pay to see the show. This way the content owner also profitsm, without having to take down any of his copyrighted content -- instead it was used as crowd-sourced advertisement vector.
 
-In order to enable use-cases like this, scene detection and positioning must be implemented within the reference system. A detailed analysis of this problem and results achieved by \textit{Oculus} will be shown Section \ref{sec:scene-detection}.
+In order to enable use-cases like this, scene detection and positioning must be implemented within the reference system. A detailed analysis of this problem and results achieved by \textit{Oculus} will be shown in Section \ref{sec:scene-detection}.
 
-
-%\subsection{Data extraction}
-%
-%Another, less copyright focused, goal of the presented system is to be able to extensively mine data directly from the uploaded video content.
-%Here the canonical example would be a ''\textit{TOP 10 Movies of All Time}'' video, which obviously contains video material from at least 10 movies, usualy in the order of 10th, 9th ... until the 1st (best) movie of all time. If we would be able to match parts of each video to their corresponding reference materials, we would be able to get meta data about the now recognised movies and even mine out the data what is the best / worst movie of all time, even without it being written per se -- only by looking at the frames in the video. 
-%
-%While talking about extracting data from movies one cannot skip extracting text from images which seems both one of the most valuable things we can extract as well as with existing open source solutions for text recognition should not be hard to enable, given all the previous work which will be required to fulfil the above use case.
 
 
 \section{Thesis structure}
-Chapter \ref{cha:intro} seved as broad overview and introduction into the problem area of this thesis. It also introduces the need for an reference implementation on top of which recommendations will be made in latter chapters of the thesis. Lastly, a number of goals are given to the reference system.
+Chapter \ref{cha:intro} serves as broad overview and introduction into the problem area of this thesis. It also introduces the need for an reference implementation on top of which recommendations are made in latter chapters of the thesis. Lastly, a number of goals are set before the reference system.
 
 Chapter \ref{cha:existing-and-selected-tech} focuses on describing the available and selected technologies used in this project. It also explains the choice of tools, as well as briefly introduces paradigms implemented by them, such as distributed file systems or the concept of \textit{Map Reduce} \cite{map-reduce} based applications.
 
@@ -67,9 +60,11 @@ Chapter \ref{chap:system-design} describes the overall design choices as well as
 
 Chapter \ref{chap:analysis-examples} provides examples and results of using the system in scenarios which have been given to it as part of it's goals (in Chapter \ref{cha:intro}). A brief discussion on applied and possible optimizations closes this chapter.
 
-Chapter \ref{chap:perf-scalability} focuses on performance measurements as well as tuning techniques applied and recommended when running large scale Hadoop deployments. Provided measurements will serve as significant data point in determining wether or not the selected technologies are in fact scalable or not.
+Chapter \ref{chap:perf-scalability} focuses on performance measurements as well as tuning techniques applied and recommended when running large scale Hadoop deployments. Provided measurements serves as significant data point in determining wether or not the selected technologies are in fact scalable or not.
 
-Chapter \ref{chap:conclusions} will gather and summarise all recommendations gartered from implementing and tuning the system as if it was an in-production running system. Lastly it will judge wether or not the taken aproach seems to be a feasible one to pursue in future applications.
+Chapter \ref{chap:conclusions} summarises recommendations collected during implementing and tuning the system as if it was an in-production running system. The section retrospects about the system's scalability and appliance feasibility in real-world systems. Lastly it reiterates the thesis's goals and judges whether it was possible to fulfill them.
+
+
 
 
 

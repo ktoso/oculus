@@ -1,0 +1,4107 @@
+{\rtf1\mac\ansicpg10000
+\viewkind1\viewscale100\viewzk2
+{\fonttbl\f0\fnil\fcharset77 Nimbus SanL;\f1\fnil\fcharset77 Nimbus Rom No9L;\f2\fnil\fcharset77 Nimbus Rom No9L;\f3\fnil\fcharset77 Nimbus Rom No9L;\f4\fnil\fcharset77 Nimbus Rom No9L;\f5\fnil\fcharset77 Nimbus MonL;\f6\fnil\fcharset77 Nimbus Rom No9L;\f7\fnil\fcharset77 CMMI10;\f8\fmodern\fcharset77 Courier;}\plain\pard\li0\sl276
+\marglsxn1760\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f0\fs29\sl330\b AkademiaGórniczo-Hutniczaim.StanisHawaStaszicawKrakowie\
+\
+\li1600
+W\fs23\sl264 YDZIAG\fs29\sl330 E\fs23\sl264 LEKTROTECHNIKI\fs29\sl330 ,A\fs23\sl264 UTOMATYKI\fs29\sl330 ,\
+\li1760
+I\fs23\sl264 NFORMATYKII\fs29\sl330 I\fs23\sl264 NZYNIERII\fs34\sl264\super ˙\nosupersub {}\fs29\sl330 B\fs23\sl264 IOMEDYCZNEJ\
+\
+\b0\f1\fs29\sl330 \li2100
+K\fs23\sl264 ATEDRA\fs29\sl330 I\fs23\sl264 NFORMATYKI\fs29\sl330 S\fs23\sl264 TOSOWANEJ\
+\
+\
+\
+\fs34\sl396 \li2420
+Pracadyplomowamagisterska\
+\
+\
+\f2\fs41\sl475 \li480
+Przetwarzanieianalizadanychmultimedialnych\fs62\sl475\sub w\nosupersub {}\sub ´\nosupersub {}\
+\fs41\sl475 \li2580
+srodowiskurozproszonym\
+\
+\li1280
+Processingandanalisysofmultimedia\
+\li2740
+indistributedsystems\
+\
+\
+\
+\f1\fs29\sl330 \li0
+Autor:KonradMalawski\
+\
+Kierunekstudiów:Informatyka\
+\
+Opiekunpracy:DrSebastianErnst\
+\
+\fs24\sl275 \li3860
+Kraków,2014\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn960\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx1320
+\f2\fs22\sl251 \li120
+Oswiadczam,\fs33\sl251\super ´\nosupersub {}	\fs22\sl251 swiadomyodpowiedzialno\fs33\sl251\super ´\nosupersub {}\fs22\sl251 scikarnejzapo\fs33\sl251\super ´\nosupersub {}\fs22\sl251 swiadcze-\fs33\sl251\super ´\nosupersub {}\
+\
+\fs22\sl251 \li0
+nienieprawdy,	zeniniejsz˛aprac˛edyplomow˛awykonaHemosobi\fs33\sl251\super ˙\nosupersub {}\fs22\sl251 scie\fs33\sl251\super ´\nosupersub {}\
+\
+\fs22\sl251 isamodzielnie,iniekorzystaHemze´zródeHinnychnizwymienione\fs33\sl251\super ˙\nosupersub {}\
+\
+\fs22\sl251 wpracy.\
+\
+\
+\f1 ...................................\
+\
+\fs20\sl229 \li1320
+PODPIS\sect
+\plain\pard\li0\sl276
+\marglsxn2160\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx2980
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1\fs29\sl330 \li3060
+IwouldliketothankDrErnst,mywife,family\
+andfriendsforallthesupportgiventomeduring\
+thecreationofthisthesis.\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\
+\f3\fs29\sl330 Contents\
+\
+\
+\
+\fs22\sl251 1.   Introduction\f1 ....................................................................................................................................8\
+\
+\li360
+1.1.Goalsofthisthesis.................................................................................................................8\
+\
+1.2.Generalproblemarea............................................................................................................8\
+\
+1.3.Referencesystem–investigatedusecases............................................................................9\
+\
+\li840
+1.3.1.    Near–duplicatedetection............................................................................................9\
+\
+1.3.2.    Scenepositioning.......................................................................................................9\
+\
+\li360
+1.4.Thesisstructure......................................................................................................................  10\
+\
+\f3 \li0
+2.   Analysisofavailabletechnologies\f1 .................................................................................................  11\
+\
+\li360
+2.1.ApacheHadoop.....................................................................................................................  11\
+\
+2.2.Scalding&Cascading...........................................................................................................  11\
+\
+2.3.ApacheHBase.......................................................................................................................  12\
+\
+2.4.Scala......................................................................................................................................  12\
+\
+2.5.Akka......................................................................................................................................  12\
+\
+2.6.phash......................................................................................................................................  13\
+\
+2.7.Chef.......................................................................................................................................  13\
+\
+2.8.Othertoolsandtechnologiesused.........................................................................................  13\
+\
+\li840
+2.8.1.    youtube-dl..................................................................................................................  13\
+\
+\f3 \li0
+3.   Systemdesign\f1 .................................................................................................................................  14\
+\
+\li360
+3.1.Loader....................................................................................................................................  15\
+\
+\li840
+3.1.1.    TypesofActorsusedinthesystem............................................................................  15\
+\
+3.1.2.    Obtainingreferencevideomaterial............................................................................  16\
+\
+3.1.3.    Loaderdesignsummary.............................................................................................  18\
+\
+\li360
+3.2.Analyser.................................................................................................................................  19\
+\
+\li840
+3.2.1.    HadoopClusterdeploymentstrategy.........................................................................  20\
+\
+3.2.2.    DeﬁningMapReducePipelinesusingScaldingandCascading................................  21\
+\
+\f3 \li0
+4.   Practicalexamplesofdistributedmediaanalysis\f1 .......................................................................  27\
+\
+\li360
+4.1.Mirroredvideodetection.......................................................................................................  27\
+\
+\li840
+4.1.1.    Detectingotherkindsofdistorionsinvideomaterial................................................  27\
+\
+\li360
+4.2.Scenedetection......................................................................................................................  28\
+\li4440
+5\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9020
+\f4\fs20\sl229 CONTENTS	\f3\fs22\sl251 6\
+\
+\
+5.   Clusterscalingandperformanceanalysis\f1 ...................................................................................  30\
+\
+\li360
+5.1.ScalingtheAnalyser’sHadoopCluster.................................................................................  30\
+\
+\li840
+5.1.1.    StoringimagesonHDFS,whileavoidingthe”SmallFilesProblem”......................  30\
+\
+5.1.2.    Tuningreplicationfactors,forincreasedjobcomputationspeed..............................  32\
+\
+5.1.3.    TuningtheCluster’ssize,inconjunctionwithreplicationfactors.............................  33\
+\
+5.1.4.    Tuningclusterutilizationthroughsettingmap/reduceslotnumbers.......................  38\
+\
+\li360
+5.2.ScalingouttheLoader’sAkkaCluster..................................................................................  40\
+\
+\li840
+5.2.1.    Scalingoutbyaddingmorenodes.............................................................................  40\
+\
+\li360
+5.3.Summaryofscalingmethods................................................................................................  43\
+\
+\f3 \li0
+6.   Conclusions\f1 .....................................................................................................................................  44\
+\
+\f3 A.  Automatedclusterdeployment\f1 .....................................................................................................  45\
+\
+\li360
+A.1.    Automatedserverprovisioning–GoogleComputeEngine..................................................  45\
+\
+A.2.    Automatedconﬁgurationanddeployment–OpscodeChef..................................................  46\
+\
+\f3 \li0
+B.  Bibliography\f1 ...................................................................................................................................  48\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\f3\fs34\sl396 Todolist\
+\
+\
+\f1\fs22\sl251 hbasedeployment  ...........................................20\
+\
+histograms...............................................28\
+\
+mentionsomewherebeforethatwereallyextractdatalike”mostlyred”    ..............29\
+\
+ﬁnishthisscenario    ..........................................29\
+\
+concludestuff...  ............................................44\
+\
+listingneedslabel  ...........................................46\
+\
+ﬁnish..................................................47\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\li4440
+7\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\f3\fs34\sl396 1.Introduction\
+\
+\
+\f1\fs22\sl251 \li360
+Thissectionwillintroducetheproblemareascoveredbythisthesis,brieﬂydescribingafewofthe\
+\
+\li0
+theuse-casesofdistributedmultimediaanalysissystems.Itthenintroducesthetwouse-casesthatare\
+\
+explicitlytargetedbyanreferencesystemimplementedaspartofthisthesis,inordertobenchmarkthe\
+\
+usabilityofexistingtechnologiesinthearea.Lastlyitbrieﬂyoutlineseachofthefollowingchapters.\
+\
+\
+\f3\fs29\sl330 \li360
+1.1.Goalsofthisthesis\
+\
+\f1\fs22\sl251 The\f2 primarygoal\f1 ofthisworkistoresearchhowtoefﬁcientlyworkwithhumongousamountsof\
+\
+\li0
+multimediadatainadistributedsetting.Theresultsofthisthesisincludebestpracticesandrecommenda-\
+\
+tionstowardsdealingwithbig-dataapplications,whichhavebeenaquiredandtestedwhileimplementing\
+\
+arealsystemleveragingtheselessons.\
+\
+\li360
+AswillbedescribedinmoredetailinSection1.3,alargepartoftheworkthatwasperformedduring\
+\
+\li0
+thisthesishasbeenimplementingareferencesystemonwhichstressandscalabilitytestswouldthen\
+\
+beperformed,asinordertoresearchscalabilityproblemsasufﬁcientlysophisticatedreferencesystem\
+\
+wasneededtobenchmarkscalingmethodson.Thesystemitselfdealswithsimpleimageprocessing\
+\
+algorithmsandnear-duplcicatedetectionofmovies,orsceneswithinmovies.\
+\
+\li360
+Forthisthesis’sbrevity,thefocuswillbeonvideomaterial,ofwhichtheamountsoffreelyandlegally\
+\
+\li0
+availablematerialsaresigniﬁcant–especiallythankstomanymaterialslicensedundertheCreative\
+\
+Commonsfamilyoflicenses[Com01].\
+\
+\
+\f3\fs29\sl330 \li360
+1.2.Generalproblemarea\
+\
+\f1\fs22\sl251 Imageanalysisoverhugeamountsofdataiscommonplaceintoday’sworld,whereeverythingis\
+\
+\li0
+recorded,published,possiblymodiﬁedanddistributedagain,allwhileusingdigitalmediaanddigital\
+\
+storageformats.Startingfromsimplemoviesofcatsuploadedtopublicvideohostingservicesallthe\
+\
+waythroughtosophisticatedurbanareamonitoringservices–everythingcanbe,andis,recorded–\
+\
+yieldingpreviouslyunbelievableamountsofdigitalmultimediadata.\
+\
+\li360
+Allthisleadstothechallengingtaskofefﬁcientlyhandlingthisdata.Taskssuchasde-duplicating,\
+\
+\li0
+searching,categorizingorextractingfeatures(e.g.text)arenowevenmorechallangingandexciting\
+\
+thaneverbefore.Togetherwiththestaggeringamountsofdatathesesystemshavetodealwith,this\
+\
+newrangeofapplicationsposesasigniﬁcantchallangeandinterestingopportunitytodevelopnewkinds\
+\
+ofparadigmsaswellasalgorithms,gearedspeciﬁnallytowardsdealingwithbigdataanddistributed\
+\
+computations.\
+\li4440
+8\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9020
+\f4\fs20\sl229 1.3.Referencesystem–investigatedusecases	\f3\fs22\sl251 9\
+\
+\
+\fs29\sl330 \li360
+1.3.Referencesystem–investigatedusecases\
+\
+\f1\fs22\sl251 Inordertoguaranteethatrecommendationsandmeasurementsmadeduringthisresearchareappli-\
+\
+\li0
+cableinthe”realworld”,outsideofexperimentalenvironments,asetofproblemshasbeendeﬁnedand\
+\
+a”referencesystem”hasbeenimplementedinordertosolvethese.\
+\
+\li360
+Thesystem,fromhereonsometimesreferredtoas\f2 ”Oculus–thevideomaterialanalysisplatform”	\f1 ,\
+\
+\li0
+willbetaskedatprocessingenormousamountsofvideodata.Thevideostobefedintothesystemwill\
+\
+bescrapedfrompubliclyavailablevideohostingwebsites,suchasYouTube.Itshouldbealsomadeclear\
+\
+thatvideosimportedintothesystemareallpublicdomainorcreativecommonslicensedmaterial,sothat\
+\
+evenaccidentalcopyrightinfrigementcanbeavoided.\
+\
+\li360
+Theprimarygoalforthisapplicationistoexposeandhighlightchallangesfacedbyapplication\
+\
+\li0
+developersduringthedesign,implementationanddeploymentphasesofsuchapplications.Usingitasa\
+\
+pointofreference,aswellastestsystem,theproblemsgiventothesystem(describedinSections1.3.1\
+\
+and1.3.2)willbesolved.Issuesencounteredduringtheimplementationofthatreferencesystemwill\
+\
+providecrucialhands–onexpiriencerequiredinordertoproviderecommendationsandbestpractices\
+\
+aboutbuildingsuchsystems–thesewillbecapturedinChapter5.\
+\
+\li360
+Thenextsectionswillexpandonthetasksthereferencesystemneedstosolve.\
+\
+\f3\fs24\sl275 1.3.1.Near–duplicatedetection\
+\
+\f1\fs22\sl251 Oneofthesimplestusecasesinwhichthissystemshouldbeusedis\f2 near–duplicatedetection\f1 of\
+\
+\li0
+videoﬁles.Theterm”near–duplicate”isusedinordertohighlightthepossibility(andanticipationof)\
+\
+distorteddata.Thesystemmustbecapableofidentifyingvideosofslightlylowerorhigherqualitythan\
+\
+thereferencematerialasthesamemovie.ThisusecaseisveryneartowhatYouTube’s[Goo]internal\
+\
+copyrightprotectionmechanismsareimplementing–thusisisavalidaswellasreal–lifeusagescenario.\
+\
+\li360
+Anexampleofwhy”almostidentical”materialinthissettingwouldbeamovietrailer,whichhas\
+\
+\li0
+justbeenreleasedandmanyfanswanttoputitonlineonyoutube,inordertosharethistrailer.Itisvery\
+\
+likelythattheywouldaddslightmodiﬁcations,suchastheirownvoice-overwithcomments,orresize\
+\
+thevideoforexample.Itisalsofairlycommonthatusersapplymaliciousmodiﬁcationstothevideo\
+\
+materialinordertomake1:1identiﬁcationwithcopyrightedmaterialharder-suchmodiﬁcationsare\
+\
+typically”mirroring”thevideomaterial,orslightlybrighteningeveryframe.\
+\
+\li360
+Thesystemimplementedaspartofthisthesisidentiﬁescontentproperlyevenaftersuchmalicious\
+\
+\li0
+modiﬁcationshavebeenappliedtovideomaterials.\
+\
+\f3\fs24\sl275 \li360
+1.3.2.Scenepositioning\
+\
+\f1\fs22\sl251 Theproblemofscenepositioningcanbeexplainedastryingtolocate”when”duringafullmoviea\
+\
+\li0
+givensceneappears.\
+\
+\li360
+Onemightimagineascenarioinwhichafriendshowsusafunnyvideofromsomeseries,available\
+\
+\li0
+on-line.Thesnippetisonly30secondslong–longenoughtogetthejoke,butnotlongenoughtoﬁgure\
+\
+outjustbasedonthisvideofromwhichepisode,seasonorevenfromwhichshow(ifthescenemovie\
+\
+wasnotproperlytitled)thisscenecomesfrom.Ausermightbeintriguedbythissceneandwillingto\
+\
+payathecontentownerforviewingtheentireseries.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 1.4.Thesisstructure	\f3\fs22\sl251 10\
+\
+\
+\f1 \li360
+Insteadofputtingourselfesinthepositionoftakingdownsuchcopyrightedmaterial,asystemcould\
+\
+\li0
+detectfromwhichexactshow,seasonandepisodethesceneoriginatesfromandoffertheuseranoption\
+\
+to,forexample:”SeethewholeepisodeatHubbleTube!”.TheﬁctionaryserviceHubbleTubecouldbea\
+\
+paidservice,yetthankstotheconvinienceofdirectlylinkingtotheexactcontenttheuserwantstosee–\
+\
+theuserismorewillingtocontinueandpaytoseetheshow.Thiswaythecontentowneralsoproﬁtsm,\
+\
+withouthavingtotakedownanyofhiscopyrightedcontent–insteaditwasusedascrowd-sourced\
+\
+advertisementvector.\
+\
+\li360
+Inordertoenableuse-caseslikethis,scenedetectionandpositioningmustbeimplementedwithin\
+\
+\li0
+thereferencesystem.Adetailedanalysisofthisproblemandresultsachievedby\f2 Oculus\f1 willbeshown\
+\
+inSection4.2.\
+\
+\
+\f3\fs29\sl330 \li360
+1.4.Thesisstructure\
+\
+\f1\fs22\sl251 Chapter1servesasbroadoverviewandintroductionintotheproblemareaofthisthesis.Italso\
+\
+\li0
+introducestheneedforanreferenceimplementationontopofwhichrecommendationsaremadeinlatter\
+\
+chaptersofthethesis.Lastly,anumberofgoalsaresetbeforethereferencesystem.\
+\
+\li360
+Chapter2focusesondescribingtheavailableandselectedtechnologiesusedinthisproject.Italso\
+\
+\li0
+explainsthechoiceoftools,aswellasbrieﬂyintroducesparadigmsimplementedbythem,suchas\
+\
+distributedﬁlesystemsortheconceptof\f2 MapReduce\f1 [DG04]basedapplications.\
+\
+\li360
+Chapter3describestheoveralldesignchoicesaswellasﬂowsofdatathroughoutthesystem.Itcov-\
+\
+\li0
+erstwoapplicationswhichtogetherformthe”referencesystem”namedOculus,onwhichexperiments\
+\
+aswellastuningwillbeperformedinthefollowingchapters.\
+\
+\li360
+Chapter4providesexamplesandresultsofusingthesysteminscenarioswhichhavebeengivento\
+\
+\li0
+itaspartofit’sgoals(inChapter1).Abriefdiscussiononappliedandpossibleoptimizationsclosesthis\
+\
+chapter.\
+\
+\li360
+Chapter5focusesonperformancemeasurementsaswellastuningtechniquesappliedandrecom-\
+\
+\li0
+mendedwhenrunninglargescaleHadoopdeployments.Providedmeasurementsservesassigniﬁcant\
+\
+datapointindeterminingwetherornottheselectedtechnologiesareinfactscalableornot.\
+\
+\li360
+Chapter6summarisesrecommendationscollectedduringimplementingandtuningthesystemas\
+\
+\li0
+ifitwasanin-productionrunningsystem.Thesectionretrospectsaboutthesystem’sscalabilityand\
+\
+appliancefeasibilityinreal-worldsystems.Lastlyitreiteratesthethesis’sgoalsandjudgeswhetherit\
+\
+waspossibletofulﬁllthem.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\f3\fs34\sl396 2.Analysisofavailabletechnologies\
+\
+\
+\f1\fs22\sl251 \li360
+Theprimaryfocusofthisworkisanalysingandbenchmarkingusageofpopulardistributedsystem\
+\
+\li0
+stacks.Thissectionintroducesthevarioustechnologiesusedtotisonlyfairtobeginwithintroducingthe\
+\
+selectedcomponentsfromwhichthesystemconsist.\
+\
+\li360
+Thischaptershouldbetreatedasabriefintroductionintotheselectedtechnologies,asverydetailed\
+\
+\li0
+explanationsandandimplementationdetailswillbeprovidedthroughoutchapters3through5.\
+\
+\
+\f3\fs29\sl330 \li360
+2.1.ApacheHadoop\
+\
+\f1\fs22\sl251 ApacheHadoopisasuiteoftoolsandlibrariesmodeledafteranumberofGoogle’smostfameous\
+\
+\li0
+whitepapersconcerning”BigData”,suchas\f2 Chubby\f1 [\f3 ?\f1 ](onwhichthe\f2 GoogleDistributedFileSystem\
+\
+\f1 [\f3 ?\f1 ]wasbuilt)andlaterpaperslikethegroundbreaking\f2 MapReduce\f1 [DG04]whitepaperconcerning\
+\
+parallelisationofcomputationovermassiveamountsofdata.There-implementationofthesewhitepapers\
+\
+whichhasbecomeknownasHadoopwasoriginalyanimplementationusedbyYahoo[\f3 ?\f1 ]internally,and\
+\
+thenreleasedtothegeneralpublicinlate2007undertheApacheFreeSoftwareLicense.\
+\
+\li360
+Thegeneraluse-caseofHadoopbasedsystemrevolvesaroundmassivelyparallelcomputationover\
+\
+\li0
+humongousamountsofdata.Thankstoemployingfunctionalprogrammingparadigmsinmulti-server\
+\
+environmentsHadoopmakesitpossible,andsimple,todistributesocalled”MapReduceJobs”across\
+\
+thousandsofserverswhichexecutethegiven\f2 map\f1 (alsoknownas”\f2 transform\f1 ”)and\f2 reduce\f1 (alsoknownas\
+\
+”\f2 fold\f1 ”)functionsinaparalle,distributedfashion.Complexcomputations,whichcannotberepresented\
+\
+assingleMapReducejobs,areoftenexecutedasaseriesofjobs,socalledJobPipelines.Thismethod\
+\
+willbeleveragedandexplainedindetailinChapter\f3 ??\f1 ,togetherwiththeintroductionofScalding(see\
+\
+Section2.2)aDomainSpeciﬁcLanguagebuiltspeciﬁcallytoeasebuildingsuchpipelines.\
+\
+\li360
+ThepromiseofHadoopispracticallylinearscalabilityofHadoopclusterswhenaddingmorere-\
+\
+\li0
+sourcestosuchcluster–theseclaimswillbeinvestigatesinChapter5,whereresultsofdifferentcluster\
+\
+conﬁgurationswillbecompared.ThecomputationmodelproposedbyHadoopwillbeexaminedand\
+\
+explainedindetailinlatersectionsofthispaper,asitisthedominatingmodelchosenfortheimplemen-\
+\
+tationofthepresentedsystem.\
+\
+\
+\f3\fs29\sl330 \li360
+2.2.Scalding&Cascading\
+\
+\f1\fs22\sl251 Scalding[sca]isaDomainSpeciﬁcLanguageimplementedusingtheScala[Ode13]programming\
+\
+\li0
+languagg.IthasbeendeveloperatTwitter[\f3 ?\f1 ]fortheirinternalneeds,andthenreleasedundertheGPL\
+\
+license.ItisaimedatprovingamoreexpressiveandpowerfullanguageforwritingMapReduceJob\
+\li4440
+11\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 2.3.ApacheHBase	\f3\fs22\sl251 12\
+\
+\
+\f1 deﬁnitions,whichotherwisewouldbeimplementedintheJava[\f3 ?\f1 ],whichwouldoftenresultinvery\
+\
+verboseandhardtounderstandcode(especialyduetotheverbosityofHadoop’scoreAPIs).\
+\
+\li360
+Scaldingdoesnotstandonit’sown,asitisonlyathinlayerbuiltontopofConcurrentInc.’s[con]\
+\
+\li0
+Cascadinglibrary,whichisaframeworkbuiltontopApacheHadoopandenablesmapreduceauthorsto\
+\
+thinkintermsofhighlevelabstractions,suchasdata”ﬂows”andjob”pipelines”(seriesofMapReduce\
+\
+jobsexecutedinparallelorsequentially)whichhavebeenusedextensivelyinthisproject.\
+\
+\
+\f3\fs29\sl330 \li360
+2.3.ApacheHBase\
+\
+\f1\fs22\sl251 HBaseisacolumn-orienteddatabase[Wik]designedbyfollowingtheGooglewhitepaperontheir\
+\
+\li0
+”BigTable”datastorepublishedin2007.Columnorientedstorageofdata,asopposedtoroworiented\
+\
+(asmostSQLdatabases),ashugeadvantageswhenmanyaggregationsoveronlygivencolumnsare\
+\
+performed.\
+\
+\li360
+Itwasselectedforthisprojectbecauseit’sexcellentrandom-accesstodataaswellasbeingperfectly\
+\
+\li0
+suitedforsourcingMapReducetasks.HBasestoresitTablesontheHadoopDistributedFileSystem,\
+\
+thusitscalessimilarlytoit–becauseit’sTablesarelayedoutasSequenceFilesthatareaveryperformant\
+\
+waytostoredata(suchasrowsofabigtable)onHadoop’sFileSystem.DetailedinvestigationinHadoop\
+\
+aswellasSequenceFileperformancewillbeprovidedinalatersectioninChapter5.\
+\
+\
+\f3\fs29\sl330 \li360
+2.4.Scala\
+\
+\f1\fs22\sl251 Scalaisafunctional\f2 and\f1 object-orientedprogramminglanguagedesignedbyMartinOdersky\
+\
+\li0
+[Ode13]runningontheJavaVirtualMachine.Itwasselectedselectedasprimaryimplementationlan-\
+\
+guageforthisproject(althoughotherlanguagesusedinclude:ANSIC,RubyandBash)becauseofthe\
+\
+compellinglibrariesforbuildingdistributedsystemsusingit,suchas\f2 Akka\f1 and\f2 Scalding\f1 (bothintroduced\
+\
+inthissection).\
+\
+\li360
+It’sfunctionalnature(makingitsimilartolanguagessuchasLisporHaskell)isveryhelpfulwhen\
+\
+\li0
+performingtransform/aggregateoperationsovercollectionsofdata.ItshouldbealsonotedthatHadoop\
+\
+\f2 itself\f1 wasinspiredbylanguagessuchasthis,becausethecanonicalnamesofthefunctionsperforming\
+\
+datatransformationandaggregationinfunctionallanguagesare:”map”and”reduce”.\
+\
+\
+\f3\fs29\sl330 \li360
+2.5.Akka\
+\
+\f1\fs22\sl251 AkkaisalibraryprovidinganActorModel[CH73]basedconcurrencyforScala(andJava)ap-\
+\
+\li0
+plications.Usingthisconcurrencymodelcanbebestexplainedusingtworules”sharenothing”and\
+\
+”communicateviamessages”–bothstemingfromtheprogramminglanguageErlang[erl],andindeed\
+\
+bothErlangandAkkaprovidethesameconceptsandlevelsofabstraction.Thegeneralgainfromusing\
+\
+thismodelisthatoneisobliviousto\f2 where\f1 anActor(executorofcode/reciverofmessages)actuallyis\
+\
+running–intermsof”inlocalJVM”or”remotely,andthemessagewillbedeliveredviaTCP/UDP”.\
+\
+Thankstothisnot-knowing,itistrivialtoscalesuchapplicationshorizontally,sincethecodedoesnot\
+\
+needtochangewhenmovingfrom1-nodeimplementationstoclusteredenvironments.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 2.6.phash	\f3\fs22\sl251 13\
+\
+\
+\f1 \li360
+Forthesakeofthisthesis,Akkahasbeenusedbothinlocal(in-jvm)parallelexecutionaswell\
+\
+\li0
+asclustereddeployment(usingAkka’sbuiltinclusteringmodule),inordertobalancetheworkload\
+\
+generatedbyactorsacrosstheentirecluster.DetailsonscalingAkkaclustershavebeenprovidedin\
+\
+Section5.2.\
+\
+\
+\f3\fs29\sl330 \li360
+2.6.phash\
+\
+\f1\fs22\sl251 PHashisshortfor„PerceptualHash”andisasortofhashingalgorithm(primarilyaimedforuse\
+\
+\li0
+withimages),whichretainsenoughinformationtobecomparablewithanotherhas,yielding„howsim-\
+\
+ilar”thesehashesare.ThedetailsandimplementationofithavebeenexplainedbyChristophZauner’s\
+\
+[Zau10].\
+\
+\li360
+Thisalgorithmisusedbythesystemtoperforminitialsimilarityanalysisbetweenimages.Thealgo-\
+\
+\li0
+rithmispubliclyavailable,includingsources(inC),andmaybeusedin\f2 non-commercialapplications\f1 .\
+\
+Duringtheworkonthisthesisthesourcecodeofphashwasslightlymodiﬁed(inagreementwiththe\
+\
+software’slicense)tobeadjustedtoworkbetterbybeingcalledfromJavaapplications.\
+\
+\li360
+Asthegoalofthisthesisisnotresearchingsuchalgorithms,butfocusingonscalableimageanaly-\
+\
+\li0
+siscomputationsindistributedsystems,itwasdeepedapropriatetouseanexistingperceptualhashing\
+\
+solution.\
+\
+\
+\f3\fs29\sl330 \li360
+2.7.Chef\
+\
+\f1\fs22\sl251 OpsCodeChefisasetoftoolsaimedatautomatingserverconﬁgurationandprovisioning.Usingit\
+\
+\li0
+enabeledautomatingspinningupnewserverswhichwasaverylargepartoftheworkonthisthesis,\
+\
+andalsoonesuchautomationwasprepared,itcouldalsobeappliedtodifferentcloudserviceprovides–\
+\
+whichleadtoexploringlocalvirtualmachines(VagrantandVirtualBox)aswellasAmazon’sEC2public\
+\
+cloudofferinguntillastlysattelingforgoodonusingGoogle’sComputeEnginepubliccloudoffering.\
+\
+TheuseofChefenablednotspendingtedioushourofreinstallingtheclustereachtimeanew,butallowed\
+\
+to”cook”givenvirtualmachinesintotherequiredstate(thatis,installingHadoop,Hbase,Javaandall\
+\
+theotherdependenciesneededforrunningthesystemimplementedduringthiswork).\
+\
+\li360
+AppendixAfeaturesadetailedoverviewandguideonthedetailsonhowChefwasusedinthis\
+\
+\li0
+thesis,andwhatstepshadtobetakeninordertopreparethe”recipes”itworksontobeabletoprovision\
+\
+HadoopautomaticallytoanygivenGNU/Linuxrunninginstance.\
+\
+\
+\f3\fs29\sl330 \li360
+2.8.Othertoolsandtechnologiesused\
+\
+\fs24\sl275 2.8.1.youtube-dl\
+\
+\f1\fs22\sl251 Youtube-dlisasmalllibrarywritteninpythonandfreelyavailableunderanOpenSourcelicense.\
+\
+\li0
+Itwasusedinordertomakedownloadingsourcevideoﬁlesfromyoutubemoreefﬁcient,asitisaware\
+\
+ofmultipleavailablevideoformats(high/lowquality),andoffersmultipleoptionsusefulyethardto\
+\
+implementforthisproject–includingforexample„preferringtodownloadopensourcevideoformats”,\
+\
+whichallowedmetoavoidinstallingproprietaryvideocodecsontheservers.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\
+\f3\fs34\sl396 3.Systemdesign\
+\
+\
+\
+\f1\fs22\sl251 \li360
+Thesystem,fromheretobereferredtobythename”\f2 Oculus\f1 ”,isdesignedwithanasynchronousas\
+\
+\li0
+wellasdistributedaproachinmind.Inordertoachievehighasynchrononisitybetweenobtainingnew\
+\
+referencedata,andrunningjobssuchas”\f2 comparevideo1withthereferencedatabase\f1 ”,thesystemwas\
+\
+splitintotwoprimarycomponents:\
+\
+\
+\li360
+–\f3 loader\f1 –whichisresponsibleforobtainingmoreandmorereferencematerial.Itpersistsand\
+\
+\li600
+initiallyprocessesthevideos,aswellasanyrelatedmetadata.Inarealsystemthisreferencedata\
+\
+wouldbeprovidedbypartneringcontentproviders,yetforthis\
+\
+\li360
+–\f3 analyser\f1 –whichisresponsibleforpreparingandschedulingjobpipelinesforexecutionontopof\
+\
+\li600
+theHadoopclusterandreferencedatabases.\
+\
+\
+\li360
+TofurtherillustratetheseparatecomponentsandtheirinteractionsFigure3.1showsthedifferent\
+\
+\li0
+interactionswithinthesystem.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\li1920
+Figure3.1:Highleveloverviewofthesystem’sarchitecture\
+\
+\li360
+Thissectionwillfocusondescribingthegeneraldesignofbothsystems,ﬁrsttheLoader’sActor\
+\
+\li0
+basedclustermodel,andthentheAnalyser’sHadoopbackedbatchprocessingcluster.\
+\li4440
+14\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx4340\tx4820\tx6260\tx8900
+\f4\fs20\sl229 3.1.Loader				\f3\fs22\sl251 15\
+\
+\
+\fs29\sl330 \li360
+3.1.Loader\
+\
+\f1\fs22\sl251 TheLoadercomponentisresponsibleforobtainingasmuchaspossible”referencedata”,bywhich\
+\
+\li0
+videomaterialfromsitessuchas\f2 youtube.com\f1 orvideohostingsitesismeant.Pleasenotethatforthe\
+\
+sakeofthisthesis(andlegalsafety)thedownloadedcontentwaslimitedtomovietrailers(whichare\
+\
+freelyavailableon-line)aswellasseriesopening,endingsequences.\
+\
+\li360
+WhiletheLoadersystemwillbereferredtofromhereoninsingular,itshouldbenotedthatinfact\
+\
+\li0
+therearemultipleinstancesofitrunninginthecluster.ThankstotheuseofAkka’s[JB13]ActorModel\
+\
+abstractions(and\f2 remoting\f1 module[Inc13]),inwhichthephysicallocationofanActorplaysisofno\
+\
+importance–meaning,thatthereceivingActordoesnothavetobeonthesamehostasthesending\
+\
+Actor.\
+\
+\f3\fs24\sl275 \li360
+3.1.1.TypesofActorsusedinthesystem\
+\
+\f1\fs22\sl251 Thesystemconsistsof4typesofActorseachofwhichhasmultipleinstanceswhicharespreadout\
+\
+\li0
+onmanynodesinthecluster.SometaskscanonlybesenttolocalActors(anyworkrequiringanalready\
+\
+downloadedﬁle),butmessagesrelatedtocrawlingandinitiallydownloadingthevideomaterialcanbe\
+\
+spreadthroughoutthecluster.\
+\
+\li360
+ThefollowingActordescriptionsareaimedatexplain\
+\
+willnowbrieﬂydescribethedifferentActorrolesthatexistinthesystemandthenexplaintheinter-\
+\
+\li0
+actionsbetweenthenonanexample.\
+\
+\li360
+–\f3 YouTubeCrawlActor\f1 –iscapableoffetchingandYouTubewebsitesandgenerateMessagestrig-\
+\
+\li600
+geringeitherfurthercrawlingof”relatedvideosites”(\f5 Crawl(siteId:String)\f1 )ordown-\
+\
+loadingofthecurrentlyaccessedvideo(bysendinga\f5 Download(movieId)\f1 message),\
+\
+\f3 \li960
+receives:\
+\
+\f1 \li1200
+1–\f5 Crawl(siteId:String)	\f1 message\
+\
+\f3 \li960
+sends:\
+\
+\f1 \li1200
+0orn–\f5 Crawl(siteId:String)		\f1 -wherenisthenumberof”relatedvideo”links\
+\
+\li600
+foundonthesite.Ifcrawlingisturnedoff,nomessageswillbesent.\
+\
+\li360
+–\f3 DownloadActor\f1 –isresponsiblefordownloadingthemoviefromyoutubeinit’soriginalformat\
+\
+\li600
+(inthepresenceofmanyformats,thehighestqualityﬁlewillbedownloaded).ThisActordecides\
+\
+ifavideoislegaltodownloadornot,becauseitalsoobtainsthemovie’smetadata–onlytrailers\
+\
+andopeningsequencesofseriesaredownloadedduringforthesakeofthisthesis.\
+\
+\li360
+–\f3 ConversionActor\f1 –isresponsibleforconvertingthedownloadedvideomaterialintorawframe\
+\
+\li600
+data(bitmaps).\
+\
+\f3 \li960
+receives:\
+\
+\f5 \li1200
+Convert(localVideoFile:java.util.File)			\f1 –Thismessagemustcomefrom\
+\
+\li600
+alocalActor,sincethepathreferstothelocalﬁlesystem.\
+\
+\f3 \li960
+sends:\
+\
+\f1\fs20\sl229 \li0
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx6380\tx7340\tx8900
+\f4\fs20\sl229 3.1.Loader			\f3\fs22\sl251 16\
+\
+\
+\f5 \li1200
+Upload(framesDirectory:java.util.File)	\f1 –whentheﬁnishedconverting\
+\
+\li600
+tobitmaps,itwillsendand\f5 Upload\f1 messagetooneofthe\f5 HDFSUploadActors\f1 ,pointingto\
+\
+thedirectorywheretheoutputbitmapshavebeenwritten.\
+\li360
+–\f3 HDFSUploadActor\f1 –isresponsibleforoptimallystoringthesequenceofbitmapsinHadoop.This\
+\
+\li600
+includesconvertingaseriesofrelativelysmall(around2MBperframe)ﬁlesintooneSequence\
+\
+FileonHDFS.SequenceFilesandtheneedfortheirusewillbeexplainedindetailinsection5.1.1.\
+\
+\f3 \li960
+receives:\
+\
+\f5 \li1200
+Upload(framesDirectory:java.util.File)	\f1 –pointingtoalocaldirectory\
+\
+\li600
+wherethebitmapﬁleshavebeenstored.Thismessagemustcomefromalocalactor,sincethe\
+\
+pathreferstothelocalﬁlesystem.\
+\
+\f3 \li960
+sends:\
+\
+\f1 \li1200
+0or1–\f5 ConfirmUpload(localFile:java.util.File)		\f1 –sentbacktothe\
+\
+\li600
+senderthatrequestedthevideotobeuploaded.\
+\
+\li360
+UsingtheseActorsandprotocolsbetweenthem,theapplicationisabletoprogresssafelywithoutthe\
+\
+\li0
+possibilityofgettingstuckinadead(orlive)lock.\
+\
+\li360
+Whilediscussingthereprotocolsoneshouldalsomentionthatthemessagesthatcanbereceived\
+\
+\li0
+andsentbyActorsarenotpossibletoverifyusingstatictyping–anActorcanreceiveamessageof\
+\
+”Any”type,andincaseofnotbeingabletoactuponit-itwilldropthemessage,butthedeliverystill\
+\
+happens.ThisisaninherentpropertyoftheActorModelofconcurrency–whichiswhyinsuchsystems\
+\
+explainingtheﬂowsofmesagesandActorspresentinthesystemisofsuchimportance.Havingthisin\
+\
+mind,thenextSection(3.1.2)willfocusonexplainingonesuchmessageﬂowwithinthesystem.\
+\
+\f3\fs24\sl275 \li360
+3.1.2.Obtainingreferencevideomaterial\
+\
+\f1\fs22\sl251 ThissectionwillsdiscusstheprocessofobtainingvideomaterialbytheLoadersubsystem,aswell\
+\
+\li0
+asexplainwhichpartscanbeexecutedondifferentnodesofthecluster.TheFigure3.2shouldhelpin\
+\
+understandingthebasicworkﬂow.\
+\
+\f3 \li360
+Step1-\f6 Crawl\f3 messages\
+\
+\f1 TheinitiatingmessageforeachﬂowwithintheLoaderisa\f2 Crawl(siteUrl)\f1 ,wheresiteUrlisavalid\
+\
+\li0
+youtubevideourl.ThereceivingYouTubeCrawlActorwillreacttosuchmessagebyfetchingandextract-\
+\
+ingtherelatedvideositeurlsandwillforwardthoseusingthesamekindof\f2 Crawl\f1 messages.Thesecond,\
+\
+yetmostimportant,reactionissendinga\f2 Download(movieId)\f1 messagetoaninstanceofanDownloadAc-\
+\
+tor–itcanresideonanynodeinthecluster,whichallowsustospreadthedown-linkutilisationbetween\
+\
+differentnodesinthecluster.\
+\
+\li360
+Itisworthpointingoutthatthereceiversofthesemessagescanbe\f2 remote\f1 Actors,thatis,canbe\
+\
+\li0
+locatedonadifferentnodeintheClusterthanthesender.Inordertoguaranteespreadingoftheload\
+\
+amongthemanyactorswithinthesystem(acrossnodesinthecluster),aroutingstrategycalled”Smallest\
+\
+InboxRouting”wasused.Thistechniqueusesaspecial”RouterActor”whichisresponsibleforanumber\
+\
+ofRoutees(targetActors),anddecidestodeliveramessageonlytotheActorwhohasthesmallest\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 3.1.Loader	\f3\fs22\sl251 17\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure3.2:OverviewofmessagespassedwithintheLoader’sactorsystem.Greyedoutmessagesare\
+\
+alsosent,butarenotonthecriticalpathleadingtoobtainingmaterialfrom\f2 siteX\f1 intoHDFS.\
+\
+amountofmessages”notyetprocessed”(whicharekeptinanQueuecalledthe”Inbox”,hencethe\
+\
+strategy’sname).\
+\
+\f3 \li360
+Step2-\f6 Download\f3 messages\
+\
+\f1 Inthesecondstepan\f2 YouTubeDownloadActor\f1 instancereceivesamessageaskingittodownloada\
+\
+\li0
+movie.Itdoessobyinvokingthenativeapp\f2 youtube-dl\f1 ,whichisanopensourceprogramspecialisedin\
+\
+downloadingmoviesfromYouTube.Otherthanthevideoﬁle(inanopensourceformat)wealsodown-\
+\
+loadametadatadescriptionduringthisstep,suchmetadataincludesforexamplethedateofpublication,\
+\
+author,titleanddescriptionofthemovie.Fromthismessageincluding,allmessageswillberoutedonly\
+\
+toActorslocaltothecurrentnode,becausemessagesinclude\f2 File\f1 objects,pointingtolocationson-disk.\
+\
+\li360
+Themetadataisthenusedtodetermineifitcanbeusedinthecontextofthiswork,asonlymovie\
+\
+\li0
+trailersandandopening/endingsequencesaredownloadedintotheOculussystem.IfthecontentisOK\
+\
+touse,theActorsendsan\f2 Convert(movieLocation)\f1 messagetoaninstanceof\f2 ConversionActor\f1 .\
+\
+\f3 \li360
+Step3-\f6 Convert\f3 messages\
+\
+\f1 Thenextstepisexecutedbyaninstanceofan\f2 ConversionActor\f1 recievingan\f2 Convert(ﬁle)\f1 message\
+\
+\li0
+fromanother(local)Actor.Theconversionphasewillextractrawframedatafromtheincomingmovie,\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 3.1.Loader	\f3\fs22\sl251 18\
+\
+\
+\f1 andwritethoseasplainbitmaps(notcompressed)toﬁles(onepereachframe)intoaspeciﬁedtarget\
+\
+directory.Thereasonfornotusingacompressedlosslessimageformathereisthatallalgorithmsthatthe\
+\
+systemwillbedealingwithlateronaredealingwiththerawimagedata,sowecanavoidhavingtogo\
+\
+overuncompressionphaseseachtimewewillprocessaframe.Havingthatsaid,thestorageformatused\
+\
+forstoringtheseﬁlesonHDFSprovidesbuildincompression(ifenabeled),anditshouldbepreferredin\
+\
+thiscaseasitistransparentfortheapplication,easingdevelopmentofMapReducejobsintheAnalyser\
+\
+systemimmensely.\
+\li360
+Theconversionfrommovietorawbitmapsisperformedbyrunningannativeapplicationcalled\
+\
+\f5 \li0
+ffmpeg\f1 [ffm]instance(andefactostandardtoolforsuchmediaoperations),byforkingaprocessfrom\
+\
+withintheActor.TheCPUusageofrunningthisextractionprocesseasilyreaches100%oftheavailable\
+\
+resources,whichiswhythenumberofConversionActorspernodeislimitedtoonly1pernode,allowing\
+\
+ffmpegtoconsumeallavailableresourcesandﬁnishextractingthedatasooner.Theactorwillblockuntil\
+\
+theprocesscompletes,andwillthencontinuebysendingan\f2 Upload(bitmapDirectory)\f1 messagetoone\
+\
+ofthe\f2 HDFSUploadActors\f1 .\
+\
+\f3 \li360
+Step4&5-\f6 Upload\f3 messages\
+\
+\f1 Thelaststepisan\f2 HDFSUploadActor\f1 recievingan\f2 Upload(bitmapDirectory)\f1 messagewhichtriggers\
+\
+\li0
+ittoconnecttoHDFSandstartwritingthebitmapdatacontainedinthegivendirectorytoHDFS.The\
+\
+formatofthegenerateddataisaspreviouslymentionedoneﬁleperframeofvideo,whichaverages\
+\
+around2MB(dependingonthemovieresolution).\
+\li360
+Inthissteptheimportantpartisthatitdoesnotwritetheseﬁles1:1ontoHDFS,butinsteadwrites\
+\
+\li0
+intooneﬁle,usingahadoopspeciﬁcstorageformatcalled”SequenceFile”,whichallowsformore\
+\
+efﬁcientstorageandlatterretrievalofthisdata.SequenceFiles,theneedandbeneﬁtsgainedbyusing\
+\
+themasstorageformatfor”framebyframe”datawillbediscussedinSection5.1.1.\
+\li360
+ThiswriteterminatestheoperationsperformedononemoviebytheLoader.Allotheroperations\
+\
+\li0
+willbeperformedbytheAnalyzerbyrunningMapReducejobsonSequenceFilespreparedintheabove\
+\
+ﬂow.\
+\
+\
+\f3\fs24\sl275 \li360
+3.1.3.Loaderdesignsummary\
+\
+\f1\fs22\sl251 AswasexplainedintheprevioussectionstheLoaderisdesignedasfullyasynchronoussystem,com-\
+\
+\li0
+posedofActorsperformingveryspeciﬁctasks.AllcommunicationbetweentheActorsisimplemented\
+\
+asmessagepassing,whichprovidesso-called”locationtransparency”betweentheActors–thisproperty\
+\
+hasbeenutilisedtospreadthework-loadbetweenmultiplenodesinaclusteredenviroment,enabeling\
+\
+theworktobecompletedfasterthanonlyutilisingasinglenode.\
+\li360
+AdetaileddiscussionoftheCluster’sscalabilityandpatternsappliedinordertoprovidead-hoc\
+\
+\li0
+joiningofnodestothecomputationclustercanbefoundinSection5:”ScalingouttheAtorsystem\
+\
+basedCluster”.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 3.2.Analyser	\f3\fs22\sl251 19\
+\
+\
+\fs29\sl330 \li360
+3.2.Analyser\
+\
+\f1\fs22\sl251 TheanalysercomponentisresponsiblefororchestratingMapReducejobsandsubmittingthemto\
+\
+\li0
+thecluster.ResultsofjobsarewrittentoeitherHBaseorplainTSV(\f2 TabSeparatedValues\f1 )Files.Figure\
+\
+3.3depictsthetypicalexecutionﬂowofananalysisprocessissuedbyOculus.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+Figure3.3:WhenstoringasmallﬁleinHDFS,itstilltakesupanentireblock.Thegreyspaceisnot\
+\
+wastedondisk,butcausesthe\f2 name-node\f1 memoryproblems.\
+\
+\
+\li360
+Instep1the\f2 jobpipeline\f1 isbeingpreparedbytheprogrambyaggregatingrequiredmetadataand\
+\
+\li0
+preparingthejobpipeline,whichoftenconsistsofmorethanjustoneMapReducejob–infact,most\
+\
+analysisjobsperformedbyOculusrequireatleast3ormoreMapReducejobstobeissuedtothecluster.\
+\
+Itisimportanttonotethatsomeofthesejobsmaybedependentonanothertask’soutputandthiscannot\
+\
+beruninparallel.Ontheotherhand,ifajobrequirescalculatingallhistogramsforallframesofamovie\
+\
+aswellascalculatingsomethingdifferentforeachoftheseframes–thesejobscanbeexecutedinparallel\
+\
+andwillbeneﬁtfromthelargenumberofdatanodeswhichcanexecutethesejobs.\
+\
+\li360
+The2ndsteponFigure3.3isimportantbecauseOculusmayreactwithlaunchinganotheranalysis\
+\
+\li0
+jobbasedonthenotiﬁcationthatonepipelinehascompleted.Thisallowstokeepdifferentpipelines\
+\
+separate,andtriggerthemreactivelywhenforexampleallit’sdependencieshavebeencomputedin\
+\
+anotherpipeline.\
+\
+\li360
+Formostapplicationsthoughthe3rdstepinatypicalOculusJobwouldbetoreadandpresenttopN\
+\
+\li0
+resultstotheissuerofthejob,whichforaquestionlike”Whichmovieissimilartothisone?”wouldbe\
+\
+thetopNmostsimilarmovies(theirnames,identiﬁersaswellasmatchpercentage).\
+\
+\li360
+Thefollowingsections(3.2.1,)willintroducetheclusterdeploymentaswellashowJobsareimple-\
+\
+\li0
+mentedontopofit,inordertoparallelizethejob’sexecutionasmuchaspossible.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900\tx9380
+\f4\fs20\sl229 3.2.Analyser	\f3\fs22\sl251 20\
+\
+\
+\fs24\sl275 \li360
+3.2.1.HadoopClusterdeploymentstrategy\
+\
+\f1\fs22\sl251 SincetheAnalyserismostdependentontheHadoopcluster’sdeploymentthissectionaimstointro-\
+\
+\li0
+ducethecluster’scomponentsandinitial(3node)setup.\
+\
+\li360
+Whilethissectiononlyonlyintroducesthevariouscomponentsoftheclusterandit’sinitialdeploy-\
+\
+\li0
+ment,chapter5(”Clusterscalingandperformanceanalysis”)revisitsthistopicandwillfocusondetails\
+\
+suchasclusterconﬁgurationoptionsaswellasinﬂuenceofthenumberofparticipatingnodesinthe\
+\
+clusterontotalcomputationtimeswillbemeasuredandtunedtoincreasethecluster’sefﬁciency.\
+\
+\f3 \li360
+InitialHadoopclusterdeployment\
+\
+\f1 TheHadoopdeploymentdescribedinthissubsectionwillfocusontwoelementsoftheHadoop\
+\
+\li0
+ecosystem-theHadoopDistributedFilesystem(HDFS)andtheHadoopMapReduceRuntime.\
+\
+\li360
+Theminimalhadoopdeploymentconsiststof\f2 5individualprocesses\f1 ,eachwithanassignedandvery\
+\
+\li0
+speciﬁcroleintheclustersfunctioning.Theseprocessescanbeclassiﬁedasrunningalongsidethe\
+\
+NameNodeorDataNodes.Thisdistincionshouldbeclearafterlistingthenamesandfeaturesofthese\
+\
+processes.\
+\
+\li360
+Firstly,the3processessassociatedwiththe”master”node,whichisresponsibleforbeingtheentry\
+\
+\li0
+pointforHDFSﬁlerequestsaswellasJobsubmissions:\
+\
+\li360
+–\f3 NameNode\f1 (HDFS)–isresponsibleformappinglogicalﬁlepathstotheirlocationsonDataNodes\
+\
+\li600
+withinthecluster.ThiscomponentwasaSinglePointofFailure(SPOF)onHadoopclustersuntil\
+\
+version2.0implementedthesocalledHighAvailability(HA)module,whichallowstheclusterto\
+\
+runasecond(nottobeconfusedwith\f2 secondary\f1 )NameNodeintheclusterinthecasetheprimary\
+\
+wouldfail.TheHAmodulewasnotusedduringthisthesis,asitwasnotrequiredtoensurethe\
+\
+cluster’shighavailabilityasthedatacouldalwaysbeeasilyobtainedagain.\
+\li360
+–\f3 SecondaryNameNode\f1 (HDFS)–isresponsibleforaprocesscalled”checkpointing”oftheNa-\
+\
+\li600
+meNode’sfsimageandit’sedit-log.It’snamemaybeverymisleading,asatnopointintimeisthe\
+\
+SecondaryNameNodeabletotaketheprimaryNameNode’splace–thiscanbeonlyachievedby\
+\
+usingtheHighAvailabilitymodules.UseoftheSecondaryNameNodethoughallowstheNameN-\
+\
+odetofailandre-joinarunningcluster–withouttheSecondaryNameNodethatfailedNameNode\
+\
+wouldhavelostallofit’sﬁlesystemstateandafullHDFSrestart(includingalldatanodes)whould\
+\
+berequired.\
+\li360
+–\f3 JobTracker\f1 (MapReduce)–isresponsiblefortrackingMapReduceJobsrunninginthecluster.It\
+\
+\li600
+behaveslikeaqueue,intakingJobrequestsandprocessestheminorder(orbasedoncustomasible\
+\
+strategies).ItisalsoincontactwithallTaskTrackers(describedbelow),whichactualyperformthe\
+\
+workrelatedtoaMRJob,whiletheJobTrackeronlygetsandaggregatesthejob’sprogress.In\
+\
+caseoffailedJobsorTasksitcanalsorestartorredistributethejobtootherDataNodes.\
+\
+\li360
+Thedistributionoftheseprocesseswithintheinitial3nodedeploymentisshownonFigure3.5.\
+\
+\f3 HBasedeployment\
+\
+\f1 s		hbasehbase\
+\
+\li9380
+deploy-deploy-\
+\fs20\sl229 \li0
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\
+\f1\fs22\sl251 \li9380
+mentment\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 3.2.Analyser	\f3\fs22\sl251 21\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 \li360
+Figure3.4:DeploymentdiagramofthevariousHDFSprocesseswithintheinitial3-nodecluster.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+Figure3.5:DeploymentdiagramofthevariousHDFSprocesseswithintheinitial3-nodecluster.\
+\
+\
+SinceHBaseissotightlyconnectedwithHDFSthroughdirectuseofit’sDataNodes,allconﬁgura-\
+\
+\li0
+tionchangesconnectedtotheHDFSclusterdirectlyinﬂuenceHbase’sbehavior,forbetterorworse.\
+\
+\f3\fs24\sl275 \li360
+3.2.2.DeﬁningMapReducePipelinesusingScaldingandCascading\
+\
+\f1\fs22\sl251 ThelanguageandforimplementingtheseprocessingpipelinesusedinthisthesiswasScalding–\
+\
+\li0
+Twitter’shomegrownScalaDSL,whichwasalreadybrieﬂyintroducedinSectionSection2.2.The\
+\
+choiceofusingScalding,andnotHadoop’splainMapReduceAPIwasmostlydictatedbyunderstand-\
+\
+abilityandeaseofmodifyingcomplicatedjobpipelines.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx720\tx2040\tx2160\tx9260
+\f4\fs20\sl229 \li360
+3.2.Analyser			\f3\fs22\sl251 22\
+\
+\
+\li720
+ComparisonofexampleJobimplementedusingPlainHadoopandScalding\
+\
+\f1 ThissectionaimstodemonstratewhatgainsusingScaldingoverHadoopyields,byshowingthe\
+\
+\li360
+smallestpossibleexampleofanMapReduceJob,implementedusingbothplainHadoopAPIsaswellas\
+\
+Scalding.OneshouldrememberthatScaldingisnotadifferentframeworkthanHadoop,andintheend\
+\
+itwillproducetheexactsamecomputationsandclasses(oneinstanceofan\f5 Mapper\f1 andoneinstance\
+\
+ofan\f5 Reducer\f1 ).\
+\
+\li720
+TheexampleshownonthebelowlistingsisaHadoopequivalentofwhatprogramminglanguagesaim\
+\
+\li360
+todemonstrateusing”HelloWorld!”applications–itisaminimalpieceofcodeshowingtheworkingof\
+\
+thegiventechnology.Thetasktosolveisdeﬁnedas:”\f2 Givenahugeinputtextﬁle,counttheoccurances\
+\
+ofeachdiscreteword,andreturnasummaryofthese\f1 ”.AstheaimofHadoopistoleverageparallel\
+\
+computing,theclassicmethodofimplementingthistaskistoemittuplesof\f5 (word,1)\f1 foreachword,\
+\
+thenrelyingonHadoopsinternalmechanismstogroupsuchtuplestogetherbytheﬁrstvalue(the\f5 word\f1 ),\
+\
+andreducingtheseintoatupleof\f5 (word,sum(1,1,1,...))\f1 duringtheReducestep.\
+\
+\li720
+ThedifferenceincomplexityshouldbeobviousbycomparingtheListing3.1whichrepresentsthe\
+\
+\li360
+MapandReduceclasseswhichareusedtorepresenttherespectfulMapandReducefunctionsintheJava\
+\
+API,withListing\f3 ??\f1 whichisthecompletecodeforajobperformingtheexactsameinScalding’sScala\
+\
+DomainSpeciﬁcLanguage.\
+\
+\li1080
+Listing3.1:WordCountexampleJob,implementedusingplainJavaMapReduceAPI\
+\
+\fs20\sl229 \li120
+1\f5 publicclassMap\
+\
+\f1 2	\f5 extendsMapReduceBase\
+\
+\f1 3	\f5 implementsMapper<LongWritable,Text,Text,IntWritable>\{\
+\
+\f1 4\
+\
+5\f5 privatefinalstaticnewIntWritable(1);IntWritableone=\
+\
+\f1 6\f5 privateTextnewText();word=\
+\
+\f1 7\
+\
+8\f5 publicvoidmap(LongWritablekey,\
+\
+\f1 9		\f5 Textvalue,OutputCollector<Text,IntWritable>output,\
+\
+\f1 \li0
+10		\f5 Reporterreporter)throwsIOException\{\
+\
+\f1 11\f5 Stringline=value.toString();\
+\
+\f1 12\f5 StringTokenizernewStringTokenizer(line);tokenizer=\
+\
+\f1 13\f5 while(tokenizer.hasMoreTokens())\{\
+\
+\f1 14	\f5 word.set(tokenizer.nextToken());\
+\
+\f1 15	\f5 output.collect(word,one);\
+\
+\f1 16\f5 \}\
+\
+\f1 17\f5 \}\
+\
+\f1 18\f5 \}\
+\
+\f1 19\
+\
+20\f5 publicclassReduce\
+\
+\f1 21	\f5 extendsMapReduceBase\
+\
+\f1 22	\f5 implementsReducer<Text,IntWritable,Text,IntWritable>\{\
+\
+\f1 23\
+\
+24\f5 publicvoidreduce(Textkey,\
+\
+\f1 25			\f5 Iterator<IntWritable>values,\
+\
+\f1 \li360
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx720\tx2160\tx7460\tx9260
+\f4\fs20\sl229 \li360
+3.2.Analyser			\f3\fs22\sl251 23\
+\
+\
+\f1\fs20\sl229 \li0
+26		\f5 OutputCollector<Text,IntWritable>output,\
+\
+\f1 27		\f5 Reporterreporter)throwsIOException\{\
+\
+\f1 28\f5 intsum=0;\
+\
+\f1 29\f5 while(values.hasNext())sum+=values.next().get();\
+\
+\f1 30\f5 output.collect(key,newIntWritable(sum));\
+\
+\f1 31\f5 \}\
+\
+\f1 32\f5 \}\
+\
+\
+\f1\fs22\sl251 \li1320
+Listing3.2:SimplestScaldingjobusedinOculus–eachframeperceptualhashing\
+\
+\fs20\sl229 \li120
+1\f5 Tsv("input.tsv")\
+\
+\f1 2	\f5 .map(’line->’word)=>line.split\{line:String\}\
+\
+\f1 3	\f5 .groupBy(’word)\{_.count\}\
+\
+\f1 4	\f5 .write(Tsv("output.tsv"))\
+\
+\f1\fs22\sl251 \li720
+Asseenonthepreviouslistings,Scaldingprovidesmuchmoreconcisecode,andthankstothis\
+\
+\li360
+enablesdeveloperstofocusonthealgorithm,andnottheboilerplaceaccompanyingthesekindsofap-\
+\
+plications.\
+\f3 \li720
+DeﬁningadvancedJobPipelinesusingScalding\
+\
+\f1 Scaldingalsoprovidespowerfulfacilitiesforpipelinebuilding,whereby”Pipeline”werefertoa\
+\
+\li360
+seriesofJobsthatusetheoutputofapreviousJobastheinputforthenextone.Itisworthmentioning\
+\
+thatthisisnotsomethingplainHadoopAPIsareabletoprovideeasily,andonewouldhavetoimplement\
+\
+logicinJobsthatwouldstoretheintermediateoutputinadirectoryandawaittheJob’scompletion,to\
+\
+thenmanuallystartthesecondjob(byrunningit’smainmethod).\
+\
+\li720
+BuildingPipelineshastwomajorstylesinScalding:explicit”nextJob”deﬁnitions,aswellasimplicit\
+\
+\li360
+dependenciesonresultsofJobs.Wewillinvestigatebothstylesinthissection–startingwiththeexplicit\
+\
+style,asitismoresimilartothemanualstyleofdoingthings.\
+\
+\li1920
+Listing3.3:Explicit”nextjob”deﬁnitionwithinaScaldingJobclass\
+\
+\fs20\sl229 \li120
+1\f5 caseclassFirstJob(args:extendsJob(args)\{Args)\
+\
+\f1 2\f5 valin"in")=args(\
+\
+\f1 3\f5 valout".out"=in+\
+\
+\f1 4\
+\
+5\f5 Tsv(in).read.write(Tsv(out))\
+\
+\f1 6\
+\
+7\f5 defnext"--in",out)))=Some(SecondJob(Args(\
+\
+\f1 8\f5 \}\
+\
+\f1 9\
+\
+\li0
+10\f5 caseclassSecondJob(args:extendsJob(Args(out))/\{Args)		\fs30\sl229\sub *\nosupersub {}\fs20\sl229 ...\fs30\sl229\sub *\nosupersub {}\fs20\sl229 /\}\
+\
+\f1\fs22\sl251 \li720
+Listing3.3showshowonecanuseScaldingtocombinetwoJobsusingScalding’sDSL.The\
+\
+\f5 \li360
+SecondJob\f1 dependsontheoutputofthe\f5 FirstJob\f1 (whichinthiscaseonlycopiestheinputto\
+\
+anotherﬁleonHDFS),sincethe\f5 next\f1 methodisdeﬁnedwithintheﬁrstJob,wehaveit’sparameters\
+\
+availableandcanconstructthenextJobinthepipeline,providingitwithit’srequired\f5 in\f1 parameter.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1440\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx600\tx9140
+\f4\fs20\sl229 \li240
+3.2.Analyser	\f3\fs22\sl251 24\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure3.6:SimplestJobPipeline,withSecondJobdependingontheoutputofFirstJob(eachcirclebeing\
+\
+oneMapReduceJob).\
+\
+\li600
+SuchpipelinecanbevisualisedasseenonFigure3.6,whichisanoutputgeneratedbyusingthe\
+\
+\li240
+graphviztool(asin"graphvisualization"),appliedtoaﬁledescribingthegraphasdescribedintheDOT\
+\
+format.TheDOTﬁlecorrespondingtothegraphdepictedonFigure\f3 ??\f1 isshowninListing3.4.DOT\
+\
+descriptionsofpipelinesareincommonuseamongprofesionalsdesigningsuchsystems,andcanalso\
+\
+begeneratedautomaticallybyScalding–whichistremendouslyusefulwhenworkingwithverylong\
+\
+pipelines.\
+\
+\li480
+Listing3.4:TextualdescriptionofgraphonFigure3.6,usingtheDOTgraphdescriptionlanguage.\
+\
+\fs20\sl229 \li0
+1\f5 digraphG\{\
+\
+\f1 2\f5 1"FirstJob"];[label=\
+\
+\f1 3\f5 2"SecondJob"];[label=\
+\
+\f1 4\
+\
+5\f5 1->2\
+\
+\f1 6\f5 \}\
+\
+\f1\fs22\sl251 \li600
+ThesecondwayofbuildinguppipelinesisinsideoneScaldingJobﬁle.BecauseScalding’srich\
+\
+\li240
+setofoperations,whatmaylookassimpleonthesurface(inthepipelinedeﬁnition)mayhavetoboil\
+\
+downtomultipleMapReduceJobexecutions.OneobviouscasethatwillcauseoneScaldingJobto\
+\
+producemultipleMapReduceJobsisusingdatafromtwoseparatesourcesandjoiningthemtogether.It\
+\
+shouldbenoticedthatthenotionof”join”(asknownfromrelationaldatabases)issomethingbothvery\
+\
+powerfulandveryforeigntoHadoop–asitisonlydesignedtodealwithdatainabatch-processing\
+\
+fashion.Scaldingallowstoexpressjoinoperationstriviallyinthethedeﬁnitionﬁle,butit’sexecution\
+\
+actuallyisquitecomplicatedandforcesallthedatafromonesideofthejointobeloadedintoMappers\
+\
+participatingintheJob’sexecution.\
+\
+Listing3.5:Scaldingjob,readingdatafrom2sourcesandjoiningthemondominantColor,producing3\
+\
+MapReduceJobs\
+\
+\fs20\sl229 \li0
+1\f5 classCompareByDominantColor(args:extendsJob(args)\{Args)\
+\
+\f1 2\f5 //newlyanalysedvideo\
+\
+\f1 3\f5 valanalysedMovieFrames=\
+\
+\f1 4	\f5 WritableSequenceFile(input,"key","value"))(\
+\
+\f1 5	\f5 .read\
+\
+\f1 \li240
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx720\tx1080\tx4340\tx6620\tx9260
+\f4\fs20\sl229 \li360
+3.2.Analyser			\f3\fs22\sl251 25\
+\
+\
+\f1\fs20\sl229 \li120
+6	\f5 .rename("key","frame")\
+\
+\f1 7	\f5 .map(("frame","value")"dominating","red","green","blue"))->\{(\
+\
+\f1 8		\f5 p:=>calculateHistograms(p._2)(Int,BytesWritable)\
+\
+\f1 9	\f5 \}\
+\
+\f1 \li0
+10\
+\
+11\f5 //referencedatabase\
+\
+\f1 12\f5 valreferenceFrames=\
+\
+\f1 13	\f5 HistogramsTable.read\
+\
+\f1 14	\f5 .rename("dominating","refDominating")\
+\
+\f1 15\
+\
+16\f5 //join\
+\
+\f1 17\f5 referenceFrames.joinWithSmaller(analysedMovieFrames,\
+\
+\f1 18			\f5 "dominating"->"refDominating")\
+\
+\f1 19	\f5 //operationsonjoineddataset\
+\
+\f1 20\f5 \}\
+\
+\f1\fs22\sl251 \li720
+Listing3.5showcasesasimplejoinoperation,whichisthecoreofthealgorithmsimplementedin\
+\
+\li360
+thisthesis.Thispipelinedeﬁnitioncompilesdowninto3MapReduceJobs,becauseitreadsfrom2\
+\
+separatedatasources:fromasequenceﬁlethatwejuststartedprocessing(thisisthemoviethisjob\
+\
+aimstocomparetothereferecedataset),andfromthe\f5 HistogramsTable\f1 whichisthereference\
+\
+datasetcontainingrefernecedatacalculatedpreviouslyforallalreadyprocessedmoviesinthereference\
+\
+database.The\f5 HistogramsTable\f1 referstoan\f2 HBaseTable\f1 ,andduringtheJob’sexecutionwwill\
+\
+trigger(inthiscase)afull-scanovertheentire”histograms”tablestoredinHBase-inpracticeitwas\
+\
+feasibletosampledownthesamplecountobtainedfromHBase,byapplyingthe\f5 .sample(75.0)\
+\
+\f1 operationtothelargerdataset.Figure\f3 ??\f1 showsthedependenciesasmodeledbythisdeﬁnition.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\li480
+Figure3.7:Joinoperation,forcingthePipelinetoconsistof3MapReduceJobs(depictedascircles)\
+\
+\li720
+Thedependencies,asseenonFigure\f3 ??\f1 betweentheﬁrsttwoJobstothe3rd”JoinJob”werenot\
+\
+\li360
+explicitlymodeledaspreviouslyseenusingthe\f5 next\f1 method,andinsteadwereinferredfromtheuse\
+\
+ofthe\f5 job1.joinWithSmaller(job2,"key1"->"key2"		\f1 operation.Thisisveryimportant\
+\
+andusefulbecauseoftworeasons:\
+\
+\li720
+–CascadingisabletodeterminedependenciesbetweenMapReducejobs,andexecutethemonthe\
+\
+\li960
+Hadoopclusterasdictatedbytheirdependencygraph.\
+\
+\li720
+–Jobsthatdonotdependoneachother’soutputscanberuninparallel.\
+\
+\fs20\sl229 \li360
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 3.2.Analyser	\f3\fs22\sl251 26\
+\
+\
+\f1 \li360
+ThankstothesecondpropertyoftheseJobPipelines(parallelexecutionofindependentsub-graphs)\
+\
+\li0
+totalexecutiontimeofsuchMapReducePipelinesmaybefurtheroptimisedwhenrunningonlarge\
+\
+clusters.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\
+\f3\fs34\sl396 4.Practicalexamplesofdistributedmediaanalysis\
+\
+\
+\
+\f1\fs22\sl251 \li360
+Thischapteraimstoprovidetangibleexamplesofhowthepreviouslydescribedsystempreformed\
+\
+\li0
+andwhatkindofinformationwasextractedfromthereferencedatabasewhentryingtomatchagainst\
+\
+disortedmediainputs.\
+\
+\li360
+Thefollowingtwosectionswillfocusonpracticalexamplesofpotential”attacks”(disortions)ap-\
+\
+\li0
+pliedtotheinputmediadata,andhowtheproposedsystemhashandledit.Theexampleshavebeen\
+\
+selectedtohighlightthetwomajorproblemsthesystemhastohandle–distortedimagedataandtime\
+\
+shifteddata.\
+\
+\li360
+InSection4.1videomaterialwillbesubmittedtotheOculusAnalyserinordertoﬁndit’scorre-\
+\
+\li0
+sponding”mirrored”counter-part.Thisexamplewillalsobeusedtohighlightthetremendouspossibili-\
+\
+tiesthatliewithindata\f2 pre-processing\f1 thatareappliedwithintheproposedsystem,andifneededcould\
+\
+beexpandedevenmoreinordertoquickentheinitialresponsetime.\
+\
+\li360
+InSection4.2anextractedscenewillbepositionedwithinanexistingvideointhereferencedatabase.\
+\
+\li0
+Thisproblemturnsouttobenon-trivialbecauseofdifferentframe-ratesofsuppliedmaterial,thusrender-\
+\
+ingmethodssimilarinconcepttosub-stringsearchcouldnothavebeenappliedefﬁciently.Thesection\
+\
+explainsthealgorithmsappliedinstead,andshowcasesanexamplecase.\
+\
+\f2 \li360
+Theframesusedtoillustratetheexperimentsstemfromthemovie”BigBuckBunny”[Fou08]which\
+\
+\li0
+hasbeencreatedbytheBlenderFoundation[ble]andreleasedundertheCreativeCommonslicense\
+\
+[Com01].\
+\
+\
+\f3\fs29\sl330 \li360
+4.1.Mirroredvideodetection\
+\
+\f1\fs22\sl251 Inordertotestthesysteminscenariosofimagedisortiontheexamplecaseof”mirrored”video\
+\
+\li0
+materialwasused.ThiscaseisfairlypopularamongmaterialuploadedtoYouTube,sooutsideofthe\
+\
+easeofpreparingtestdata,itisalsoavalidreal-lifescenarioofonemightencounter.\
+\
+\f3\fs24\sl275 \li360
+4.1.1.Detectingotherkindsofdistorionsinvideomaterial\
+\
+\f1\fs22\sl251 Ofcourse,otherkindsofdisortionscouldbeappliedtoavideo,suchascomparingahigh-quality\
+\
+\li0
+videowithalow-qualitycounterpartorsimplecoloringﬁlters.Whilebeingoutsideofthescopeofthis\
+\
+thesis,thebasicconceptsandframeworkproposedwouldeasilybeabletoincorporatemorescoring\
+\
+functionsintotheMapReducepipelinethatwouldhelpdeterminematchesbetweenevensuchdisorted\
+\
+videomaterials.\
+\li4440
+27\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx5900\tx8900\tx9380
+\f4\fs20\sl229 4.2.Scenedetection		\f3\fs22\sl251 28\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1\fs20\sl229 \li1800
+(a)Originalframe	(b)Mirroredframe\
+\fs22\sl251 \li2280
+Figure4.1:Exampleoforiginalandmirroredframe\
+\
+\li360
+Aninterestingexampledisortionfoundcommonlyinmanymaterialsisslightchangesinthecolor\
+\
+\li0
+hueorwhitebalanceofthe			histogramshistograms\
+\
+\
+\f3\fs29\sl330 \li360
+4.2.Scenedetection\
+\
+\f1\fs22\sl251 Thisscenariocanbeexplainedastryingtoﬁndout\f2 where\f1 (ifatall)ascenetakesplaceinamovie\
+\
+\li0
+knowntothereferencedatabase.\
+\
+\li360
+Althoughonthesufracethegeneralproblemstatementisnotsodifferentthansubstringsearch,\
+\
+\li0
+whichisaknownandwellresearchedtopicincomputerscience.Insub-stringsearchalgorithmslike\
+\
+theKnuth–Morris–Pratt[kmp]ortheBoyer-Moore[RSB77]algorithmsleveragethatthe”matching”\
+\
+eitherwillapply,orwillnotinordertoincreasesearchspeedintheworstcasetostilllineartime.\
+\
+However,thesemethodscan\f2 not\f1 bedirectlyappliedtotheproblemspeciﬁedinthissection–becauseof\
+\
+thedissortionsinsourceandreferencevideomaterialaswellasthepossibilityofcross-matcheswhena\
+\
+movieisbuiltupfrommultipleshortscenesfromothermovies–atypicalexampleherewouldbe”ﬂash-\
+\
+back”scenesor”top10”movieswherebeforethelasttop-3,themoviewouldquicklygooveralready\
+\
+shownframesofscenes.Anotherproblemaddingtothedissortionsisframeratesofreferencedatavs.\
+\
+ananalysedvideofragment–evenaslightmissmatch(30FPSvs.25FPS)wouldrenderthesubstring\
+\
+searchalgorithmsnotusableforthisconcreteexample.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\li1440
+Figure4.2:Visualrepresentationofthegoalofthisexampleapplication.\
+\
+\li360
+Instead,amorestatisticalaproachwastaken.Inwhichaframeiscomparedwithit’ssetof”potential\
+\
+\li0
+matchcandidates”whicharedeterminedbyverycoarseﬁlteringofthereferencedatasetbybucketing\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900\tx9380
+\f4\fs20\sl229 4.2.Scenedetection	\f3\fs22\sl251 29\
+\
+\
+\f1 certaincriteriaoftheirhistogramssuchas”dominatingred”or”dominatingblue”(thisclassiﬁcationis\
+\
+preparedonthereferencedatabeforehand–duringimportingintothesystem).\
+\
+\li9380
+mentionmention\
+\
+some-some-\
+\
+wherewhere\
+\
+beforebefore\
+\
+thatwethatwe\
+\
+reallyreally\
+\
+extractextract\
+\
+datalikedatalike\
+\
+”mostly”mostly\
+\
+red”red”\
+\
+ﬁnishﬁnish\
+\li0
+Figure4.3:Oneframemaypotentiallymatchmultiplereferenceframes.Theﬁnalmostprobablematch-		thissce-thissce-\
+ingsceneisdeterminedbyaggregatingdatathedirectframe-to-framematches.		narionario\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\
+\f3\fs34\sl396 5.Clusterscalingandperformanceanalysis\
+\
+\
+\
+\f1\fs22\sl251 \li360
+Thissectionwillfocusonanalysingaswellaspresentingimprovementstotheclusterdeployment\
+\
+\li0
+whichcanandhavebeenappliedtotheHadoopclusterleveragedbytheAnalyserapplicationpresented\
+\
+inpreviouschapters.\
+\
+\li360
+InSection5.1severalchallangesandtypicalproblemswithscalingHadoopclusterswillbepre-\
+\
+\li0
+sented,andthenfollowedupbysolutionsappliedduringtheworkonthisthesis.\
+\
+\li360
+Section5.2willbrieﬂyexplainscalabilityconcernsrelatedtoanAkkabasedclusterdeployment,yet\
+\
+\li0
+asthiscomponenthasnotbeenascriticaltooveralsystemperformanceastheAnalyserandHadoop\
+\
+cluster,theAkkaclusterhasbeendeemed”goodenough”forthescopeofthispaper.\
+\
+\li360
+LastlySection5.3willsummarisetheﬁndingsfromthescalingexperimentsconductedinthepre-\
+\
+\li0
+vioussections,bystatinggeneralrecommendationsandhintsforscalingsystemsthatprocesslarget\
+\
+amountsofdata.\
+\
+\
+\f3\fs29\sl330 \li360
+5.1.ScalingtheAnalyser’sHadoopCluster\
+\
+\f1\fs22\sl251 ThissectionwillfocusonanalysingandtuningthevarioussettingsoftheHadoopclusterdeployed\
+\
+\li0
+forthepreviouslydescribedAnalyserapplication.Subsectionsfocusontuningtheclusteronasetting–\
+\
+by–settingbasisyetthetuningwillalwaysbeenforcedbyabusinessneed,whichinthiscasewillbe\
+\
+representedastheneedtospeedupprocessingofthemapreducepipelinesproducingresultswhichwere\
+\
+explainedinChapter4.\
+\
+\f3\fs24\sl275 \li360
+5.1.1.StoringimagesonHDFS,whileavoidingthe”SmallFilesProblem”\
+\
+\f1\fs22\sl251 MostalgorithmsusedinOculusoperateonaframe-by-framebasis,whichmeansthatitismost\
+\
+\li0
+naturaltostorealldataas”dataforframe343frommovieXYZ”.Thisappliestoeverythingfromplain\
+\
+bitmapdataofaframetometricssuchashistogramsofcoloursofagivenframeorothermetadatalike\
+\
+theextractedtextcontentfoundinthisframe.\
+\
+\li360
+Sadlythisabstractiondoes\f2 not\f1 worknicelywithHadoop,itwouldcausethewell–known”small-\
+\
+\li0
+ﬁlesproblem”whichleadsto\f2 major\f1 performancedegradationoftheHadoopclusterisleftunadressed.\
+\
+Thissectionwillfocusonexplainingtheproblemandwhatstepshavebeentakentopreventitfrom\
+\
+manifestinginthepresenceofmillionsof”frame-by-frame”piecesofdata.\
+\
+\li360
+Hadoopusessocalled”blocks”assmallestatomicunitthatcanbeusedtomovedatabetweenthe\
+\
+\li0
+cluster.Thedefaultblocksizeissetto\f2 64megabytes\f1 onmostHadoopdistributions.\
+\li4440
+30\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 31\
+\
+\
+\f1 \li360
+ThisalsomeansthatiftheDFStakesawriteofoneﬁle(assumingthe\f2 replicationfactor\f1 equals1)it\
+\
+\li0
+willuseuponeblock.Byitselfthisisnotworrying,becauseotherthanintraditional(local)ﬁlesystems\
+\
+suchasEXT3forexample,whenwestoreNbytesinablockonHDFS,thetheﬁlesystemcanstilluse\
+\
+block’sunusedspace.Figure5.1showsthestructureofablockstoringonlyoneframeofamovie.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+Figure5.1:WhenstoringasmallﬁleinHDFS,itstilltakesupanentireblock.Thegreyspaceisnot\
+\
+wastedondisk,butcauses\f2 name-node\f1 tostore1blockentryinmemory.\
+\
+\li360
+Theproblemstemmingfromwritingsmallﬁlesmanifestsnotdirectlybyimpactingtheuseddisk\
+\
+\li0
+space,butinincreasingmemoryusageintheclusterssocalled\f2 name-node\f1 .Thename-nodeisresponsible\
+\
+foractingasalookuptableforlocatingtheblocksinthecluster.Sincename-nodehastokeep150KB\
+\
+ofmetadataforeachblockinthecluster,creatingmoreblocksthanweactuallyneedquicklyforces\
+\
+thename-nodetousesomuchmemory,thatitmayrunintolonggarbagecollectionpauses,degrading\
+\
+theentirecluster’sperformance.Toputprecisenumberstothis–ifwewouldbeabletostore500MB\
+\
+ofdatainanoptimalway,storingthemonHDFSwoulduse8blocks–causingthenamenodetouse\
+\
+approximately1KBofmetadata.Ontheotherhand,storingthisdatainchunksof2MB(forexample\
+\
+bystoringeachframeofamovie,uncompressed)woulduseup250HDFSblocks,whichresultsin\
+\
+additional36KBofmemoryusedonthename-node,whichis4.5timesasmuch(28KBmore)aswith\
+\
+optimallystoringthedata!Sincewearetalkingabouthundredsofthousandsofﬁles,suchwastecauses\
+\
+atremendousunneededloadonthename-node.\
+\
+\li360
+Itshouldbealsonoted,thatwhenrunningmap-reducejobs,Hadoopwillbydefaultstartonemap\
+\
+\li0
+taskforeachblockit’sprocessinginthegivenJob.Spinningupataskisanexpensiveprocess,sothis\
+\
+tooisacauseforperformancedegradation,sincehavingsmallﬁlescausesmore\f2 Maptasks\f1 beingissued\
+\
+forthesameamountofactualdataHadoopwillspendmoretimewaitingfortaskstoﬁnishstartingand\
+\
+collectingdatafromthemthanitwouldhaveto.\
+\
+\f3 \li360
+SequenceFiles\
+\
+\f1 Thesolutionappliedintheimplementedsystemtoresolvethesmallﬁlesproblemisbasedona\
+\
+\li0
+techniquecalled”SequenceFiles”,whichareamanuallycontrolledlayerofabstractionontopofHDFS\
+\
+blocks.TherearemultipleSequenceﬁleformatsacceptedbythecommonutilitiesthatHadoopprovides\
+\
+[Had12]buttheyallare\f2 binaryheader-preﬁxedkey-valueformats\f1 ,asvisualisedFigure5.2.\
+\
+\li360
+UsingSequenceFilesresolvesallpreviouslydescribedproblemsrelatedtosmallﬁlesontopof\
+\
+\li0
+HDFS.Filesarenolonger”small”,atleastinHadoop’sperception,sinceaccessofframesofamovieis\
+\
+mostoftenboundtoaccessotherframesofthismoviewedon’tsufferanydrawbacksfromsuchstorage\
+\
+format.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 32\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 \li360
+Figure5.2:ASequenceFileallowsstoringofmultiplesmallchunksofdatainoneHDFSBlock.\
+\
+AnothersolutionthatcouldhavebeenappliedhereistheuseofHBaseandit’skey-valuedesign\
+\
+\li0
+insteadoftheexplicituseofSequenceFiles,yetthiswouldnotyieldmuchperformancenorstorage\
+\
+beneﬁtsasHBasestoresit’sTabledatainaverysimilarformatasSequenceFiles.Theonebeneﬁtfrom\
+\
+usingHBaseinordertoavoidthesmallﬁlesproblemwouldhavebeenrandomaccesstoanyframe,not\
+\
+to”framesofthismovie”,butsinceIdon’thavesuchaccesspatternsanditwouldcomplicatethedesign\
+\
+ofthesystemIdecidedtouseSequenceFilesinstead.\
+\
+\f3\fs24\sl275 \li360
+5.1.2.Tuningreplicationfactors,forincreasedjobcomputationspeed\
+\
+\f1\fs22\sl251 OneofthemanytuneableaspectsofHadoopdeploymentsthatcanhaveaveryhighimpactonthe\
+\
+\li0
+clustersperformanceisthe\f2 replicationfactor\f1 ,whichstandsfor”thenumberofdatanodesapieceofdata\
+\
+isreplicatedto”.Thissectionwillexplainindetailhowatuningthisfactor,andleveragingHadoop’s\
+\
+schedulingmechanismscanbetweakedtotradeofstoragespace(higherreplicationfactors)tofaster\
+\
+executiontimesofjobs.\
+\
+\li360
+Hadoop’sprimarystrengthinbigdataapplicationslieswithinleveraging\f2 datalocallity\f1 whenever\
+\
+\li0
+possible.Theconceptofdatalocallitymeansthatinsteadofmovingthedataaroundinthecluster,toa\
+\
+nodewheretheapplicationisrunning,theTaskSchedulerwilltryﬁndsuch”mapslots”(multiplesuch\
+\
+slotscanbeassignedtoonedatanode)thatthedatathejobneedstoprocesswillbelocaltothenode\
+\
+theslotresideson.Effectivelythismeansthatapplicationcode(jarandclassﬁles)willbesenttothe\
+\
+executingserver,andnottheinverse.Therationalebehindthismeasureisthattheamountsofdataare\
+\
+waybiggerthanthesizeofapplicationsinthesekindsofsystems–thus,avoidingtomovethedatacan\
+\
+savebothcostsandprecioustime.\
+\
+\li360
+Whiledatalocallityisa\f2 priority\f1 forthescheduler,itisbynomeansahardrequirement.Inascenario\
+\
+\li0
+outlinedinFigure\f3 ??\f1 ajobhasbeensubmittedtoa3-nodecluster.Thereplicationfactorinthecluster\
+\
+issetto2–whichcanbenoticedbythenumberoftimeseachpieceofdataisreplicatedamongthe\
+\
+datanodes.Intheabsenceofanyotherjobsscheduledonthecluster,thefair–schedulerwilldecideto\
+\
+usethe3rddatanodeinordertoacceleratetheprocessingofthejob,eventhoughitdoesnothavethe\
+\
+requiredpieceofdatalocatedonit(splitsofA).Replicatingthedataovertodatanode-3isquitecostly,\
+\
+andeventhoughitmayspeed-upthetotalcomputetime,weloosetimeontransferingthedatainan\
+\
+ad-hocfashion.\
+\
+\li360
+Bytweakingthereplicationfactorforthegivenﬁle,whichweexpecttobeneededonmorenodes,\
+\
+\li0
+wecanspeedupthetotalcomputetimeofagivenjob.Inordertochangethereplicationfactorofagiven\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1440\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9140
+\f4\fs20\sl229 \li240
+5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 33\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure5.3:Threenodecluster,withidle3rdnode;SchedulerwillreplicatedataAwhilerunningtheJob,\
+\
+inordertostartataskrequireingAonthe3rdidlenode.\
+\
+\
+path,onecanuseeithertheJavaAPIsorthehadoopcommandlinetool,asshowninListing5.1.\
+\
+\li840
+Listing5.1:Explicitlychangingthereplicationfactoronapathusingcommandlinetools\
+\
+\fs20\sl229 \li0
+1\f5 hadoopdfs-setrep-R-w3/oculus/source/e98uKex3hSw.mp4.seq\
+\
+\f1\fs22\sl251 \li600
+Byincreasingthereplicationfactorofpathsthatweknowtheywillbeusedinmanymappers,wecan\
+\
+\li240
+increasethenumberofdata-localslotsavailabletothescheduler,andavoidhavingtomigratethedatain\
+\
+anad-hocfashion.Ofcourse,thetradeoffisrequireingevenmorediskspaceinthecluster,butitiswell\
+\
+worthconsideringtoraisethereplicationfactorofapathwhileitis”hot”,andloweringitafterwards.\
+\
+\li600
+Thereplicationfactorofaﬁle(orpath)issuchanimportantvalue,it’susuallyalwaysdisplayed\
+\
+\li240
+alongsideanyﬁlelistingwithintheHadoopUIs(seeFigure\f3 ??\f1 )aswellascommandlinetools.Itshould\
+\
+alsobenotedthatitisimpossibletosetthereplicationfactortoahighernumberthantherearedatanodes\
+\
+presentinthecluster–asthereplicationrequirementwouldnotbepossibletobefulﬁlled.\
+\
+\f3\fs24\sl275 \li600
+5.1.3.TuningtheCluster’ssize,inconjunctionwithreplicationfactors\
+\
+\f1\fs22\sl251 Hadoopaimstodeliveronthepromiseof”nearlylinearhorizontalscalability”,whichmeansthat\
+\
+\li240
+speed-upexpiriencedfromaddingmorenodestotheclustershouldimpacttheprocessingtimesposi-\
+\
+tivelyinalinearfashion.Ofcourse,addingmorenodesalsomeansthatoperationalcostsarehigher,\
+\
+soonehastoballancethenumberofnodeswiththeirﬁne-tuningaswellasprojectneeds.Inorderto\
+\
+testthesystemsbehavior,theclusterwasconﬁguredwith1mapslotoneachdatanode,andwasinitially\
+\
+runningusing3datanodes.Thissectionaimstoverifythehorizontalscalabilityoftheproducedclus-\
+\
+ter,inthecaseofCPUintensivetasks–suchascomputingphashesandhistogramsfrommovies(the\
+\
+pre-processingstepasexplainedinChapter4.\
+\
+\li600
+BecausetheMapReduceframeworkreliesonparallelisingcomputingofthemapfunctionsupplied\
+\
+\li240
+bytheuser,thegoaloftheclusteradministratorshouldbetoenablethemaximumnumberofmapslots.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1440\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9140
+\f4\fs20\sl229 \li240
+5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 34\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure5.4:HDFSon-linebrowser,runningondatanode(port:50075),displayingreplicationfactorsof\
+\
+ﬁles(4thcolumn)\
+\
+\
+Amapslotisdeﬁnedasone”slot”inwhichthetaskschedulermayallocatework,inordertoprocessa\
+\
+partofthemapcomputation.Thesamecanbespeciﬁedforthereducestep,inwhichcaseonerefersto\
+\
+\f2 reduceslots\f1 .\
+\f3 \li600
+Growingthecluster\
+\
+\f1 Withthebasesizeoftheclusterbeing3nodes(withonevirtualmachinehostingthenamenodeas\
+\
+\li240
+wellasadatanode,andtheresthostingonlydatanodes),thissectionaimstodeterminethehorizontal\
+\
+scalabilityofthecluster,bysheeraddingofdatanodestothehadoopcluster.\
+\
+\li600
+Addingnodestotheclusterisaverysimpleoperation,andcanbeperformedwithoutanydisruption\
+\
+\li240
+ofthealreadyrunningcluster.Duringthetestsperformedforthissection,additionalVMshavebeen\
+\
+provisionedandaddedtotheclusterbyusingthecommandsshowninListing\f3 ??\f1 .Itshouldbenotedthat\
+\
+theprovisionedVMswouldre-useanexistingsnapshotimageofaninstancepreparedusingOpsCode\
+\
+Chef,whichisanconﬁgurationprovisioningtoolexplainedindetailinAppendixA.Theusualtimefrom\
+\
+startinganewnodeonGoogleComputeEngine,anditstartingtoparticipateintheworkdistributionof\
+\
+theHadoopclusterwas\f2 lessthan1minute\f1 (includingthetimetoprovisionthefreshvirtualmachine)!\
+\
+\li600
+,\
+\
+\li1080
+Listing5.2:Completelistingofaddinganewworkernodetothecluster,usingGCE\
+\
+\fs20\sl229 \li0
+1\f5 //provisionnewinstance\
+\
+\f1 2\f5 gcutil"v1"--project="oculus-hadoop"adddisk--service_version=\
+\
+\li600
+"oculus-4b"--zone="us-central1-a"\
+\
+--source_snapshot="oculus-slave-snapshot"\
+\
+\f1 \li0
+3\
+\
+\li240
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9260
+\f4\fs20\sl229 \li360
+5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 35\
+\
+\
+\f1\fs20\sl229 \li120
+4\f5 gcutil"v1"--project="oculus-hadoop"addinstance--service_version=\
+\
+\li720
+"oculus-4b"--zone="us-central1-a"--machine_type="n1-standard-1"\
+\
+--network="default"--external_ip_address="ephemeral"\
+\
+--service_account_scopes="https://www.googleapis.com/auth/..."\
+\
+--tags="hadoop,datanode,hbase"\
+\
+--disk="oculus-4b,deviceName=oculus-4b,mode=READ_WRITE,boot"\
+\
+--auto_delete_boot_disk="true"\
+\
+\f1 \li120
+5\
+\
+6\f5 //obtainipaddress\
+\
+\f1 7\f5 gcutilgetinstanceoculus-3b|grepip\
+\
+\f1 8\f5 //ip10.240.80.181\
+\
+\f1 9\f5 //external-ip146.148.47.191\
+\
+\f1 \li0
+10\
+\
+11\f5 //addinternaliptonamenodemastersconfig\
+\
+\f1 12\f5 gcutilsshoculus-master\
+\
+\f1 13\f5 echo"10.240.80.181">>/opt/hadoop.1.2.1/conf/slaves\
+\
+\f1 14\
+\
+15\f5 //startworkersonaddednodes\
+\
+\f1 16\f5 /opt/hadoop-1.2.2/start-all.sh\
+\
+\f1 17\
+\
+18\f5 //addnodealiasestolocalhosts\
+\
+\f1 19\f5 echo"146.148.47.191oculus-3b">>/etc/hosts\
+\
+\f1\fs22\sl251 \li720
+ThejobusedtomeasuretheimpactofaddingnewnodeswasthemostCPUintensivetaskpresent\
+\
+\li360
+intheOculusworkﬂow,whichis:computingtheperceptualhashofeachframeofagivenmovie.The\
+\
+movieselectedfortheprocesswasthepreviouslyintroduced”BigBuckBunny”movie,amountinga\
+\
+totalof6.38GBofframedatatoprocess,splitamong103HDFSBlocks(eachroughly64MBinsize).\
+\
+Thankstothislargenumberofblocks,thetaskschedulershouldbeabletoefﬁcientlydistributethework\
+\
+toevenlargenumbersofworkernodes.Infact,asvisibleonFigure\f3 ??\f1 with10mappers(10datanodes,\
+\
+with1mapsloteach)areexecutingtasksfromthesamejobinparallel,causinganobviousspeedupin\
+\
+Mapcomptation.\
+\
+\li720
+Beforeexplainingtheresultsoftheperformedscalabilitytests,onemoretermneedstobeintroduced.\
+\
+\li360
+Taskscanbeexecutedinanumberofdifferentways–thatis,theymaybeexecutedstrictlylocaltothe\
+\
+datatheyworkon,orjust”nearthedatathetaskrequires”orreally”farawayfromthedatathetask\
+\
+requires”–theseintuitivedeﬁnitionshavetheirnamedcounterpartswhicharemeasuredandreportedfor\
+\
+everyrunofaMapReducejob,namelythosetypesofTasksare:\
+\
+\li720
+–\f3 DataLocalTask\f1 –theTaskisexecutedonthesamedatanodeonwhichthedataitrequiresresides.\
+\
+\li960
+Nodatatransferbetweennodesisrequiredforthetasktostart.ThisistheoptimaltypeofTask,\
+\
+andoneshouldaimatmaximisingtheirnumberduringanexecutionofMapReducejobs.\
+\li720
+–\f3 RackLocalTask\f1 –theTaskisexecutedonadatanodethatislocatedonthesamerack(inthe\
+\
+\li960
+datacenter)asthenodethatthedataitrequiresresides.Thiskindoftaskwillrequirethedatato\
+\
+betransferedbetweenthetwohosts,butsincetheyarelocatedonthesamerackthetransfercost\
+\
+isstillrelativelysmall.\
+\
+\fs20\sl229 \li360
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx2640\tx5060\tx5180\tx8420\tx8900
+\f4\fs20\sl229 5.1.ScalingtheAnalyser’sHadoopCluster				\f3\fs22\sl251 36\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure5.5:FragmentofWeb-UIinterfacedisplayingtheprogressofmaptasksintheclusterconsisting\
+\
+of10physicalnodes,withonemapsloteach.\
+\
+\li360
+–\f3 RemainingTasks	\f1 –tasksthatarenotDataLocaldonothaveaname\
+\
+\li600
+oftheirown,andarenotreporteddirectly.Insteadoneaimstomax-\
+\
+imise    the    number    of    Data    and    Rack    Local    tasks,    with    the    rest    being    simply\
+\
+\f5 notLocalTasks=totalTasks-dataLocalTasks-rackLocalTasks			\f1 .\
+\
+Thesetasksrequiretransferingthedataacrossthenetworkforthejobtostart,andshouldbe\
+\
+avoidedatallcosts–inouruse-casesitwaspossibletoavoidtriggeringevenoneofthesetasks.\
+\
+\li360
+TheﬁrstrowinTable\f3 ??\f1 representsthetheoreticaltimetoexecutethejobusingonlyonenode–\
+\
+\li0
+theaproximatedtimetocompletethejobusingonethread(mapper)wascalculatedbycalculatingthe\
+\
+averagetimeofcomputingonesplitofdata,whichisequalto:\f2 47seconds\f1 .Othertimecharacteristicsof\
+\
+computingonetaskarelisted,forreference,inTable\f3 ??\f1 .\
+\f3 \li3000
+CharacteristicValue(seconds)\
+\
+\f1 \li3480
+min		41\
+\
+max		71\
+\
+avg	47.41\
+\
+\li3360
+stddev		4.33\
+\li1320
+Table5.1:TimecharacteristicsofexecutingoneTaskoftheanalysedjob.\
+\
+\li360
+Theexperimentwasthenexpandedtomorenodes,andafterwardsthereplicationfactorwasincreased\
+\
+\li0
+toincreasethechanceoftriggeringDataLocaltasks.ResultsoftheexperimentarelistedinTable\f3 ??\f1 .\
+\
+\li360
+AnalysingTable\f3 ??\f1 yieldsveryinterestingresults.Themostinterestingmetricinourcaseifofcourse\
+\
+\li0
+theabsolutespeed-upoftheprocess,yettherelativespeed-up(asmeasuredbetweenpreviousandcurrent\
+\
+conﬁguration)isalsoquiteinteresting–especialyincaseswhenthereplicationfactorwasmodiﬁed.\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx3500\tx3620\tx4700\tx4820\tx5540\tx5660\tx6020\tx6980\tx7220\tx7460\tx7580\tx8780\tx8900
+\f4\fs20\sl229 5.1.ScalingtheAnalyser’sHadoopCluster													\f3\fs22\sl251 37\
+\
+\
+\li600
+Clusterconﬁguration		Tasksexecuted				Performance\
+\
+\f1 \li480
+NrofnodesReplicationDatalocalRacklocal			Time		Speed-upAbs.speed-up\
+\
+\li120
+1node(simulated)1	103		0	aprox.87mins				–		–\
+\
+\li600
+3nodes3	103		0	27mins,14sec			3.19	3.19\
+\
+4nodes3		89	14	21mins,53sec			1.25	3.98\
+\
+7nodes4		67	36	12mins,37sec			1.73	6.90\
+\
+10nodes4		54	49		9mins,1sec			1.40	9.65\
+\
+\li2400
+6		99		4		8mins,49sec1.02(1.43)	9.87\
+\li0
+Table5.2:Computationspeed-upbyaddingnodes,andincreasingreplicationfactors,leadingtoin-\
+\
+creaseddatalocalityforexacutedjobs.\
+\
+\
+\li360
+Theﬁrstnotableandinterestingdifferenceisofcoursebetweenrunningthejobon1nodeto3nodes,\
+\
+\li0
+withthereplicationfactorequaltothenumberofnodestothecluster.Thishastheobviouseffectofall\
+\
+tasksbeingexecutedlocaltothedatatheyrequire(aseachnodehasallthedata).Thetotalspeed-upis\
+\
+around3,whichwouldindicatelinearscalabilityinthiscase.Yetbecuaseofstillsmallnumerfofnodes,\
+\
+andeverythingbeingexecutedlocally,thiscaseisnotveryinterestingfromthe”introductionofcluster\
+\
+communicationoverhear”perspective.\
+\
+\li360
+Thenextnotableeffectdemonstratedduringthisexperimentisvisiblewhenscalingtheclusterto4\
+\
+\li0
+nodes,withoutincreasingthereplicationfactor(whichstayedat3).Thisforcedtheclustertoexecute\
+\
+RackLocaltasksfortheﬁrsttime.Theschedulerwasforcedintoscheduling14tasksonnodesthatdid\
+\
+nothavethedatalocallyavailable,althoughitmanagedtoschedulethemonRackLocaltasks–which\
+\
+stillisanacceptablechoiceformostcomputations.\
+\
+\li360
+Afterscalingtheclusterto10nodes,andupdatingthereplicationfactorto4–speciﬁcallychosen\
+\
+\li0
+becauseitbeing”slightlybellowhalfthenumberofthenodes”,onecanobserveasigniﬁcantdropin\
+\
+tasksbeingexecutedDataLocally–thisisbecausetheschedulerhasmorenodesavailable,andsince\
+\
+theyareidle,itdecidestousetheminsteadofkeepingthemidle–itwilldoso,eveniftherearenoData\
+\
+Localslotsavailable.Intheenditstillresultsinan\f5 1.4\f1 speed-upasrelatedtothe7nodesscenario,even\
+\
+ifthenumberofRackLocaltakshasincresedbyafactorof\f5 3.5\f1 .\
+\
+\li360
+Thelast,andperhapsmostinterestningmeasuredchangetotheclusterinvolvedincreasingtherepli-\
+\
+\li0
+cationfactoronan10nodesclusterto\f5 6\f1 –sothatmorethanhalfoftheserverswouldhostthesamepiece\
+\
+ofdata.Afterwaitingforthedatatobepropagated(noticethatdatanodesundergoingheavymigration\
+\
+canappearunavailabletothecluster),thejobwasstartedagain.Thistime,eventhoughtherelativenum-\
+\
+berofnodesthathavethedatalocallywasnotsomuchdifferent(”slightlymorethankhalfofthenodes”)\
+\
+asinthe7nodesscenario,it’shighlyinterestingtoseethat\f5 99\f1 outof\f5 103\f1 (96%)taskswereexecuted\
+\
+asDataLocaltasks.WhilethechangeinthenumbersofDataLocaltasksexecutedseemsfantastic,the\
+\
+differenceinrelativespeed-upbetweenreplicationfactors4and6inthiscaseinrelationtothe7nodes\
+\
+casewasamere\f5 0.03\f1 precentagepoints,andaround11seconds,aspeed-upmostlikelynotnotworth\
+\
+theaddeddataduplicationintroducedtothecluster–whichalsohasaﬁnancialbacklash(moredata\
+\
+duplication,resultingintheneedofevenmoredisks,resultingintheneedofevenmoreservers).\
+\
+\li360
+Inordertosummarisethissection,onelastobservationshouldbemadeaboutTable\f3 ??\f1 ,namely:in\
+\
+\fs20\sl229 \li0
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx2760\tx8900
+\f4\fs20\sl229 5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 38\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure5.6:FragmentofWeb-UIinterfacedisplayingtheprogressofmaptasksintheclusterconsisting\
+\
+of10physicalnodes,withonemapsloteach.\
+\
+respectofaddingmorenodestotheHadoopcluster,itseemsthatitscalesnearlylinear,ascanbeseenby\
+\
+comparingthenumberofnodescomparedtotheabsolutespeed-up,forexample–whenrunningacluster\
+\
+with\f5 10\f1 nodes,theabsolutespeedupinrelationtorunningononenodewas\f5 9.87times\f1 ,whichis\
+\
+veryneartoafull10.Thankstothisexperimentonecanconcludethat(atleasttosuchnumbersofnodes)\
+\
+Hadoopisinfact\f2 nearlylineariliscalable\f1 ,whichisconsideredquiteanachievementandwouldserve\
+\
+thegrowing-over-timeneedsofadataprocessingplatformverywell.\
+\
+\f3\fs24\sl275 \li360
+5.1.4.Tuningclusterutilizationthroughsettingmap/reduceslotnumbers\
+\
+\f1\fs22\sl251 The  last  investigated  option  available  for  increasing  cluster  utilisation  investigated  was  the\
+\
+\f5 \li0
+mapred.map.tasks\f1 settingandit’scorresponding\f5 mapred.reduce.tasks\f1 ,ashintedbyEric\
+\
+Sammerin[had].\
+\
+\li360
+ThesesettingsinﬂuencethenumberofMapandReduce”slots”availableforthescheduleroneach\
+\
+\li0
+node.Bydefaultthesearesetto1maptaskforeachphysicalCPUavailableonthenode(ascanbe\
+\
+seenonFigure\f3 ??\f1 ,where\f2 oculus-3-cpu\f1 has2physicalCPUs,andwasautomaticallyassigned2map\
+\
+andreduceslots).Whenrunningmultipleexamplejobsonthecluster,itwasdiscoveredthatsome”low\
+\
+utilisation”jobswouldneedlesslyoccupypreciousmapslotsonthecluster–leadingtosuchworst-case\
+\
+scenariosasdepictedonFigure\f3 ??\f1 ,whereallnodes(allofwhichareoftype:\f2 n1-standard-1(1vCPU,\
+\
+3.8GBmemory)\f1 )areprocessingonetaskandwhichoccupies100%oftheirtaskslots(becauseeachhas\
+\
+1CPU),yetthetaskis\f2 not\f1 CPUintensive,whichleadstowastingpreciousCPUtime.Itwouldbemuch\
+\
+moreefﬁcienttoallowthesenodestorunatleast2mapandreducetasksatthesametime-sincethey\
+\
+theywon’tbecompetingforeachother’sCPUtime.\
+\
+\li360
+InordertoavoidclusterunderutilisationasseenonFigure\f3 ??\f1 (where10nodesareworking,yet\
+\
+\li0
+thevastmajorityofthemonlyutilisesaround30%oftheirCPU),thenumberofconcurrenttasksto\
+\
+beexecutedononenodewasincreasedto2mapand2reducetasks.Literaturerecommendsusing\
+\
+\f5 rount(1.5\fs33\sl251\sub *\nosupersub {}\fs22\sl251 nrOfCpus)\f1 taskspernode,yetthissettingshouldbealwaysaccustomedtothework-\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 5.1.ScalingtheAnalyser’sHadoopCluster	\f3\fs22\sl251 39\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure5.7:Anexampleofanunderutilisedcluster,whereeachnodehas1mapand1reduceslot,yetthe\
+\
+computedtaskisnotdrainingtheavailableCPUtime,leadingtowastingpreciouscomputetime.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+Figure5.8:FragmentofWeb-UIdisplayingtheconnecteddatanodes.Theoculus-3nodeisanhigh-cpu\
+\
+instance,andhasmoreslotsthantheremainingnodes.\
+\
+\
+loadaclusterisexpiriencing.Havingthisinmind,ascaleddownclustermayactuallybemoreefﬁcient\
+\
+onprocessingsuchjobs.Thechangedconﬁgurationincluded4nodes,allofwhichwereset-upfohost\
+\
+2mapslotsand2reduceslots.TheCPUloadontheclusterinsuchconﬁguration,performingthesame\
+\
+jobasseenonFigure\f3 ??\f1 ,canbeseenonFigure\f3 ??\f1 .\
+\
+\li360
+Itisworthkeepinginmindthatcostefﬁciencyusuallyisalsoanimportantbusinessneedandsimply\
+\
+\li0
+addingmoreserverssometimesisn’tanavailableoption.Evenmoreso,sometimeswemayendupover\
+\
+provisioningservers–asseeninFigure\f3 ??\f1 ,sowhilesimplyaddingmoreserversisverytemptingand\
+\
+usuallyworksverywellonHadoopclusters(asseeninSection5.1.3),oneshouldalwaysﬁrsttrytoﬁne\
+\
+tunetheclustertothespeciﬁcwork-loaditisexperiencing.Inthecaseshowninthissection,aﬁne-tuned\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 5.2.ScalingouttheLoader’sAkkaCluster	\f3\fs22\sl251 40\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\f1 Figure5.9:ScreenshotofNewRelic(clustermonitoringsoftware)displayingCPUandmemoryutilisa-\
+\
+tionduringtheexecutionofanCPUintensivemapreducejob.\
+\
+\
+4nodeclusterwasabletoperformalmostasgood(forthissetofjobs),astheunderutilised10node\
+\
+cluster.Inreallifeclusterswillalwaysexecuteverydifferentworkloadsatthesametime,soitmaybe\
+\
+veryhardtoﬁnetuneitforverypercisescenarios,yettheeffortofchangingconﬁgurationsofcluster\
+\
+memberscansometimespreventtheneedofaddingmoreservers,soitshouldbealwaysconsideredﬁrst\
+\
+–unlessalongtermclusterexpansion(e.g.”adding100nodes,inthenext2months”)isplanneddirectly.\
+\
+\
+\f3\fs29\sl330 \li360
+5.2.ScalingouttheLoader’sAkkaCluster\
+\
+\f1\fs22\sl251 ScalingtheLoadersub-systeminthisprojectwasnotverychallangingbecauseoftheActorSystem\
+\
+\li0
+providedbyAkkabeingsoefﬁcientwhereasthetasksperformedbyanodeonceitgota”download\
+\
+movie”messagebeingmeasuredinmultipleminutes(upto10minutesforlongmovies–sincemost\
+\
+creativecommonslicensedmoviesarenotverylong).\
+\
+\f3\fs24\sl275 \li360
+5.2.1.Scalingoutbyaddingmorenodes\
+\
+\f1\fs22\sl251 Theoneoptimizationperformedduringthisworkwasdistributing”download”taskstodifferent\
+\
+\li0
+nodes,sothattwonodesintheclusterwoulddownloadmoviesanduploadtherawdataintoHDFS,\
+\
+forlaterprocessingbytheHadoopMapReduceJobs.Bybeingmostlyresponsiblefordownloading,\
+\
+anduploadinglargeﬁlesfromYouTubeandintoHDFS,andonlytheminorityoftimebeingspenton\
+\
+crawlingYouTubeforadditionalmoviestodownloadscalingouttheLoaderwasnotapriorityinboosting\
+\
+theoverallsystemsperformance.\
+\
+\li360
+Nevertheless,usingAkka’sclusteringmoduleitwaspossibletoeasilyscaleouttheclusterandadd\
+\
+\li0
+newnodestoit,\f2 withouttheneedofstoppingthecluster\f1 .Thestrategywastodeployonedownloaderon\
+\
+eachofthenodes,andmakethenodejointheAkkacluster.Othernodesinthesystemwouldbenotiﬁed\
+\
+thatanewnodehasjoinedandcanaskittoperformwork.Afullexampleofthisworkﬂowispresented\
+\
+inListing5.3,wherethe\f5 YoutubeCrawlActor\f1 isconﬁguredtolistenforclustermembershipchanges\
+\
+(online6),andthencanreactonmembersjoiningandleaving(lines14and15)byaddingandremoving\
+\
+themfromtheRoundRobinRouter(whichwasexplainedindetailinSection3.1.Then,uponparsing\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 5.2.ScalingouttheLoader’sAkkaCluster	\f3\fs22\sl251 41\
+\
+\
+\f1 awebsiteandextractinglinksfromit,theRoutercanbeusedtoevenlydistributeworkamongthe\
+\
+registereddownlaoderactors(lines11and12).\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx720\tx960\tx9260
+\f4\fs20\sl229 \li360
+5.2.ScalingouttheLoader’sAkkaCluster	\f3\fs22\sl251 42\
+\
+\
+\f1 Listing5.3:ListeningforClustereventsinAkkaallowstheapplicationtodynamicallyrespondtonodes\
+\
+beingaddedtothecluster,andspreadingtheloadinapplicationlogictoothernodes.\
+\
+\fs20\sl229 \li120
+1\f5 classYoutubeCrawlActorextendsActorwithOculusSelections\{\
+\
+\f1 2\f5 valcluster=Cluster(context.system)\
+\
+\f1 3\
+\
+4\f5 valdownloadersRouter=Router(RoundRobinRoutingLogic())\
+\
+\f1 5\
+\
+6\f5 overridedefpreStart()=cluster.subscribe(self,classOf[MemberEvent])\
+\
+\f1 7\f5 overridedefpostStop()=cluster.unsubscribe(self)\
+\
+\f1 8\
+\
+9\f5 defreceive=\{\
+\
+\f1 \li0
+10	\f5 caseCrawlYoutubePage(url)=>\
+\
+\f1 11		\f5 valurls=extractVideoUrls(fetchPage(url))\
+\
+\f1 12		\f5 urlsforeach\{downloadersRouter!DownloadFromYoutube(_)\}\
+\
+\f1 13\
+\
+14	\f5 caseMemberUp(m)=>\
+\
+\f1 15		\f5 downloadersRouteraddRouteedownloaderSelection(m)\
+\
+\f1 16\
+\
+17	\f5 caseMemberDown(m)=>\
+\
+\f1 18		\f5 downloadersRouterremoveRouteedownloaderSelection(m)\
+\
+\f1 19\f5 \}\
+\
+\f1 20\f5 \}\
+\
+\f1\fs22\sl251 \li720
+UsingAkka’sclusteringmoduleintheLoaderallowsthesystemtoscaledynamically,withoutever\
+\
+\li360
+needingtobeturnedoff–animportantthinginlongrunningdistributedsystems.Thesystemturnedout\
+\
+tobehardtomeasureaccurately,duetothemanymovingparts(suchasqueuebuildup,non-determinism\
+\
+ofwhichnodewouldjoinatwhattime,andwhichvideoitwouldbeassignedtodownload),yetgener-\
+\
+allyspeakingaddingonemorenodewouldsimplyaddoneprocessingslotfortheDownloadaction–\
+\
+similarilyasintheHadoopscenarioaddinganodewould.\
+\
+\li720
+Akkabyitselfdoesnotprovidesimpletrackingofmessageandit’sresults,whichisinherentlya\
+\
+\li360
+hardproblemtosolve,sinceonewouldhavetotrackeachmessage’s”parent”.Akkaisaratherlowlevel\
+\
+tool,whereasHadoopisadedicatedplatformfortrackingprogressodJobsindistributedsystems–thus\
+\
+theconclusionisthatitiseasiertoreasonformallyaboutapureActorsystemsbehavior,thanitisto\
+\
+strictlymeasureit(asleastatthelevelofcomplicationthisproblemisrepresenting).Havingthissaid,\
+\
+suchmonitoringwouldhavetobebuiltintotheOculussystem,andisnotprovidedbyAkkaitself–sadly\
+\
+thisfeaturewasnotimplementedinthereferencesystem,andremainsanopenproblem,aswellasﬁeld\
+\
+ofintensiveresearch–ascanbeseeninmultipleopensourceprojectstryingtosolvethisproblem,such\
+\
+asKamon[kam]orakka-tracing[akk].\
+\
+\li720
+SummarisingAkka’sscalability–ascommunicationisdonedirectlybetweentwonodesafterthey\
+\
+\li360
+havejoinedtheCluster,theoverheadofcommunicationisverylow(aslowasserializingamessageand\
+\
+sendingitover-the-wise).Thisalsomeansthataddingnewnodesshouldhaveimprovedthesystem’s\
+\
+performanceinanearlylinearfashion,sincethecriticalexecution(slowesttasks)areexecutedinan\
+\
+”oneDownloaderpernode”fashion,andthesetasksconsumethecompleteavailablememoryandCPU\
+\
+limitsgiventoJVMsrunningthisapplication.Tracingtheexactperformanceimpactforsuchcomplex\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx8900
+\f4\fs20\sl229 5.3.Summaryofscalingmethods	\f3\fs22\sl251 43\
+\
+\
+\f1 messageﬂowshowever,provedtobenontrivialandhasnotbeenimplementedaspartofthisthesis.\
+\
+\
+\f3\fs29\sl330 \li360
+5.3.Summaryofscalingmethods\
+\
+\f1\fs22\sl251 Inthischapterwehaveseenmultiplemethodstoscaledistributedsystemsandencounteredboth\
+\
+\li0
+gainsandproblemswhiledoingso.\
+\
+\li360
+Bothsystems(theLoader,aswellastheAnalyser)wereableto\f2 scale-out\f1 inanearlylinearfashion,\
+\
+\li0
+althoughobservingthisexactchangeprovedtobenontrivialinthepurelyAkkabasedsystem.Thisis\
+\
+becauseAkkaisrathermeanttobeasbuildingblockforsystemssuchasHadoop,andcomparingthem\
+\
+directlyonthismattermayseemunfair–asincomparingatooltoacar,builtusingtools.Oneshould\
+\
+rememberthiswhenselectingtoeither”use”or”implement”andistributedcomputationplatform,and\
+\
+takeintoaccountthatusingsomesolutionsthemonitoringalreadycomesbuiltin–asintheveryold\
+\
+Hadoopeco-system–andsometimesitdoesnot(yet),asiscurrentlythecasewithpureakkaapplications.\
+\
+\li360
+Theeaseofscalingoutbothsystemswasreallyimpressive,yetinthecaseofHadooponehasto\
+\
+\li0
+directlytellthemaster-nodeviaconﬁgurationchangesaboutthenewslavenodejoiningthecluster,as\
+\
+explainedinSection5.1.3(”GrowingtheCluster”).ThisisaninherentdesignﬂawinHadoopsystems,\
+\
+sincetheyalwayshaveonemasternode(althoughrecentversionstrytogoawayfromthiscentralised\
+\
+topology).Akkaontheotherhand,withit’s\f2 masterlesscluster\f1 isabletojoinnodesautomatically,if\
+\
+theygetincontactwithanynodethatisalreadypartofthecluster.HerewecanseeAkka’sclustering\
+\
+mechanismsbeingsuperioryet\f2 lessspecialised\f1 thantheHadoopone.\
+\
+\li360
+Summingup,bothsystemscanbeeasilyscaledup(byaddingmorepowerfulmachines)orout\
+\
+\li0
+(byaddingmoreservers),andhavedisplayedremarcableperformanceandstabilitythroughoutthetests\
+\
+conductedduringthiswork.Oneshouldalwaysrememberthatthosetwooptionsshouldgoinpairwith\
+\
+eachother,andthatsometimesconﬁguringtheclusterinabetterwaymayyieldbetterresultsthan\
+\
+blindyaddingmorenodestothecluster.Itisalsocrucialtohavesophisticatedmonitoringinstalledin\
+\
+suchclusterinstallations,aswithoutthemitwouldhavebeenhardtodetectandﬁxtheclusterunder-\
+\
+utilisationproblemthatwasaddressedinSection5.1.4.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\f3\fs34\sl396 6.Conclusions\
+\
+\
+\f1\fs22\sl251 \li360
+Thischapterwillsummarisetheﬁndingsfromresearching,developingandscalingthesystemim-\
+\
+\li0
+plementedaspartofthisthesis.\
+\
+\li360
+Theappliedtechnologieshaveindeedbeenveryhelpful,andprovedtobeveryelasticfordifferent\
+\
+\li0
+kindsofjobsrelatedtoprocessinglargeamountsofdata.Iwasalsopositivelysurprisedwiththeeaseof\
+\
+ScalingHadoopinfrastructure.\
+\
+\li9380
+concludeconclude\
+\
+stuff...stuff...\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\li4440
+44\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\f3\fs34\sl396 \li360
+A.Automatedclusterdeployment\
+\
+\
+\f1\fs22\sl251 \li720
+Thischapterdescribestheautomatedtoolingwhichhasbeenusedduringtheimplementationof\
+\
+\li360
+thereferencesystemmentionedinthisthesisinordertodrasticallyincreaseturnaroundtimeduring\
+\
+developmentaswellasclusterscaling.\
+\
+\li720
+Duetothecomplexitiesofmaintainingpossiblyhundredsofvirtualmachineswithsimilar(oreven\
+\
+\li360
+identical)conﬁgurationsthetimeitwouldtaketoprovision,conﬁgureanddeplotapplicationsoneach\
+\
+newserverintheclusterwouldrenderthisprocessveryslowandﬁesable.Instead,toolsandplatforms\
+\
+havebeenappliedtosimplifyandspeed-uptheturnaroundtimewhenaddingnewserverstothecluster.\
+\
+\li720
+InSectionAtheusedcloudintrafstuctureisintroduced,alongwithafewexamplesofautomating\
+\
+\li360
+serverprovisioningusingsimpleyetpowerfulcommand-linetools.\
+\
+\li720
+InSectionA.1OpscodeChef–thetoolusedtoconﬁgure,aswellasinstalldependenciesanddeploy\
+\
+\li360
+applicationsisintroduced.\
+\
+\
+\f3\fs29\sl330 \li720
+A.1.Automatedserverprovisioning–GoogleComputeEngine\
+\
+\f1\fs22\sl251 InordertoprovisionvirtualmachinesforrunningtheapplicationcclusterGoogle’sComputeEngine\
+\
+\li360
+”InfrastructureasaService”(alsoknownundertheacronym\f2 IAAS\f1 )wasused.\
+\
+\li720
+CreatinganewinstanceonGCE(\f2 GoogleComputeEngine\f1 )canbedoneviaanadminconsoleunder\
+\
+\f5 \li360
+cloud.google.com\f1 orusingcommandlinetooling(orplainJSONAPIcalls).Duringthisproject\
+\
+themostusedmethodwasthecommandlineAPI,asitissimpletopreparescriptsforspinningup\
+\
+multipleVMsandcombiningthisstepwithprovisioningconﬁgurationtothemusingChef(whichwill\
+\
+beexplainedinSectionA.1.AnexampleofhowanewinstanceonGCEcanbestartedisillustratedon\
+\
+ListingA.1.\
+\
+\li3000
+ListingA.1:CreatingnewinstanceonGCE\
+\
+\fs20\sl229 \li120
+1\f5 gcutil"v1"--project="oculus-hadoop"--service_version=\
+\
+\f1 2\f5 addinstance"oculus-3"\
+\
+\f1 3\f5 --machine_type="n1-standard-1"\
+\
+\f1 4\f5 --zone="us-central1-a"\
+\
+\f1 5\f5 --tags="hadoop,datanode"\
+\
+\f1 6\f5 --disk="large-4,deviceName=large-4,mode=READ_WRITE"\
+\
+\f1 7\f5 --network="default"\
+\
+\f1 8\f5 --external_ip_address="ephemeral"\
+\
+\f1 9\f5 --service_account_scopes="https://www.googleapis.com/auth/..."\
+\
+\f1 \li0
+10\f5 --image="https://www.googleapis.com/.../images/debian-7-wheezy-v20140408"\
+\
+\f1\fs22\sl251 \li4820
+45\sect
+\plain\pard\li0\sl276
+\marglsxn1320\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9260\tx9740
+\f4\fs20\sl229 \li360
+A.2.Automatedconﬁgurationanddeployment–OpscodeChef	\f3\fs22\sl251 46\
+\
+\
+\f1\fs20\sl229 \li0
+11\f5 --persistent_boot_disk="true"\
+\
+\f1 12\f5 --auto_delete_boot_disk="false"\
+\
+\f1\fs22\sl251 \li720
+ListingA.1showsthecurrentcluster’sstatus.\
+\
+\li9740
+listinglisting\
+\
+needsneeds\
+\f5 \li360
+#gcutillistinstances		\f1 labellabel\
+\
+\f5 +---------------+---------------+---------+------------+------------+\
+\
+|name|zone|status|network-ip|pub-ip|\
+\
++---------------+---------------+---------+------------+------------+\
+\
+|oculus-1|us-central1-a|RUNNING|10.240.x.x|23.236.x.x|\
+\
++---------------+---------------+---------+------------+------------+\
+\
+|oculus-2|us-central1-a|RUNNING|10.240.x.x|108.59.x.x|\
+\
++---------------+---------------+---------+------------+------------+\
+\
+|oculus-master|us-central1-a|RUNNING|10.240.x.x|108.59.x.x|\
+\
++---------------+---------------+---------+------------+------------+\
+\
+\f1 \li720
+Ititalsopossibetoinvoketypicalcomputeenginetasksusingit’sChef(whichisdescribedindetail\
+\
+\li360
+inSectionA.1)plugins,sothatanit’seveneasiertouseandinvestigatetherunningcluster:\
+\
+\f5 #knifegoogleserverlist--gce-zoneus-central1-a\
+\
+nametypepublicipdiskszone\
+\
+oculus-1n1-standard-123.x.x.xd-1,large-4us-central1-a\
+\
+oculus-2n1-standard-123.x.x.xd-2,large-1us-central1-a\
+\
+oculus-mastern1-standard-123.x.x.xm-0,large-3us-central1-a\
+\
+\
+\
+\f3\fs29\sl330 \li720
+A.2.Automatedconﬁgurationanddeployment–OpscodeChef\
+\
+\f1\fs22\sl251 Chefisatoolwhichenablestoeasilymanageconﬁgurationanddeploymentofservicesandapps\
+\
+\li360
+acrosscloudinfrastructure.Itconsistsofasetoftoolsusingwhichonecandescribeaserversconﬁgura-\
+\
+tionalrequirements,suchaswhatservicesitshouldhaveinstalled.Itprovidesmultiplewaystoexecute\
+\
+theprovisioningstepyetforthesakeofthisthesisthesimplest”solo”modewasused.\
+\
+\li720
+WhenusingChefinsolomode,onepreparesaspeciﬁc”\f7 run\f1 _\f7 list\f1 ”thatconsistsofnamesofcook-\
+\
+\li360
+books(whicharesimplyaseriesof”stepstoexecute”inordertoprovisionsomething)thatshouldbe\
+\
+appliedtoagivenserver,andthenapplyingthis”\f7 run\f1 _\f7 list\f1 ”toagivenserver.\
+\
+ListingA.2:PreparingandCookingaserverwithinordertoprepareitforbecomingaHadoopdata-node\
+\
+\fs20\sl229 \li120
+1\f5 #knife@108.59.81.222solopreparenodes/data-node.jsonkmalawski\
+\
+\f1 2\f5 ...\
+\
+\f1 3\f5 (Readingdatabase...42465filesanddirectoriescurrentlyinstalled.)\
+\
+\f1 \li360
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1440\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\tx9140
+\f4\fs20\sl229 \li240
+A.2.Automatedconﬁgurationanddeployment–OpscodeChef	\f3\fs22\sl251 47\
+\
+\
+\f1\fs20\sl229 \li0
+4\f5 Preparingtoreplacechef11.8.2-1.debian.6.0.5(using\
+\
+\li600
+.../chef_11.12.2-1_amd64.deb)...\
+\
+\f1 \li0
+5\f5 Unpackingreplacementchef...\
+\
+\f1 6\f5 Settingupchef(11.12.2-1)...\
+\
+\f1 7\
+\
+8\f5 #knife@108.59.81.222solocooknodes/data-node.jsonkmalawski\
+\
+\f1 9\f5 Uploadingthekitchen...\
+\
+\f1\fs22\sl251 \li9620
+ﬁnishﬁnish\
+\
+\li600
+Hadoop’sﬁlesystemmustbeformatedbeforeputintouse.Thisisachievedbyissuingthe\f5 -format\
+\
+\f1 \li240
+commandtothenamenode:\
+\
+\f5 kmalawski@oculus-master>hadoopnamenode-format\
+\
+\f1 \li600
+Itisworthpointingoutthata"format"takesplaceonlyonthenamenode,itdoesnotactuallytouch\
+\
+\li240
+thedatabstoredonthedatanodes,butinsteaditdeletedthedatastoredonthenamenode.TheNamenode,\
+\
+asexplainedpreviously,storesallmetadataaboutwhereaﬁleislocated,thus,cleaningit’sdatamakes\
+\
+theﬁlesstoresinHDFSun-usable,sincewedon’tknow"whereaﬁle’schunksarestored".\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn2160\margbsxn0
+\pgwsxn11900\pghsxn16840
+\
+\f3\fs34\sl396 B.Bibliography\
+\
+\
+\f1\fs22\sl251 [akk]\
+\
+[ble]Blenderfoundationwebsite.\
+\
+[Bru]DerekBruening.bargraph–http://bargraphgen.googlecode.com/svn/trunk/bargraph.pl.\
+\
+[CH73]RichardSteigerCarlHewitt,PeterBishop.Auniversalmodularactorformalismforartiﬁcial\
+\
+\li960
+intelligence,1973.\
+\
+\li0
+[Com01]CreativeCommons.Creativecommonslicense–https://creativecommons.org,2001.\
+\
+[con]Concurrentinc.website.\
+\
+[DG04]JeffreyDeanandSanjayGhemawat.Mapreduce:Simpliﬁeddataprocessingonlargeclusters.\
+\
+\li960
+Technicalreport,2004.\
+\
+\li0
+[erl]Erlangprogramminglanguagehomepage–http://www.erlang.org/.\
+\
+[ffm]ffmpegprojectsite.\
+\
+[Fou08]BlenderFoundation.Bigbuckbunny,movie,2008.\
+\
+[Goo]Google.\f2 http://youtube.com\f1 .\
+\
+[Goo13]Google.Google’stesseract-ocrtextrecognitionlibrary,1985-2013.\
+\
+[had]\
+\
+[Had12]ApacheHadoop.Hadoopsequenceﬁlesformatdocumentation,2012.\
+\
+[Inc13]TypesafeInc.Akkaremotingdocumentation,2013.\
+\
+[JB13]VictorKlangetal.JonarBoner.Akkadocumentation,2013.\
+\
+[kam]Kamon–http://kamon.io.\
+\
+[kmp]Fastpatternmatchinginstrings.\
+\
+[Ode13]MartinOdersky.Scala–http://scala-lang.org,2003–2013.\
+\
+[PH07]MartinOderskyPhillipHaller.Actorsthatunifythreadsandevents,2007.\
+\
+[RSB77]J.StrotherMooreRobertS.Boyer.Afaststringsearchingalgorithm.1977.\
+\li4440
+48\sect
+\plain\pard\li0\sl276
+\marglsxn1680\margrsxn0
+\margtsxn480\margbsxn0
+\pgwsxn11900\pghsxn16840
+\f3\fs22\sl251 \li8900
+49\
+\
+\
+\f1 \li0
+[sca]\
+\
+[Wik]Wikipedia.Column-orienteddatabase.\
+\
+[Zau10]ChristophZauner.   Implementationandbenchmarkingofperceptualimagehashfunctions,\
+\
+\li960
+2010.\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\fs20\sl229 \li0
+K.Malawski\f2 Processingandanalisysofmultimediaindistributedsystems
+}
