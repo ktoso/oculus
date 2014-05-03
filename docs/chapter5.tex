@@ -11,7 +11,7 @@ Section \ref{sec:scaling-akka} will briefly explain scalability concerns related
 Lastly Section \ref{sec:scaling-summary} will summarise the findings from the scaling experiments conducted in the previous sections, by stating general recommendations and hints for scaling systems that process larget amounts of data.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Scaling Hadoop}
+\section{Scaling the Analyser's Hadoop Cluster}
 \label{sec:scaling-hadoop}
 This section will focus on analysing and tuning the various settings of the Hadoop cluster deployed for the previously described Analyser application. Subsections focus on tuning the cluster on a setting--by--setting basis yet the tuning will always be enforced by a business need, which in this case will be represented as the need to speed up processing of the map reduce pipelines producing results which were explained in Chapter \ref{chap:analysis-examples}.
 
@@ -237,7 +237,7 @@ It is worth keeping in mind that cost efficiency usually is also an important bu
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Scaling the Loader (actor system)}
+\section{Scaling out the Loader's Akka Cluster}
 \label{sec:scaling-akka}
 
 Scaling the Loader sub-system in this project was not very challanging because of the Actor System provided by Akka being so efficient where as the tasks performed by a node once it got a ''download movie'' message being measured in multiple minutes (up to 10 minutes for long movies -- since most creative commons licensed movies are not very long).

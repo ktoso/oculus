@@ -108,6 +108,11 @@ In this step the important part is that it does not write these files 1:1 onto H
 
 This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyzer by running Map Reduce jobs on Sequence Files prepared in the above flow.
 
+\subsection{Loader design summary}
+As was explained in the previous sections the Loader is designed as fully asynchronous system, composed of Actors performing very specific tasks. All communication between the Actors is implemented as message passing, which provides so-called ''location transparency'' between the Actors -- this property has been utilised to spread the work-load between multiple nodes in a clustered enviroment, enabeling the work to be completed faster than only utilising a single node.
+
+A detailed discussion of the Cluster's scalability and patterns applied in order to provide ad-hoc joining of nodes to the computation cluster can be found in Section \ref{chap:perf-scalability}: ''Scaling out the Ator system based Cluster''.
+
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Analyser}
 \label{sec:analyser}
@@ -136,12 +141,9 @@ The language and for implementing these processing pipelines used in this thesis
 
 This section aims to demonstrate what gains using Scalding over Hadoop yields, by showing the smallest possible example of an Map Reduce Job, implemented using both plain Hadoop APIs as well as Scalding. One should remember that Scalding is not a different framework than Hadoop, and in the end it will produce the exact same computations and classes (one instance of an \verb|Mapper| and one instance of an \verb|Reducer|).
 
-The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\texit{Given a huge input text file, count the occurances of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group such tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))| during the Reduce step.
+The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\textit{Given a huge input text file, count the occurances of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group such tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))| during the Reduce step.
 
-The difference in complexity should be obvious by looking  can compare the Listing \ref{lst:hadoop-mr} which represents the Map and Reduce classes which are used to represent the respectful Map and Reduce functions in the Java API, with Listing \ref{lst:scalding-wc} which is the complete code for a job performing the exact same in Scalding's Scala Domain Specific Language
-
-
-\todo{TODO TODO THIS IS JUST SAMPLES}
+The difference in complexity should be obvious by comparing the Listing \ref{lst:hadoop-mr} which represents the Map and Reduce classes which are used to represent the respectful Map and Reduce functions in the Java API, with Listing \ref{lst:scalding-wc} which is the complete code for a job performing the exact same in Scalding's Scala Domain Specific Language. 
 
 \begin{lstlisting}[caption={Word Count example Job, implemented using plain Java Map Reduce API}, label={lst:hadoop-mr}]
 public class Map 
@@ -172,9 +174,7 @@ public class Reduce
                     OutputCollector<Text, IntWritable> output, 
                     Reporter reporter) throws IOException {
   int sum = 0;
-  while (values.hasNext()) {
-   sum += values.next().get();
-  }
+  while (values.hasNext()) sum += values.next().get();
   output.collect(key, new IntWritable(sum));
  }
 }
@@ -188,13 +188,91 @@ public class Reduce
     .write(Tsv("output.tsv"))
 \end{lstlisting}
 
+As seen on the previous listings, Scalding provides much more concise code, and thanks to this enables developers to focus on the algorithm, and not the boilerplace accompanying these kinds of applications.
+
+\subsubsection{Defining advanced Job Pipelines using Scalding}
+Scalding also provides powerful facilities for pipeline building, where by ''Pipeline'' we refer to a series of Jobs that use the output of a previous Job as the input for the next one. It is worth mentioning that this is not something plain Hadoop APIs are able to provide easily, and one would have to implement logic in Jobs that would store the intermediate output in a directory and await the Job's completion, to then manually start the second job (by running it's main method).
+
+Building Pipelines has two major styles in Scalding: explicit ''next Job'' definitions, as well as implicit dependencies on results of Jobs. We will investigate both styles in this section -- starting with the explicit style, as it is more similar to the manual style of doing things.
+
+\begin{lstlisting}[caption={Explicit ''next job'' definition within a Scalding Job class}, label={lst:next-job}]
+case class FirstJob(args: Args) extends Job(args) {
+  val in = args("in")
+  val out = in + ".out"
+  
+  Tsv(in).read.write(Tsv(out))
+  
+  def next = Some(SecondJob(Args("--in", out)))
+}
+
+case class SecondJob(args: Args) extends Job(Args(out)) { /*...*/ }
+\end{lstlisting}
+
+Listing \ref{lst:next-job} shows how one can use Scalding to combine two Jobs using Scalding's DSL. The \verb|SecondJob| depends on the output of the \verb|FirstJob| (which in this case only copies the input to another file on HDFS), since the \verb|next| method is defined within the first Job, we have it's parameters available and can construct the next Job in the pipeline, providing it with it's required \verb|in| parameter. 
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.3\textwidth]{img/simplest-pipeline}
+  \caption{Simplest Job Pipeline, with SecondJob depending on the output of FirstJob (each circle being one Map Reduce Job).}
+  \label{fig:simplect-pipeline}
+\end{figure}
+
+Such pipeline can be visualised as seen on Figure \ref{fig:simplect-pipeline}, which is an output generated by using the graphviz tool (as in "graph visualization"), applied to a file describing the graph as described in the DOT format. The DOT file corresponding to the graph depicted on Figure \ref{fig:simplest-pipeline} is shown in Listing \ref{lst:simplest-pipeline-dot}. DOT descriptions of pipelines are in common use among profesionals designing such systems, and can also be generated automatically by Scalding -- which is tremendously useful when working with very long pipelines.
+
+\begin{lstlisting}[caption={Textual description of graph on Figure \ref{fig:simplect-pipeline}, using the DOT graph description language.}, label={lst:simplest-pipeline-dot}]
+digraph G {
+  1 [label = "FirstJob"];
+  2 [label = "SecondJob"];
+  
+  1->2
+}
+\end{lstlisting}
+
+The second way of building up pipelines is inside one Scalding Job file. Because Scalding's rich set of operations, what may look as simple on the surface (in the pipeline definition) may have to boil down to multiple Map Reduce Job executions. One obvious case that will cause one Scalding Job to produce multiple Map Reduce Jobs is using data from two separate sources and joining them together. It should be noticed that the notion of ''join'' (as known from relational databases) is something both very powerful and very foreign to Hadoop -- as it is only designed to deal with data in a batch-processing fashion. Scalding allows to express join operations trivially in the the definition file, but it's execution actually is quite complicated and forces all the data from one side of the join to be loaded into Mappers participating in the Job's execution.
+
+\begin{lstlisting}[caption={Scalding job, reading data from 2 sources and joining them on dominantColor, producing 3 Map Reduce Jobs}, label={lst:read-and-join-scalding}]
+class CompareByDominantColor(args: Args) extends Job(args) {
+  // newly analysed video
+  val analysedMovieFrames = 
+    WritableSequenceFile(input, ("key", "value"))
+    .read
+    .rename("key", "frame")
+    .map(("frame", "value") -> ("dominating", "red", "green", "blue")) { 
+        p: (Int, BytesWritable) => calculateHistograms(p._2)
+    }
+  
+  // reference database
+  val referenceFrames = 
+    HistogramsTable.read
+    .rename("dominating", "refDominating")
+
+  // join
+  referenceFrames.joinWithSmaller(analysedMovieFrames, 
+                                            "dominating" -> "refDominating")
+    // operations on joined dataset
+}
+\end{lstlisting}
+
+Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs, because it reads from 2 separate data sources: from a sequence file that we just started processing (this is the movie this job aims to compare to the referece data set), and from the \verb|HistogramsTable| which is the reference dataset containing refernece data calculated previously for all already processed movies in the reference database. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's executionw will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modeled by this definition.
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.75\textwidth]{img/second-simplest-pipeline}
+  \caption{Join operation, forcing the Pipeline to consist of 3 Map Reduce Jobs (depicted as circles)}
+\end{figure}
+
+
+The most important thing to notice is that the dependencies, and temporary output directories which are used to pass the data around between the first two Jobs to the 3rd ''Join Job'' were not explicitly modeled, but infered from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. Cascading will also take case of deleting these temporary data directories after the job has successuly completed -- another great gain when compared to manual Map Reduce Pipeline implementations.
+
+This section has highlighted how Map Reduce Pipelines can been implemented using Scalding, and have introduced the basic concepts required in order to implement algorithms that can be seen in the following sections.
+
+
 
 \subsubsection{Parallel execution and job ordering}
 Because a Scalding job (which effectively is an Cascading ''\textit{Pipeline}'') can span multiple Map Reduce Job invocations,
 it is important to visualise how many actual Jobs will be submitted to the cluster and also if they can be run in parallel.
 
-In order to visualise how jobs actually will be executed on the cluster Cascading provides a very important option allowing to print the resulting job
-graph using the widely accepted graph-description language DOT \cite{dot}.
+In order to visualise how jobs actually will be executed on the cluster Cascading provides a very important option allowing to print the resulting job graph using the widely accepted graph-description language DOT \cite{dot}.
 
 \begin{figure}[ch!]
   \centering
@@ -207,12 +285,13 @@ Figure \ref{fig:find-similar-movies-most-complicated} represents the ''Find simi
 
 Sometimes though it is not easy to determine from this diagram alone how many actual MR Jobs a pipeline has emitted. For this reason we can instruct Cascading to print a DOT file containing the ''steps'', which for the algorithm represented in Listing \ref{lst:find-similar-movies-most-complicated-lst} Figure \ref{fig:find-similar-movies-most-complicated} would look like Figure \ref{fig:find-similar-movies-most-complicated-steps}.
 
-\begin{lstlisting}[caption={Fragments of FindMostSimilarMoviesJob.dot}, label={lst:find-similar-movies-most-complicated-lst}]
+\begin{lstlisting}[caption={Example of Scalding Pipeline exported from the Cascading FlowPlanner using the DOT format}, label={lst:find-similar-movies-most-complicated-lst}]
 digraph G {
 1  [label = "Hfs['TextDelimited[[UNKNOWN] -> 
                ['refHash', 'frameHash', 'distance']]']['out']"];
 2  [label = "Each('_pipe_0*_pipe_1')[NoOp[decl:[{?}:NONE]]]"];
 3  [label = "GroupBy('_pipe_0*_pipe_1')[by:['__groupAll__']]"];
+# ...
 15 [label = "[tail]"];
 # ...
     
@@ -235,14 +314,13 @@ digraph G {
   \label{fig:find-similar-movies-most-complicated-steps}
   \caption{A graph representation of the Map Reduce jobs that have to be run in order to complete the pipeline.}
 \end{figure}
-\todo{the steps DOT is wrong here}
 
 The graph represented on Figure \ref{fig:find-similar-movies-most-complicated-steps} displays the same pipeline as Figure \ref{fig:find-similar-movies-most} but on a higher level -- displaying only the order and dependencies of each Map Reduce job. Step \verb|3/4| is easily identifiable as ''groupBy'' here, although from this graph we are unable to determine on what field we're grouping.
 
 \todo{use I, not WE this is not a blog post...}
 
 \todo{needs complete rewrite, slower with examples, show code of the task}
-
+ą
 
 
 
