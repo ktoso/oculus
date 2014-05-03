@@ -19,6 +19,8 @@ To further illustrate the separate components and their interactions Figure \ref
   \label{fig:system-overview}
 \end{figure}
 
+This section will focus on describing the general design of both systems, first the Loader's Actor based cluster model, and then the Analyser's Hadoop backed batch processing cluster.
+
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Loader}
 \label{sec:loader-basics}
@@ -131,6 +133,73 @@ The 2nd step on Figure \ref{fig:analyser-high-level} is important because Oculus
 
 For most applications though the 3rd step in a typical Oculus Job would be to read and present top N results to the issuer of the job, which for a question like ''Which movie is similar to this one?'' would be the top N most similar movies (their names, identifiers as well as match percentage).
 
+The following sections (\ref{sec:deployment-strategy}, \label{sec:defining-pipelines-basics}) will introduce the cluster deployment as well as how Jobs are implemented on top of it, in order to parallelize the job's execution as much as possible.
+
+
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Hadoop Cluster deployment strategy}
+\label{sec:deployment-strategy}
+
+Since the Analyser is most dependent on the Hadoop cluster's deployment this section aims to introduce the cluster's components and initial (3 node) setup. 
+
+While this section only only introduces the various components of the cluster and it's initial deployment, chapter \ref{chap:perf-scalability} (''Cluster scaling and performance analysis'') revisits this topic and will focus on details such as cluster configuration options as well as influence of the number of participating nodes in the cluster on total computation times will be measured and tuned to increase the cluster's efficiency.
+
+\subsubsection{Initial Hadoop cluster deployment}
+
+The Hadoop deployment described in this subsection will focus on two elements of the Hadoop ecosystem - the Hadoop Distributed File system (HDFS) and the Hadoop Map Reduce Runtime.
+
+The minimal hadoop deployment consistst of \textit{5 individual processes}, each with an assigned and very specific role in the clusters functioning. These processes can be classified as running along side the NameNode or DataNodes. This distincion should be clear after listing the names and features of these processes.
+
+Firstly, the 3 processess associated with the ''master'' node, which is responsible for being the entry point for HDFS file requests as well as Job submissions:
+
+\begin{itemize}
+  \item \textbf{NameNode} (HDFS) -- is responsible for mapping logical file paths to their locations on DataNodes within 
+                                    the cluster. This component was a Single Point of Failure (SPOF) on Hadoop clusters 
+                                    until version 2.0 implemented the so called High Availability (HA) module, which 
+                                    allows the cluster to run a second (not to be confused with \textit{secondary}) 
+                                    NameNode in the cluster in the case the primary would fail. The HA module was not 
+                                    used during this thesis, as it was not required to ensure the cluster's high 
+                                    availability as the data could always be easily obtained again.
+  \item \textbf{SecondaryNameNode} (HDFS) -- is responsible for a process called ''checkpointing'' of the NameNode's 
+                                            fsimage and it's edit-log. It's name may be very misleading, as at no point
+                                            in time is the SecondaryNameNode able to take the primary NameNode's place -- 
+                                            this can be only achieved by using the High Availability modules. Use of the 
+                                            SecondaryNameNode though allows the NameNode to fail and re-join a running 
+                                            cluster -- without the SecondaryNameNode that failed NameNode would have lost 
+                                            all of it's file system state and a full HDFS restart (including all 
+                                            datanodes) whould be required.
+  \item \textbf{JobTracker} (MapReduce) -- is responsible for tracking Map Reduce Jobs running in the cluster. It behaves 
+                                           like a queue, in taking Job requests and processes them in order (or based on 
+                                           customasible strategies). It is also in contact with all TaskTrackers 
+                                           (described below), which actualy perform the work related to a MR Job, while 
+                                           the JobTracker only gets and aggregates the job's progress. In case of failed 
+                                           Jobs or Tasks it can also restart or redistribute the job to other DataNodes.
+\end{itemize}
+
+The distribution of these processes within the initial 3 node deployment is shown on Figure \ref{fig:small-cluster-deployment}.
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/hdfs-processes}
+  \caption{Deployment diagram of the various HDFS processes within the initial 3-node cluster.}
+  \label{fig:small-cluster-deployment}
+\end{figure}
+
+
+\subsubsection{HBase deployment}
+\label{sec:hbase-deployment}
+\todo{hbase deployment}s
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/hbase-processes}
+  \caption{Deployment diagram of the various HDFS processes within the initial 3-node cluster.}
+  \label{fig:small-cluster-deployment}
+\end{figure}
+
+Since HBase is so tightly connected with HDFS through direct use of it's DataNodes, all configuration changes connected to the HDFS cluster directly influence Hbase's behavior, for better or worse.
+
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Defining Map Reduce Pipelines using Scalding and Cascading}
@@ -191,6 +260,7 @@ public class Reduce
 As seen on the previous listings, Scalding provides much more concise code, and thanks to this enables developers to focus on the algorithm, and not the boilerplace accompanying these kinds of applications.
 
 \subsubsection{Defining advanced Job Pipelines using Scalding}
+\label{sec:defining-pipelines-basics}
 Scalding also provides powerful facilities for pipeline building, where by ''Pipeline'' we refer to a series of Jobs that use the output of a previous Job as the input for the next one. It is worth mentioning that this is not something plain Hadoop APIs are able to provide easily, and one would have to implement logic in Jobs that would store the intermediate output in a directory and await the Job's completion, to then manually start the second job (by running it's main method).
 
 Building Pipelines has two major styles in Scalding: explicit ''next Job'' definitions, as well as implicit dependencies on results of Jobs. We will investigate both styles in this section -- starting with the explicit style, as it is more similar to the manual style of doing things.
@@ -212,7 +282,7 @@ Listing \ref{lst:next-job} shows how one can use Scalding to combine two Jobs us
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[width=0.3\textwidth]{img/simplest-pipeline}
+  \includegraphics[width=0.25\textwidth]{img/simplest-pipeline}
   \caption{Simplest Job Pipeline, with SecondJob depending on the output of FirstJob (each circle being one Map Reduce Job).}
   \label{fig:simplect-pipeline}
 \end{figure}
@@ -262,65 +332,14 @@ Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, whic
 \end{figure}
 
 
-The most important thing to notice is that the dependencies, and temporary output directories which are used to pass the data around between the first two Jobs to the 3rd ''Join Job'' were not explicitly modeled, but infered from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. Cascading will also take case of deleting these temporary data directories after the job has successuly completed -- another great gain when compared to manual Map Reduce Pipeline implementations.
+The dependencies, as seen on Figure \ref{fig:3-pipeline} between the first two Jobs to the 3rd ''Join Job'' were not explicitly modeled as previously seen using the \verb|next| method, and instead were inferred from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. This is very important and useful because of two reasons:
 
-This section has highlighted how Map Reduce Pipelines can been implemented using Scalding, and have introduced the basic concepts required in order to implement algorithms that can be seen in the following sections.
+\begin{itemize}
+  \item Cascading is able to determine dependencies between Map Reduce jobs, and execute them on the Hadoop cluster as dictated by their dependency graph.
+  \item Jobs that do not depend on each other's outputs can be run in parallel.
+\end{itemize}
 
-
-
-\subsubsection{Parallel execution and job ordering}
-Because a Scalding job (which effectively is an Cascading ''\textit{Pipeline}'') can span multiple Map Reduce Job invocations,
-it is important to visualise how many actual Jobs will be submitted to the cluster and also if they can be run in parallel.
-
-In order to visualise how jobs actually will be executed on the cluster Cascading provides a very important option allowing to print the resulting job graph using the widely accepted graph-description language DOT \cite{dot}.
-
-\begin{figure}[ch!]
-  \centering
-  \includegraphics[width=0.9\textwidth]{img/FindSimilarMoviesJob_dot.png}
-  \label{fig:find-similar-movies-most-complicated}
-  \caption{This flow represents the most longest Pipeline preset in Oculus -- finding which movies are similar to the current one, ordered by ranking. It is constructed from 5 Map Reduce jobs.}
-\end{figure}
-
-Figure \ref{fig:find-similar-movies-most-complicated} represents the ''Find similar movies to the given one'' pipeline. Each circle represents an operation (such as emitting a tuple, grouping etc) and lines represent the data flowing through the Map Reduce jobs. It is also clearly visible that this pipeline consists of 5 map reduce jobs, where the 3rd job's input depends on jobs 1 and 2, and only after job 3 has completed jobs 4 and 5 can be executed (in parallel).
-
-Sometimes though it is not easy to determine from this diagram alone how many actual MR Jobs a pipeline has emitted. For this reason we can instruct Cascading to print a DOT file containing the ''steps'', which for the algorithm represented in Listing \ref{lst:find-similar-movies-most-complicated-lst} Figure \ref{fig:find-similar-movies-most-complicated} would look like Figure \ref{fig:find-similar-movies-most-complicated-steps}.
-
-\begin{lstlisting}[caption={Example of Scalding Pipeline exported from the Cascading FlowPlanner using the DOT format}, label={lst:find-similar-movies-most-complicated-lst}]
-digraph G {
-1  [label = "Hfs['TextDelimited[[UNKNOWN] -> 
-               ['refHash', 'frameHash', 'distance']]']['out']"];
-2  [label = "Each('_pipe_0*_pipe_1')[NoOp[decl:[{?}:NONE]]]"];
-3  [label = "GroupBy('_pipe_0*_pipe_1')[by:['__groupAll__']]"];
-# ...
-15 [label = "[tail]"];
-# ...
-    
-4->3  [label = "[{4}:'refHash', 'frameHash', 'distance', '__groupAll__']
-                [{4}:'refHash', 'frameHash', 'distance', '__groupAll__']"];
-3->2  [label = "_pipe_0*_pipe_1[{1}:'__groupAll__']
-                [{4}:'refHash', 'frameHash', 'distance', '__groupAll__']"];
-1->15 [label = "[{3}:'refHash', 'frameHash', 'distance']
-                [{3}:'refHash', 'frameHash', 'distance']"];
-2->1  [label = "[{3}:'refHash', 'frameHash', 'distance']
-                [{3}:'refHash', 'frameHash', 'distance']"];
-# ...
-}
-\end{lstlisting}
-
-
-\begin{figure}[ch!]
-  \centering
-  \includegraphics[width=0.9\textwidth]{img/FindSimilarMoviesV2Job-steps_dot.png}
-  \label{fig:find-similar-movies-most-complicated-steps}
-  \caption{A graph representation of the Map Reduce jobs that have to be run in order to complete the pipeline.}
-\end{figure}
-
-The graph represented on Figure \ref{fig:find-similar-movies-most-complicated-steps} displays the same pipeline as Figure \ref{fig:find-similar-movies-most} but on a higher level -- displaying only the order and dependencies of each Map Reduce job. Step \verb|3/4| is easily identifiable as ''groupBy'' here, although from this graph we are unable to determine on what field we're grouping.
-
-\todo{use I, not WE this is not a blog post...}
-
-\todo{needs complete rewrite, slower with examples, show code of the task}
-ą
+Thanks to the second property of these Job Pipelines (parallel execution of independent sub-graphs) total execution time of such Map Reduce Pipelines may be further optimised when running on large clusters.
 
 
 
