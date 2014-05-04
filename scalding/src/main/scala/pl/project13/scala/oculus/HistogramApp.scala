@@ -10,7 +10,6 @@ import javax.swing.JFrame
 object HistogramApp extends App {
 
   val file = args(0)
-  println("file = " + file)
 
   private val d = new Dimension(800, 800)
   val frame = new HistogramFrame(d, new File(file))
