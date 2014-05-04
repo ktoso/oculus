@@ -4,7 +4,9 @@
 
 This section will focus on analysing as well as presenting improvements to the cluster deployment which can and have been applied to the Hadoop cluster leveraged by the Analyser application presented in previous chapters.
 
-In Section \ref{sec:scaling-hadoop} several challanges and typical problems with scaling Hadoop clusters will be presented, and then followed up by solutions applied during the work on this thesis.
+Section \ref{sec:scaling-hadoop} describes the multitude of challanges and problems encountered while scaling Hadoop cluster. It also describes three of the applied scaling and optimisation methods in detail -- including configuration changes as well as adding more nodes to the cluster.
+
+Section \ref{sec:optimising-hbase} discusses HBase specific optimisations that can be performed during application and data representation design. While all optimisations described in the previous section, which touch Hadoop's infrastructure also directly impact HBase performance, some very specific topics -- such as utilising HBase's guarantees about it's globally sorted row key and guaranteed random access times to specific row-keys make this topic worthy if it's own section.
 
 Section \ref{sec:scaling-akka} will briefly explain scalability concerns related to an Akka based cluster deployment, yet as this component has not been as critical to overal system performance as the Analyser and Hadoop cluster, the Akka cluster has been deemed ''good enough'' for the scope of this paper.
 
@@ -236,6 +238,12 @@ In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under
 \end{figure}
 
 It is worth keeping in mind that cost efficiency usually is also an important business need and simply adding more servers sometimes isn't an available option. Even more so, sometimes we may end up over provisioning servers -- as seen in Figure \ref{fig:ten-under-utilised-cluster}, so while simply adding more servers is very tempting and usually works very well on Hadoop clusters (as seen in Section \ref{sec:tuning-number-of-nodes}), one should always first try to fine tune the cluster to the specific work-load it is experiencing. In the case shown in this section, a fine-tuned 4 node cluster was able to perform almost as good (for this set of jobs), as the under utilised 10 node cluster. In real life clusters will always execute very different workloads at the same time, so it may be very hard to fine tune it for very percise scenarios, yet the effort of changing configurations of cluster members can sometimes prevent the need of adding more servers, so it should be always considered first -- unless a long term cluster expansion (e.g. ''adding 100 nodes, in the next 2 months'') is planned directly.
+
+% ------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Denormalisation as way to increase lookup performance in the Analyser's HBase interactions}
+\label{sec:optimising-hbase}
+
+While all performance optimisations mentioned in the Section about Hadoop scaling, directly impact HBase performance
 
 
 

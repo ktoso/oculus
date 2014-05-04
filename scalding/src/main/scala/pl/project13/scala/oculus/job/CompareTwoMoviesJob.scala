@@ -60,8 +60,6 @@ class CompareTwoMoviesJob(args: Args) extends Job(args)
     .map(('mhHash1, 'mhHash2) -> ('hash1, 'hash2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
       val (h1, h2) = x
 
-    println("h1 = " + h1)
-
       (
         h1.get.mkString(""),
         h2.get.mkString(""),
