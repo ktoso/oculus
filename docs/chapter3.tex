@@ -80,7 +80,7 @@ This section wills discuss the process of obtaining video material by the Loader
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[scale=0.9]{./diagrams/loader-high-level.pdf}
+  \includegraphics[scale=0.9]{img/loader-high-level.pdf}
   \caption{Overview of messages passed within the Loader's actor system. Greyed out messages are also sent, but are not on the critical path leading to obtaining material from \textit{siteX} into HDFS.}
   \label{fig:high-level-loader}
 \end{figure}
@@ -122,8 +122,8 @@ The analyser component is responsible for orchestrating Map Reduce jobs and subm
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[scale=0.9]{diagrams/analyser-high-level.pdf}
-  \caption{When storing a small file in HDFS, it still takes up an entire block. The grey space is not wasted on disk, but causes the \textit{name-node} memory problems.}
+  \includegraphics[scale=0.9]{img/analyser-high-level}
+  \caption{Overview of the Analyser's execution flow, when working with}
   \label{fig:analyser-high-level}
 \end{figure}
 
@@ -151,17 +151,17 @@ The Hadoop deployment described in this subsection will focus on two elements of
 
 The minimal hadoop deployment consistst of \textit{5 individual processes}, each with an assigned and very specific role in the clusters functioning. These processes can be classified as running along side the NameNode or DataNodes. This distincion should be clear after listing the names and features of these processes.
 
-Firstly, the 3 processess associated with the ''master'' node, which is responsible for being the entry point for HDFS file requests as well as Job submissions:
+Firstly, the 3 processess associated with the ''master'' node, which is responsible for coordination of HDFS operations and Map Reduce Job scheduling:
 
 \begin{itemize}
-  \item \textbf{NameNode} (HDFS) -- is responsible for mapping logical file paths to their locations on DataNodes within 
+  \item \textbf{NameNode} (HDFS) -- responsible for mapping logical file paths to their locations on DataNodes within 
                                     the cluster. This component was a Single Point of Failure (SPOF) on Hadoop clusters 
                                     until version 2.0 implemented the so called High Availability (HA) module, which 
                                     allows the cluster to run a second (not to be confused with \textit{secondary}) 
                                     NameNode in the cluster in the case the primary would fail. The HA module was not 
                                     used during this thesis, as it was not required to ensure the cluster's high 
                                     availability as the data could always be easily obtained again.
-  \item \textbf{SecondaryNameNode} (HDFS) -- is responsible for a process called ''checkpointing'' of the NameNode's 
+  \item \textbf{SecondaryNameNode} (HDFS) -- responsible for a process called ''checkpointing'' of the NameNode's 
                                             fsimage and it's edit-log. It's name may be very misleading, as at no point
                                             in time is the SecondaryNameNode able to take the primary NameNode's place -- 
                                             this can be only achieved by using the High Availability modules. Use of the 
@@ -169,15 +169,32 @@ Firstly, the 3 processess associated with the ''master'' node, which is responsi
                                             cluster -- without the SecondaryNameNode that failed NameNode would have lost 
                                             all of it's file system state and a full HDFS restart (including all 
                                             datanodes) whould be required.
-  \item \textbf{JobTracker} (MapReduce) -- is responsible for tracking Map Reduce Jobs running in the cluster. It behaves 
-                                           like a queue, in taking Job requests and processes them in order (or based on 
-                                           customasible strategies). It is also in contact with all TaskTrackers 
+  \item \textbf{JobTracker} (MapReduce) -- responsible for scheduling Map Reduce Jobs running in the cluster. It
+                                           behaves like a queue, in taking Job requests and processes them in order (or    
+                                           based on customasible strategies). It is also in contact with all TaskTrackers 
                                            (described below), which actualy perform the work related to a MR Job, while 
                                            the JobTracker only gets and aggregates the job's progress. In case of failed 
                                            Jobs or Tasks it can also restart or redistribute the job to other DataNodes.
 \end{itemize}
 
-The distribution of these processes within the initial 3 node deployment is shown on Figure \ref{fig:small-cluster-deployment}.
+Secondly, the cluster contains 2 types of processes associated with \textit{slave} nodes. They are mostly responsible for ''the actual work'', whereas the processes running on the \textit{master} node can be seen as ''coordinators''. Each salve node in the cluster is running these processes:
+
+\begin{itemize}
+  \item \textbf{DataNode} (HDFS) -- responsible for the actual storage of data on HDFS. Data nodes themselfs are not able 
+                                    to correlate a path to a given file data block -- only the NameNode is able to 
+                                    perform this lookup, which also means that in the case of the NameNode failing,
+                                    the data stored on the DataNodes is temporarily unavailable. The DataNodes can talk 
+                                    to each other in order to migrate and replicate the data blocks directly with each
+                                    other, though this action has to be initialized by the NameNode.
+  
+  \item \textbf{TaskTracker} (MapReduce) -- responsible for scheduling and executing Jobs on a given DataNode. Tasks are
+                                            chunks of work, issued by the JobTracker to TaskTrackers, which then handle
+                                            their execution. Once all tasks for a given job are completed, the JobTracker 
+                                            reacts by completing the overall job. A TaskTracker should be run on the same
+                                            physical node as the DataNode, because then it can leverage this fact for
+                                            node-local task execution.
+\end{itemize}
+
 
 \begin{figure}[ch!]
   \centering
@@ -186,20 +203,62 @@ The distribution of these processes within the initial 3 node deployment is show
   \label{fig:small-cluster-deployment}
 \end{figure}
 
+These 5 types of processes must be running in the cluster for Map Reduce jobs to be executable by the cluster. All nodes must be able to communicate with each other. Firstly, because the master node must be able to submit tasks to it's slave nodes (DataNodes) and secondly, because DataNodes must be able to communicate between themselfs in order to replicate data among the cluster. Starting the cluster however does not require the administrator to start these processes on each of the machines separately -- as the master node is able to issue start/stop commands via \verb|ssh| to it's slave nodes. This also means that the slave nodes do not need to know about all their ''neighbors'', because the master node will inform the newly joined nodes about the cluster's current state and IP addresses of the remaining DataNodes.
+
 
 \subsubsection{HBase deployment}
 \label{sec:hbase-deployment}
-\todo{hbase deployment}s
+Discussing the Hadoop cluster's deployment actually automatically covers part of the deployment information needed for the HBase cluster. The reason for this being, that the HBase cluster's equivalent od ''data node'', known as RegionServers must reside on the same physical nodes as HDFS's DataNodes.
+
+HBase also has a clear separation between processes that are \textit{master} processes and \textit{slave} processes.
+The master and coordination processes are:
+
+\begin{itemize}
+\item \textbf{HMaster} (HBase) -- responsible for all coordination of reads and writes to HBase. Although it may seem 
+                                  that it might quickly become a bottleneck, since all client applications connect 
+                                  directly to it, this is not the case. While clients indeed do connect directly to the 
+                                  HMaster all read/write operations are performed directly between the client and             
+                                  specific RegionServers which host the data that a given client query is touching.
+\item \textbf{HQuorumPeer} (ZooKeeper) -- is HBase's wrapper around Apache ZooKeeper \cite{zoo-keeper}, which is a
+                                          centralised multi-node quorum-based metadata storage service. ZooKeeper is used 
+                                          for cluster management within HBase, and the HQuorumPeer serves as ''managed by
+                                          HBase ZooKeeper cluster''. Thanks to HB running the ZK cluster by itself, for 
+                                          small clusters (less than hundereds of nodes), it eases the administrative 
+                                          overhead of managing another cluster manually. ZK is used to register and 
+                                          auto-discover RegionServers, once they notify ZooKeeper of their existence.
+\end{itemize}
+
+While, exactly as with the NameNode in the case of HDFS, the HMaster should be a cluster-wide singleton, and serves as entry point for client applications for issuing reads and writes, the HQuorumPeer has to be run on multiple nodes. 
+
+In initial configuration of the HBase cluster the HQuorumPeer was run on three nodes in the cluster. The reason for using 3 nodes to run the HQuorumPeer (ZooKeeper) processes is that, since ZK operates on a quorum it requires at least \verb|ceil(N/2)| nodes to be available to make progress. In an 3 node scenario, this means that the cluster will continue to work properly while at least \verb|ceil(3/2) = 2| nodes are available. In other words, setting up 3 nodes to run ZK, allows 1 node to fail, without stoping the entire cluster.
+
+Continuing the discussion about process types running in the HBase cluster, the slave nodes require one type of component to be running:
+
+\begin{itemize}
+\item \textbf{HRegionServer} (HBase) -- responsible for processing client requests to read / write to HTables.
+                                        The name ''Region'' mentioned in it's name refers to the fact that the 
+                                        \textit{row-key} space of a Table is split among multiple servers, so that when
+                                        performing a full-scan filtering operation, multiple servers can perform the
+                                        scanning \textit{in parallel} -- each fot it's own section of the
+                                        \textit{row-key} space. It must be running along side with a DataNode on the
+                                        same physical server.
+                                        
+\end{itemize}
+
+While the slave type of process is much simpler for HBase than for HDFS, it does have one additional requirement: an HRegionServer must be running on the same physical node as a HDFS DataNode. The reason behind this is that RegionServers store their assigned region's data on HDFS and by running it on the same node as a DataNode, all writes can be made locally -- without transfering the data over the network. Of course, if HDFS is configured to replicate it's data to multiple nodes -- it will, but this does not concern the HRegionServer.
+
 
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=0.8\textwidth]{img/hbase-processes}
-  \caption{Deployment diagram of the various HDFS processes within the initial 3-node cluster.}
+  \caption{Deployment diagram of the various HBase processes within the initial 3-node cluster. DataNodes are not directly part of the HBase cluster, yet are required to be running on the same physical nodes as HRegionServers.}
   \label{fig:small-cluster-deployment}
 \end{figure}
 
-Since HBase is so tightly connected with HDFS through direct use of it's DataNodes, all configuration changes connected to the HDFS cluster directly influence Hbase's behavior, for better or worse.
+Having the HRegionServers deployed on the same nodes as DataNodes has another effect: all optimisations performed to HDFS and the DataNodes, will directly influence HBase's behavior. One should also keep in mind that some features may seem to be duplicated among HDFS and HBase -- such as replication, which can be set up directly on HBase or HDFS. Configuring some of these settings in HBase rather than HDFS has the benefit of HBase being more aware of the structure of the data it is storing, whereas the same data carries nearly no meta information HDFS can use to redistribute it more efficiently. 
+Namely, HBase can redistribute data related to Regions of HTables more efficiently, so that full scans on these tables can be parallelised more evenly and predictably.
 
+All diagrams in this Section have included an ''$\cdots$'' marker, hinting at the possibility to add more nodes to the cluster. When scaling Hadoop clusters the only type of node that has to be added is the ''slave'' kind of node, which have been positioned right-most on each diagram. In fact, chapter Chapter \ref{chap:perf-scalability} will focus directly on scaling out these clusters, with one of the tests scaling it out to 10 nodes.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Defining Map Reduce Pipelines using Scalding and Cascading}
@@ -323,7 +382,7 @@ class CompareByDominantColor(args: Args) extends Job(args) {
 }
 \end{lstlisting}
 
-Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs, because it reads from 2 separate data sources: from a sequence file that we just started processing (this is the movie this job aims to compare to the referece data set), and from the \verb|HistogramsTable| which is the reference dataset containing refernece data calculated previously for all already processed movies in the reference database. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's executionw will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modeled by this definition.
+Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs, because it reads from 2 separate data sources: from a sequence file that we just started processing (this is the movie this job aims to compare to the referece data set), and from the \verb|HistogramsTable| which is the reference dataset containing refernece data calculated previously for all already processed movies in the reference database. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's executionw will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modelled by this definition.
 
 \begin{figure}[ch!]
   \centering
@@ -332,7 +391,7 @@ Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, whic
 \end{figure}
 
 
-The dependencies, as seen on Figure \ref{fig:3-pipeline} between the first two Jobs to the 3rd ''Join Job'' were not explicitly modeled as previously seen using the \verb|next| method, and instead were inferred from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. This is very important and useful because of two reasons:
+The dependencies, as seen on Figure \ref{fig:3-pipeline} between the first two Jobs to the 3rd ''Join Job'' were not explicitly modelled as previously seen using the \verb|next| method, and instead were inferred from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. This is very important and useful because of two reasons:
 
 \begin{itemize}
   \item Cascading is able to determine dependencies between Map Reduce jobs, and execute them on the Hadoop cluster as dictated by their dependency graph.
@@ -340,6 +399,13 @@ The dependencies, as seen on Figure \ref{fig:3-pipeline} between the first two J
 \end{itemize}
 
 Thanks to the second property of these Job Pipelines (parallel execution of independent sub-graphs) total execution time of such Map Reduce Pipelines may be further optimised when running on large clusters.
+
+\section{Analyser design summary}
+Summing up the Loader's design, it should be clear that most of the architecture required for it's operation is in fact a classical Hadoop cluster. The application itself does not need any additional operational servers, as the only thing the Analyser does is to issue compile Scalding Job descriptions and then send these to the cluster's JobTracker, which takes care of their scheduling and execution. 
+
+The Analyser should be seen as an end-user application. It is run locally on a developers work-station in order to prepare and issue various jobs. This has obvious gains in terms of not requireing the developer's machine to store these humongous amounts of data, and only issue percise queries and jobs.
+
+
 
 
 

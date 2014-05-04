@@ -1,8 +1,5 @@
 \begin{thebibliography}{Com01}
 
-\bibitem[akk]{akka-tracing}
-
-
 \bibitem[ble]{blender-foundation}
 Blender foundation website.
 
@@ -37,6 +34,11 @@ ffmpeg project site.
 Blender Foundation.
 \newblock Big buck bunny, movie, 2008.
 
+\bibitem[Fou13]{zoo-keeper}
+Apache Foundation.
+\newblock Apache zookeeper --
+  https://cwiki.apache.org/confluence/display/zookeeper/index, 2013.
+
 \bibitem[Goo]{youtube}
 Google.
 \newblock {\em http://youtube.com}.
@@ -62,6 +64,10 @@ Victor Klang et~al. Jonar~Boner.
 
 \bibitem[kam]{kamon}
 Kamon -- http://kamon.io.
+
+\bibitem[Kho14]{akka-tracing}
+Lev Khomich.
+\newblock Akka-tracing -- https://github.com/levkhomich/akka-tracing, 2014.
 
 \bibitem[kmp]{kmp-string-search}
 Fast pattern matching in strings.

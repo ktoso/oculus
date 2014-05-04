@@ -134,7 +134,7 @@ public class Histogram {
         File f = new File(fileName);
         BufferedImage img = ImageIO.read(f);
         Histogram h = new Histogram(fileName);
-        h.parseGrayHistogram(img);
+//        h.parseGrayHistogram(img);
         h.parseHistogramForColors(img);
         return h;
     }

@@ -104,9 +104,12 @@ Because the Map Reduce framework relies on parallelising computing of the map fu
 \label{sec:growing-the-cluster}
 With the base size of the cluster being 3 nodes (with one virtual machine hosting the namenode as well as a datanode, and the rest hosting only datanodes), this section aims to determine the horizontal scalability of the cluster, by sheer adding of datanodes to the hadoop cluster.
 
-Adding nodes to the cluster is a very simple operation, and can be performed without any disruption of the already running cluster. During the tests performed for this section, additional VMs have been provisioned and added to the cluster by using the commands shown in Listing \ref{lst:adding-new-node-cluster}. It should be noted that the provisioned VMs would re-use an existing snapshot image of an instance prepared using OpsCode Chef, which is an configuration provisioning tool explained in detail in Appendix \ref{app:chef}. The usual time from starting a new node on Google Compute Engine, and it starting to participate in the work distribution of the Hadoop cluster was \textit{less than 1 minute} (including the time to provision the fresh virtual machine)!
+Adding nodes to the cluster is a very simple operation, and can be performed without any disruption of the already running cluster. During the tests performed for this section, additional VMs have been provisioned and added to the cluster by using the commands shown in Listing \ref{lst:adding-new-node-cluster}. It should be noted that the provisioned VMs would re-use an existing snapshot image of an instance prepared using OpsCode Chef, which is an configuration provisioning tool explained in detail in Appendix \ref{app:chef}. 
 
-\begin{lstlisting}[caption={Complete listing of adding a new worker node to the cluster, using GCE},label{lst:adding-new-node-cluster}]
+\textbf{The average time from starting a new node on Google Compute Engine, and it joining the Hadoop cluster is \textit{less than 1 minute} -- including the time to provision the fresh virtual machine!}
+
+\newpage
+\begin{lstlisting}[caption={Complete listing of adding a new worker node to the cluster, using GCE}, label={lst:adding-new-node-cluster}]
 // provision new instance
 gcutil --service_version="v1" --project="oculus-hadoop" adddisk "oculus-4b" --zone="us-central1-a" --source_snapshot="oculus-slave-snapshot"
 
@@ -249,7 +252,7 @@ The one optimization performed during this work was distributing ''download'' ta
 
 Nevertheless, using Akka's clustering module it was possible to easily scale out the cluster and add new nodes to it, \textit{without the need of stopping the cluster}. The strategy was to deploy one downloader on each of the nodes, and make the node join the Akka cluster. Other nodes in the system would be notified that a new node has joined and can ask it to perform work. A full example of this workflow is presented in Listing \ref{lst:scaling-akka-cluster}, where the \verb|YoutubeCrawlActor| is configured to listen for cluster membership changes (on line 6), and then can react on members joining and leaving (lines 14 and 15) by adding and removing them from the RoundRobinRouter (which was explained in detail in Section \ref{sec:loader-basics}. Then, upon parsing a website and extracting links from it, the Router can be used to evenly distribute work among the registered downlaoder actors (lines 11 and 12).
 
-\newpage
+
 \begin{lstlisting}[caption={Listening for Cluster events in Akka allows the application to dynamically respond to nodes being added to the cluster, and spreading the load in application logic to other nodes.}, label={lst:scaling-akka-cluster}]
 class YoutubeCrawlActor extends Actor with OculusSelections {
   val cluster = Cluster(context.system)

@@ -20,24 +20,19 @@ You're missing a field name---line 46 of file ../bibliography.bib
  : %  title = {Hadoop Operations},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 58 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 64 of file ../bibliography.bib
  :   
  :   year = {2013}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 63 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 69 of file ../bibliography.bib
  :   
  :   author = {Kamon Team},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 68 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 117 of file ../bibliography.bib
  :   
- :   title = {Akka-Tracing -- https://github.com/levkhomich/akka-tracing},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 111 of file ../bibliography.bib
- :   
- :   author = { Blender Foundation }
+ :   author = { Blender Foundation },
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "chubby"
@@ -45,7 +40,8 @@ Warning--I didn't find a database entry for "gfs"
 Warning--I didn't find a database entry for "yahoo"
 Warning--I didn't find a database entry for "twitter"
 Warning--I didn't find a database entry for "java"
-Warning--I didn't find a database entry for "dot"
+Warning--I didn't find a database entry for "big-table"
+Warning--I didn't find a database entry for "akka-cluster"
 Warning--to sort, need author or key in scalding
 Warning--to sort, need author or key in concurrent-inc
 Warning--to sort, need author or key in erlang
@@ -54,50 +50,49 @@ Warning--to sort, need author or key in blender-foundation
 Warning--to sort, need author or key in kmp-string-search
 Warning--to sort, need author or key in hadoop-ops
 Warning--to sort, need author or key in kamon
-Warning--to sort, need author or key in akka-tracing
 Warning--empty institution in map-reduce
 Warning--empty publisher in youtube
 Warning--empty year in youtube
 Warning--empty journal in boyer-string-search
-You've used 24 entries,
+You've used 25 entries,
             2543 wiz_defined-function locations,
-            641 strings with 5969 characters,
-and the built_in function-call counts, 5680 in all, are:
-= -- 501
-> -- 140
-< -- 14
-+ -- 36
-- -- 34
-* -- 273
-:= -- 789
-add.period$ -- 41
-call.type$ -- 24
-change.case$ -- 109
-chr.to.int$ -- 24
-cite$ -- 46
-duplicate$ -- 263
-empty$ -- 607
-format.name$ -- 59
-if$ -- 1222
+            648 strings with 6167 characters,
+and the built_in function-call counts, 6005 in all, are:
+= -- 533
+> -- 155
+< -- 16
++ -- 40
+- -- 38
+* -- 285
+:= -- 851
+add.period$ -- 44
+call.type$ -- 25
+change.case$ -- 116
+chr.to.int$ -- 25
+cite$ -- 45
+duplicate$ -- 275
+empty$ -- 630
+format.name$ -- 67
+if$ -- 1287
 int.to.chr$ -- 1
 int.to.str$ -- 0
 missing$ -- 3
-newline$ -- 92
-num.names$ -- 45
-pop$ -- 234
+newline$ -- 97
+num.names$ -- 51
+pop$ -- 244
 preamble$ -- 1
-purify$ -- 136
+purify$ -- 143
 quote$ -- 0
-skip$ -- 290
+skip$ -- 300
 stack$ -- 0
-substring$ -- 179
-swap$ -- 22
-text.length$ -- 14
-text.prefix$ -- 10
+substring$ -- 185
+swap$ -- 23
+text.length$ -- 16
+text.prefix$ -- 12
 top$ -- 0
-type$ -- 188
-warning$ -- 13
-while$ -- 31
-width$ -- 27
-write$ -- 212
-(There were 6 error messages)
+type$ -- 196
+warning$ -- 12
+while$ -- 35
+width$ -- 28
+write$ -- 226
+(There were 5 error messages)
