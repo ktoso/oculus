@@ -1,23 +1,35 @@
-\begin{thebibliography}{Com01}
+\begin{thebibliography}{DEK77}
 
 \bibitem[ble]{blender-foundation}
 Blender foundation website.
 
-\bibitem[Bru]{graph-tooling}
+\bibitem[Bru05]{graph-tooling}
 Derek Bruening.
-\newblock bargraph -- http://bargraphgen.googlecode.com/svn/trunk/bargraph.pl.
+\newblock bargraph.
+\newblock \url{http://bargraphgen.googlecode.com/svn/trunk/bargraph.pl}, 2005.
 
 \bibitem[CH73]{actor-model}
 Richard~Steiger Carl~Hewitt, Peter~Bishop.
 \newblock A universal modular actor formalism for artificial intelligence,
   1973.
 
+\bibitem[col]{columnar-database}
+Column-oriented database.
+\newblock \url{http://en.wikipedia.org/wiki/Column-oriented_DBMS}.
+
 \bibitem[Com01]{creative-commons}
 Creative Commons.
-\newblock Creative commons license -- https://creativecommons.org, 2001.
+\newblock Creative commons license.
+\newblock \url{https://creativecommons.org}, 2001.
 
-\bibitem[con]{concurrent-inc}
+\bibitem[con13]{concurrent-inc}
 Concurrent inc. website.
+\newblock \url{http://www.concurrentinc.com/}, 2013.
+
+\bibitem[DEK77]{kmp-string-search}
+Vaughan R.~Pratt Donald E.~Knuth, James H.~Morris.
+\newblock Fast pattern matching in strings.
+\newblock \url{http://www.eecs.ucf.edu/~shzhang/Combio09/kmp.pdf}, 1977.
 
 \bibitem[DG04]{map-reduce}
 Jeffrey Dean and Sanjay Ghemawat.
@@ -25,72 +37,101 @@ Jeffrey Dean and Sanjay Ghemawat.
 \newblock Technical report, 2004.
 
 \bibitem[erl]{erlang}
-Erlang programming language homepage -- http://www.erlang.org/.
+Erlang, programming language.
+\newblock \url{http://www.erlang.org/}.
 
 \bibitem[ffm]{ffmpeg}
-ffmpeg project site.
+ffmpeg.
+\newblock \url{http://www.ffmpeg.org/}.
 
 \bibitem[Fou08]{big-buck-bunny}
 Blender Foundation.
-\newblock Big buck bunny, movie, 2008.
+\newblock Big buck bunny, movie.
+\newblock \url{https://www.youtube.com/watch?v=YE7VzlLtp-4}, 2008.
 
 \bibitem[Fou13]{zoo-keeper}
 Apache Foundation.
-\newblock Apache zookeeper --
-  https://cwiki.apache.org/confluence/display/zookeeper/index, 2013.
-
-\bibitem[Goo]{youtube}
-Google.
-\newblock {\em http://youtube.com}.
+\newblock Apache zookeeper.
+\newblock \url{https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index},
+  2013.
 
 \bibitem[Goo13]{tesseract}
 Google.
 \newblock Google's tesseract-ocr text recognition library, 1985 - 2013.
 
-\bibitem[had]{hadoop-ops}
-
-
 \bibitem[Had12]{hadoop-seq-files}
 Apache Hadoop.
-\newblock Hadoop sequence files format documentation, 2012.
+\newblock Hadoop sequence files format documentation.
+\newblock \url{http://wiki.apache.org/hadoop/SequenceFile}, 2012.
+
+\bibitem[ham]{hamming-distance}
+Hamming distance.
+\newblock \url{http://en.wikipedia.org/wiki/Hamming_distance}.
 
 \bibitem[Inc13]{akka-remoting}
 Typesafe Inc.
 \newblock Akka remoting documentation, 2013.
 
-\bibitem[JB13]{akka-docs}
-Victor Klang et~al. Jonar~Boner.
-\newblock Akka documentation, 2013.
-
-\bibitem[kam]{kamon}
-Kamon -- http://kamon.io.
+\bibitem[JD]{deep-learning-google}
+Google Jeff~Dean.
+\newblock Presentation: Taming latency variability and scaling deep learning.
+\newblock \url{https://www.youtube.com/watch?v=S9twUcX1Zp0}.
 
 \bibitem[Kho14]{akka-tracing}
 Lev Khomich.
-\newblock Akka-tracing -- https://github.com/levkhomich/akka-tracing, 2014.
+\newblock Akka-tracing.
+\newblock \url{https://github.com/levkhomich/akka-tracing}, 2014.
 
-\bibitem[kmp]{kmp-string-search}
-Fast pattern matching in strings.
+\bibitem[mar80]{marr-hildreth}
+Marr–hildreth algorithm.
+\newblock \url{http://en.wikipedia.org/wiki/Marr%E2%80%93Hildreth_algorithm},
+  1980.
 
-\bibitem[Ode13]{scala}
+\bibitem[Ode14]{scala}
 Martin Odersky.
-\newblock Scala -- http://scala-lang.org, 2003 -- 2013.
+\newblock Scala, programming language.
+\newblock \url{http://scala-lang.org}, 2002 -- 2014.
 
 \bibitem[PH07]{odersky-actors}
 Martin~Odersky Phillip~Haller.
-\newblock Actors that unify threads and events, 2007.
+\newblock Actors that unify threads and events.
+\newblock \url{http://lampwww.epfl.ch/~phaller/doc/haller07coord.pdf}, 2007.
 
 \bibitem[RSB77]{boyer-string-search}
 J.~Strother~Moore Robert S.~Boyer.
 \newblock A fast string searching algorithm.
 \newblock 1977.
 
+\bibitem[Sam12]{hadoop-ops}
+Eric Sammer.
+\newblock {\em Hadoop Operations}.
+\newblock 2012.
+
 \bibitem[sca]{scalding}
+Twitter scalding.
+\newblock \url{http://github.com/twitter/scalding}.
 
+\bibitem[sec]{secondary-index-htable}
+Secondary indexes in hbase.
+\newblock \url{http://hbase.apache.org/book/secondary.indexes.html}.
+\newblock Accessed: 4.05.2014.
 
-\bibitem[Wik]{columnar-database}
-Wikipedia.
-\newblock Column-oriented database.
+\bibitem[Tea13]{akka-docs}
+Akka Team.
+\newblock Akka documentation.
+\newblock \url{http://doc.akka.io/docs/akka/snapshot}, 2013.
+
+\bibitem[Tea14]{kamon}
+Kamon Team.
+\newblock Kamon.
+\newblock \url{http://kamon.io}, 2014.
+\newblock Accessed 12.03.2014.
+
+\bibitem[You]{youtube}
+Google YouTube.
+\newblock Youtube.com.
+\newblock http://youtube.com.
+\newblock Accessed 2013.
 
 \bibitem[Zau10]{phash}
 Christoph Zauner.

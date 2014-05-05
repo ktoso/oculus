@@ -240,10 +240,10 @@ In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under
 It is worth keeping in mind that cost efficiency usually is also an important business need and simply adding more servers sometimes isn't an available option. Even more so, sometimes we may end up over provisioning servers -- as seen in Figure \ref{fig:ten-under-utilised-cluster}, so while simply adding more servers is very tempting and usually works very well on Hadoop clusters (as seen in Section \ref{sec:tuning-number-of-nodes}), one should always first try to fine tune the cluster to the specific work-load it is experiencing. In the case shown in this section, a fine-tuned 4 node cluster was able to perform almost as good (for this set of jobs), as the under utilised 10 node cluster. In real life clusters will always execute very different workloads at the same time, so it may be very hard to fine tune it for very percise scenarios, yet the effort of changing configurations of cluster members can sometimes prevent the need of adding more servers, so it should be always considered first -- unless a long term cluster expansion (e.g. ''adding 100 nodes, in the next 2 months'') is planned directly.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Denormalisation as way to increase lookup performance in the Analyser's HBase interactions}
-\label{sec:optimising-hbase}
-
-While all performance optimisations mentioned in the Section about Hadoop scaling, directly impact HBase performance
+%\section{Denormalisation as way to increase lookup performance in the Analyser's HBase interactions}
+%\label{sec:optimising-hbase}
+%
+%While all performance optimisations mentioned in the Section about Hadoop scaling, directly impact HBase performance
 
 
 

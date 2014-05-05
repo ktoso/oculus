@@ -10,27 +10,17 @@ A level-1 auxiliary file: chapter6.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: alpha.bst
 Database file #1: ../bibliography.bib
-I was expecting a `,' or a `}'---line 34 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 38 of file ../bibliography.bib
  :   
- :   title = {Twitter Scaling, project page on github: http://github.com/twitter/scalding}
+ :   author = {Twitter Inc.},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You're missing a field name---line 46 of file ../bibliography.bib
- : 
- : %  title = {Hadoop Operations},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 64 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 125 of file ../bibliography.bib
  :   
- :   year = {2013}
+ :   license = {GNU LGPL 2.0}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 69 of file ../bibliography.bib
- :   
- :   author = {Kamon Team},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 117 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 148 of file ../bibliography.bib
  :   
  :   author = { Blender Foundation },
 (Error may have been on previous line)
@@ -44,55 +34,55 @@ Warning--I didn't find a database entry for "big-table"
 Warning--I didn't find a database entry for "akka-cluster"
 Warning--to sort, need author or key in scalding
 Warning--to sort, need author or key in concurrent-inc
+Warning--to sort, need author or key in columnar-database
 Warning--to sort, need author or key in erlang
 Warning--to sort, need author or key in ffmpeg
 Warning--to sort, need author or key in blender-foundation
-Warning--to sort, need author or key in kmp-string-search
-Warning--to sort, need author or key in hadoop-ops
-Warning--to sort, need author or key in kamon
+Warning--to sort, need author or key in marr-hildreth
+Warning--to sort, need author or key in hamming-distance
+Warning--to sort, need author or key in secondary-index-htable
 Warning--empty institution in map-reduce
-Warning--empty publisher in youtube
-Warning--empty year in youtube
 Warning--empty journal in boyer-string-search
-You've used 25 entries,
+Warning--empty publisher in hadoop-ops
+You've used 29 entries,
             2543 wiz_defined-function locations,
-            648 strings with 6167 characters,
-and the built_in function-call counts, 6005 in all, are:
-= -- 533
-> -- 155
-< -- 16
-+ -- 40
-- -- 38
-* -- 285
-:= -- 851
-add.period$ -- 44
-call.type$ -- 25
-change.case$ -- 116
-chr.to.int$ -- 25
-cite$ -- 45
-duplicate$ -- 275
-empty$ -- 630
-format.name$ -- 67
-if$ -- 1287
+            687 strings with 7188 characters,
+and the built_in function-call counts, 7263 in all, are:
+= -- 701
+> -- 180
+< -- 19
++ -- 46
+- -- 44
+* -- 327
+:= -- 1068
+add.period$ -- 76
+call.type$ -- 29
+change.case$ -- 137
+chr.to.int$ -- 29
+cite$ -- 50
+duplicate$ -- 318
+empty$ -- 732
+format.name$ -- 78
+if$ -- 1577
 int.to.chr$ -- 1
 int.to.str$ -- 0
 missing$ -- 3
-newline$ -- 97
-num.names$ -- 51
-pop$ -- 244
+newline$ -- 137
+num.names$ -- 60
+pop$ -- 268
 preamble$ -- 1
-purify$ -- 143
+purify$ -- 166
 quote$ -- 0
-skip$ -- 300
+skip$ -- 311
 stack$ -- 0
-substring$ -- 185
-swap$ -- 23
-text.length$ -- 16
-text.prefix$ -- 12
+substring$ -- 214
+swap$ -- 27
+text.length$ -- 19
+text.prefix$ -- 14
 top$ -- 0
-type$ -- 196
+type$ -- 228
 warning$ -- 12
-while$ -- 35
-width$ -- 28
-write$ -- 226
-(There were 5 error messages)
+while$ -- 41
+width$ -- 33
+write$ -- 317
+(There were 3 error messages)
