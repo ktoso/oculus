@@ -36,9 +36,10 @@ class HashHistVideoSeqFileJob(args: Args) extends Job(args) with TupleConversion
     
       val (dct, mh) = dct_mh(p)
 
+      val key = new StringBuilder(dominating.key).append(":").append(youtubeId).append(":").append(p._1).toString()
 
       (
-        new StringBuilder(dominating.key).append(":").append(youtubeId).append(":").append(p._1).toString(),
+        key.asImmutableBytesWriteable,
         youtubeId.asImmutableBytesWriteable,
         dct,
         mh,
