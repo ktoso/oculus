@@ -6,7 +6,7 @@ import org.apache.hadoop.io.{BytesWritable, IntWritable}
 import pl.project13.scala.oculus.conversions.WriteDOT
 import pl.project13.scala.oculus.source.hbase.{HistogramsSource, HashesSource}
 
-class HashHistVideoSeqFilesJob(args: Args) extends Job(args) with TupleConversions
+class HashHistVideoSeqFileJob(args: Args) extends Job(args) with TupleConversions
   with WriteDOT
   with HashesSource with HistogramsSource
   with Histograms with Hashing {
@@ -21,8 +21,9 @@ class HashHistVideoSeqFilesJob(args: Args) extends Job(args) with TupleConversio
     .read
     .rename('key, 'frame)
 
-    .map(('frame, 'value) -> ('id, 'mhHash, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: (Int, BytesWritable) =>
-      val histogram = mkHistogram(p)
+    .map(('frame, 'value) -> ('key, 'id, 'dct, 'mh, 'lumHist, 'redHist, 'greenHist, 'blueHist)) { p: (Int, BytesWritable) =>
+      val (dominating, histogram) = mkHistogram(p)
+
       val luminance = histogram.getLuminanceHistogram
       val red = histogram.getRedHistogram
       val green = histogram.getGreenHistogram
@@ -32,10 +33,15 @@ class HashHistVideoSeqFilesJob(args: Args) extends Job(args) with TupleConversio
       val redString = red.map(Integer.toHexString).mkString
       val greenString = green.map(Integer.toHexString).mkString
       val blueString = blue.map(Integer.toHexString).mkString
+    
+      val (dct, mh) = dct_mh(p)
+
 
       (
+        new StringBuilder(dominating.key).append(":").append(youtubeId).append(":").append(p._1).toString(),
         youtubeId.asImmutableBytesWriteable,
-        mhHash(p),
+        dct,
+        mh,
         lumString.asImmutableBytesWriteable,
         redString.asImmutableBytesWriteable,
         greenString.asImmutableBytesWriteable,
@@ -44,7 +50,7 @@ class HashHistVideoSeqFilesJob(args: Args) extends Job(args) with TupleConversio
     }
 
     .map('frame -> 'frame) { p: IntWritable => longToIbw(p.get) }
-    .write(HashesTable)
+//    .write(HashesTable)
     .write(HistogramsTable)
 
 }

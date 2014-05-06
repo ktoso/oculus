@@ -10,9 +10,9 @@ trait HistogramsSource {
   val HistogramsTable = new MyHBaseSource(
     tableName = "histograms",
     quorumNames = IPs.HadoopMasterWithPort,
-    keyFields = 'lumHist,
-    familyNames = Array("youtube", "youtube", "hist",   "hist",     "hist"),
-    valueFields = Array('id,       'frame,    'redHist, 'greenHist, 'blueHist)
+    keyFields = 'key,
+    familyNames = Array("youtube", "youtube", "hist",   "hist",     "hist",    "phash", "phash"),
+    valueFields = Array('id,       'frame,    'redHist, 'greenHist, 'blueHist, 'mh,     'dct)
   )
 
 }

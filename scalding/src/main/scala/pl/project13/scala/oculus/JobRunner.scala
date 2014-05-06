@@ -27,7 +27,8 @@ object JobRunner extends App with OculusJobs {
     (4,   "find movies similar to given, v2", findSimilarToGivenV2 _) ::
     (5,   "list available files", listAvailableFiles _) ::
     (6,   "extract text from movie", extractText _) ::
-    (7, "delete all data about [id]", deleteAllDataAboutMovieWithId _) ::
+    (7,   "delete all data about [id]", deleteAllDataAboutMovieWithId _) ::
+    (8,   "histo compare two movies", histoCompareTwoMovies _) ::
     Nil
 
   val availableJobsString = availableJobs.map(d => "  " + d._1 + ") " + d._2).mkString("\n")
@@ -72,7 +73,7 @@ trait OculusJobs {
 
     val totalStopwatch = (new Stopwatch).start()
 
-    val jobClass = classOf[HashHistVideoSeqFilesJob]
+    val jobClass = classOf[HashHistVideoSeqFileJob]
     val jobClassName = jobClass.getCanonicalName
 
     seqFiles map { seq =>
@@ -97,13 +98,16 @@ trait OculusJobs {
   }
 
   def hashSequenceFile(args: Seq[String]) =
-    simpleHadoopRun(args, classOf[HashHistVideoSeqFilesJob])
+    simpleHadoopRun(args, classOf[HashHistVideoSeqFileJob])
 
   def extractText(args: Seq[String]) =
     simpleHadoopRun(args, classOf[ExtractTextFromMovieJob])
 
   def compareTwoMovies(args: Seq[String]) =
     simpleHadoopRun(args, classOf[CompareTwoMoviesJob])
+
+  def histoCompareTwoMovies(args: Seq[String]) =
+    simpleHadoopRun(args, classOf[HistoCompareTwoMoviesJob])
 
   def findSimilarToGiven(args: Seq[String]) =
     simpleHadoopRun(args, classOf[FindSimilarMoviesJob])

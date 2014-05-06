@@ -8,6 +8,7 @@ import org.apache.hadoop.io.BytesWritable
 import pl.project13.scala.oculus.conversions.OculusTupleConversions
 import pl.project13.scala.scalding.hbase.OculusStringConversions
 import pl.project13.common.utils.Histogram
+import pl.project13.scala.oculus.phash.PHash.PHashResult
 
 trait Hashing extends OculusTupleConversions with OculusStringConversions {
 
@@ -15,22 +16,27 @@ trait Hashing extends OculusTupleConversions with OculusStringConversions {
 
 //  type SeqFileElement = (Int, BytesWritable)
 
-  // todo do the same with dct hash!!!!!
-  def mhHashString(seqFileEl: (Int, BytesWritable)) = {
+  def hashString(seqFileEl: (Int, BytesWritable)): PHashResult = {
     val (idx, bytes) = seqFileEl
     val bs = bytes.getBytes
 
-    println(s"processing element [$idx] of sequence file [$youtubeId]. [size: ${bs.size}]")
+//    println(s"processing element [$idx] of sequence file [$youtubeId]. [size: ${bs.size}]")
 
-    val result = onTmpFile(bs) {
+    onTmpFile(bs) {
       f => PHash.analyzeImage(f)
     }
+  }
 
-    result.mhHash
+  def dct_mh(seqFileEl: (Int, BytesWritable)): (ImmutableBytesWritable, ImmutableBytesWritable) = {
+    val h = hashString(seqFileEl)
+    h.dctHash.asImmutableBytesWriteable -> h.mhHash.asImmutableBytesWriteable
   }
 
   def mhHash(seqFileEl: (Int, BytesWritable)): ImmutableBytesWritable =
-    mhHashString(seqFileEl).asImmutableBytesWriteable
+    hashString(seqFileEl).mhHash.asImmutableBytesWriteable
+  
+  def dctHash(seqFileEl: (Int, BytesWritable)): ImmutableBytesWritable =
+    hashString(seqFileEl).dctHash.asImmutableBytesWriteable
 
   def onTmpFile[T](bytes: Array[Byte])(block: File => T): T = {
     val f = File.createTempFile("oculus-hashing", ".png")
