@@ -50,7 +50,7 @@ class HistoCompareTwoMoviesJob(args: Args) extends Job(args)
       .rename('redHist -> 'redRef)
       .rename('greenHist -> 'greenRef)
       .rename('blueHist -> 'blueRef)
-      .rename('mh -> 'hmRef)
+      .rename('mh -> 'mhRef)
       .rename('dct -> 'dctRef)
 
   val attacked = 
@@ -66,7 +66,7 @@ class HistoCompareTwoMoviesJob(args: Args) extends Job(args)
       .rename('redHist -> 'redAtt)
       .rename('greenHist -> 'greenAtt)
       .rename('blueHist -> 'blueAtt)
-      .rename('mh -> 'hmAtt)
+      .rename('mh -> 'mhAtt)
       .rename('dct -> 'dctAtt)
 
   type IBW = ImmutableBytesWritable
