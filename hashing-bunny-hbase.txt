@@ -1,0 +1,7 @@
+hbase(main):004:0> count 'histograms'
+Current count: 1000, row: B81-R16-G1:YE7VzlLtp-4.mp4:40179
+Current count: 2000, row: G52-R37-B10:YE7VzlLtp-4.mp4:1189
+Current count: 3000, row: G64-R34-B1:YE7VzlLtp-4.mp4:44829
+Current count: 4000, row: G99-R0-B0:YE7VzlLtp-4.mp4:52199
+Current count: 5000, row: R57-B28-G13:YE7VzlLtp-4.mp4:22009
+5966 row(s) in 1.1330 seconds

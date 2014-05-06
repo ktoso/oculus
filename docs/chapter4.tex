@@ -68,13 +68,13 @@ Having this in mind, the key is designed to be an descending sorted \verb|-| joi
 \begin{lstlisting}[caption={Gramar for the Histogram RowKey. In essence, it contains an encoded color dominance value, the youtube id of the movie, and frame number.}, label={lst:row-key}]
     NUMBER           : [0-9]                              ;
     YT_ID            : .+                                 ; // youtube id
-    FRAME            : "F" NUMBER+                        ; // frame number
+    FRAME            : NUMBER+                            ; // frame number
     COLOR            : ("R" | "G" | "B") NUMBER           ; // dominance of color in frame
     HIST_ORDERED : COLOR "-" COLOR "-" COLOR        ; // sorted by dominance
 
     ROW_KEY          : HIST_ORDERED ":" YT_ID ":" FRAME ;
     
-    // example: G40-B39-R19:e98uKex3hSw:F231
+    // example: R57-B28-G13:YE7VzlLtp-4.mp4:22009
 \end{lstlisting}
 
 Listing \ref{lst:row-ket} provides a simple ANTLR \footnote{ANTLR is a popular parser generator library for Java applications} gramar, which should make the key's parts easily visible (while ANTLR was not used directly for parsing of the key, it is a very clear and concise way of explaining the key's structure).

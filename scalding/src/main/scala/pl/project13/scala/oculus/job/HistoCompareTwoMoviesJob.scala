@@ -41,8 +41,10 @@ class HistoCompareTwoMoviesJob(args: Args) extends Job(args)
     HistogramsTableRef
       .read
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
-      .map('frame -> 'frame) { f : ImmutableBytesWritable => ibwToLong(f) }
+      .map('frame -> 'frame) { f: ImmutableBytesWritable => ibwToLong(f) }
+      .map('key -> 'dominantColRef) { k: ImmutableBytesWritable => ibwToString(k).take(2).mkString("") }
       .filter('id) { id: String => id contains refId }
+      .rename('key -> 'keyRef)
       .rename('id -> 'idRef)
       .rename('frame -> 'frameRef)
       .rename('redHist -> 'redRef)
@@ -56,24 +58,39 @@ class HistoCompareTwoMoviesJob(args: Args) extends Job(args)
       .read
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
       .map('frame -> 'frame) { f : ImmutableBytesWritable => ibwToLong(f) }
+      .map('key -> 'dominantColAtt) { k: ImmutableBytesWritable => ibwToString(k).take(2).mkString("") }
       .filter('id) { id: String => id contains attackedId }
-      .rename('id -> 'id2)
-      .rename('frame -> 'frame2)
+      .rename('key -> 'keyAtt)
+      .rename('id -> 'idAtt)
+      .rename('frame -> 'frameAtt)
+      .rename('redHist -> 'redAtt)
+      .rename('greenHist -> 'greenAtt)
+      .rename('blueHist -> 'blueAtt)
+      .rename('mh -> 'hmAtt)
+      .rename('dct -> 'dctAtt)
 
-  ref.joinWithSmaller('frame1 -> 'frame2, attacked)
-    .map(('mhHash1, 'mhHash2) -> ('hash1, 'hash2, 'distance)) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
-      val (h1, h2) = x
+  type IBW = ImmutableBytesWritable
+
+  ref.joinWithSmaller('dominantColRef -> 'dominantColAtt, attacked)
+    .map(('mhRef, 'mhAtt, 'dctRef, 'dctAtt, 'keyRef, 'keyAtt) -> ('dctDist, 'mhDist, 'histDist)) {
+      x: (IBW, IBW, IBW, IBW, IBW, IBW) =>
+
+        val (mhRef, mhAtt, dctRef, dctAtt, keyRef, keyAtt) = x
+
+        val dctDist = Distance.hammingDistance(dctRef.get, dctAtt.get)
+        val mhDist = Distance.hammingDistance(mhRef.get, mhAtt.get)
+        val histoDist = Distance.hammingDistance(ibwToString(keyRef).split(":").head.getBytes, ibwToString(keyAtt).split(":").head.getBytes)
 
       (
-        h1.get.mkString(""),
-        h2.get.mkString(""),
-        Distance.hammingDistance(h1.get, h2.get)
+        dctDist,
+        mhDist,
+        histoDist
       )
     }
     .groupAll {
-      _.sortBy('distance)
+      _.sortBy('dctDist, 'histDist, 'mhDist)
     }
-    .write(Csv(output, writeHeader = true, fields = ('distance, 'id1, 'id2, 'frame1, 'frame2, 'hash1, 'hash2)))
+    .write(Csv(output, writeHeader = true, fields = ('dctDist, 'histDist, 'mhDist, 'idRef, 'idAtt, 'frameRef, 'frameAtt)))
 
 }
 
