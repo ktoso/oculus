@@ -74,7 +74,8 @@ Having this in mind, the key is designed to be an descending sorted \verb|-| joi
 
     ROW_KEY          : HIST_ORDERED ":" YT_ID ":" FRAME ;
     
-    // example: R57-B28-G13:YE7VzlLtp-4.mp4:22009
+    // examples: R57-B28-G13:YE7VzlLtp-4.mp4:22009  <- Red dominates
+    //               G47-R41-G11:YE7VzlLtp-4.m6p4:919    <- Green dominates
 \end{lstlisting}
 
 Listing \ref{lst:row-ket} provides a simple ANTLR \footnote{ANTLR is a popular parser generator library for Java applications} gramar, which should make the key's parts easily visible (while ANTLR was not used directly for parsing of the key, it is a very clear and concise way of explaining the key's structure).
@@ -104,6 +105,25 @@ In the case of exact mirrored movies, it is possible to match the apropriate fra
   \caption{HBase HTable design used for histogram based lookups.}
   \label{fig:histogram-table}
 \end{figure}
+
+
+\begin{lstlisting}
+
+REDUCER DOES:::::::
+
+
+2014-05-07 00:49:51,225 INFO cascading.flow.hadoop.FlowReducer: sourcing from: GroupBy(_pipe_1*_pipe_2)[by:[{1}:'__groupAll__']]
+2014-05-07 00:49:51,369 INFO cascading.flow.hadoop.FlowReducer: sinking to: Hfs["TextDelimited[['dctDist', 'histDist', 'mhDist', 'idRef', 'idAtt', 'frameRef', 'frameAtt']]"]["/oculus/compare-YE7VzlLtp-4_AND_e98uKex3hSw.out"]
+
+234 map
+1 reduce
+
+Finished in: 44mins, 15sec
+
+56,998,861,974 bytes produced
+=======================
+
+\end{lstlisting}
 
 
 
