@@ -1,5 +1,5 @@
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\chapter{Analysis Job implementation results}
+\chapter{Analysis Job implementation examples}
 \label{chap:analysis-examples}
 
 This chapter aims to provide tangible examples of how the previously described system works and in what way the parallel nature of the implemented system benefited these use cases.
@@ -12,6 +12,7 @@ In Section \ref{sec:mirrored-video-detection} video material will be analysed in
 
 As this thesis is not focused on development of image analysis algorithms, these sections will instead lean their focus towards the distributed system and big-data parts of the problem. The image comparision algorithms also assume that that the used image correlation algorithm (\textit{phash} -- see Section \ref{sec:phash}) performs well enough for the job at hand. 
 
+
 % -----------------------------------------------------------------------------------
 \section{Near-duplicate video detection}
 \label{sec:mirrored-video-detection}
@@ -20,9 +21,9 @@ In order to test the system in scenarios of image disortion the example case of 
 As will be shown in thie section, this ''attack'' is not very effective, as determining a exact-mirror video material is fairly simple. Even in the case of slight hue and luminescence changes the implemented system was able to detect such videos flawlessly.
 
 \subsection{Analysed example material}
-The material used to illustrate the this attack scenario originate from the movie ''\textit{Big Buck Bunny}'' \cite{big-buck-bunny} which has been created by the Blender Foundation \cite{blender-foundation} and released under the Creative Commons license \cite{creative-commons}. 
+\textit{The video material used in this chapter to examplify the described attack scenarios originates from the movie ''\textit{Big Buck Bunny}'' \cite{big-buck-bunny} which has been created by the Blender Foundation \cite{blender-foundation} and released under the Creative Commons license \cite{creative-commons}.}
 
-Figure \ref{fig:frames-mirrored} illustrates the original as well as mirrored counter part of an example frame taken from the movie. The analysed video material has been is in 1080p resolution. The entire movie was stored in the reference database in raw format, which amounts amounts to a total size of \verb|6.25GB|.
+Figure \ref{fig:frames-mirrored} for example, illustrates the original as well as mirrored counter part of an example frame taken from the movie. The movie is 9 minutes and 59 seconds long. The version used during this analysis is the original 1080p resolution version, recorded by the Blender foundation. The entire movie was stored in the reference database in raw format, which amounts amounts to a total size of 6.25 GB.
 
 
 \begin{figure}[ch!]
@@ -82,7 +83,14 @@ Listing \ref{lst:row-ket} provides a simple ANTLR \footnote{ANTLR is a popular p
 
 Having defined such key, Map Reduce jobs populate the reference database using it. Of course, the entire histograms would still be stored within the row (all 255 values for each color). The rest of the HTable's design is depicted on Figure \ref{fig:histogram-htable}.
 
-This design allows the Analyser to issue very efficient queries for frames, such as in the examples shown in Table \ref{tab:scans}.
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=\textwidth]{img/hbase-hashes-table}
+  \caption{HBase HTable design used for histogram based lookups.}
+  \label{fig:histogram-table}
+\end{figure}
+
+This design allows the Analyser to issue very efficient queries for frames, such as in the examples shown in Table \ref{tab:scans}. For one matching job, the analyser will issue multiple HBase queries, broadening the scope of the search if no full match has been found in the first round, avoiding having to issue slower Scan operations to HBase.
 
 \begin{table}[ch!]
   \centering
@@ -97,38 +105,7 @@ This design allows the Analyser to issue very efficient queries for frames, such
   \caption{Examples of queries enabled by such RowKey design}
 \end{table}
 
-In the case of exact mirrored movies, it is possible to match the apropriate frames withing a few HBase queries, even before triggering the expensive Map Reduce Jobs, which force thousands of rows to be loaded. If this heurestic fails a full Map Reduce pipeline comparing frames by their perceptual hashes must be triggered.
 
-\begin{figure}[ch!]
-  \centering
-  \includegraphics[width=\textwidth]{img/hbase-hashes-table}
-  \caption{HBase HTable design used for histogram based lookups.}
-  \label{fig:histogram-table}
-\end{figure}
-
-
-\begin{lstlisting}
-
-REDUCER DOES:::::::
-
-
-2014-05-07 00:49:51,225 INFO cascading.flow.hadoop.FlowReducer: sourcing from: GroupBy(_pipe_1*_pipe_2)[by:[{1}:'__groupAll__']]
-2014-05-07 00:49:51,369 INFO cascading.flow.hadoop.FlowReducer: sinking to: Hfs["TextDelimited[['dctDist', 'histDist', 'mhDist', 'idRef', 'idAtt', 'frameRef', 'frameAtt']]"]["/oculus/compare-YE7VzlLtp-4_AND_e98uKex3hSw.out"]
-
-234 map
-1 reduce
-
-Finished in: 44mins, 15sec
-
-56,998,861,974 bytes produced
-=======================
-
-\end{lstlisting}
-
-
-
-
-\newpage
 \subsection{Role of perceptual hashing in near-duplicate detection}
 \label{sec:perceptual-hashing}
 Since simple histogram comparison if obviously not enough to determine if an image is of the same movie or not,
@@ -171,7 +148,7 @@ mhHash  = 458193aa7ca2e2f03e29065f29f01019f4b813f07b217f94775dcb91985
             4d8592231a1c8118fcf2f0ef63
 \end{lstlisting}
 
-Hashes like this can be compared to each other using a simple Hamming Distance \cite{hamming-distance} function, as their values at certain positions represent certain traits of the hashed picture. This is the core of the last phase of the matching algorithm. The Table \ref{tab:hash-distances} shows how the distance between these hashes differ in a few example scenarios. As is to be expected, the mh hash is reacting much more than the plain DCT hash. \todo{finish me}
+Hashes like this can be compared to each other using a simple Hamming Distance \cite{hamming-distance} function, as their values at certain positions represent certain traits of the hashed picture. This is the core of the last phase of the matching algorithm. The Table \ref{tab:hash-distances} shows how the distance between these hashes differ in a few example scenarios. As is to be expected, the mh hash is reacting much more than the plain DCT hash. 
 
 \begin{table}[ch!]
   \centering
@@ -189,6 +166,18 @@ Hashes like this can be compared to each other using a simple Hamming Distance \
   \label{tab:hash-distances}
 \end{table}
 
+After a certain number of experimental runs with the system, it was emperically decided that images whose distance values ranged below 25 for DCT-hash and below 200 for the MH-hash can be \textit{safely} considered ''almost identical''.
+
+Results from such a movie comparing job pipeline are yielded onto HDFS, in form of a simple CSV file, which is sorted by multiple fields: first the input frame, then the histogram distance and then the hash distances. Using this method, one can take the first elements of each such compared
+
+\begin{lstlisting}[caption={Examples of ''best'' matches for a few sample frames (mirrored movie). Sampling rate during image extraction was set to 10, which is why all near-matches are reported in multiples of 10 frames}, label={lst:mirrored-results}]
+...
+F   7809 => dist(dct: 38, hist: 4, mh: 376) => YE7VzlLtp-4 @  7789   (20 off)
+F 14409 => dist(dct: 39, hist: 0, mh: 376) => YE7VzlLtp-4 @ 14409 ( 0 off)
+F   2599 => dist(dct: 36, hist: 2, mh: 381) => YE7VzlLtp-4 @  2569   (30 off)
+F 54919 => dist(dct: 37, hist: 0, mh: 307) => YE7VzlLtp-4 @ 54919 (0 off)
+...
+\end{lstlisting}
 
 
 \subsection{Applicability in other video material distortion scenarios}

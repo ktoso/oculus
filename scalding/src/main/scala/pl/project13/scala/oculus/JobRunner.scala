@@ -22,7 +22,7 @@ object JobRunner extends App with OculusJobs {
   val availableJobs =
     (0,   "hash all files", hashAllSequenceFiles _) ::
     (1,   "hash one file", hashSequenceFile _) ::
-    (2,   "compare two movies", compareTwoMovies _) ::
+    (2,   "naive compare two movies", compareTwoMovies _) ::
     (3,   "find movies similar to given", findSimilarToGiven _) ::
     (4,   "find movies similar to given, v2", findSimilarToGivenV2 _) ::
     (5,   "list available files", listAvailableFiles _) ::

@@ -88,9 +88,9 @@ class HistoCompareTwoMoviesJob(args: Args) extends Job(args)
       )
     }
     .groupAll {
-      _.sortBy('dctDist, 'histDist, 'mhDist)
+      _.sortBy('frameAtt, 'dctDist, 'histDist, 'mhDist).take(20)
     }
-    .write(Csv(output, writeHeader = true, fields = ('dctDist, 'histDist, 'mhDist, 'idRef, 'idAtt, 'frameRef, 'frameAtt)))
+    .write(Csv(output, writeHeader = true, fields = ('frameAtt, 'frameRef, 'dctDist, 'histDist, 'mhDist, 'idRef, 'idAtt)))
 
 }
 
