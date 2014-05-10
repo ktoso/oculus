@@ -168,10 +168,3 @@ object LocalResultSorterApp extends App {
 
 }
 
-
-cp ./1387850272634-0/image4419.png /home/ktoso/image4419-1.png
-cp ./1399410631217-0/image4419.png /home/ktoso/image4419-2.png
-cp ./1398132257747-0/image4419.png /home/ktoso/image4419-3.png
-cp ./1397944785142-0/image4419.png /home/ktoso/image4419-4.png
-cp ./1387850422570-0/image4419.png /home/ktoso/image4419-5.png
-cp ./1397944747672-0/image4419.png /home/ktoso/image4419-6.png
