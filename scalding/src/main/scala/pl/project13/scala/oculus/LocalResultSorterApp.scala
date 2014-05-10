@@ -11,7 +11,9 @@ import com.google.common.collect.{ArrayListMultimap, Multimaps, Maps}
 
 object LocalResultSorterApp extends App {
 
-  val f = new File("/Users/ktoso/code/oculus/compare-YE7VzlLtp-4_AND_e98uKex3hSw.csv")
+//  val f = new File("/Users/ktoso/code/oculus/compare-YE7VzlLtp-4_AND_e98uKex3hSw.csv")
+//  val f = new File("/Users/ktoso/code/oculus/compare-YE7VzlLtp-4_AND_T6DJcgm3wNY.csv")
+  val f = new File("/Users/ktoso/code/oculus/compare-YE7VzlLtp-4_AND_ql0NtjXIv_s.csv")
 
   val data = Files.readLines(f, Charsets.UTF_8, new LineProcessor[Map[Long, Data]] {
 
@@ -27,7 +29,7 @@ object LocalResultSorterApp extends App {
 
         case continue =>
           val arr = line.split(",")
-          val d = Data(arr(0).toLong, arr(1).toLong, arr(2).toLong, arr(3), arr(4), arr(5).toLong, arr(6).toLong)
+          val d = Data(arr(0).toLong, arr(1).toLong, arr(2).toLong, arr(3).toLong, arr(4).toLong, arr(5), arr(6))
           import d._
 
           data.get(frameRef) match {
@@ -96,7 +98,7 @@ object LocalResultSorterApp extends App {
 
         case continue =>
           val arr = line.split(",")
-          val d = Data(arr(0).toLong, arr(1).toLong, arr(2).toLong, arr(3), arr(4), arr(5).toLong, arr(6).toLong)
+          val d = Data(arr(0).toLong, arr(1).toLong, arr(2).toLong, arr(3).toLong, arr(4).toLong, arr(5), arr(6))
 
           data.put(d.frameAtt, d)
 
@@ -156,13 +158,15 @@ object LocalResultSorterApp extends App {
 
 
   case class Data(
+
+  //frameAtt,frameRef,dctDist,histDist,mhDist,idRef,idAtt
+                     frameAtt: Long,
+                     frameRef: Long,
                      dctDist: Long,
                      histDist: Long,
                      mhDist: Long,
                      idRef: String,
-                     idAtt: String,
-                     frameRef: Long,
-                     frameAtt: Long) {
+                     idAtt: String) {
     override def toString = s"""dctD: $dctDist, histD: $histDist, mhD: $mhDist, refId: $idRef, refFrame: $frameRef"""
   }
 

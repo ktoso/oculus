@@ -166,18 +166,33 @@ Hashes like this can be compared to each other using a simple Hamming Distance \
   \label{tab:hash-distances}
 \end{table}
 
-After a certain number of experimental runs with the system, it was emperically decided that images whose distance values ranged below 25 for DCT-hash and below 200 for the MH-hash can be \textit{safely} considered ''almost identical''.
+After a certain number of experimental runs with the system, it was emperically decided that images whose distance values ranged below 40 for DCT-hash \textit{and} very near or below 350 for the MH-hash can be \textit{safely} considered ''almost identical''.
 
-Results from such a movie comparing job pipeline are yielded onto HDFS, in form of a simple CSV file, which is sorted by multiple fields: first the input frame, then the histogram distance and then the hash distances. Using this method, one can take the first elements of each such compared
+Results from such a movie comparing job pipeline are yielded onto HDFS, in form of a simple CSV file, which is sorted by multiple fields: first the input frame, then the histogram distance and then the hash distances. Using this method it's possible to determine ''top N'' most probable matches for a given frame. Listing \ref{lst:mirrored-results} shows good top matches -- such the dct distance is below 40 and the mh distance below 370. In this case, since the analysed movie was a mirror the histogram difference (calculated in a very simplistic way -- as hamming distance of the row-key encoded histogram data) is equal 0 for identical (just mirrored) frames, and is sligtly off for cases where the reference database did not contain the exact now matched against frame. Since the reference data is not stored for every frame for movies, but for 10 frames per second (instead of the usual 25 in PAL or 30 in NTSC regions), the granularity of the matches will be downsampled to a granularity of 10 frames. This lower data granularity is the reason that some frames will match a very near frame in the reference database. This storage-space optimisation could be discarded if high quality matches would be required by the system.
 
-\begin{lstlisting}[caption={Examples of ''best'' matches for a few sample frames (mirrored movie). Sampling rate during image extraction was set to 10, which is why all near-matches are reported in multiples of 10 frames}, label={lst:mirrored-results}]
+\begin{lstlisting}[caption={Examples of valid ''best'' matches for a few sample frames (mirrored movie).}
+\label={lst:mirrored-results}]
 ...
-F   7809 => dist(dct: 38, hist: 4, mh: 376) => YE7VzlLtp-4 @  7789   (20 off)
-F 14409 => dist(dct: 39, hist: 0, mh: 376) => YE7VzlLtp-4 @ 14409 ( 0 off)
-F   2599 => dist(dct: 36, hist: 2, mh: 381) => YE7VzlLtp-4 @  2569   (30 off)
-F 54919 => dist(dct: 37, hist: 0, mh: 307) => YE7VzlLtp-4 @ 54919 (0 off)
+F   7809 => dist(dct: 38, hist: 3, mh: 376) => YE7VzlLtp-4 @  7789   (20 off)
+F 14409 => dist(dct: 34, hist: 0, mh: 349) => YE7VzlLtp-4 @ 14409 ( 0 off)
+F   2599 => dist(dct: 37, hist: 2, mh: 351) => YE7VzlLtp-4 @  2569   (30 off)
+F 54919 => dist(dct: 32, hist: 0, mh: 307) => YE7VzlLtp-4 @ 54919 (0 off)
 ...
 \end{lstlisting}
+
+Listing \ref{lst:mirrored-results-wrong} on the other hand, shows example values for an invalid matches. All distances are unreasonably high -- especialy such high value of the dct hash distance disqualifies these frame matches from further processing.
+
+\begin{lstlisting}[caption={Examples of invalid matches for a few sample frames.}, label={lst:mirrored-results-wrong}]
+...
+F 4299 => dist(dct: 53, hist: 3, mh: 395) => YE7VzlLtp-4 @ 57809
+F 7539 => dist(dct: 47, hist: 2, mh: 384) => YE7VzlLtp-4 @ 29939
+...
+\end{lstlisting}
+
+
+\subsubsection{Movie matching pipeline summary}
+This section aims to sum up, and clear out how the previously described calculations fit together and enable fuzzy movie matching, even in the presence of false matches and very empirically set match boundaries.
+
 
 
 \subsection{Applicability in other video material distortion scenarios}

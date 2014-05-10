@@ -5,6 +5,8 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import pl.project13.scala.oculus.distance.Distance
 import pl.project13.scala.oculus.conversions.{WriteDOT, OculusRichPipe}
 import pl.project13.scala.oculus.source.hbase.{HashesSource, HistogramsSource}
+import pl.project13.scala.scalding.hbase.MyHBaseSource
+import pl.project13.scala.oculus.IPs
 
 class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   with WriteDOT
@@ -15,98 +17,90 @@ class FindSimilarMoviesV2Job(args: Args) extends Job(args)
   /** seq file with images */
   val inputId = args("id")
 
-  val outputDistances              = "/oculus/similar-to-" + inputId + "-distances" + "-withself-5_5" + ".out"
-  val outputRanking                = "/oculus/similar-to-" + inputId + "-ranking"   + "-withself-5_5" + ".out"
-  val outputTopMostSimilarForFrame = "/oculus/similar-to-" + inputId + "-top"       + "-withself-5_5" + ".out"
+  val outputDistances              = "/oculus/similar-to-" + inputId + "-distances" + ".out"
+  val outputRanking                = "/oculus/similar-to-" + inputId + "-ranking"   + ".out"
+  val outputTopMostSimilarForFrame = "/oculus/similar-to-" + inputId + "-top"       + ".out"
+  val outputTopMatch               = "/oculus/similar-to-" + inputId + "-top-match" + ".out"
 
   implicit val mode = Read
 
-  val inputHashes =
-    HashesTable
+  val HistogramsTableRef = new MyHBaseSource(
+    tableName = "histograms",
+    quorumNames = IPs.HadoopMasterWithPort,
+    keyFields = 'key,
+    familyNames = Array("youtube", "youtube", "hist",   "hist",     "hist",    "phash", "phash"),
+    valueFields = Array('id,       'frame,    'redHist, 'greenHist, 'blueHist, 'mh,     'dct)
+  )
+  
+  val referenceTable =
+    HistogramsTableRef
       .read
-      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
       .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
-      .rename('id -> 'idFrame)
-
-      .map('frame -> 'frameFrame) { sec: ImmutableBytesWritable => ibwToLong(sec) }
-      .discard('frame)
-
-      .rename('mhHash -> 'hashFrame)
-      .debug
-
-  val otherHashes =
-    HashesTable
-      .read // todo enable filter not!!!
-//      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId } // comment out, in order to see if "most similar is myself" works
-      .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
+      .filter('id) { id: String => id contains inputId }
+      .map('frame -> 'frame) { f: ImmutableBytesWritable => ibwToLong(f) }
+      .map('key -> 'dominantColRef) { k: ImmutableBytesWritable => ibwToString(k).take(2).mkString("") }
+      .rename('key -> 'keyRef)
       .rename('id -> 'idRef)
+      .rename('frame -> 'frameRef)
+      .rename('redHist -> 'redRef)
+      .rename('greenHist -> 'greenRef)
+      .rename('blueHist -> 'blueRef)
+      .rename('mh -> 'mhRef)
+      .rename('dct -> 'dctRef)
 
-      .map('frame -> 'frameRef) { sec: ImmutableBytesWritable => ibwToLong(sec) }
-      .discard('frame)
-
-      .rename('mhHash -> 'hashRef)
-      .sample(50.0)
+  val analysedMovie =
+    HistogramsTableRef
+      .read
+      .map('id -> 'id) { id: ImmutableBytesWritable => ibwToString(id) }
+      .filterNot('id) { id: String => id contains inputId } // comment out, in order to see if "most similar is myself" works
+      .map('frame -> 'frame) { f : ImmutableBytesWritable => ibwToLong(f) }
+      .map('key -> 'dominantColAtt) { k: ImmutableBytesWritable => ibwToString(k).take(2).mkString("") }
+      .rename('key -> 'keyAtt)
+      .rename('id -> 'idAtt)
+      .rename('frame -> 'frameAtt)
+      .rename('redHist -> 'redAtt)
+      .rename('greenHist -> 'greenAtt)
+      .rename('blueHist -> 'blueAtt)
+      .rename('mh -> 'mhAtt)
+      .rename('dct -> 'dctAtt)
+      .sample(75.0)
       .debug
 
-//  val inputHistograms =
-//    Histograms
-//      .read
-//      .filter('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-//      .rename('id -> 'histId)
-//
-//  val otherHistograms =
-//    Histograms
-//      .read
-//      .filterNot('id) { id: ImmutableBytesWritable => ibwToString(id) contains inputId }
-//      .rename('id -> 'histId)
+  val distances = referenceTable.joinWithSmaller('dominantColRef -> 'dominantColAtt, analysedMovie)
+    .map(('mhRef, 'mhAtt) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
+      val (mhRef, mhAtt) = x
 
-//  inputHashes.joinWithLarger('hashId -> 'histId, inputHistograms)
-
-
-  val distances = otherHashes.crossWithTiny(inputHashes)
-//    .sample(50.0)
-    .map(('hashFrame, 'hashRef) -> 'distance) { x: (ImmutableBytesWritable, ImmutableBytesWritable) =>
-      val (hashFrame, hashRef) = x
-
-      Distance.hammingDistance(hashFrame.get, hashRef.get)
+      Distance.hammingDistance(mhRef.get, mhAtt.get)
     }
-    .map('hashRef   -> 'hashRef) { h: ImmutableBytesWritable => ibwToString(h) }
-    .map('hashFrame -> 'hashFrame) { h: ImmutableBytesWritable => ibwToString(h) }
-    .debug
-
-  /**
-   * write all distances we've calculated
-   * TODO this can be probably skipped
-   */
-//  val allDistancesSorted = distances
-//    .groupAll { _.sortBy('distance) }
-//    .write(Csv(outputDistances, writeHeader = true, fields = ('distance, 'idFrame, 'idRef, 'frameFrame, 'frameRef, 'hashFrame, 'hashRef)))
-
 
   /** find most similar reference frame for each input frame */
   val bestMatchingFrames = distances
-    .debugWithFields("before calculating distance")
     .addTrap(Csv("/oculus/error-tuples", writeHeader = true))
-    .map('distance -> 'distance) { d: Int => d } // todo needed?
-    .groupBy('frameFrame) {
-      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
-        (t1: (Int, String, String), t2: (Int, String, String)) =>
-          if (t1 == null || t2 == null) false
-          else try {
-            t1._1 < t2._1
-          } catch {
-            case n: NullPointerException =>
-              System.err.println(s"Error: Got ${n.getClass.getName}, for t1:${t1}, t2:${t2}")
-              false
-            case ex: Throwable =>
-              System.err.println(s"Error: Got , for t1:${t1}, t2:${t2}")
-              false
-          }
-      }
+    .groupBy('frameAtt) {
+      _.sortBy('distance).head('idRef)
+//      _.sortWithTake(('distance, 'frameRef, 'idRef) -> 'topMatch, 1) {
+//        (t1: (Int, String, String), t2: (Int, String, String)) =>
+//          if (t1 == null || t2 == null) false
+//          else try {
+//            t1._1 < t2._1
+//          } catch {
+//            case n: NullPointerException =>
+//              System.err.println(s"Error: Got ${n.getClass.getName}, for t1:${t1}, t2:${t2}")
+//              false
+//            case ex: Throwable =>
+//              System.err.println(s"Error: Got , for t1:${t1}, t2:${t2}")
+//              false
+//          }
+//      }
     }
-    .map('topMatch -> ('distance, 'frameRef, 'idRef)) { l: List[(Int, String, String)] => l.head }
-    .debugWithFields("after all, distances calcualted and grouped")
-    .write(Csv(outputTopMostSimilarForFrame, writeHeader = true, fields = ('frameFrame, 'distance, 'frameRef, 'idRef)))
+//    .map('topMatch -> ('distance, 'frameRef, 'idRef)) { l: List[(Int, String, String)] => l.head }
+//    .debugWithFields("after all, distances calculated and grouped")
+    .write(Csv(outputTopMostSimilarForFrame, writeHeader = true, fields = ('frameAtt, 'distance, 'idRef)))
+
+  val bestMatchingMovie = bestMatchingFrames
+    .groupBy('idRef) { _.size('movieMatchedNTimes) }
+    .groupAll { _.sortBy('movieMatchedNTimes) }
+    .write(Csv(outputTopMatch, writeHeader = true, fields = 'idRef))
 
 
 //  val totalDistances = distances
