@@ -8,8 +8,8 @@ In Section \ref{sec:automated-server-provisioning} the used cloud intrafstucture
 
 In Section \ref{sec:automated-conf-provisioning} Opscode Chef -- the tool used to configure, as well as install dependencies and deploy applications is introduced.
 
-\label{sec:automated-server-provisioning}
 \section{Automated server provisioning -- Google Compute Engine}
+\label{sec:automated-server-provisioning}
 
 In order to provision virtual machines for running the applicationc cluster Google's Compute Engine ''Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used. 
 
@@ -17,17 +17,13 @@ Creating a new instance on GCE (\textit{Google Compute Engine}) can be done via 
 
 \begin{lstlisting}[caption={Creating new instance on GCE}, label={lst:new-gce-instance-bash}]
 gcutil --service_version="v1" --project="oculus-hadoop" 
-  addinstance "oculus-3" 
-  --machine_type="n1-standard-1" 
-  --zone="us-central1-a" 
-  --tags="hadoop,datanode"
+  addinstance "oculus-3" --machine_type="n1-standard-1" 
+  --zone="us-central1-a" --tags="hadoop,datanode"
   --disk="large-4,deviceName=large-4,mode=READ_WRITE"
-  --network="default" 
-  --external_ip_address="ephemeral" 
+  --network="default" --external_ip_address="ephemeral" 
   --service_account_scopes="https://www.googleapis.com/auth/..." 
   --image="https://www.googleapis.com/.../images/debian-7-wheezy-v20140408" 
-  --persistent_boot_disk="true" 
-  --auto_delete_boot_disk="false"
+  --persistent_boot_disk="true" --auto_delete_boot_disk="true"
 \end{lstlisting}
 
 
@@ -67,10 +63,27 @@ oculus-master  n1-standard-1  23.x.x.x   m-0,large-3  us-central1-a
 
 Chef is a tool which enables to easily manage configuration and deployment of services and apps across cloud infrastructure. It consists of a set of tools using which one can describe a servers configurational requirements, such as what services it should have installed. It provides multiple ways to execute the provisioning step yet for the sake of this thesis the simplest ''solo'' mode was used. 
 
-When using Chef in solo mode, one prepares a specific ''$run\_list$'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ''$run\_list$'' to a given server.
+When using Chef in solo mode, one prepares a specific ''$run\_list$'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ''$run\_list$'' to a given server. An example node file is shown on Listing \ref{lst:node}.
+
+\begin{lstlisting}[caption={Example data-node.json file}]
+{
+  "run_list": [
+    "role[base]",
+    "role[datanode]"
+  ]
+}
+\end{lstlisting}
+
+A node description in turn relies on certain roles and recipes. Roles are defined as a list of recipes and properties that can be required together. The datanode role is fairly simple as seen on Listing \ref{lst:datanode-list}
+
+\begin{lstlisting}[caption={Example roles/datanode.rb file}]
+run_list "recipe[hadoop::datanode]"
+\end{lstlisting}
+
+
 
 \begin{lstlisting}[caption={Preparing and Cooking a server with in order to prepare it for becoming a Hadoop data-node},label={lst:cheffing-data-node}]
-# knife solo prepare kmalawski@108.59.81.222 nodes/data-node.json
+# knife solo prepare kmalawski@108.59.81.222 nodes/datanode.json
 ...
 (Reading database ... 42465 files and directories currently installed.)
 Preparing to replace chef 11.8.2-1.debian.6.0.5 (using .../chef_11.12.2-1_amd64.deb) ...
@@ -84,16 +97,13 @@ Uploading the kitchen...
 
 
 
-\todo{finish}
 
 
 
-Hadoop's filesystem must be formated before put into use. This is achieved by issuing the \verb|-format| command to the namenode:
 
-\begin{verbatim}
-kmalawski@oculus-master > hadoop namenode -format
-\end{verbatim}
 
-It is worth pointing out that a "format" takes place only on the namenode, it does not actually touch the datab stored on the datanodes,
-but instead it deleted the data stored on the namenode. The Namenode, as explained previously, stores all metadata about where a file is located,
-thus, cleaning it's data makes the files stores in HDFS un-usable, since we don't know "where a file's chunks are stored".
+
+
+
+
+

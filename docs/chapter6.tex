@@ -1,17 +1,10 @@
 \chapter{Conclusions}
 \label{chap:conclusions}
 
-This chapter will summarise the findings from researching, developing and scaling the system implemented as part of this thesis.
+The primary goal of this thesis was to research distributed media processing. This has been achieved by implementing an reference system, which replicated the needs and workload of a quite realistic system that would have to analyse video data.
 
-\section{Possible future development}
-The discovered and tested methods have proven to be very interesting as well as quite efficient. However much more work still remains to be done. 
+The implemented reference system was able to fulfil it's initial requirements of detecting ''near duplicate'' movies. Test runs using publicly available creative-commons licensed movies have been performed. The system was also tuned to perform in the face of maliciously modified video content (mirrored, blurred or otherwise distorted), and the system was still able to identify matching video data. Certain optimisations were applied to make the search times possibly fast. These optimisations required gaining knowledge about HBase's internals and designing a specialised row key, as has described in Chapter \ref{chap:analysis-examples}. On the perceptual hashing front there is still much work that could have been applied to the proposed system, and better fingerprinting methods could have been applied -- yes as this was not the primary focus of this thesis, the proposed system performed within it's expected expected performance boundaries of a few hours of processing per each movie.
 
-A very good first thing to focus on in future development would be utilising advanced compression in storing the data, so that move frames could be processed while executing one chunk of work.
+This system was then used to perform multiple scalability tests and optimisations, as described in Chapter \ref{chap:perf-scalability}. The Hadoop cluster was first scaled horizontally by adding mode nodes and measuring it's performance improvement -- which turned out to be nearly linear, if one trades of storage duplication for computation speed, or sligtly lower if replication factors would not be tuned in accordance to the clusters size. The cluster had also undergon configuration as well as application level improvements aimed at utilising HDFS at it's best.
 
-\todo{something more}
-
-\section{Conclusions}
-
-The applied technologies have indeed been very helpful, and proved to be very elastic for different kinds of jobs related to processing large amounts of data. I was also positively surprised with the ease of Scaling Hadoop infrastructure.
-
-\todo{conclude stuff...}
+To conclude, the investigated distributed systems provide an astounding platform to work on. Akka as well as Hadoop and it's rich eco-system allow to easily build resilient and scalable applications which are able to process huge amounts of data. Hadoop especially confirmed it's ability to scale-out very easily, and has proven to be a very stable execution platform. The operational overhead of starting clusters that such applications require can be lessened by far thanks to using modern configuration provisioning utilities such as Chef, and public cloud providers make testing clusters in varying sizes very easy. In the forseeable future we will see more kinds of these tools being perfected, as the demand for applications of such scale is still growing.

@@ -10,6 +10,8 @@ In Section \ref{sec:mirrored-video-detection} video material will be analysed in
 
 %In Section \ref{sec:scene-detection} an extracted scene will be positioned within an existing video in the reference database. This problem turns out to be non-trivial because of different frame-rates of supplied material, thus search methods similar, in concept, to sub-string search could not have been applied efficiently. The section explains the algorithms applied instead, and showcases an example case.
 
+Section \ref{sec:summing-up-analysis} aims to outline and summarise how the approach used in this chapter benefits from the large amounts of fuzzy data, and how these algorithms could be further expanded.
+
 As this thesis is not focused on development of image analysis algorithms, these sections will instead lean their focus towards the distributed system and big-data parts of the problem. The image comparision algorithms also assume that that the used image correlation algorithm (\textit{phash} -- see Section \ref{sec:phash}) performs well enough for the job at hand. 
 
 
@@ -170,8 +172,7 @@ After a certain number of experimental runs with the system, it was emperically 
 
 Results from such a movie comparing job pipeline are yielded onto HDFS, in form of a simple CSV file, which is sorted by multiple fields: first the input frame, then the histogram distance and then the hash distances. Using this method it's possible to determine ''top N'' most probable matches for a given frame. Listing \ref{lst:mirrored-results} shows good top matches -- such the dct distance is below 40 and the mh distance below 370. In this case, since the analysed movie was a mirror the histogram difference (calculated in a very simplistic way -- as hamming distance of the row-key encoded histogram data) is equal 0 for identical (just mirrored) frames, and is sligtly off for cases where the reference database did not contain the exact now matched against frame. Since the reference data is not stored for every frame for movies, but for 10 frames per second (instead of the usual 25 in PAL or 30 in NTSC regions), the granularity of the matches will be downsampled to a granularity of 10 frames. This lower data granularity is the reason that some frames will match a very near frame in the reference database. This storage-space optimisation could be discarded if high quality matches would be required by the system.
 
-\begin{lstlisting}[caption={Examples of valid ''best'' matches for a few sample frames (mirrored movie).}
-\label={lst:mirrored-results}]
+\begin{lstlisting}[caption={Examples of valid ''best'' matches for a few sample frames (mirrored movie).}, label={lst:mirrored-results}]
 ...
 F   7809 => dist(dct: 38, hist: 3, mh: 376) => YE7VzlLtp-4 @  7789   (20 off)
 F 14409 => dist(dct: 34, hist: 0, mh: 349) => YE7VzlLtp-4 @ 14409 ( 0 off)
@@ -191,43 +192,54 @@ F 7539 => dist(dct: 47, hist: 2, mh: 384) => YE7VzlLtp-4 @ 29939
 
 
 \subsubsection{Movie matching pipeline summary}
-This section aims to sum up, and clear out how the previously described calculations fit together and enable fuzzy movie matching, even in the presence of false matches and very empirically set match boundaries.
+To sum up how the pipeline was designed, and how the previously described parts fit into the bigger picture Figure \ref{fig:full-job} exlpains how the different operations are connected into the pipeline.
+
+\begin{figure}[ch!]
+  \centering
+  \includegraphics[width=0.55\textwidth]{img/top-match-job}
+  \caption{Map Reduce Pipeline, designed for matching ''most similar'' movie in reference database, when an attacked video file is given.}
+  \label{fig:full-job}
+\end{figure}
+
+Describing the Pipeline depicted on Figure \ref{fig:full-job} in further detail: First the attacked movie material must be hashed as well as it's histograms must be calculated (1). This data is then persisted into HBase. The Join operation (3) forces the HBase read (2) and performs the joining operation. The now merged data stream is then used to calculate the hash and histogram distances between all (millions) joined frames (4). Next, the data is grouped by the compared movie's frame numbers -- this allows us to find the best match for each frame, by simply sorting the sequence of data grouped for each of the frames (5). Scalding allows to perform this operation quite optimally -- so that not the entire stream must be sorted, we simply find the best value and stop sorting. Next the data is again grouped, but this time against the matched movie ids (6), which allows us to count how many frames matched to a given movie. Lastly, simply sorting the output of this Job by the number of matched frames (7) allows to find a movie that "the most frames have been matched to".
 
 
+\section{Impact of big data to the design of the pipelines}
+\label{sec:summing-up-analysis}
 
-\subsection{Applicability in other video material distortion scenarios}
+The aproach taken during designing the job pipelines utilises the fact that we have so much data and tries to eliminate noise from the processing. For example, it is completely expected and normal that some frames may match to the wrong movie. An extreme case of this being ''entirely black'' or ''entirely white'' frames, which appear in the vast majority of movies when fading in or out scenes, or credits. Thanks to the counting of matched movie frames, such lesser noise will be automatically filtered out -- unless the movie is mostly black frames, in which case we don't have enough material to decide on, of course.
 
-Of course, other kinds of disortions could be applied to a video, such as comparing a high-quality video with a low-quality counterpart or simple coloring filters. While being outside of the scope of this thesis, the basic concepts and framework proposed would easily be able to incorporate more scoring functions into the Map Reduce pipeline that would help determine matches between even such disorted video materials. 
+While this section focused on the mirrored movie case, the aproach developed during the system's design scales nicely to other distortions too. Other kinds of disortions could be applied to a video, such as comparing a high-quality video with a low-quality counterpart or simple coloring filters. In fact, the tested algorithms used for hash calculation work more efficiently with blurred images -- thus the distance calculation may be even more percise than in the analysed example.
 
-An interesting example disortion found commonly in many materials is slight changes in the color hue or white balance of the \todo{histograms}.
+Summing up, the way to design algorithms when working with big data seems to shift one's focus a bit more on filtering and expressing algorithms in a way that can be parallelised. The same principles as with designing parallel algorithms apply to working with big data tasks -- even theoretically expensive jobs, if parallelised, can be executed still in a timely manner.
 
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
-\section{Scene detection}
-\label{sec:scene-detection}
-This scenario can be explained as trying to find out \textit{where} (if at all) a scene takes place in a movie known to the reference database. 
-
-Although on the sufrace the general problem statement is not so different than substring search, which is a known and well researched topic in computer science. In sub-string search algorithms like the Knuth–Morris–Pratt \cite{kmp-string-search} or the Boyer-Moore \cite{boyer-string-search} algorithms leverage that the ''matching'' either will apply, or will not in order to increase search speed in the worst case to still linear time. However, these methods can \textit{not} be directly applied to the problem specified in this section -- because of the dissortions in source and reference video material as well as the possibility of cross-matches when a movie is built up from multiple short scenes from other movies -- a typical example here would be ''flash-back'' scenes or ''top 10'' movies where before the last top-3, the movie would quickly go over already shown frames of scenes. Another problem adding to the dissortions is frame rates of reference data vs. an analysed video fragment -- even a slight missmatch (30FPS vs. 25FPS) would render the substring search algorithms not usable for this concrete example.
-
-\begin{figure}[ch!]
-  \centering
-  \includegraphics[width=0.6\textwidth]{img/frames-timeline-matching}
-  \caption{Visual representation of the goal of this example application.}
-\end{figure}
-
-Instead, a more statistical aproach was taken. In which a frame is compared with it's set of ''potential match candidates'' which are determined by very coarse filtering of the reference data set by bucketing certain criteria of their histograms such as ''dominating red'' or ''dominating blue'' (this classification is prepared on the reference data beforehand -- during importing into the system).
-
-\todo{mention somewhere before that we really extract data like ''mostly red''}
-
-\todo{finish this scenario}
-
-\begin{figure}[ch!]
-  \centering
-  \includegraphics[width=0.6\textwidth]{img/frames-timeline-matching-missmatch}
-  \caption{One frame may potentially match multiple reference frames. The final most probable matching scene is determined by aggregating data the direct frame-to-frame matches.}
-\end{figure}
-
-
+%\section{Scene detection}
+%\label{sec:scene-detection}
+%This scenario can be explained as trying to find out \textit{where} (if at all) a scene takes place in a movie known to the reference database. 
+%
+%Although on the sufrace the general problem statement is not so different than substring search, which is a known and well researched topic in computer science. In sub-string search algorithms like the Knuth–Morris–Pratt \cite{kmp-string-search} or the Boyer-Moore \cite{boyer-string-search} algorithms leverage that the ''matching'' either will apply, or will not in order to increase search speed in the worst case to still linear time. However, these methods can \textit{not} be directly applied to the problem specified in this section -- because of the dissortions in source and reference video material as well as the possibility of cross-matches when a movie is built up from multiple short scenes from other movies -- a typical example here would be ''flash-back'' scenes or ''top 10'' movies where before the last top-3, the movie would quickly go over already shown frames of scenes. Another problem adding to the dissortions is frame rates of reference data vs. an analysed video fragment -- even a slight missmatch (30FPS vs. 25FPS) would render the substring search algorithms not usable for this concrete example.
+%
+%\begin{figure}[ch!]
+%  \centering
+%  \includegraphics[width=0.6\textwidth]{img/frames-timeline-matching}
+%  \caption{Visual representation of the goal of this example application.}
+%\end{figure}
+%
+%Instead, a more statistical aproach was taken. In which a frame is compared with it's set of ''potential match candidates'' which are determined by very coarse filtering of the reference data set by bucketing certain criteria of their histograms such as ''dominating red'' or ''dominating blue'' (this classification is prepared on the reference data beforehand -- during importing into the system).
+%
+%\todo{mention somewhere before that we really extract data like ''mostly red''}
+%
+%\todo{finish this scenario}
+%
+%\begin{figure}[ch!]
+%  \centering
+%  \includegraphics[width=0.6\textwidth]{img/frames-timeline-matching-missmatch}
+%  \caption{One frame may potentially match multiple reference frames. The final most probable matching scene is determined by aggregating data the direct frame-to-frame matches.}
+%\end{figure}
+%
+%
 
 
 
