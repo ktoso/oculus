@@ -56,7 +56,7 @@ The solution applied in the implemented system to resolve the small files proble
 Using Sequence Files resolves all previously described problems related to small files on top of HDFS. Files are no longer ''small'', at least in Hadoop's perception,
 since access of frames of a movie is most often bound to access other frames of this movie we don't suffer any drawbacks from such storage format.
 
-Another solution that could have been applied here is the use of HBase and it's key-value design instead of the explicit use of Sequence Files, yet this would not yield much performance nor storage benefits as HBase stores it's Table data in a very similar format as Sequence Files. The one benefit from using HBase in order to avoid the small files problem would have been random access to any frame, not to ''frames of this movie'', but since I don't have such access patterns and it would complicate the design of the system I decided to use Sequence Files instead.
+Another solution that could have been applied here is the use of HBase and it's key-value design instead of the explicit use of Sequence Files, yet this would not yield much performance nor storage benefits as HBase stores its' Table data in a very similar format as Sequence Files. The one benefit from using HBase in order to avoid the small files problem would have been random access to any frame, not to ''frames of this movie'', but since I don't have such access patterns and it would complicate the design of the system I decided to use Sequence Files instead.
 
 
 
@@ -65,7 +65,7 @@ Another solution that could have been applied here is the use of HBase and it's 
 \label{sec:tuning-replication-factors}
 One of the many tuneable aspects of Hadoop deployments that can have a very high impact on the clusters performance is the \textit{replication factor}, which stands for ''the number of datanodes a piece of data is replicated to''. This section will explain in detail how a tuning this factor, and leveraging Hadoop's scheduling mechanisms can be tweaked to trade of storage space (higher replication factors) to faster execution times of jobs.
 
-Hadoop's primary strength in big data applications lies within leveraging \textit{data locallity} whenever possible. The concept of data locallity means that instead of moving the data around in the cluster, to a node where the application is running, the Task Scheduler will try find such ''map slots'' (multiple such slots can be assigned to one data node) that the data the job needs to process will be local to the node the slot resides on. Effectively this means that application code (jar and class files) will be sent to the executing server, and not the inverse. The rationale behind this measure is that the amounts of data are way bigger than the size of applications in these kinds of systems -- thus, avoiding to move the data can save both costs and precious time.
+Hadoop's primary strength in big data applications lies within leveraging \textit{data locallity} whenever possible. The concept of data locallity means that instead of moving the data around in the cluster, to a node where the application is running, the Task Scheduler will try find such ''map slots'' (multiple such slots can be assigned to one data node) that the data the job needs to process will be local to the node the slot resides on. Effectively this means that application code (jar and class files) will be sent to the executing server, rather than the data. The rationale behind this measure is that the amounts of data are much larger than the size of application executables (jar files) so, sending the application instead of the data can save both costs and precious time.
 
 
 \begin{figure}[ch!]
@@ -228,7 +228,7 @@ These settings influence the number of Map and Reduce ''slots'' available for th
   \caption{Fragment of Web-UI displaying the connected datanodes. The oculus-3 node is an high-cpu instance, and has more slots than the remaining nodes.}
 \end{figure}
 
-In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under-utilised-cluster} (where 10 nodes are working, yet the vast majority of them only utilises around 30\% of their CPU), the number of concurrent tasks to be executed on one node was increased to 2 map and 2 reduce tasks. Literature recommends using \verb|rount(1.5 * nrOfCpus)| tasks per node, yet this setting should be always accustomed to the workload a cluster is expiriencing. Having this in mind, a scaled down cluster may actually be more efficient on processing such jobs. The changed configuration included 4 nodes, all of which were set-up fo host 2 map slots and 2 reduce slots. The CPU load on the cluster in such configuration, performing the same job as seen on Figure \ref{fig:four-nodes-config}, can be seen on Figure \ref{fig:cpu-load-during-job}.
+In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under-utilised-cluster} (where 10 nodes are working, yet the vast majority of them only utilises around 30\% of their CPU), the number of concurrent tasks to be executed on one node was increased to 2 map and 2 reduce tasks. Literature recommends using \verb|rount(1.5 * nrOfCpus)| tasks per node, yet this setting should be always customised to the workload a cluster is expiriencing. Having this in mind, a scaled down cluster may actually be more efficient on processing such jobs. The changed configuration included 4 nodes, all of which were set-up fo host 2 map slots and 2 reduce slots. The CPU load on the cluster in such configuration, performing the same job as seen on Figure \ref{fig:four-nodes-config}, can be seen on Figure \ref{fig:cpu-load-during-job}.
 
 \begin{figure}[ch!]
   \centering
@@ -251,7 +251,7 @@ It is worth keeping in mind that cost efficiency usually is also an important bu
 \section{Scaling out the Loader's Akka Cluster}
 \label{sec:scaling-akka}
 
-Scaling the Loader sub-system in this project was not very challanging because of the Actor System provided by Akka being so efficient where as the tasks performed by a node once it got a ''download movie'' message being measured in multiple minutes (up to 10 minutes for long movies -- since most creative commons licensed movies are not very long).
+Scaling the Loader sub-system in this project was not very challanging because of the Actor System provided by Akka was so efficient. The tasks performed by a node once it got a ''download movie'' message were the limiting factor, and could not been speed up doe to saturating the CPU entirely. Instead, adding new nodes to the 
 
 \subsection{Scaling out by adding more nodes}
 \label{sec:scaling-akka-out}
@@ -284,7 +284,7 @@ class YoutubeCrawlActor extends Actor with OculusSelections {
 }
 \end{lstlisting}
 
-Using Akka's clustering module in the Loader allows the system to scale dynamically, without ever needing to be turned off -- an important thing in long running distributed systems. The system turned out to be hard to measure accurately, due to the many moving parts (such as queue build up, non-determinism of which node would join at what time, and which video it would be assigned to download), yet generally speaking adding one more node would simply add one processing slot for the Download action -- similarily as in the Hadoop scenario adding a node would.
+Using Akka's clustering module in the Loader allows the system to scale dynamically, without ever needing to be turned off -- an important thing in long running distributed systems. The system turned out to be hard to measure accurately, due to the many moving parts (such as queue build up, non-determinism of which node would join at what time, and which video it would be assigned to download). Generally speaking adding one more node would simply add one processing slot for the Download action -- similarily as in the Hadoop scenario adding a node would, and since the computation is strictly CPU bound, not much can be tweaked on the system itself to scale it ''up''.
 
 Akka by itself does not provide simple tracking of message and it's results, which is inherently a hard problem to solve, since one would have to track each message's ''parent''. Akka is a rather low level tool, whereas Hadoop is a dedicated platform for tracking progress od Jobs in distributed systems -- thus the conclusion is that it is easier to reason formally about a pure Actor systems behavior, than it is to strictly measure it (as least at the level of complication this problem is representing). Having this said, such monitoring would have to be built into the Oculus system, and is not provided by Akka itself -- sadly this feature was not implemented in the reference system, and remains an open problem, as well as field of intensive research -- as can be seen in multiple open source projects trying to solve this problem, such as Kamon \cite{kamon} or akka-tracing \cite{akka-tracing}.
 

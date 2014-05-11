@@ -3,10 +3,10 @@
 \chapter{System design}
 \label{chap:system-design}
 
-The system, from here to be referred to by the name ''\textit{Oculus}'', is designed with both: asynchronous and distributed approaches in mind. In order to achieve high asynchronicity between obtaining new reference data, and running jobs such as ''\textit{compare video1 with the reference database}'', the system was split into two primary components: 
+The system is designed with both: asynchronous and distributed approaches in mind. In order to achieve high asynchronicity between obtaining new reference data, and running jobs such as ''\textit{compare video1 with the reference database}'', the system was split into two primary components: 
 
 \begin{itemize}
-  \item \textbf{Loader} -- responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata. In a real system this reference data would be provided by partnering content providers, yet for this 
+  \item \textbf{Loader} -- responsible for obtaining more and more reference material. It persists and initially processes the videos, as well as any related metadata. In a the real world, such reference data is usually provided by partners, such as movie or television companies.
   \item \textbf{Analyser} -- responsible for preparing and scheduling job pipelines for execution on top of the Hadoop cluster and reference databases.
 \end{itemize}
 
@@ -38,27 +38,25 @@ The following Actor descriptions are aimed at explaining the protocols used for 
 will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
 
 \begin{itemize}
-  \item \textbf{YouTubeCrawlActor} -- is capable of fetching and YouTube websites and generate Messages triggering
-                                    either further crawling of ''related video sites'' (\verb|Crawl(siteId: String)|) or downloading of the 
-                                    currently accessed video (by sending a \verb|Download(movieId)| message),
+  \item \textbf{YouTubeCrawlActor} -- is capable of fetching and YouTube websites and and crawling of ''related video 
+                                      sites'' (\verb|Crawl(siteId: String)|). It also sends messages that trigger the 
+                                      download process by sending \verb|Download(movieId: String)| messages.
     \subitem  \textbf{receives:}
-      \subsubitem 1 -- \verb|Crawl(siteId: String)| message
+      \subsubitem \verb|Crawl(siteId: String)| messages
     \subitem  \textbf{sends:}
       \subsubitem 0 or n -- \verb|Crawl(siteId: String)| - where n is the number of ''related video'' links found on the site. 
                                                            If crawling is turned off, no messages will be sent.
 
-  \item \textbf{DownloadActor} -- is responsible for downloading the movie from youtube in it's original format (in the presence of many formats, 
-                                the highest quality file will be downloaded). This Actor decides if a video is legal to download or not, because it also
-                                obtains the movie's metadata -- only trailers and opening sequences of series are downloaded during for the sake of this 
-                                thesis.
+  \item \textbf{DownloadActor} -- downloads the movie from youtube in it's original format (in the presence of many formats, 
+                                the highest quality file will be downloaded). This Actor decides if a video is legal to download or not, because it also obtains the movie's metadata.
                                 
-  \item \textbf{ConversionActor} -- is responsible for converting the downloaded video material into raw frame data (bitmaps).
+  \item \textbf{ConversionActor} -- converts the downloaded video material into raw frame data (bitmaps).
     \subitem  \textbf{receives:}
-      \subsubitem \verb|Convert(localVideoFile: java.util.File)| -- This message must come from a local Actor, since the path refers to the local file system.
+      \subsubitem \verb|Convert(localVideoFile: java.util.File)| -- which must come from a local Actor, since the path refers to the local file system.
     \subitem  \textbf{sends:}
       \subsubitem \verb|Upload(framesDirectory: java.util.File)| -- when the finished converting to bitmaps, it will send and \verb|Upload| message to one of the\verb|HDFSUploadActors|, pointing to the directory where the output bitmaps have been written.
                                                                     
-  \item \textbf{HDFSUploadActor} -- is responsible for optimally storing the sequence of bitmaps in Hadoop. This includes converting a series of 
+  \item \textbf{HDFSUploadActor} -- stores the sequence of bitmaps in Hadoop. This includes converting a series of 
                                   relatively small (around 2MB per frame) files into one Sequence File on HDFS. Sequence Files and the need for their use
                                   will be explained in detail in section \ref{sec:sequence-files}.
   \subitem \textbf{receives:}
@@ -76,7 +74,7 @@ This is an inherent property of the Actor Model of concurrency -- which is why i
 % -------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Obtaining reference video material}
 \label{sec:obtaining-reference-material}
-This section wills discuss the process of obtaining video material by the Loader subsystem, as well as explain which parts can be executed on different nodes of the cluster. The Figure \ref{fig:high-level-loader} should help in understanding the basic workflow.
+This section wills discuss the process of obtaining video material by the Loader subsystem, as well as explain which parts can be executed on different nodes (node-01, node-02, node-N) of the cluster. Figure \ref{fig:high-level-loader} together with the flow description in this section aim to provide the necessary high-level overview of the system's execution flow.
 
 \begin{figure}[ch!]
   \centering
@@ -101,24 +99,24 @@ The metadata is then used to determine if it can be used in the context of this 
 \subsubsection{Step 3 - \textit{Convert} messages}
 The next step is executed by an instance of an \textit{ConversionActor} recieving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over uncompression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabeled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyser system immensely.
 
-The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, which is why the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
+The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, restricting the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
 
 \subsubsection{Step 4 \& 5 - \textit{Upload} messages}
-The last step is an \textit{HDFSUploadActor} recieving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages around 2MB (depending on the movie resolution).
+The last step is an \textit{HDFSUploadActor} recieving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages to around 2MB per frame (depending on the movie resolution).
 
 In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ''Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ''frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
 
 This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyzer by running Map Reduce jobs on Sequence Files prepared in the above flow.
 
 \subsection{Loader design summary}
-As was explained in the previous sections the Loader is designed as fully asynchronous system, composed of Actors performing very specific tasks. All communication between the Actors is implemented as message passing, which provides so-called ''location transparency'' between the Actors -- this property has been utilised to spread the work-load between multiple nodes in a clustered enviroment, enabeling the work to be completed faster than only utilising a single node.
+As was explained in the previous sections the Loader is designed as a fully asynchronous system, composed of Actors performing very specific tasks. All communication between the Actors is implemented as message passing, which allows for \textit{location transparency} between the Actors -- this property has been utilised to spread the work-load between multiple nodes in a clustered enviroment, enabeling the work to be completed faster than only utilising a single node.
 
 A detailed discussion of the Cluster's scalability and patterns applied in order to provide ad-hoc joining of nodes to the computation cluster can be found in Section \ref{chap:perf-scalability}: ''Scaling out the Ator system based Cluster''.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Analyser}
 \label{sec:analyser}
-The analyser component is responsible for orchestrating Map Reduce jobs and submitting them to the cluster. Results of jobs are written to either HBase or plain TSV (\textit{Tab Separated Values}) Files. Figure \ref{fig:analyser-high-level} depicts the typical execution flow of an analysis process issued by Oculus.
+The analyser component is responsible for orchestrating Map Reduce jobs and submitting them to the cluster. Results of jobs are written to either HBase or plain TSV (\textit{Tab Separated Values}) files. Figure \ref{fig:analyser-high-level} depicts the typical execution flow of an analysis process issued by Oculus.
 
 \begin{figure}[ch!]
   \centering
@@ -127,13 +125,13 @@ The analyser component is responsible for orchestrating Map Reduce jobs and subm
   \label{fig:analyser-high-level}
 \end{figure}
 
-In step 1 the \textit{job pipeline} is being prepared by the program by aggregating required metadata and preparing the job pipeline, which often consists of more than just one Map Reduce job -- in fact, most analysis jobs performed by Oculus require at least 3 or more Map Reduce jobs to be issued to the cluster. It is important to note that some of these jobs may be dependent on another task's output and this cannot be run in parallel. On the other hand, if a job requires calculating all histograms for all frames of a movie as well as calculating something different for each of these frames -- these jobs can be executed in parallel and will benefit from the large number of data nodes which can execute these jobs.
+In step 1 the \textit{job pipeline} is being prepared by the program by aggregating required metadata and preparing the job pipeline, which often consists of more than just one Map Reduce job -- in fact, most analysis jobs performed by Oculus require at least 3 or more Map Reduce jobs to be issued to the cluster. It is important to note that some of these jobs may be dependent on another task's output and this cannot be run in parallel. On the other hand -- if a job requires calculating all histograms for all frames of a movie as well as calculating something different for each of these frames -- these jobs can be executed in parallel and will benefit from the large number of data nodes which can execute these jobs.
 
-The 2nd step on Figure \ref{fig:analyser-high-level} is important because Oculus may react with launching another analysis job based on the notification that one pipeline has completed. This allows to keep different pipelines separate, and trigger them reactively when for example all it's dependencies have been computed in another pipeline.
+The 2nd step on Figure \ref{fig:analyser-high-level} is important because Oculus may react by launching another analysis job based on the notification that one pipeline has completed. This allows the system to keep the different pipelines separate, and trigger them reactively when for example all it's dependencies have been computed in another pipeline.
 
 For most applications though the 3rd step in a typical Oculus Job would be to read and present top N results to the issuer of the job, which for a question like ''Which movie is similar to this one?'' would be the top N most similar movies (their names, identifiers as well as match percentage).
 
-The following sections (\ref{sec:deployment-strategy}, \label{sec:defining-pipelines-basics}) will introduce the cluster deployment as well as how Jobs are implemented on top of it, in order to parallelize the job's execution as much as possible.
+The following sections (\ref{sec:deployment-strategy}, \label{sec:scalding-jobs}) will introduce the cluster deployment as well as how Jobs are implemented on top of it, in order to parallelize the job's execution as much as possible.
 
 
 
@@ -151,7 +149,7 @@ The Hadoop deployment described in this subsection will focus on two elements of
 
 The minimal hadoop deployment consistst of \textit{5 individual processes}, each with an assigned and very specific role in the clusters functioning. These processes can be classified as running along side the NameNode or DataNodes. This distincion should be clear after listing the names and features of these processes.
 
-Firstly, the 3 processess associated with the ''master'' node, which is responsible for coordination of HDFS operations and Map Reduce Job scheduling:
+There are 3 processes associated with the ''master node'', namely: the NameNode, the SecondaryNameNode and the JobTracker which is responsible for coordination of HDFS operations and Map Reduce Job scheduling:
 
 \begin{itemize}
   \item \textbf{NameNode} (HDFS) -- responsible for mapping logical file paths to their locations on DataNodes within 
@@ -170,7 +168,7 @@ Firstly, the 3 processess associated with the ''master'' node, which is responsi
                                             all of it's file system state and a full HDFS restart (including all 
                                             datanodes) whould be required.
   \item \textbf{JobTracker} (MapReduce) -- responsible for scheduling Map Reduce Jobs running in the cluster. It
-                                           behaves like a queue, in taking Job requests and processes them in order (or    
+                                           behaves like a queue, taking in Job requests and processes them in order (or    
                                            based on customasible strategies). It is also in contact with all TaskTrackers 
                                            (described below), which actualy perform the work related to a MR Job, while 
                                            the JobTracker only gets and aggregates the job's progress. In case of failed 
@@ -263,13 +261,13 @@ All diagrams in this Section have included an ''$\cdots$'' marker, hinting at th
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Defining Map Reduce Pipelines using Scalding and Cascading}
 \label{sec:scalding-jobs}
-The language and for implementing these processing pipelines used in this thesis was Scalding -- Twitter's home grown Scala DSL, which was already briefly introduced in Section Section \ref{sec:scalding-info}. The choice of using Scalding, and not Hadoop's plain Map Reduce API was mostly dictated by understandability and ease of modifying complicated job pipelines. 
+The language and for implementing these processing pipelines used in this thesis was Scalding \cite{scalding}, which was already briefly introduced in Section \ref{sec:scalding-info}. The choice of Scalding, and not Hadoop's plain Map Reduce API, as a way of interacting with Hadoop jobs from Scala, strongly influenced by the increased understandability and ease of modifying complicated job pipelines. 
 
 \subsubsection{Comparison of example Job implemented using Plain Hadoop and Scalding}
 
-This section aims to demonstrate what gains using Scalding over Hadoop yields, by showing the smallest possible example of an Map Reduce Job, implemented using both plain Hadoop APIs as well as Scalding. One should remember that Scalding is not a different framework than Hadoop, and in the end it will produce the exact same computations and classes (one instance of an \verb|Mapper| and one instance of an \verb|Reducer|).
+This section aims to demonstrate what gains using Scalding on top of Hadoop yields, by showing the smallest possible example of an Map Reduce Job, implemented using both plain Hadoop APIs and Scalding. One should remember that Scalding is not a different framework to  Hadoop, and in the end it will produce the exact same computations and classes (one instance of a \verb|Mapper| and one instance of a \verb|Reducer|).
 
-The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\textit{Given a huge input text file, count the occurances of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group such tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))| during the Reduce step.
+The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\textit{Given a huge input text file, count the occurances of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))|.
 
 The difference in complexity should be obvious by comparing the Listing \ref{lst:hadoop-mr} which represents the Map and Reduce classes which are used to represent the respectful Map and Reduce functions in the Java API, with Listing \ref{lst:scalding-wc} which is the complete code for a job performing the exact same in Scalding's Scala Domain Specific Language. 
 
@@ -346,7 +344,7 @@ Listing \ref{lst:next-job} shows how one can use Scalding to combine two Jobs us
   \label{fig:simplect-pipeline}
 \end{figure}
 
-Such pipeline can be visualised as seen on Figure \ref{fig:simplect-pipeline}, which is an output generated by using the graphviz tool (as in "graph visualization"), applied to a file describing the graph as described in the DOT format. The DOT file corresponding to the graph depicted on Figure \ref{fig:simplest-pipeline} is shown in Listing \ref{lst:simplest-pipeline-dot}. DOT descriptions of pipelines are in common use among profesionals designing such systems, and can also be generated automatically by Scalding -- which is tremendously useful when working with very long pipelines.
+Such pipeline can be visualised as seen on Figure \ref{fig:simplect-pipeline}, which is an output generated by using the graphviz tool, applied to a file describing the graph as described in the DOT format. The DOT file corresponding to the graph depicted on Figure \ref{fig:simplest-pipeline} is shown in Listing \ref{lst:simplest-pipeline-dot}. DOT descriptions of pipelines are in common use among profesionals designing such systems, and can also be generated automatically by Scalding -- which is tremendously useful when working with very long pipelines.
 
 \begin{lstlisting}[caption={Textual description of graph on Figure \ref{fig:simplect-pipeline}, using the DOT graph description language.}, label={lst:simplest-pipeline-dot}]
 digraph G {
@@ -357,7 +355,7 @@ digraph G {
 }
 \end{lstlisting}
 
-The second way of building up pipelines is inside one Scalding Job file. Because Scalding's rich set of operations, what may look as simple on the surface (in the pipeline definition) may have to boil down to multiple Map Reduce Job executions. One obvious case that will cause one Scalding Job to produce multiple Map Reduce Jobs is using data from two separate sources and joining them together. It should be noticed that the notion of ''join'' (as known from relational databases) is something both very powerful and very foreign to Hadoop -- as it is only designed to deal with data in a batch-processing fashion. Scalding allows to express join operations trivially in the the definition file, but it's execution actually is quite complicated and forces all the data from one side of the join to be loaded into Mappers participating in the Job's execution.
+The second way of building up pipelines is inside one Scalding Job file. Because of Scalding's rich set of operations, what may look as simple on the surface (for example, the pipeline definition) may have to boil down to multiple Map Reduce Job executions. One obvious case that will cause one Scalding Job to produce multiple Map Reduce Jobs is using data from two separate sources and joining them together. It should be noticed that the notion of ''join'' (as known from relational databases) is something both very powerful and very foreign to Hadoop -- as it is only designed to deal with data in a batch-processing fashion. Scalding allows to express join operations trivially in the the definition file, but it's execution actually is quite complicated and forces all the data from one side of the join to be loaded into Mappers participating in the Job's execution.
 
 \begin{lstlisting}[caption={Scalding job, reading data from 2 sources and joining them on dominantColor, producing 3 Map Reduce Jobs}, label={lst:read-and-join-scalding}]
 class CompareByDominantColor(args: Args) extends Job(args) {
@@ -382,7 +380,7 @@ class CompareByDominantColor(args: Args) extends Job(args) {
 }
 \end{lstlisting}
 
-Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs, because it reads from 2 separate data sources: from a sequence file that we just started processing (this is the movie this job aims to compare to the referece data set), and from the \verb|HistogramsTable| which is the reference dataset containing refernece data calculated previously for all already processed movies in the reference database. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's executionw will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modelled by this definition.
+Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs. It reads from 2 separate data sources, one for the reference data, and one for the currently analysed video. The data for the analysed movie is taken directly from the analysed SequenceFile, containing the frame data. The data of the reference database is read from the \verb|HistogramsTable| which is stored in HBase. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's executionw will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modelled by this definition.
 
 \begin{figure}[ch!]
   \centering
@@ -391,7 +389,7 @@ Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, whic
 \end{figure}
 
 
-The dependencies, as seen on Figure \ref{fig:3-pipeline} between the first two Jobs to the 3rd ''Join Job'' were not explicitly modelled as previously seen using the \verb|next| method, and instead were inferred from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. This is very important and useful because of two reasons:
+The dependencies, as seen on Figure \ref{fig:3-pipeline} between the first two Jobs to the 3rd ''Join Job'' were not explicitly modelled as previously seen using the \verb|next| method, and instead were inferred from the use of the \verb|job1.joinWithSmaller(job2, "key1" -> "key2"| operation. This is very important and useful since:
 
 \begin{itemize}
   \item Cascading is able to determine dependencies between Map Reduce jobs, and execute them on the Hadoop cluster as dictated by their dependency graph.

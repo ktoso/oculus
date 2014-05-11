@@ -1,7 +1,7 @@
 \chapter{Conclusions}
 \label{chap:conclusions}
 
-The primary goal of this thesis was to research distributed media processing. This has been achieved by implementing an reference system, which replicated the needs and workload of a quite realistic system that would have to analyse video data.
+The primary goal of this thesis was to research and scale distributed media processing systems. This has been achieved by implementing a reference system, which replicated the needs and workload of a quite realistic system that would have to analyse video data.
 
 The implemented reference system was able to fulfil it's initial requirements of detecting ''near duplicate'' movies. Test runs using publicly available creative-commons licensed movies have been performed. The system was also tuned to perform in the face of maliciously modified video content (mirrored, blurred or otherwise distorted), and the system was still able to identify matching video data. Certain optimisations were applied to make the search times possibly fast. These optimisations required gaining knowledge about HBase's internals and designing a specialised row key, as has described in Chapter \ref{chap:analysis-examples}. On the perceptual hashing front there is still much work that could have been applied to the proposed system, and better fingerprinting methods could have been applied -- yes as this was not the primary focus of this thesis, the proposed system performed within it's expected expected performance boundaries of a few hours of processing per each movie.
 

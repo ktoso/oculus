@@ -57,7 +57,7 @@ During the work on this thesis, Akka has been used both in local (in-jvm) parall
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{PHash}
 \label{sec:phash}
-PHash is short for ,,Perceptual Hash'' and is a sort of hashing algorithm (primarily aimed for use with images), which retains enough information to be comparable with another hash, yielding ,,how similar'' these hashes are. The details and implementation of it have been explained by Christoph Zauner's \cite{phash}.
+PHash is short for \textit{Perceptual Hash} and is a sort of hashing algorithm (primarily aimed for use with images), which retains enough information to be comparable with another hash, yielding ,,how similar'' these hashes are. The details and implementation of it have been explained by Christoph Zauner \cite{phash}.
 
 This algorithm is used by the system to perform initial similarity analysis between images. It is publicly available, including it's C source code, and may be used in \textit{non-commercial applications} in accordance to it's license. During the work on this thesis the source code of phash was slightly modified (in agreement with the software's license) to be adjusted to work better by being called from Java applications.
 
@@ -77,7 +77,7 @@ Appendix \ref{app:chef} features an in-depth guide on the details on how Chef wa
 %
 %\subsection{youtube-dl}
 \section{youtube-dl}
-Youtube-dl is a small library written in Python and freely available under an Open Source license. 
+Youtube-dl \cite{youtube-dl} is a small library written in Python and freely available under an Open Source license. 
 It was used in order to make downloading source video files from YouTube more efficient. It is aware of multiple available video formats (high / low quality). It offers multiple options useful yet hard to implement for this project.
 
 Another reason for choosing youtube-dl lies in useful yet hard to implement options it offers. Prime example of such option would be possibility to "prefer downloading open source video formats. Thanks to this option the youtube crawler system was able to download only free formats, for which conversion utilities are freely available on GNU platforms.

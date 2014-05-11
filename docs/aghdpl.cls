@@ -138,6 +138,7 @@
 \renewcommand{\footrulewidth}{0.5pt}
 \fancyhf{}
 \fancyhead{}
+\fancyfoot{}
 \fancyhead[RE]{\slshape{\small \rightmark}}
 \fancyhead[LE]{\bfseries \thepage}
 \fancyhead[LO]{\slshape{\small \rightmark}}
