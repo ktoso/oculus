@@ -78,7 +78,7 @@ A node description in turn relies on certain roles and recipes. Roles are define
 run_list "recipe[hadoop::datanode]"
 \end{lstlisting}
 
-
+These recipes in turn refer to actual script files, which are executed ordered by their dependencies. For example, if an application's script requires a database recipe to be run, chef will reorder the run\_list such that the applications' script is run after the database has been prepared. The actual execution of these scripts is shown on Listing \ref{lst:cheffing-data-node}, where the process of cooking a Hadoop Datanode is presented.
 
 \begin{lstlisting}[caption={Preparing and Cooking a server with in order to prepare it for becoming a Hadoop data-node},label={lst:cheffing-data-node}]
 # knife solo prepare kmalawski@108.59.81.222 nodes/datanode.json
@@ -93,6 +93,7 @@ Uploading the kitchen...
 
 \end{lstlisting}
 
+The use of Chef has been an tremendous help throughout the work on this thesis, and allowed to easily test various public cloud providers, without having to re-install all the infrastructure that Oculus required again.
 
 
 

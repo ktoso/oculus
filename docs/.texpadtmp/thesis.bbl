@@ -1,4 +1,7 @@
-\begin{thebibliography}{DEK77}
+\begin{thebibliography}{SGSTL03}
+
+\bibitem[akk]{akka-cluster}
+Akka -- cluster, documentation.
 
 \bibitem[ble]{blender-foundation}
 Blender foundation website.
@@ -12,6 +15,11 @@ Derek Bruening.
 Richard~Steiger Carl~Hewitt, Peter~Bishop.
 \newblock A universal modular actor formalism for artificial intelligence,
   1973.
+
+\bibitem[Che13]{chef}
+Opscode Chef.
+\newblock Opscode chef.
+\newblock \url{http://www.getchef.com/}, 2013.
 
 \bibitem[col]{columnar-database}
 Column-oriented database.
@@ -40,6 +48,12 @@ Jeffrey Dean and Sanjay Ghemawat.
 Erlang, programming language.
 \newblock \url{http://www.erlang.org/}.
 
+\bibitem[FCG06]{big-table}
+Sanjay Ghemawat Wilson C. Hsieh Deborah A. Wallach Mike Burrows Tushar Chandra
+  Andrew~Fikes Fay~Chang, Jeffrey~Dean and Robert~E. Gruber.
+\newblock Bigtable: A distributed storage system for structured data.
+\newblock \url{http://research.google.com/archive/bigtable-osdi06.pdf}, 2006.
+
 \bibitem[ffm]{ffmpeg}
 ffmpeg.
 \newblock \url{http://www.ffmpeg.org/}.
@@ -60,10 +74,6 @@ Ricardo~Garcia Gonzalez.
 \newblock youtube-dl.
 \newblock \url{http://rg3.github.io/youtube-dl/}, 2006 -- 2014.
 
-\bibitem[Goo13]{tesseract}
-Google.
-\newblock Google's tesseract-ocr text recognition library, 1985 - 2013.
-
 \bibitem[Had12]{hadoop-seq-files}
 Apache Hadoop.
 \newblock Hadoop sequence files format documentation.
@@ -73,14 +83,15 @@ Apache Hadoop.
 Hamming distance.
 \newblock \url{http://en.wikipedia.org/wiki/Hamming_distance}.
 
-\bibitem[Inc13]{akka-remoting}
-Typesafe Inc.
-\newblock Akka remoting documentation, 2013.
-
 \bibitem[JD]{deep-learning-google}
 Google Jeff~Dean.
 \newblock Presentation: Taming latency variability and scaling deep learning.
 \newblock \url{https://www.youtube.com/watch?v=S9twUcX1Zp0}.
+
+\bibitem[JG95]{java}
+Guy Steele Gilad Bracha Alex~Buckley James~Gosling, Bill~Joy.
+\newblock Java programming language specification.
+\newblock \url{http://docs.oracle.com/javase/specs/jls/se8/jls8.pdf}, 1995.
 
 \bibitem[Kho14]{akka-tracing}
 Lev Khomich.
@@ -92,9 +103,14 @@ Marr–hildreth algorithm.
 \newblock \url{http://en.wikipedia.org/wiki/Marr%E2%80%93Hildreth_algorithm},
   1980.
 
+\bibitem[MB06]{chubby}
+Google Mike~Burrows.
+\newblock The chubby lock service for loosely-coupled distributed systems,
+  2006.
+
 \bibitem[Ode14]{scala}
 Martin Odersky.
-\newblock Scala, programming language.
+\newblock Programming language: Scala.
 \newblock \url{http://scala-lang.org}, 2002 -- 2014.
 
 \bibitem[PH07]{odersky-actors}
@@ -121,16 +137,38 @@ Secondary indexes in hbase.
 \newblock \url{http://hbase.apache.org/book/secondary.indexes.html}.
 \newblock Accessed: 4.05.2014.
 
-\bibitem[Tea13]{akka-docs}
-Akka Team.
-\newblock Akka documentation.
-\newblock \url{http://doc.akka.io/docs/akka/snapshot}, 2013.
+\bibitem[SGSTL03]{gfs}
+Howard~Gobioff Sanjay~Ghemawat and Google Shun-Tak~Leung.
+\newblock The google file system.
+\newblock
+  \url{http://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf},
+  2003.
 
 \bibitem[Tea14]{kamon}
 Kamon Team.
 \newblock Kamon.
 \newblock \url{http://kamon.io}, 2014.
 \newblock Accessed 12.03.2014.
+
+\bibitem[Twi14]{twitter}
+Twitter.
+\newblock Twitter.com.
+\newblock \url{http://twitter.com}, 2014.
+
+\bibitem[Typ13a]{akka-remoting}
+Typesafe.
+\newblock Akka -- remoting, documentation.
+\newblock \url{http://doc.akka.io/docs/akka/2.3.2/scala/remoting.html}, 2013.
+
+\bibitem[Typ13b]{akka-docs}
+Typesafe.
+\newblock Akka documentation.
+\newblock \url{http://doc.akka.io/docs/akka/snapshot}, 2013.
+
+\bibitem[Yah07]{yahoo-hadoop}
+Yahoo.
+\newblock Hadoop at yahoo.
+\newblock \url{https://developer.yahoo.com/hadoop/}, 2007.
 
 \bibitem[You]{youtube}
 Google YouTube.

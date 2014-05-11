@@ -8,12 +8,11 @@ The following two sections will focus on practical examples of so-called ''attac
 
 In Section \ref{sec:mirrored-video-detection} video material will be analysed in order to find it's corresponding ''mirrored'' counter-part. This example will also be used to highlight the tremendous possibilities that lie within data \textit{pre-processing} that are applied within the proposed system, and if needed could be expanded even more in order to speed up the system's initial response time.
 
-%In Section \ref{sec:scene-detection} an extracted scene will be positioned within an existing video in the reference database. This problem turns out to be non-trivial because of different frame-rates of supplied material, thus search methods similar, in concept, to sub-string search could not have been applied efficiently. The section explains the algorithms applied instead, and showcases an example case.
+In Section \ref{sec:scene-detection} an extracted scene will be positioned within an existing video in the reference database. This problem turns out to be non-trivial because of different frame-rates of supplied material, thus search methods similar, in concept, to sub-string search could not have been applied efficiently. The section explains the algorithms applied instead, and touches upon the problem of interpreting results of complex map reduce jobs.
 
-Section \ref{sec:summing-up-analysis} aims to outline and summarise how the approach used in this chapter benefits from the large amounts of fuzzy data, and how these algorithms could be further expanded.
+Section \ref{sec:summing-up-analysis} summarises how the approach to designing pipelines and data representation used in this chapter was influenced by the the large amounts of ''fuzzy'' data, and how these algorithms could be further expanded.
 
-As this thesis is not focused on development of image analysis algorithms, these sections will instead lean their focus towards the distributed system and big-data parts of the problem. The image comparison algorithms also assume that that the used image correlation algorithm (\textit{phash} -- see Section \ref{sec:phash}) performs well enough for the job at hand. 
-
+\textit{As this thesis is not focused on development of image analysis algorithms, these sections will instead lean their focus towards the distributed system and big-data parts of the problem. The image comparison algorithms also assume that that the used image correlation algorithm (\textit{phash} -- see Section \ref{sec:phash}) performs well enough for the job at hand. }
 
 % -----------------------------------------------------------------------------------
 \section{Near-duplicate video detection}
@@ -81,9 +80,9 @@ Having this in mind, the key is designed to be an descending sorted \verb|-| joi
     //               G47-R41-G11:YE7VzlLtp-4.m6p4:919    <- Green dominates
 \end{lstlisting}
 
-Listing \ref{lst:row-ket} provides a simple ANTLR \footnote{ANTLR is a popular parser generator library for Java applications} grammar, which should make the key's parts easily visible (while ANTLR was not used directly for parsing of the key, it is a very clear and concise way of explaining the key's structure).
+Listing \ref{lst:row-key} provides a simple ANTLR \footnote{ANTLR is a popular parser generator library for Java applications} inspired grammar, which should make the key's parts easily visible (while ANTLR was not used directly for parsing of the key, it is a very clear and concise way of explaining the key's structure).
 
-Having defined such key, Map Reduce jobs populate the reference database using it. Of course, the entire histograms would still be stored within the row (all 255 values for each color). The rest of the HTable's design is depicted on Figure \ref{fig:histogram-htable}.
+Having defined such key, Map Reduce jobs populate the reference database using it. Of course, the entire histograms would still be stored within the row (all 255 values for each color). The rest of the HTable's design is depicted on Figure \ref{fig:histogram-table}.
 
 \begin{figure}[ch!]
   \centering
@@ -105,6 +104,7 @@ This design allows the Analyser to issue very efficient queries for frames, such
   All frames of Movie                & \verb|FILTER "*-e98uKex-*"|       & No; Slow \\ \hline
   \end{tabular}
   \caption{Examples of queries enabled by such RowKey design}
+  \label{tab:scans}
 \end{table}
 
 
@@ -113,7 +113,7 @@ This design allows the Analyser to issue very efficient queries for frames, such
 Since simple histogram comparison if obviously not enough to determine if an image is of the same movie or not,
 the second layer of comparison employed by the Analyser's Map Reduce Jobs is powered by perceptual hashing, as implemented by the phash \cite{phash} library.
 
-As can be seen in Figure \ref{fig:histogram-table}, rows in the Histograms table contain not only the histogram values, but also the phash column family as well as youtube metadata. In this step of execution we will be comparing the already pre-filtered (by using the previous method) frames by their perceptual hashes. A detailed description and effectiveness analysis of these is available on the libraries website \footnote{PHash design and analysis -- http://www.phash.org/docs/design.html}.
+As can be seen in Figure \ref{fig:histogram-table}, rows in the Histograms table contain not only the histogram values, but also the phash column family as well as youtube metadata. In this step of execution we will be comparing the already pre-filtered (by using the previous method) frames by their perceptual hashes. A detailed description and effectiveness analysis of these is available on the libraries website \cite{phash}.
 
 During this work two perceptual hash implementations were used:
 \begin{itemize}
@@ -215,7 +215,9 @@ This scenario can be explained as trying to find out \textit{where} (if at all) 
   \caption{Visual representation of the goal of this example application.}
 \end{figure}
 
-Although on the surface the general problem statement is not so different than substring search, which is a known and well researched topic in computer science. In sub-string search algorithms like the Knuth–Morris–Pratt \cite{kmp-string-search} or the Boyer-Moore \cite{boyer-string-search} algorithms leverage that the ''matching'' either will apply, or will not in order to increase search speed in the worst case to still linear time. However, these methods can \textit{not} be directly applied to the problem specified in this section -- because of the distortions in source and reference video material as well as the possibility of cross-matches when a movie is built up from multiple short scenes from other movies -- a typical example here would be ''flash-back'' scenes or ''top 10'' movies where before the last top-3, the movie would quickly go over already shown frames of scenes. Another problem adding to the distortions is frame rates of reference data vs. an analysed video fragment -- even a slight mismatch (30FPS vs. 25FPS) would render the substring search algorithms not usable for this concrete example.
+Although on the surface the general problem statement is not so different than substring search, which is a known and well researched topic in computer science. In sub-string search algorithms like the Knuth–Morris–Pratt \cite{kmp-string-search} or the Boyer-Moore \cite{boyer-string-search} algorithms leverage that the ''matching'' either will apply, or will not in order to increase search speed in the worst case to still linear time. However, these methods can \textit{not} be directly applied to the problem specified in this section -- because of the distortions in source and reference video material.
+
+Additionally the possibility of cross-matches when a movie is built up from multiple short scenes from other movies. The most popular example would be be ''flash-back'' scenes or ''top 10'' movies where before the last top-3, the movie would quickly go over already shown frames of scenes. Another problem adding to the distortions is frame rates of reference data vs. an analysed video fragment -- even a slight mismatch (30FPS vs. 25FPS) would render the substring search algorithms not usable for this concrete example.
 
 \begin{figure}[ch!]
   \centering
@@ -227,6 +229,7 @@ Although on the surface the general problem statement is not so different than s
 
 Instead, a more statistical approach was taken. The basic idea of this Pipeline can be described as trying to match frames between 2 movies in similar style as in the previously described pipeline (Figure \ref{fig:full-job}, yet afterwards the top match for each frame must proceed incrementally in the matched frames. For example if scene frame 100 matched reference frame 90100 and scene-frame 110 matched frame 90110 one should expect that this interval will be constant over the entire matched range of the frames. This method can also detect ''top10'' movies, where a movie contains multiple scenes from different movies -- yet this algorithm was deemed to be outside of the scope of this thesis.
 
+
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=0.6\textwidth]{img/top-match-job-positioning}
@@ -234,8 +237,8 @@ Instead, a more statistical approach was taken. The basic idea of this Pipeline 
   \label{fig:job-scene}
 \end{figure}
 
-
 The pipeline designed for solving this problem is shown on Figure \ref{fig:job-scene}. As can be easily observed, the steps 1 through 5 are the same (with the exception of the input from HBase in step (2) being filtered only for the targeted movie). The code used to produce these pipelines can be re-used thanks to Scala and Scalding. The 6th step though needs to be implemented a-new as it requires a new operation: sorting the matched frames in ascending order by the frame number of the analysed movie. This allows us to run an analysis tool (implemented in Scala) that will analyse the result for longest \textit{matching sequence of frames}. The last step (7) can be described as finding such series of frames, that all match to the same movie, and their frame numbers all increase in the same fashion as the frame numbers of the compared scene. This step was not implemented in Hadoop, and turned out to be quite challenging to be implemented resilient enough to provide easy human readable read outputs. 
+
 
 The problems encountered during the implementation of this pipeline highlight an interesting problem with these pipelines -- extracting the actual information that is present in the computed results is often not trivial, and the noise carried with the data often complicates the tasks significantly.
 

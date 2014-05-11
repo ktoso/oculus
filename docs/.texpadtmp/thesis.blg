@@ -10,79 +10,132 @@ A level-1 auxiliary file: chapter6.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: alpha.bst
 Database file #1: ../bibliography.bib
-I was expecting a `,' or a `}'---line 38 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 81 of file ../bibliography.bib
  :   
- :   author = {Twitter Inc.},
+ :   author = {Twitter},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 132 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 169 of file ../bibliography.bib
+ :   
+ :   author = {Typesafe},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 183 of file ../bibliography.bib
  :   
  :   license = {GNU LGPL 2.0}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 155 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 206 of file ../bibliography.bib
  :   
  :   author = { Blender Foundation },
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "chubby"
-Warning--I didn't find a database entry for "gfs"
-Warning--I didn't find a database entry for "yahoo"
-Warning--I didn't find a database entry for "twitter"
-Warning--I didn't find a database entry for "java"
-Warning--I didn't find a database entry for "big-table"
-Warning--I didn't find a database entry for "akka-cluster"
+Name 1 in "Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung, Google" has a comma at the end for entry gfs
+while executing---line 1185 of file alpha.bst
+Name 1 in "Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung, Google" has a comma at the end for entry gfs
+while executing---line 1185 of file alpha.bst
 Warning--to sort, need author or key in scalding
+Too many commas in name 1 of "James Gosling, Bill Joy, Guy Steele, Gilad Bracha, Alex Buckley" for entry java
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "James Gosling, Bill Joy, Guy Steele, Gilad Bracha, Alex Buckley" for entry java
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "James Gosling, Bill Joy, Guy Steele, Gilad Bracha, Alex Buckley" for entry java
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "James Gosling, Bill Joy, Guy Steele, Gilad Bracha, Alex Buckley" for entry java
+while executing---line 1185 of file alpha.bst
 Warning--to sort, need author or key in concurrent-inc
 Warning--to sort, need author or key in columnar-database
+Name 1 in "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" has a comma at the end for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Name 1 in "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" has a comma at the end for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1185 of file alpha.bst
 Warning--to sort, need author or key in erlang
+Warning--to sort, need author or key in akka-cluster
 Warning--to sort, need author or key in ffmpeg
 Warning--to sort, need author or key in blender-foundation
 Warning--to sort, need author or key in marr-hildreth
 Warning--to sort, need author or key in hamming-distance
 Warning--to sort, need author or key in secondary-index-htable
 Warning--empty institution in map-reduce
+Name 1 in "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" has a comma at the end for entry big-table
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber" for entry big-table
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "James Gosling, Bill Joy, Guy Steele, Gilad Bracha, Alex Buckley" for entry java
+while executing---line 1250 of file alpha.bst
+Too many commas in name 1 of "James Gosling, Bill Joy, Guy Steele, Gilad Bracha, Alex Buckley" for entry java
+while executing---line 1250 of file alpha.bst
 Warning--empty journal in boyer-string-search
 Warning--empty publisher in hadoop-ops
-You've used 30 entries,
+Name 1 in "Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung, Google" has a comma at the end for entry gfs
+while executing---line 1250 of file alpha.bst
+You've used 37 entries,
             2543 wiz_defined-function locations,
-            691 strings with 7271 characters,
-and the built_in function-call counts, 7530 in all, are:
-= -- 727
-> -- 188
-< -- 20
-+ -- 48
-- -- 46
-* -- 338
-:= -- 1110
-add.period$ -- 79
-call.type$ -- 30
-change.case$ -- 142
-chr.to.int$ -- 30
-cite$ -- 51
-duplicate$ -- 329
-empty$ -- 757
-format.name$ -- 82
-if$ -- 1634
-int.to.chr$ -- 1
+            711 strings with 8127 characters,
+and the built_in function-call counts, 9457 in all, are:
+= -- 916
+> -- 259
+< -- 24
++ -- 71
+- -- 66
+* -- 426
+:= -- 1408
+add.period$ -- 99
+call.type$ -- 37
+change.case$ -- 178
+chr.to.int$ -- 36
+cite$ -- 60
+duplicate$ -- 403
+empty$ -- 934
+format.name$ -- 110
+if$ -- 2048
+int.to.chr$ -- 2
 int.to.str$ -- 0
 missing$ -- 3
-newline$ -- 142
-num.names$ -- 63
-pop$ -- 277
+newline$ -- 176
+num.names$ -- 81
+pop$ -- 338
 preamble$ -- 1
-purify$ -- 172
+purify$ -- 215
 quote$ -- 0
-skip$ -- 322
+skip$ -- 404
 stack$ -- 0
-substring$ -- 221
-swap$ -- 28
-text.length$ -- 20
-text.prefix$ -- 15
+substring$ -- 273
+swap$ -- 35
+text.length$ -- 24
+text.prefix$ -- 17
 top$ -- 0
-type$ -- 236
-warning$ -- 12
-while$ -- 43
-width$ -- 34
-write$ -- 329
-(There were 3 error messages)
+type$ -- 292
+warning$ -- 13
+while$ -- 57
+width$ -- 41
+write$ -- 410
+(There were 31 error messages)

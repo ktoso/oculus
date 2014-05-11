@@ -23,7 +23,7 @@ Most algorithms used in Oculus operate on a frame-by-frame basis, which means th
 
 Sadly this abstraction does \textit{not} work nicely with Hadoop, it would cause the well--known ''small-files problem'' which leads to \textit{major} performance degradation of the Hadoop cluster is left undressed. This section will focus on explaining the problem and what steps have been taken to prevent it from manifesting in the presence of millions of ''frame-by-frame'' pieces of data.
 
-Hadoop uses so called ''blocks'' as smallest atomic unit that can be used to move data between the cluster.
+Hadoop uses ''blocks'' as smallest atomic unit that can be used to move data between the cluster.
 The default block size is set to \textit{64 megabytes} on most Hadoop distributions.
 
 This also means that if the DFS takes a write of one file (assuming the \textit{replication factor} equals 1) it will use up one block. By itself this is not worrying, because other than in traditional (local) file systems such as EXT3 for example, when we store N bytes in a block on HDFS,
@@ -36,7 +36,7 @@ the the file system can still use block's unused space. Figure \ref{fig:no-seque
   \label{fig:no-sequence-file}
 \end{figure}
 
-The problem stemming from writing small files manifests not directly by impacting the used disk space, but in increasing memory usage in the clusters so called \textit{name-node}. The name-node is responsible for acting as a lookup table for locating the blocks in the cluster. Since name-node has to keep 150KB of metadata for each block in the cluster, creating more blocks than we actually need quickly forces the name-node to use so much memory, that it may run into long garbage collection pauses, degrading the entire cluster's performance. To put precise numbers to this -- if we would be able to store 500MB of data in an optimal way, storing them on HDFS would use 8 blocks -- causing the name node to use approximately 1KB of metadata. On the other hand, storing this data in chunks of 2MB (for example by storing each frame of a movie, uncompressed) would use up 250 HDFS blocks, which results in additional 36KB of memory used on the name-node, which is 4.5 times as much (28KB more) as with optimally storing the data! Since we are talking about hundreds of thousands of files, such waste causes a tremendous unneeded load on the name-node.
+The problem stemming from writing small files manifests not directly by impacting the used disk space, but in increasing memory usage in the clusters so called \textit{name-node}. The name-node is responsible for acting as a lookup table for locating the blocks in the cluster. Since name-node has to keep 150KB of metadata for each block in the cluster, creating more blocks than we actually need quickly forces the name-node to use so much memory, that it may run into long garbage collection pauses, degrading the entire cluster's performance. To put precise numbers to this -- if we would be able to store 500MB of data in an optimal way, storing them on HDFS would use 8 blocks -- causing the name node to use approximately 1KB of metadata. On the other hand, storing this data in chunks of 2MB (for example by storing each frame of a movie, uncompressed) would use up 250 HDFS blocks, which results in additional 36KB of memory used on the name-node, which is 4.5 times as much (28KB more) as with optimally storing the data! Since we are talking about hundreds of thousands of files, such waste causes a tremendous unnecessary load on the name-node.
 
 It should be also noted, that when running map-reduce jobs, Hadoop will by default start one map task for each block it's processing in the given Job. Spinning up a task is an expensive process, so this too is a cause for performance degradation, since having small files causes more \textit{Map tasks} being issued for the same amount of actual data Hadoop will spend more time waiting for tasks to finish starting and collecting data from them than it would have to.
 
@@ -90,8 +90,8 @@ By increasing the replication factor of paths that we know they will be used in 
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{img/hadoop/hdfs_show-replication}
-  \label{fig:hdfs-replication-factors}
   \caption{HDFS on-line browser, running on datanode (port: 50075), displaying replication factors of files (4th column)}
+    \label{fig:hdfs-replication-factors}
 \end{figure}
 
 The replication factor of a file (or path) is such an important value, it's usually always displayed along side any file listing within the Hadoop UIs (see Figure \ref{fig:hdfs-replication-factors}) as well as command line tools. It should also be noted that it is impossible to set the replication factor to a higher number than there are datanodes present in the cluster -- as the replication requirement would not be possible to be fulfilled.
@@ -134,14 +134,14 @@ echo "10.240.80.181" >> /opt/hadoop.1.2.1/conf/slaves
 echo "146.148.47.191  oculus-3b" >> /etc/hosts
 \end{lstlisting}
 
-The job used to measure the impact of adding new nodes was the most CPU intensive task present in the Oculus workflow, which is: computing the perceptual hash of each frame of a given movie. The movie selected for the process was the previously introduced ''Big Buck Bunny'' movie, amounting a total of 6.38 GB of frame data to process, split among 103 HDFS Blocks (each roughly 64 MB in size). Thanks to this large number of blocks, the task scheduler should be able to efficiently distribute the work to even large numbers of worker nodes. In fact, as visible on Figure \ref{fig:ten-mappers} with 10 mappers (10 datanodes, with 1 map slot each) are executing tasks from the same job in parallel, causing an obvious speedup in Map computation.
+The job used to measure the impact of adding new nodes was the most CPU intensive task present in the Oculus workflow, which is: computing the perceptual hash of each frame of a given movie. The movie selected for the process was the previously introduced ''Big Buck Bunny'' movie, amounting a total of 6.38 GB of frame data to process, split among 103 HDFS Blocks (each roughly 64 MB in size). Thanks to this large number of blocks, the task scheduler should be able to efficiently distribute the work to even large numbers of worker nodes. In fact, as visible on Figure \ref{fig:ten-mappers-executing-map} with 10 mappers (10 datanodes, with 1 map slot each) are executing tasks from the same job in parallel, causing an obvious speedup in Map computation.
 
 
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=\textwidth]{img/hadoop/10tasks-parallel}
-  \label{fig:ten-mappers}
   \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 10 physical nodes, with one map slot each.}
+  \label{fig:ten-mappers-executing-map}
 \end{figure}
 
 Before explaining the results of the performed scalability tests, one more term needs to be introduced. Tasks can be executed in a number of different ways -- that is, they may be executed strictly local to the data they work on, or just ''near the data the task requires'' or really ''far away from the data the task requires'' -- these intuitive definitions have their named counterparts which are measured and reported for every run of a Map Reduce job, namely those types of Tasks are:
@@ -153,24 +153,9 @@ Before explaining the results of the performed scalability tests, one more term 
   \item \textbf{Remaining Tasks} -- tasks that are not Data Local do not have a name of their own, and are not reported directly. Instead one aims to maximise the number of Data and Rack Local tasks, with the rest being simply \verb|notLocalTasks = totalTasks - dataLocalTasks - rackLocalTasks|. These tasks require transferring the data across the network for the job to start, and should be avoided at all costs -- in our use-cases it was possible to avoid triggering even one of these tasks.
 \end{itemize}
 
-The first row in Table \ref{table:more-nodes-results} represents the theoretical time to execute the job using only one node -- the approximated time to complete the job using one thread (mapper) was calculated by calculating the average time of computing one split of data, which is equal to: \textit{47 seconds}. Other time characteristics of computing one task are listed, for reference, in Table \ref{table:task-compute-time}.
+Moving on to analysing the job durations of the scaled cluster, which Table \ref{tab:more-nodes-results} contains. The first row in this table represents the theoretical time to execute the job using only one node -- the approximated time to complete the job using one thread (mapper) was calculated by calculating the average time of computing one split of data, which is equal to: \textit{47 seconds}. Other time characteristics of computing one task are listed, for reference, in Table \ref{tab:time-task}.
 
-\begin{table}[hbt]
-  \centering
-  \begin{tabular}{|c|c|}
-  \hline
-    \textbf{Characteristic} & \textbf{Value (seconds)} \\ \hline
-    min                     & 41     \\ \hline
-    max                     & 71     \\ \hline
-    avg                 	    & 47.41  \\ \hline
-    stddev                  & 4.33   \\ \hline
-  \end{tabular}
-  \label{table:time-task}
-  \caption{Time characteristics of executing one Task of the analysed job.}
-\end{table}
-
-
-The experiment was then expanded to more nodes, and afterwards the replication factor was increased to increase the chance of triggering Data Local tasks. Results of the experiment are listed in Table \ref{table:more-nodes-results}.
+The experiment was then expanded to more nodes, and afterwards the replication factor was increased to increase the chance of triggering Data Local tasks. Results of the experiment are listed in Table \ref{tab:more-nodes-results}.
 
 \begin{table}[hbt]
   \centering
@@ -189,7 +174,21 @@ The experiment was then expanded to more nodes, and afterwards the replication f
   \label{tab:more-nodes-results}
 \end{table}
 
-Analysing Table \ref{table:more-nodes-results} yields very interesting results. The most interesting metric in our case if of course the absolute speed-up of the process, yet the relative speed-up (as measured between previous and current configuration) is also quite interesting -- especially because in cases when the replication factor was modified.
+\begin{table}[bth!]
+  \centering
+  \begin{tabular}{|c|c|}
+  \hline
+    \textbf{Characteristic} & \textbf{Value (seconds)} \\ \hline
+    min                     & 41     \\ \hline
+    max                     & 71     \\ \hline
+    avg                 	    & 47.41  \\ \hline
+    stddev                  & 4.33   \\ \hline
+  \end{tabular}
+  \caption{Time characteristics of executing one Task of the analysed job.}
+  \label{tab:time-task}
+\end{table}
+
+Analysing Table \ref{tab:more-nodes-results} further yields very interesting conclusions. The most interesting metric in our case if of course the absolute speed-up of the process, yet the relative speed-up (as measured between previous and current configuration) is also quite interesting -- especially because in cases when the replication factor was modified.
 
 The first notable and interesting difference is of course between running the job on 1 node to 3 nodes, with the replication factor equal to the number of nodes to the cluster. This has the obvious effect of all tasks being executed local to the data they require (as each node has all the data). The total speed-up is around 3, which would indicate linear scalability in this case. Yet because of still small number of nodes, and everything being executed locally, this case is not very interesting from the ''introduction of cluster communication overhear'' perspective.
 
@@ -206,7 +205,7 @@ The last, and perhaps most interesting measured change to the cluster involved i
   \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 10 physical nodes, with one map slot each.}
 \end{figure}
 
-In order to summarise this section, one last observation should be made about Table \ref{table:more-nodes-results}, namely: in respect of adding more nodes to the Hadoop cluster, it seems that it scales nearly linear, as can be seen by comparing the number of nodes compared to the absolute speed-up, for example -- when running a cluster with \verb|10| nodes, the absolute speedup in relation to running on one node was \verb|9.87 times|, which is very near to a full 10. Thanks to this experiment one can conclude that (at least to such numbers of nodes) Hadoop is in fact \textit{nearly linearly scalable}, which is considered quite an achievement and would serve the growing-over-time needs of a data processing platform very well.
+In order to summarise this section, one last observation should be made about Table \ref{tab:more-nodes-results}, namely: in respect of adding more nodes to the Hadoop cluster, it seems that it scales nearly linear, as can be seen by comparing the number of nodes compared to the absolute speed-up, for example -- when running a cluster with \verb|10| nodes, the absolute speedup in relation to running on one node was \verb|9.87 times|, which is very near to a full 10. Thanks to this experiment one can conclude that (at least to such numbers of nodes) Hadoop is in fact \textit{nearly linearly scalable}, which is considered quite an achievement and would serve the growing-over-time needs of a data processing platform very well.
 
 
 % ------------------------------------------------------------------------------------------
@@ -217,8 +216,8 @@ The last investigated option available for increasing cluster utilisation invest
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=0.8\textwidth]{img/hadoop/10nodes-newrelic-suffering-from-no-data-locallity}
-  \label{fig:ten-under-utilised-cluster}
   \caption{An example of an under-utilised cluster, where each node has 1 map and 1 reduce slot, yet the computed task is not draining the available CPU time, leading to wasting precious compute time.}
+  \label{fig:ten-under-utilised-cluster}
 \end{figure}
 
 These settings influence the number of Map and Reduce ''slots'' available for the scheduler on each node. By default these are set to 1 map task for each physical CPU available on the node (as can be seen on Figure \ref{fig:four-nodes-config}, where \textit{oculus-3-cpu} has 2 physical CPUs, and was automatically assigned 2 map and reduce slots). When running multiple example jobs on the cluster, it was discovered that some ''low utilisation'' jobs would needlessly occupy precious map slots on the cluster -- leading to such worst-case scenarios as depicted on Figure \ref{fig:ten-under-utilised-cluster}, where all nodes (all of which are of type: \textit{n1-standard-1 (1 vCPU, 3.8 GB memory)}) are processing one task and which occupies 100\% of their task slots (because each has 1 CPU), yet the task is \textit{not} CPU intensive, which leads to wasting precious CPU time. It would be much more efficient to allow these nodes to run at least 2 map and reduce tasks at the same time - since they they won't be competing for each other's CPU time.
@@ -226,8 +225,8 @@ These settings influence the number of Map and Reduce ''slots'' available for th
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=\textwidth]{img/hadoop/4node-cluster-config}
-  \label{fig:four-nodes-config}
   \caption{Fragment of Web-UI displaying the connected datanodes. The oculus-3 node is an high-cpu instance, and has more slots than the remaining nodes.}
+  \label{fig:four-nodes-config}
 \end{figure}
 
 In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under-utilised-cluster} (where 10 nodes are working, yet the vast majority of them only utilises around 30\% of their CPU), the number of concurrent tasks to be executed on one node was increased to 2 map and 2 reduce tasks. Literature recommends using \verb|round(1.5 * nrOfCpus)| tasks per node, yet this setting should be always customised to the workload a cluster is experiencing. Having this in mind, a scaled down cluster may actually be more efficient on processing such jobs. The changed configuration included 4 nodes, all of which were set-up of host 2 map slots and 2 reduce slots. The CPU load on the cluster in such configuration, performing the same job as seen on Figure \ref{fig:four-nodes-config}, can be seen on Figure \ref{fig:cpu-load-during-job}.
@@ -235,8 +234,8 @@ In order to avoid cluster under utilisation as seen on Figure \ref{fig:ten-under
 \begin{figure}[ch!]
   \centering
   \includegraphics[width=\textwidth]{img/hadoop/monitoring-during-processing}
-  \label{fig:cpu-load-during-job}
   \caption{Screenshot of New Relic (cluster monitoring software) displaying CPU and memory utilisation during the execution of an CPU intensive map reduce job.}
+  \label{fig:cpu-load-during-job}
 \end{figure}
 
 It is worth keeping in mind that cost efficiency usually is also an important business need and simply adding more servers sometimes isn't an available option. Even more so, sometimes we may end up over provisioning servers -- as seen in Figure \ref{fig:ten-under-utilised-cluster}, so while simply adding more servers is very tempting and usually works very well on Hadoop clusters (as seen in Section \ref{sec:tuning-number-of-nodes}), one should always first try to fine tune the cluster to the specific work-load it is experiencing. In the case shown in this section, a fine-tuned 4 node cluster was able to perform almost as good (for this set of jobs), as the under utilised 10 node cluster. In real life clusters will always execute very different workloads at the same time, so it may be very hard to fine tune it for very precise scenarios, yet the effort of changing configurations of cluster members can sometimes prevent the need of adding more servers, so it should be always considered first -- unless a long term cluster expansion (e.g. ''adding 100 nodes, in the next 2 months'') is planned directly.
