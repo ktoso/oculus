@@ -13,7 +13,6 @@ In Section \ref{sec:automated-conf-provisioning} Opscode Chef -- the tool used t
 
 In order to provision virtual machines for running the applicationc cluster Google's Compute Engine ''Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used. 
 
-Creating a new instance on GCE (\textit{Google Compute Engine}) can be done via an admin console under \verb|cloud.google.com| or using command line tooling (or plain JSON API calls). During this project the most used method was the command line API, as it is simple to prepare scripts for spinning up multiple VMs and combining this step with provisioning configuration to them using Chef (which will be explained in Section \ref{sec:automated-conf-provisioning}. An example of how a new instance on GCE can be started is illustrated on Listing \ref{lst:new-gce-instance-bash}.
 
 \begin{lstlisting}[caption={Creating new instance on GCE}, label={lst:new-gce-instance-bash}]
 gcutil --service_version="v1" --project="oculus-hadoop" 
@@ -27,9 +26,8 @@ gcutil --service_version="v1" --project="oculus-hadoop"
 \end{lstlisting}
 
 
-Listing \ref{lst:gcutil-list} shows the current cluster's status.
 
-\todo{listing needs label}
+Creating a new instance on GCE (\textit{Google Compute Engine}) can be done via an admin console under \verb|cloud.google.com| or using command line tooling (or plain JSON API calls). During this project the most used method was the command line API, as it is simple to prepare scripts for spinning up multiple VMs and combining this step with provisioning configuration to them using Chef (which will be explained in Section \ref{sec:automated-conf-provisioning}. An example of how a new instance on GCE can be started is illustrated on Listing \ref{lst:new-gce-instance-bash}. Listing \ref{lst:gcutil-list} shows the current cluster's status.
 
 \label{lst:gcutil-list}
 \begin{verbatim}
