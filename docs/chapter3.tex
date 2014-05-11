@@ -26,14 +26,14 @@ This section will focus on describing the general design of both systems, first 
 \label{sec:loader-basics}
 The Loader component is responsible for obtaining as much as possible ''reference data'', by which video material from sites such as \textit{youtube.com} or video hosting sites is meant. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening or ending sequences.
 
-While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \textit{Cluster} module \cite{akka-cluster}, it was also fairly easy to distribute actors among multiple physical nodes in the cluster, allowing the actor system to utilise the entire cluster's processing power. The use od messaging as default and only mean of communication with actors allowed to easily transition into the clustered model, where communication would he handled over the network, from a previously local-only model.
+While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \textit{Cluster} module \cite{akka-cluster}, it was also fairly easy to distribute actors among multiple physical nodes in the cluster, allowing the actor system to utilise the entire cluster's processing power. The use of messaging as default and only mean of communication with actors allowed to easily transition into the clustered model, where communication would he handled over the network, from a previously local-only model.
 
 \subsection{Types of Actors used in the system}
 \label{sec:types-of-actors}
 
 The system consists of 4 types of Actors. Each of them has multiple instances which are spread out on many nodes in the cluster. Some tasks can only be sent to local Actors (any work requiring an already downloaded file), but messages related to crawling and initially downloading the video material can be spread throughout the cluster. 
 
-The following Actor descriptions are aimed at explaining the protocols used for comunication between them in the running system. These are very important as actors can communicate only via sending and receiving messages, and can not provide any type signatures that would help to identify what messages they can respond to. The also do not have methods that can be called directly on them -- this is a direct result of implementing actor model based concurrency, which would not be able to hold in face of direct access to an actors state.
+The following Actor descriptions are aimed at explaining the protocols used for communication between them in the running system. These are very important as actors can communicate only via sending and receiving messages, and can not provide any type signatures that would help to identify what messages they can respond to. The also do not have methods that can be called directly on them -- this is a direct result of implementing actor model based concurrency, which would not be able to hold in face of direct access to an actors state.
 
 will now briefly describe the different Actor roles that exist in the system and then explain the interactions between then on an example.
 
@@ -69,7 +69,7 @@ will now briefly describe the different Actor roles that exist in the system and
 Using these Actors and protocols between them, the application is able to progress safely without the possibility of getting stuck in a dead (or live) lock. 
 
 While discussing there protocols one should also mention that the messages that can be received and sent by Actors are not possible to verify using static typing -- an Actor can receive a message of ''Any'' type, and in case of not being able to act upon it - it will drop the message, but the delivery still happens.
-This is an inherent property of the Actor Model of concurrency -- which is why in such systems explaining the flows of mesages and Actors present in the system is of such importance. Having this in mind, the next Section (\ref{sec:obtaining-reference-material}) will focus on explaining one such message flow within the system.
+This is an inherent property of the Actor Model of concurrency -- which is why in such systems explaining the flows of messages and Actors present in the system is of such importance. Having this in mind, the next Section (\ref{sec:obtaining-reference-material}) will focus on explaining one such message flow within the system.
 
 % -------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Obtaining reference video material}
@@ -97,21 +97,21 @@ Other than the video file (in an open source format) we also download a metadata
 The metadata is then used to determine if it can be used in the context of this work, as only movie trailers and and opening / ending sequences are downloaded into the Oculus system. If the content is OK to use, the Actor sends an \textit{Convert(movieLocation)} message to an instance of \textit{ConversionActor}.
 
 \subsubsection{Step 3 - \textit{Convert} messages}
-The next step is executed by an instance of an \textit{ConversionActor} recieving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over uncompression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabeled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyser system immensely.
+The next step is executed by an instance of an \textit{ConversionActor} receiving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over un-compression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyser system immensely.
 
 The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, restricting the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
 
 \subsubsection{Step 4 \& 5 - \textit{Upload} messages}
-The last step is an \textit{HDFSUploadActor} recieving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages to around 2MB per frame (depending on the movie resolution).
+The last step is an \textit{HDFSUploadActor} receiving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages to around 2MB per frame (depending on the movie resolution).
 
 In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ''Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ''frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
 
-This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyzer by running Map Reduce jobs on Sequence Files prepared in the above flow.
+This write terminates the operations performed on one movie by the Loader. All other operations will be performed by the Analyser by running Map Reduce jobs on Sequence Files prepared in the above flow.
 
 \subsection{Loader design summary}
-As was explained in the previous sections the Loader is designed as a fully asynchronous system, composed of Actors performing very specific tasks. All communication between the Actors is implemented as message passing, which allows for \textit{location transparency} between the Actors -- this property has been utilised to spread the work-load between multiple nodes in a clustered enviroment, enabeling the work to be completed faster than only utilising a single node.
+As was explained in the previous sections the Loader is designed as a fully asynchronous system, composed of Actors performing very specific tasks. All communication between the Actors is implemented as message passing, which allows for \textit{location transparency} between the Actors -- this property has been utilised to spread the work-load between multiple nodes in a clustered environment, enabling the work to be completed faster than only utilising a single node.
 
-A detailed discussion of the Cluster's scalability and patterns applied in order to provide ad-hoc joining of nodes to the computation cluster can be found in Section \ref{chap:perf-scalability}: ''Scaling out the Ator system based Cluster''.
+A detailed discussion of the Cluster's scalability and patterns applied in order to provide ad-hoc joining of nodes to the computation cluster can be found in Section \ref{chap:perf-scalability}: ''Scaling out the Actor system based Cluster''.
 
 % ------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Analyser}
@@ -131,7 +131,7 @@ The 2nd step on Figure \ref{fig:analyser-high-level} is important because Oculus
 
 For most applications though the 3rd step in a typical Oculus Job would be to read and present top N results to the issuer of the job, which for a question like ''Which movie is similar to this one?'' would be the top N most similar movies (their names, identifiers as well as match percentage).
 
-The following sections (\ref{sec:deployment-strategy}, \label{sec:scalding-jobs}) will introduce the cluster deployment as well as how Jobs are implemented on top of it, in order to parallelize the job's execution as much as possible.
+The following sections (\ref{sec:deployment-strategy}, \label{sec:scalding-jobs}) will introduce the cluster deployment as well as how Jobs are implemented on top of it, in order to parallelise the job's execution as much as possible.
 
 
 
@@ -147,7 +147,7 @@ While this section only only introduces the various components of the cluster an
 
 The Hadoop deployment described in this subsection will focus on two elements of the Hadoop ecosystem - the Hadoop Distributed File system (HDFS) and the Hadoop Map Reduce Runtime.
 
-The minimal hadoop deployment consistst of \textit{5 individual processes}, each with an assigned and very specific role in the clusters functioning. These processes can be classified as running along side the NameNode or DataNodes. This distincion should be clear after listing the names and features of these processes.
+The minimal hadoop deployment consists of \textit{5 individual processes}, each with an assigned and very specific role in the clusters functioning. These processes can be classified as running along side the NameNode or DataNodes. This distinction should be clear after listing the names and features of these processes.
 
 There are 3 processes associated with the ''master node'', namely: the NameNode, the SecondaryNameNode and the JobTracker which is responsible for coordination of HDFS operations and Map Reduce Job scheduling:
 
@@ -166,11 +166,11 @@ There are 3 processes associated with the ''master node'', namely: the NameNode,
                                             SecondaryNameNode though allows the NameNode to fail and re-join a running 
                                             cluster -- without the SecondaryNameNode that failed NameNode would have lost 
                                             all of it's file system state and a full HDFS restart (including all 
-                                            datanodes) whould be required.
+                                            datanodes) would be required.
   \item \textbf{JobTracker} (MapReduce) -- responsible for scheduling Map Reduce Jobs running in the cluster. It
                                            behaves like a queue, taking in Job requests and processes them in order (or    
-                                           based on customasible strategies). It is also in contact with all TaskTrackers 
-                                           (described below), which actualy perform the work related to a MR Job, while 
+                                           based on customisable strategies). It is also in contact with all TaskTrackers 
+                                           (described below), which actually perform the work related to a MR Job, while 
                                            the JobTracker only gets and aggregates the job's progress. In case of failed 
                                            Jobs or Tasks it can also restart or redistribute the job to other DataNodes.
 \end{itemize}
@@ -178,12 +178,12 @@ There are 3 processes associated with the ''master node'', namely: the NameNode,
 Secondly, the cluster contains 2 types of processes associated with \textit{slave} nodes. They are mostly responsible for ''the actual work'', whereas the processes running on the \textit{master} node can be seen as ''coordinators''. Each salve node in the cluster is running these processes:
 
 \begin{itemize}
-  \item \textbf{DataNode} (HDFS) -- responsible for the actual storage of data on HDFS. Data nodes themselfs are not able 
+  \item \textbf{DataNode} (HDFS) -- responsible for the actual storage of data on HDFS. Data nodes themselves are not able 
                                     to correlate a path to a given file data block -- only the NameNode is able to 
                                     perform this lookup, which also means that in the case of the NameNode failing,
                                     the data stored on the DataNodes is temporarily unavailable. The DataNodes can talk 
                                     to each other in order to migrate and replicate the data blocks directly with each
-                                    other, though this action has to be initialized by the NameNode.
+                                    other, though this action has to be initialised by the NameNode.
   
   \item \textbf{TaskTracker} (MapReduce) -- responsible for scheduling and executing Jobs on a given DataNode. Tasks are
                                             chunks of work, issued by the JobTracker to TaskTrackers, which then handle
@@ -201,12 +201,12 @@ Secondly, the cluster contains 2 types of processes associated with \textit{slav
   \label{fig:small-cluster-deployment}
 \end{figure}
 
-These 5 types of processes must be running in the cluster for Map Reduce jobs to be executable by the cluster. All nodes must be able to communicate with each other. Firstly, because the master node must be able to submit tasks to it's slave nodes (DataNodes) and secondly, because DataNodes must be able to communicate between themselfs in order to replicate data among the cluster. Starting the cluster however does not require the administrator to start these processes on each of the machines separately -- as the master node is able to issue start/stop commands via \verb|ssh| to it's slave nodes. This also means that the slave nodes do not need to know about all their ''neighbors'', because the master node will inform the newly joined nodes about the cluster's current state and IP addresses of the remaining DataNodes.
+These 5 types of processes must be running in the cluster for Map Reduce jobs to be executable by the cluster. All nodes must be able to communicate with each other. Firstly, because the master node must be able to submit tasks to it's slave nodes (DataNodes) and secondly, because DataNodes must be able to communicate between themselves in order to replicate data among the cluster. Starting the cluster however does not require the administrator to start these processes on each of the machines separately -- as the master node is able to issue start/stop commands via \verb|ssh| to it's slave nodes. This also means that the slave nodes do not need to know about all their ''neighbours'', because the master node will inform the newly joined nodes about the cluster's current state and IP addresses of the remaining DataNodes.
 
 
 \subsubsection{HBase deployment}
 \label{sec:hbase-deployment}
-Discussing the Hadoop cluster's deployment actually automatically covers part of the deployment information needed for the HBase cluster. The reason for this being, that the HBase cluster's equivalent od ''data node'', known as RegionServers must reside on the same physical nodes as HDFS's DataNodes.
+Discussing the Hadoop cluster's deployment actually automatically covers part of the deployment information needed for the HBase cluster. The reason for this being, that the HBase cluster's equivalent of ''data node'', known as RegionServers must reside on the same physical nodes as HDFS's DataNodes.
 
 HBase also has a clear separation between processes that are \textit{master} processes and \textit{slave} processes.
 The master and coordination processes are:
@@ -221,7 +221,7 @@ The master and coordination processes are:
                                           centralised multi-node quorum-based metadata storage service. ZooKeeper is used 
                                           for cluster management within HBase, and the HQuorumPeer serves as ''managed by
                                           HBase ZooKeeper cluster''. Thanks to HB running the ZK cluster by itself, for 
-                                          small clusters (less than hundereds of nodes), it eases the administrative 
+                                          small clusters (less than hundreds of nodes), it eases the administrative 
                                           overhead of managing another cluster manually. ZK is used to register and 
                                           auto-discover RegionServers, once they notify ZooKeeper of their existence.
 \end{itemize}
@@ -237,13 +237,13 @@ Continuing the discussion about process types running in the HBase cluster, the 
                                         The name ''Region'' mentioned in it's name refers to the fact that the 
                                         \textit{row-key} space of a Table is split among multiple servers, so that when
                                         performing a full-scan filtering operation, multiple servers can perform the
-                                        scanning \textit{in parallel} -- each fot it's own section of the
+                                        scanning \textit{in parallel} -- each for it's own section of the
                                         \textit{row-key} space. It must be running along side with a DataNode on the
                                         same physical server.
                                         
 \end{itemize}
 
-While the slave type of process is much simpler for HBase than for HDFS, it does have one additional requirement: an HRegionServer must be running on the same physical node as a HDFS DataNode. The reason behind this is that RegionServers store their assigned region's data on HDFS and by running it on the same node as a DataNode, all writes can be made locally -- without transfering the data over the network. Of course, if HDFS is configured to replicate it's data to multiple nodes -- it will, but this does not concern the HRegionServer.
+While the slave type of process is much simpler for HBase than for HDFS, it does have one additional requirement: an HRegionServer must be running on the same physical node as a HDFS DataNode. The reason behind this is that RegionServers store their assigned region's data on HDFS and by running it on the same node as a DataNode, all writes can be made locally -- without transferring the data over the network. Of course, if HDFS is configured to replicate it's data to multiple nodes -- it will, but this does not concern the HRegionServer.
 
 
 \begin{figure}[ch!]
@@ -253,7 +253,7 @@ While the slave type of process is much simpler for HBase than for HDFS, it does
   \label{fig:small-cluster-deployment}
 \end{figure}
 
-Having the HRegionServers deployed on the same nodes as DataNodes has another effect: all optimisations performed to HDFS and the DataNodes, will directly influence HBase's behavior. One should also keep in mind that some features may seem to be duplicated among HDFS and HBase -- such as replication, which can be set up directly on HBase or HDFS. Configuring some of these settings in HBase rather than HDFS has the benefit of HBase being more aware of the structure of the data it is storing, whereas the same data carries nearly no meta information HDFS can use to redistribute it more efficiently. 
+Having the HRegionServers deployed on the same nodes as DataNodes has another effect: all optimisations performed to HDFS and the DataNodes, will directly influence HBase's behaviour. One should also keep in mind that some features may seem to be duplicated among HDFS and HBase -- such as replication, which can be set up directly on HBase or HDFS. Configuring some of these settings in HBase rather than HDFS has the benefit of HBase being more aware of the structure of the data it is storing, whereas the same data carries nearly no meta information HDFS can use to redistribute it more efficiently. 
 Namely, HBase can redistribute data related to Regions of HTables more efficiently, so that full scans on these tables can be parallelised more evenly and predictably.
 
 All diagrams in this Section have included an ''$\cdots$'' marker, hinting at the possibility to add more nodes to the cluster. When scaling Hadoop clusters the only type of node that has to be added is the ''slave'' kind of node, which have been positioned right-most on each diagram. In fact, chapter Chapter \ref{chap:perf-scalability} will focus directly on scaling out these clusters, with one of the tests scaling it out to 10 nodes.
@@ -267,7 +267,7 @@ The language and for implementing these processing pipelines used in this thesis
 
 This section aims to demonstrate what gains using Scalding on top of Hadoop yields, by showing the smallest possible example of an Map Reduce Job, implemented using both plain Hadoop APIs and Scalding. One should remember that Scalding is not a different framework to  Hadoop, and in the end it will produce the exact same computations and classes (one instance of a \verb|Mapper| and one instance of a \verb|Reducer|).
 
-The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\textit{Given a huge input text file, count the occurances of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))|.
+The example shown on the below listings is a Hadoop equivalent of what programming languages aim to demonstrate using ''Hello World!'' applications -- it is a minimal piece of code showing the working of the given technology. The task to solve is defined as: ''\textit{Given a huge input text file, count the occurrences of each discrete word, and return a summary of these}''. As the aim of Hadoop is to leverage parallel computing, the classic method of implementing this task is to emit tuples of \verb|(word, 1)| for each word, then relying on Hadoops internal mechanisms to group tuples together by the first value (the \verb|word|), and reducing these into a tuple of \verb|(word, sum(1,1,1,...))|.
 
 The difference in complexity should be obvious by comparing the Listing \ref{lst:hadoop-mr} which represents the Map and Reduce classes which are used to represent the respectful Map and Reduce functions in the Java API, with Listing \ref{lst:scalding-wc} which is the complete code for a job performing the exact same in Scalding's Scala Domain Specific Language. 
 
@@ -314,7 +314,7 @@ public class Reduce
     .write(Tsv("output.tsv"))
 \end{lstlisting}
 
-As seen on the previous listings, Scalding provides much more concise code, and thanks to this enables developers to focus on the algorithm, and not the boilerplace accompanying these kinds of applications.
+As seen on the previous listings, Scalding provides much more concise code, and thanks to this enables developers to focus on the algorithm, and not the boilerplate accompanying these kinds of applications.
 
 \subsubsection{Defining advanced Job Pipelines using Scalding}
 \label{sec:defining-pipelines-basics}
@@ -341,12 +341,12 @@ Listing \ref{lst:next-job} shows how one can use Scalding to combine two Jobs us
   \centering
   \includegraphics[width=0.25\textwidth]{img/simplest-pipeline}
   \caption{Simplest Job Pipeline, with SecondJob depending on the output of FirstJob (each circle being one Map Reduce Job).}
-  \label{fig:simplect-pipeline}
+  \label{fig:simplest-pipeline}
 \end{figure}
 
-Such pipeline can be visualised as seen on Figure \ref{fig:simplect-pipeline}, which is an output generated by using the graphviz tool, applied to a file describing the graph as described in the DOT format. The DOT file corresponding to the graph depicted on Figure \ref{fig:simplest-pipeline} is shown in Listing \ref{lst:simplest-pipeline-dot}. DOT descriptions of pipelines are in common use among profesionals designing such systems, and can also be generated automatically by Scalding -- which is tremendously useful when working with very long pipelines.
+Such pipeline can be visualised as seen on Figure \ref{fig:simplest-pipeline}, which is an output generated by using the graphviz tool, applied to a file describing the graph as described in the DOT format. The DOT file corresponding to the graph depicted on Figure \ref{fig:simplest-pipeline} is shown in Listing \ref{lst:simplest-pipeline-dot}. DOT descriptions of pipelines are in common use among professionals designing such systems, and can also be generated automatically by Scalding -- which is tremendously useful when working with very long pipelines.
 
-\begin{lstlisting}[caption={Textual description of graph on Figure \ref{fig:simplect-pipeline}, using the DOT graph description language.}, label={lst:simplest-pipeline-dot}]
+\begin{lstlisting}[caption={Textual description of graph on Figure \ref{fig:simplest-pipeline}, using the DOT graph description language.}, label={lst:simplest-pipeline-dot}]
 digraph G {
   1 [label = "FirstJob"];
   2 [label = "SecondJob"];
@@ -380,7 +380,7 @@ class CompareByDominantColor(args: Args) extends Job(args) {
 }
 \end{lstlisting}
 
-Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs. It reads from 2 separate data sources, one for the reference data, and one for the currently analysed video. The data for the analysed movie is taken directly from the analysed SequenceFile, containing the frame data. The data of the reference database is read from the \verb|HistogramsTable| which is stored in HBase. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's executionw will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modelled by this definition.
+Listing \ref{lst:read-and-join-scalding} showcases a simple join operation, which is the core of the algorithms implemented in this thesis. This pipeline definition compiles down into 3 Map Reduce Jobs. It reads from 2 separate data sources, one for the reference data, and one for the currently analysed video. The data for the analysed movie is taken directly from the analysed SequenceFile, containing the frame data. The data of the reference database is read from the \verb|HistogramsTable| which is stored in HBase. The \verb|HistogramsTable| refers to an \textit{HBase Table}, and during the Job's execution will trigger (in this case) a full-scan over the entire ''histograms'' table stored in HBase - in practice it was feasible to sample down the sample count obtained from HBase, by applying the \verb|.sample(75.0)| operation to the larger data set. Figure \ref{fig:3-pipeline} shows the dependencies as modelled by this definition.
 
 \begin{figure}[ch!]
   \centering
@@ -401,7 +401,7 @@ Thanks to the second property of these Job Pipelines (parallel execution of inde
 \section{Analyser design summary}
 Summing up the Loader's design, it should be clear that most of the architecture required for it's operation is in fact a classical Hadoop cluster. The application itself does not need any additional operational servers, as the only thing the Analyser does is to issue compile Scalding Job descriptions and then send these to the cluster's JobTracker, which takes care of their scheduling and execution. 
 
-The Analyser should be seen as an end-user application. It is run locally on a developers work-station in order to prepare and issue various jobs. This has obvious gains in terms of not requireing the developer's machine to store these humongous amounts of data, and only issue percise queries and jobs.
+The Analyser should be seen as an end-user application. It is run locally on a developers work-station in order to prepare and issue various jobs. This has obvious gains in terms of not requiring the developer's machine to store these humongous amounts of data, and only issue precise queries and jobs.
 
 
 

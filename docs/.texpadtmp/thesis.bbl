@@ -55,6 +55,11 @@ Apache Foundation.
 \newblock \url{https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index},
   2013.
 
+\bibitem[Gon14]{youtube-dl}
+Ricardo~Garcia Gonzalez.
+\newblock youtube-dl.
+\newblock \url{http://rg3.github.io/youtube-dl/}, 2006 -- 2014.
+
 \bibitem[Goo13]{tesseract}
 Google.
 \newblock Google's tesseract-ocr text recognition library, 1985 - 2013.

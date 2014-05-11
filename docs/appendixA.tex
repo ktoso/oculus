@@ -2,16 +2,16 @@
 \label{app:chef}
 This chapter describes the automated tooling which has been used during the implementation of the reference system mentioned in this thesis in order to drastically increase turnaround time during development as well as cluster scaling.
 
-Due to the complexities of maintaining possibly hundreds of virtual machines with similar (or even identical) configurations the time it would take to provision, configure and deplot applications on each new server in the cluster would render this process very slow and fiesable. Instead, tools and platforms have been applied to simplify and speed-up the turnaround time when adding new servers to the cluster. 
+Due to the complexities of maintaining possibly hundreds of virtual machines with similar (or even identical) configurations the time it would take to provision, configure and deployed applications on each new server in the cluster would render this process very slow and feasible. Instead, tools and platforms have been applied to simplify and speed-up the turnaround time when adding new servers to the cluster. 
 
-In Section \ref{sec:automated-server-provisioning} the used cloud intrafstucture is introduced, along with a few examples of automating server provisioning using simple yet powerful command-line tools. 
+In Section \ref{sec:automated-server-provisioning} the used cloud infrastructure is introduced, along with a few examples of automating server provisioning using simple yet powerful command-line tools. 
 
 In Section \ref{sec:automated-conf-provisioning} Opscode Chef -- the tool used to configure, as well as install dependencies and deploy applications is introduced.
 
 \section{Automated server provisioning -- Google Compute Engine}
 \label{sec:automated-server-provisioning}
 
-In order to provision virtual machines for running the applicationc cluster Google's Compute Engine ''Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used. 
+In order to provision virtual machines for running the applications cluster Google's Compute Engine ''Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used. 
 
 
 \begin{lstlisting}[caption={Creating new instance on GCE}, label={lst:new-gce-instance-bash}]
@@ -44,7 +44,7 @@ Creating a new instance on GCE (\textit{Google Compute Engine}) can be done via 
 +---------------+---------------+---------+------------+------------+
 \end{verbatim}
 
-It it also possibe to invoke typical compute engine tasks using it's Chef (which is described in detail in Section \ref{sec:automated-conf-provisioning}) plugins, so that an it's even easier to use and investigate the running cluster:
+It it also possible to invoke typical compute engine tasks using it's Chef (which is described in detail in Section \ref{sec:automated-conf-provisioning}) plugins, so that an it's even easier to use and investigate the running cluster:
 
 \begin{verbatim}
 # knife google server list --gce-zone us-central1-a

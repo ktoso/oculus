@@ -5,9 +5,9 @@ This section will introduce the problem areas covered by this thesis, briefly de
 
 
 \section{Goals of this thesis}
-The \textit{primary goal} of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting. The results of this thesis include best practices and recommendations towards dealing with big-data applications, which have been aquired and tested while implementing a real system leveraging these lessons. 
+The \textit{primary goal} of this work is to research how to efficiently work with humongous amounts of multimedia data in a distributed setting. The results of this thesis include best practices and recommendations towards dealing with big-data applications, which have been acquired and tested while implementing a real system leveraging these lessons. 
 
-As will be described in more detail in Section \ref{sec:ref-system}, a large part of the work that was performed during this thesis has been implementing a reference system on which stress and scalability tests would then be performed, as in order to research scalability problems a sufficiently sophisticated reference system was needed to benchmark scaling methods on. The system itself deals with simple image processing algorithms and near-duplcicate detection of movies, or scenes within movies.
+As will be described in more detail in Section \ref{sec:ref-system}, a large part of the work that was performed during this thesis has been implementing a reference system on which stress and scalability tests would then be performed, as in order to research scalability problems a sufficiently sophisticated reference system was needed to benchmark scaling methods on. The system itself deals with simple image processing algorithms and near-duplicate detection of movies, or scenes within movies.
 
 For this thesis's brevity, the focus will be on video material, of which the amounts of freely and legally  available materials are significant -- especially thanks to many materials licensed under the Creative Commons family of licenses \cite{creative-commons}.
 
@@ -15,7 +15,7 @@ For this thesis's brevity, the focus will be on video material, of which the amo
 \section{General problem area}
 Image analysis over huge amounts of data is commonplace in today's world, where everything is recorded, published, possibly modified and distributed again, all using digital media and digital storage formats. Starting from simple movies of cats uploaded to public video hosting services all the way through to sophisticated urban area monitoring services -- everything can be, and is, recorded -- yielding previously unbelievable amounts of digital multimedia data.
 
-All this leads to the challenging task of efficiently handling this data. Tasks such as de-duplicating, searching, categorizing or extracting features (e.g. text) are now even more challanging and exciting than ever before. Together with the staggering amounts of data these systems have to deal with, this new range of applications poses a significant challange and interesting opportunity to develop new kinds of paradigms as well as algorithms, geared specifinally towards dealing with big data and distributed computations.
+All this leads to the challenging task of efficiently handling this data. Tasks such as de-duplicating, searching, categorising or extracting features (e.g. text) are now even more challenging and exciting than ever before. Together with the staggering amounts of data these systems have to deal with, this new range of applications poses a significant challenge and interesting opportunity to develop new kinds of paradigms as well as algorithms, geared specifically towards dealing with big data and distributed computations.
 
 
 \section{Reference system -- investigated use cases}
@@ -23,9 +23,9 @@ All this leads to the challenging task of efficiently handling this data. Tasks 
 
 In order to guarantee that recommendations and measurements made during this research are applicable in the ''real world'', outside of experimental environments, a set of problems has been defined and a ''reference system'' has been implemented in order to solve these.
 
-The system, from here on sometimes referred to as \textit{''Oculus -- the video material analysis platform''}, will be tasked with processing enormous amounts of video data. The videos to be fed into the system will be scraped from publicly available video hosting websites, such as YouTube. It should be also made clear that videos imported into the system are all public domain or creative commons licensed material, so that even accidental copyright infrigement can be avoided.
+The system, from here on sometimes referred to as \textit{''Oculus -- the video material analysis platform''}, will be tasked with processing enormous amounts of video data. The videos to be fed into the system will be scraped from publicly available video hosting websites, such as YouTube. It should be also made clear that videos imported into the system are all public domain or creative commons licensed material, so that even accidental copyright infringement can be avoided.
 
-The primary goal for this application is to expose and highlight challanges faced by application developers during the design, implementation and deployment phases of such applications. Using it as a point of reference, as well as test system, the problems given to the system (described in Sections \ref{sec:goal-near-dup} and \ref{sec:goal-sub-movie}) will be solved. Issues encountered during the implementation of that reference system will provide crucial hands--on expirience required in order to provide recommendations and best practices about building such systems -- these will be captured in Chapter \ref{chap:perf-scalability}.
+The primary goal for this application is to expose and highlight challenges faced by application developers during the design, implementation and deployment phases of such applications. Using it as a point of reference, as well as test system, the problems given to the system (described in Sections \ref{sec:goal-near-dup} and \ref{sec:goal-sub-movie}) will be solved. Issues encountered during the implementation of that reference system will provide crucial hands--on experience required in order to provide recommendations and best practices about building such systems -- these will be captured in Chapter \ref{chap:perf-scalability}.
 
 The next sections will expand on the tasks the reference system needs to solve.
 
@@ -45,7 +45,7 @@ The problem of scene positioning can be explained as trying to locate ''when'' d
 
 One might imagine a scenario in which a friend shows us a funny video from some series, available on-line. The snippet is only 30 seconds long -- long enough to get the joke, but not long enough to figure out just based on this video from which episode, season or even from which show (if the scene was not properly titled) this scene comes from. A user might be intrigued by this scene and willing to pay a the content owner for viewing the entire series. 
 
-Instead of putting ourselfes in the position of taking down such copyrighted material, a system could detect from which exact show, season and episode the scene originates from and offer the user an option to, for example: ''See the whole episode at HubbleTube!''. The fictionary service HubbleTube could be a paid service, yet thanks to the convinience of directly linking to the exact content the user wants to see -- the user is more willing to continue and pay to see the show. This way the content owner also profitsm, without having to take down any of his copyrighted content -- instead it was used as crowd-sourced advertisement vector.
+Instead of putting ourselves in the position of taking down such copyrighted material, a system could detect from which exact show, season and episode the scene originates from and offer the user an option to, for example: ''See the whole episode at HubbleTube!''. The fictionary service HubbleTube could be a paid service, yet thanks to the convenience of directly linking to the exact content the user wants to see -- the user is more willing to continue and pay to see the show. This way the content owner also profits, without having to take down any of his copyrighted content -- instead it was used as crowd-sourced advertisement vector.
 
 In order to enable use-cases like this, scene detection and positioning must be implemented within the reference system. A detailed analysis of this problem and results achieved by \textit{Oculus} will be shown in Section \ref{sec:scene-detection}.
 
@@ -58,11 +58,11 @@ Chapter \ref{cha:existing-and-selected-tech} focuses on describing the available
 
 Chapter \ref{chap:system-design} describes the overall design choices as well as flows of data throughout the system. It covers two applications which together form the ''reference system'' named Oculus, on which experiments as well as tuning will be performed in the following chapters.
 
-Chapter \ref{chap:analysis-examples} provides examples and results of using the system in scenarios which have been given to it as part of it's goals (in Chapter \ref{cha:intro}). A brief discussion on applied and possible optimizations closes this chapter.
+Chapter \ref{chap:analysis-examples} provides examples and results of using the system in scenarios which have been given to it as part of it's goals (in Chapter \ref{cha:intro}). A brief discussion on applied and possible optimisations closes this chapter.
 
 Chapter \ref{chap:perf-scalability} focuses on performance measurements as well as tuning techniques applied and recommended when running large scale Hadoop deployments. Provided measurements serves as significant data point in determining whether or not the selected technologies are in fact scalable or not.
 
-Chapter \ref{chap:conclusions} summarises recommendations collected during implementing and tuning the system as if it was an in-production running system. The section retrospects about the system's scalability and appliance feasibility in real-world systems. Lastly it reiterates the thesis's goals and judges whether it was possible to fulfill them.
+Chapter \ref{chap:conclusions} summarises recommendations collected during implementing and tuning the system as if it was an in-production running system. The section retrospects about the system's scalability and appliance feasibility in real-world systems. Lastly it reiterates the thesis's goals and judges whether it was possible to fulfil them.
 
 
 

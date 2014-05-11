@@ -15,12 +15,12 @@ I was expecting a `,' or a `}'---line 38 of file ../bibliography.bib
  :   author = {Twitter Inc.},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 125 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 132 of file ../bibliography.bib
  :   
  :   license = {GNU LGPL 2.0}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 148 of file ../bibliography.bib
+I was expecting a `,' or a `}'---line 155 of file ../bibliography.bib
  :   
  :   author = { Blender Foundation },
 (Error may have been on previous line)
@@ -44,45 +44,45 @@ Warning--to sort, need author or key in secondary-index-htable
 Warning--empty institution in map-reduce
 Warning--empty journal in boyer-string-search
 Warning--empty publisher in hadoop-ops
-You've used 29 entries,
+You've used 30 entries,
             2543 wiz_defined-function locations,
-            687 strings with 7188 characters,
-and the built_in function-call counts, 7263 in all, are:
-= -- 701
-> -- 180
-< -- 19
-+ -- 46
-- -- 44
-* -- 327
-:= -- 1068
-add.period$ -- 76
-call.type$ -- 29
-change.case$ -- 137
-chr.to.int$ -- 29
-cite$ -- 50
-duplicate$ -- 318
-empty$ -- 732
-format.name$ -- 78
-if$ -- 1577
+            691 strings with 7271 characters,
+and the built_in function-call counts, 7530 in all, are:
+= -- 727
+> -- 188
+< -- 20
++ -- 48
+- -- 46
+* -- 338
+:= -- 1110
+add.period$ -- 79
+call.type$ -- 30
+change.case$ -- 142
+chr.to.int$ -- 30
+cite$ -- 51
+duplicate$ -- 329
+empty$ -- 757
+format.name$ -- 82
+if$ -- 1634
 int.to.chr$ -- 1
 int.to.str$ -- 0
 missing$ -- 3
-newline$ -- 137
-num.names$ -- 60
-pop$ -- 268
+newline$ -- 142
+num.names$ -- 63
+pop$ -- 277
 preamble$ -- 1
-purify$ -- 166
+purify$ -- 172
 quote$ -- 0
-skip$ -- 311
+skip$ -- 322
 stack$ -- 0
-substring$ -- 214
-swap$ -- 27
-text.length$ -- 19
-text.prefix$ -- 14
+substring$ -- 221
+swap$ -- 28
+text.length$ -- 20
+text.prefix$ -- 15
 top$ -- 0
-type$ -- 228
+type$ -- 236
 warning$ -- 12
-while$ -- 41
-width$ -- 33
-write$ -- 317
+while$ -- 43
+width$ -- 34
+write$ -- 329
 (There were 3 error messages)
