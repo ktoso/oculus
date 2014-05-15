@@ -202,7 +202,7 @@ The last, and perhaps most interesting measured change to the cluster involved i
   \centering
   \includegraphics[width=0.80\textwidth]{img/hadoop/nodes-perf.pdf}
   \label{fig:nodes-pers-graph}
-  \caption{Fragment of Web-UI interface displaying the progress of map tasks in the cluster consisting of 10 physical nodes, with one map slot each.}
+  \caption{Total pipeline execution time in differently sized clusters.}
 \end{figure}
 
 In order to summarise this section, one last observation should be made about Table \ref{tab:more-nodes-results}, namely: in respect of adding more nodes to the Hadoop cluster, it seems that it scales nearly linear, as can be seen by comparing the number of nodes compared to the absolute speed-up, for example -- when running a cluster with \verb|10| nodes, the absolute speedup in relation to running on one node was \verb|9.87 times|, which is very near to a full 10. Thanks to this experiment one can conclude that (at least to such numbers of nodes) Hadoop is in fact \textit{nearly linearly scalable}, which is considered quite an achievement and would serve the growing-over-time needs of a data processing platform very well.
