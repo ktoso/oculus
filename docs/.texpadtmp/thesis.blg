@@ -25,11 +25,6 @@ I was expecting a `,' or a `}'---line 208 of file ../bibliography.bib
  :   howpublished = { \url{http://en.wikipedia.org/wiki/Marr%E2%80%93Hildreth_algorithm}}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 241 of file ../bibliography.bib
- :   
- :   howpublished = {\url{https://creativecommons.org}}
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "akka-cluster"
 Name 1 in "Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung, Google" has a comma at the end for entry gfs
 while executing---line 1185 of file alpha.bst
@@ -92,16 +87,16 @@ Name 1 in "Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung, Google" has a co
 while executing---line 1250 of file alpha.bst
 You've used 37 entries,
             2543 wiz_defined-function locations,
-            718 strings with 8377 characters,
-and the built_in function-call counts, 9906 in all, are:
-= -- 952
+            719 strings with 8410 characters,
+and the built_in function-call counts, 9917 in all, are:
+= -- 955
 > -- 315
 < -- 32
 + -- 91
 - -- 82
 * -- 433
-:= -- 1565
-add.period$ -- 106
+:= -- 1568
+add.period$ -- 107
 call.type$ -- 37
 change.case$ -- 186
 chr.to.int$ -- 32
@@ -109,17 +104,17 @@ cite$ -- 44
 duplicate$ -- 411
 empty$ -- 918
 format.name$ -- 141
-if$ -- 2100
+if$ -- 2103
 int.to.chr$ -- 6
 int.to.str$ -- 0
 missing$ -- 3
-newline$ -- 183
+newline$ -- 184
 num.names$ -- 105
-pop$ -- 334
+pop$ -- 333
 preamble$ -- 1
 purify$ -- 223
 quote$ -- 0
-skip$ -- 407
+skip$ -- 406
 stack$ -- 0
 substring$ -- 265
 swap$ -- 35
@@ -130,5 +125,5 @@ type$ -- 292
 warning$ -- 5
 while$ -- 73
 width$ -- 42
-write$ -- 431
-(There were 31 error messages)
+write$ -- 433
+(There were 30 error messages)

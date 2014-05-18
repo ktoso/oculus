@@ -75,7 +75,7 @@
 {\LARGE\@thesistypePL}\\\vspace*{1.5cm}
 
 {\huge{\emph{Przetwarzanie i analiza danych multimedialnych\\ w \'{s}rodowisku rozproszonym}}}\\\vspace*{1cm}
-{\huge{\emph{Processing and analisys of multimedia \\in distributed systems}}}\\\vspace*{2.5cm}
+{\huge{\emph{Processing and analysis of multimedia \\in distributed systems}}}\\\vspace*{2.5cm}
 
 \begin{flushleft}
 \begin{minipage}[!h]{12cm} 
