@@ -8,11 +8,11 @@ In Section \ref{sec:automated-server-provisioning} the used cloud infrastructure
 
 In Section \ref{sec:automated-conf-provisioning} Opscode Chef -- the tool used to configure, as well as install dependencies and deploy applications is introduced.
 
+\newpage
 \section{Automated server provisioning -- Google Compute Engine}
 \label{sec:automated-server-provisioning}
 
-In order to provision virtual machines for running the applications cluster Google's Compute Engine ''Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used. 
-
+In order to provision virtual machines for running the applications cluster Google's Compute Engine ``Infrastructure as a Service'' (also known under the acronym \textit{IAAS}) was used.
 
 \begin{lstlisting}[caption={Creating new instance on GCE}, label={lst:new-gce-instance-bash}]
 gcutil --service_version="v1" --project="oculus-hadoop" 
@@ -56,14 +56,16 @@ oculus-master  n1-standard-1  23.x.x.x   m-0,large-3  us-central1-a
 \end{verbatim}
 
 
-\label{sec:automated-conf-provisioning}
+
+\newpage
 \section{Automated configuration and deployment -- Opscode Chef}
+\label{sec:automated-conf-provisioning}
 
-Chef is a tool which enables to easily manage configuration and deployment of services and apps across cloud infrastructure. It consists of a set of tools using which one can describe a servers configurational requirements, such as what services it should have installed. It provides multiple ways to execute the provisioning step yet for the sake of this thesis the simplest ''solo'' mode was used. 
+Chef is a tool which enables to easily manage configuration and deployment of services and apps across cloud infrastructure. It consists of a set of tools using which one can describe a servers configurational requirements, such as what services it should have installed. It provides multiple ways to execute the provisioning step yet for the sake of this thesis the simplest ``solo'' mode was used.
 
-When using Chef in solo mode, one prepares a specific ''$run\_list$'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ''$run\_list$'' to a given server. An example node file is shown on Listing \ref{lst:node}.
+When using Chef in solo mode, one prepares a specific ``$run\_list$'' that consists of names of cookbooks (which are simply a series of ''steps to execute'' in order to provision something) that should be applied to a given server, and then applying this ``$run\_list$'' to a given server. An example node file is shown on Listing \ref{lst:node}.
 
-\begin{lstlisting}[caption={Example data-node.json file}]
+\begin{lstlisting}[caption={Example data-node.json file},label={lst:node}]
 {
   "run_list": [
     "role[base]",
@@ -74,7 +76,7 @@ When using Chef in solo mode, one prepares a specific ''$run\_list$'' that consi
 
 A node description in turn relies on certain roles and recipes. Roles are defined as a list of recipes and properties that can be required together. The datanode role is fairly simple as seen on Listing \ref{lst:datanode-list}
 
-\begin{lstlisting}[caption={Example roles/datanode.rb file}]
+\begin{lstlisting}[caption={Example roles/datanode.rb file}, label={lst:datanode-list}]
 run_list "recipe[hadoop::datanode]"
 \end{lstlisting}
 
@@ -93,7 +95,7 @@ Uploading the kitchen...
 
 \end{lstlisting}
 
-The use of Chef has been an tremendous help throughout the work on this thesis, and allowed to easily test various public cloud providers, without having to re-install all the infrastructure that Oculus required again.
+The use of Chef has been an tremendous help throughout the work on this thesis, and allowed to easily test various public cloud providers, without having to re-install all the infrastructure over and over again.
 
 
 

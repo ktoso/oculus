@@ -1,38 +1,36 @@
 \begin{thebibliography}{SGSTL03}
 
-\bibitem[akk]{akka-cluster}
-Akka -- cluster, documentation.
+\bibitem[Arm]{erlang}
+Joe Armstrong.
+\newblock Erlang, programming language.
+\newblock \url{http://www.erlang.org/}.
+\newblock Accessed: 15.05.2014.
 
-\bibitem[ble]{blender-foundation}
-Blender foundation website.
-
-\bibitem[Bru05]{graph-tooling}
+\bibitem[Bru14]{graph-tooling}
 Derek Bruening.
 \newblock bargraph.
-\newblock \url{http://bargraphgen.googlecode.com/svn/trunk/bargraph.pl}, 2005.
+\newblock \url{http://bargraphgen.googlecode.com/svn/trunk/bargraph.pl},
+  Accessed: 18.05.2014.
 
 \bibitem[CH73]{actor-model}
 Richard~Steiger Carl~Hewitt, Peter~Bishop.
 \newblock A universal modular actor formalism for artificial intelligence,
   1973.
 
-\bibitem[Che13]{chef}
+\bibitem[Che14]{chef}
 Opscode Chef.
 \newblock Opscode chef.
-\newblock \url{http://www.getchef.com/}, 2013.
+\newblock \url{http://www.getchef.com/}, Accessed: 18.05.2014.
 
-\bibitem[col]{columnar-database}
-Column-oriented database.
-\newblock \url{http://en.wikipedia.org/wiki/Column-oriented_DBMS}.
+\bibitem[CI14]{concurrent-inc}
+Team Concurrent~Inc.
+\newblock Concurrent inc. website.
+\newblock \url{http://www.concurrentinc.com/}, 2011 -- 2014, accessed
+  02.052014.
 
-\bibitem[Com01]{creative-commons}
+\bibitem[Com14]{creative-commons}
 Creative Commons.
-\newblock Creative commons license.
-\newblock \url{https://creativecommons.org}, 2001.
-
-\bibitem[con13]{concurrent-inc}
-Concurrent inc. website.
-\newblock \url{http://www.concurrentinc.com/}, 2013.
+\newblock Creative commons license, 2001 -- 2014, accessed: 18.05.2014.
 
 \bibitem[DEK77]{kmp-string-search}
 Vaughan R.~Pratt Donald E.~Knuth, James H.~Morris.
@@ -44,49 +42,49 @@ Jeffrey Dean and Sanjay Ghemawat.
 \newblock Mapreduce: Simplified data processing on large clusters.
 \newblock Technical report, 2004.
 
-\bibitem[erl]{erlang}
-Erlang, programming language.
-\newblock \url{http://www.erlang.org/}.
-
 \bibitem[FCG06]{big-table}
 Sanjay Ghemawat Wilson C. Hsieh Deborah A. Wallach Mike Burrows Tushar Chandra
   Andrew~Fikes Fay~Chang, Jeffrey~Dean and Robert~E. Gruber.
 \newblock Bigtable: A distributed storage system for structured data.
 \newblock \url{http://research.google.com/archive/bigtable-osdi06.pdf}, 2006.
 
-\bibitem[ffm]{ffmpeg}
-ffmpeg.
-\newblock \url{http://www.ffmpeg.org/}.
-
-\bibitem[Fou08]{big-buck-bunny}
-Blender Foundation.
-\newblock Big buck bunny, movie.
-\newblock \url{https://www.youtube.com/watch?v=YE7VzlLtp-4}, 2008.
-
-\bibitem[Fou13]{zoo-keeper}
+\bibitem[Fou14a]{zoo-keeper}
 Apache Foundation.
 \newblock Apache zookeeper.
 \newblock \url{https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index},
-  2013.
+  Accessed: 18.05.2014.
+
+\bibitem[Fou14b]{big-buck-bunny}
+Blender Foundation.
+\newblock Big buck bunny, movie.
+\newblock \url{https://www.youtube.com/watch?v=YE7VzlLtp-4}, 2008, accessed:
+  18.05.2014.
+
+\bibitem[Fou14c]{blender-foundation}
+Blender Foundation.
+\newblock Blender foundation website.
+\newblock \url{http://www.blender.org/foundation/}, Accessed: 18.05.2014.
 
 \bibitem[Gon14]{youtube-dl}
 Ricardo~Garcia Gonzalez.
-\newblock youtube-dl.
-\newblock \url{http://rg3.github.io/youtube-dl/}, 2006 -- 2014.
+\newblock youtube-dl, 2006 -- 2014, accessed: 18.05.2014.
 
-\bibitem[Had12]{hadoop-seq-files}
+\bibitem[Had14]{hadoop-seq-files}
 Apache Hadoop.
 \newblock Hadoop sequence files format documentation.
-\newblock \url{http://wiki.apache.org/hadoop/SequenceFile}, 2012.
+\newblock \url{http://wiki.apache.org/hadoop/SequenceFile}, Accessed:
+  18.05.2014.
 
-\bibitem[ham]{hamming-distance}
+\bibitem[ham14]{hamming-distance}
 Hamming distance.
-\newblock \url{http://en.wikipedia.org/wiki/Hamming_distance}.
+\newblock \url{http://en.wikipedia.org/wiki/Hamming_distance}, Accessed:
+  18.05.2014.
 
-\bibitem[JD]{deep-learning-google}
+\bibitem[JD14]{deep-learning-google}
 Google Jeff~Dean.
 \newblock Presentation: Taming latency variability and scaling deep learning.
-\newblock \url{https://www.youtube.com/watch?v=S9twUcX1Zp0}.
+\newblock \url{https://www.youtube.com/watch?v=S9twUcX1Zp0}, 2013, accessed:
+  18.05.2014.
 
 \bibitem[JG95]{java}
 Guy Steele Gilad Bracha Alex~Buckley James~Gosling, Bill~Joy.
@@ -96,12 +94,11 @@ Guy Steele Gilad Bracha Alex~Buckley James~Gosling, Bill~Joy.
 \bibitem[Kho14]{akka-tracing}
 Lev Khomich.
 \newblock Akka-tracing.
-\newblock \url{https://github.com/levkhomich/akka-tracing}, 2014.
+\newblock \url{https://github.com/levkhomich/akka-tracing}, Accessed:
+  18.05.2014.
 
-\bibitem[mar80]{marr-hildreth}
-Marr–hildreth algorithm.
-\newblock \url{http://en.wikipedia.org/wiki/Marr%E2%80%93Hildreth_algorithm},
-  1980.
+\bibitem[mar14]{marr-hildreth}
+Marr–hildreth algorithm, 1980, accessed: 18.05.2014.
 
 \bibitem[MB06]{chubby}
 Google Mike~Burrows.
@@ -128,15 +125,6 @@ Eric Sammer.
 \newblock {\em Hadoop Operations}.
 \newblock 2012.
 
-\bibitem[sca]{scalding}
-Twitter scalding.
-\newblock \url{http://github.com/twitter/scalding}.
-
-\bibitem[sec]{secondary-index-htable}
-Secondary indexes in hbase.
-\newblock \url{http://hbase.apache.org/book/secondary.indexes.html}.
-\newblock Accessed: 4.05.2014.
-
 \bibitem[SGSTL03]{gfs}
 Howard~Gobioff Sanjay~Ghemawat and Google Shun-Tak~Leung.
 \newblock The google file system.
@@ -144,37 +132,65 @@ Howard~Gobioff Sanjay~Ghemawat and Google Shun-Tak~Leung.
   \url{http://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf},
   2003.
 
+\bibitem[Teaa]{secondary-index-htable}
+Apache~HBase Team.
+\newblock Secondary indexes in hbase.
+\newblock \url{http://hbase.apache.org/book/secondary.indexes.html}.
+\newblock Accessed: 4.05.2014.
+
+\bibitem[Teab]{ffmpeg}
+FFMPEG Team.
+\newblock ffmpeg.
+\newblock \url{http://www.ffmpeg.org/}.
+
 \bibitem[Tea14]{kamon}
 Kamon Team.
 \newblock Kamon.
 \newblock \url{http://kamon.io}, 2014.
 \newblock Accessed 12.03.2014.
 
-\bibitem[Twi14]{twitter}
+\bibitem[Twi14a]{twitter}
 Twitter.
 \newblock Twitter.com.
 \newblock \url{http://twitter.com}, 2014.
 
-\bibitem[Typ13a]{akka-remoting}
-Typesafe.
-\newblock Akka -- remoting, documentation.
-\newblock \url{http://doc.akka.io/docs/akka/2.3.2/scala/remoting.html}, 2013.
+\bibitem[Twi14b]{scalding}
+Twitter.
+\newblock Twitter scalding.
+\newblock \url{http://github.com/twitter/scalding}, Accessed: 18.05.2014.
 
-\bibitem[Typ13b]{akka-docs}
+\bibitem[Typ13a]{akka-clustering}
+Typesafe.
+\newblock Akka clustering -- documentation.
+\newblock \url{http://doc.akka.io/docs/akka/2.3.2/scala/cluster-usage.html},
+  Accessed: 18.05.2013.
+
+\bibitem[Typ13b]{akka-remoting}
+Typesafe.
+\newblock Akka remoting -- documentation.
+\newblock \url{http://doc.akka.io/docs/akka/2.3.2/scala/remoting.html},
+  Accessed: 18.05.2013.
+
+\bibitem[Typ14]{akka-docs}
 Typesafe.
 \newblock Akka documentation.
-\newblock \url{http://doc.akka.io/docs/akka/snapshot}, 2013.
+\newblock \url{http://doc.akka.io/docs/akka/2.3.2}, Accessed: 18.05.2014.
 
-\bibitem[Yah07]{yahoo-hadoop}
+\bibitem[Wik14]{columnar-database}
+Wikipedia.
+\newblock Column-oriented database.
+\newblock \url{http://en.wikipedia.org/wiki/Column-oriented_DBMS}, Accessed:
+  18.05.2014.
+
+\bibitem[Yah14]{yahoo-hadoop}
 Yahoo.
 \newblock Hadoop at yahoo.
-\newblock \url{https://developer.yahoo.com/hadoop/}, 2007.
+\newblock \url{https://developer.yahoo.com/hadoop/}, Accessed: 18.05.2014.
 
-\bibitem[You]{youtube}
+\bibitem[You14]{youtube}
 Google YouTube.
 \newblock Youtube.com.
-\newblock http://youtube.com.
-\newblock Accessed 2013.
+\newblock \url{http://youtube.com}, Accessed: 18.05.2014.
 
 \bibitem[Zau10]{phash}
 Christoph Zauner.

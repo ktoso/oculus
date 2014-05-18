@@ -4,25 +4,25 @@
 
 This chapter aims to provide tangible examples of how the previously described system works and in what way the parallel nature of the implemented system benefited these use cases.
 
-The following two sections will focus on practical examples of so-called ''attacks'' (distortions) applied to the input media data, and how the proposed system has handled it. The examples have been selected to highlight the two major problems the system has to handle -- distorted image data and time shifted data.
+The following two sections will focus on practical examples of so-called ``attacks'' (distortions) applied to the input media data, and how the proposed system has handled it. The examples have been selected to highlight the two major problems the system has to handle -- distorted image data and time shifted data.
 
-In Section \ref{sec:mirrored-video-detection} video material will be analysed in order to find it's corresponding ''mirrored'' counter-part. This example will also be used to highlight the tremendous possibilities that lie within data \textit{pre-processing} that are applied within the proposed system, and if needed could be expanded even more in order to speed up the system's initial response time.
+In Section \ref{sec:mirrored-video-detection} video material will be analysed in order to find it's corresponding ``mirrored'' counter-part. This example will also be used to highlight the tremendous possibilities that lie within data \textit{pre-processing} that are applied within the proposed system, and if needed could be expanded even more in order to speed up the system's initial response time.
 
 In Section \ref{sec:scene-detection} an extracted scene will be positioned within an existing video in the reference database. This problem turns out to be non-trivial because of different frame-rates of supplied material, thus search methods similar, in concept, to sub-string search could not have been applied efficiently. The section explains the algorithms applied instead, and touches upon the problem of interpreting results of complex map reduce jobs.
 
-Section \ref{sec:summing-up-analysis} summarises how the approach to designing pipelines and data representation used in this chapter was influenced by the the large amounts of ''fuzzy'' data, and how these algorithms could be further expanded.
+Section \ref{sec:summing-up-analysis} summarises how the approach to designing pipelines and data representation used in this chapter was influenced by the the large amounts of ``fuzzy'' data, and how these algorithms could be further expanded.
 
 \textit{As this thesis is not focused on development of image analysis algorithms, these sections will instead lean their focus towards the distributed system and big-data parts of the problem. The image comparison algorithms also assume that that the used image correlation algorithm (\textit{phash} -- see Section \ref{sec:phash}) performs well enough for the job at hand. }
 
 % -----------------------------------------------------------------------------------
 \section{Near-duplicate video detection}
 \label{sec:mirrored-video-detection}
-In order to test the system in scenarios of image distortion the example case of ''mirrored'' video material was first used. This case is fairly popular among material uploaded to YouTube, as content uploaders often ''flip'' the uploaded content in order to avoid copyright detection to trigger on content.
+In order to test the system in scenarios of image distortion the example case of ``mirrored'' video material was first used. This case is fairly popular among material uploaded to YouTube, as content uploaders often ''flip'' the uploaded content in order to avoid copyright detection to trigger on content.
 
-As will be shown in the example section, this ''attack'' is not very effective, as determining a exact-mirror video material is fairly simple. Even in the case of slight hue and luminescence changes the implemented system was able to detect such videos flawlessly.
+As will be shown in the example section, this ``attack'' is not very effective, as determining a exact-mirror video material is fairly simple. Even in the case of slight hue and luminescence changes the implemented system was able to detect such videos flawlessly.
 
 \subsection{Analysed example material}
-\textit{The video material used in this chapter to exemplify the described attack scenarios originates from the movie ''\textit{Big Buck Bunny}'' \cite{big-buck-bunny} which has been created by the Blender Foundation \cite{blender-foundation} and released under the Creative Commons license \cite{creative-commons}.}
+\textit{The video material used in this chapter to exemplify the described attack scenarios originates from the movie ``\textit{Big Buck Bunny}'' \cite{big-buck-bunny} which has been created by the Blender Foundation \cite{blender-foundation} and released under the Creative Commons license \cite{creative-commons}.}
 
 Figure \ref{fig:frames-mirrored} for example, illustrates the original as well as mirrored counter part of an example frame taken from the movie. The movie is 9 minutes and 59 seconds long. The version used during this analysis is the original 1080p resolution version, recorded by the Blender foundation. The entire movie was stored in the reference database in raw format, which amounts amounts to a total size of 6.25 GB.
 
@@ -61,11 +61,11 @@ Hbase's implementation provides strict guarantees about an HTables row key, spec
 In our example, after obtaining the histogram data for each of the frames of an analysed movie, it is stored in the \verb|Histograms| table, with a precisely defined key. The key is designed to allow \textit{prefix queries} which are incredibly fast -- because HBase is able to determine, just by looking at the prefix query range, which exact RegionServers must be contacted, and they in turn are able to perform a linear scan of just the required region of the Table (which often means reading from disk). The key was designed using these guiding principles:
 
 \begin{itemize}
- \item the key must allow for prefix queries, which given a ''to be compared frame'' will return ''probable candidates''
- \item more precise queries must also be possible to be constructed as prefix queries
+ \item the key must allow for prefix queries, which given a ``to be compared frame'' will return ''probable candidates'',
+ \item more precise queries must also be possible to be constructed as prefix queries.
 \end{itemize}
 
-Having this in mind, the key is designed to be an descending sorted \verb|-| joined list of colour dominance in a given frame. Colour dominance is calculated based on the percent of pixels in the image where one colour's part would dominate (have a higher value) than any other colour parts. For example given a pixel  \verb|RGB("#F2649D") = RGB(100, 242, 157)|, this pixel would be deemed to be \textit{green dominating}. 
+Having this in mind, the key is designed to be an descending sorted \verb|-| joined list of colour dominance in a given frame. Colour dominance is calculated based on the percent of pixels in the image where one colour's part would dominate (have a higher value) than any other colour parts. For example given a pixel  \verb|RGB("#F2649D") = RGB(242,100,157)|, this pixel would be deemed to be \textit{red dominating}. 
 
 \begin{lstlisting}[caption={Grammar for the Histogram RowKey. In essence, it contains an encoded colour dominance value, the youtube id of the movie, and frame number.}, label={lst:row-key}]
     NUMBER           : [0-9]                              ;
@@ -123,10 +123,10 @@ During this work two perceptual hash implementations were used:
                     their accuracy. If DCT does not match the given images, then most probably other algorithms also 
                     should not. It is also fairly efficient in detecting slight rotation and blurring. Experimentation 
                     conducted during this thesis show that a distance value lower than 20 points usually indicates a 
-                    ''possible match'' using this algorithm.
+                    ``possible match'' using this algorithm,
                     
   \item MH hash -- based on the Marr--Hildreth algorithm \cite{marr-hildreth}, which is an edge detection algorithm.
-                   The resulting ''hash value'' is in fact an compressed representation of the edges detected within the 
+                   The resulting ``hash value'' is in fact an compressed representation of the edges detected within the
                    analysed image. This hash has a constant length of 72 bytes long hash, and can be compared efficiently 
                    by using the classical Hamming Distance \cite{hamming-distance} method. This hashing algorithm is
                    usually sufficient to determing image equality. It is not very resilient against image rotation, but 
@@ -168,11 +168,11 @@ Hashes like this can be compared to each other using a simple Hamming Distance \
   \label{tab:hash-distances}
 \end{table}
 
-After a certain number of experimental runs with the system, it was empirically decided that images whose distance values ranged below 40 for DCT-hash \textit{and} very near or below 350 for the MH-hash can be \textit{safely} considered ''almost identical''.
+After a certain number of experimental runs with the system, it was empirically decided that images whose distance values ranged below 40 for DCT-hash \textit{and} very near or below 350 for the MH-hash can be \textit{safely} considered ``almost identical''.
 
-Results from such a movie comparing job pipeline are yielded onto HDFS, in form of a simple CSV file, which is sorted by multiple fields: first the input frame, then the histogram distance and then the hash distances. Using this method it's possible to determine ''top N'' most probable matches for a given frame. Listing \ref{lst:mirrored-results} shows good top matches -- such the dct distance is below 40 and the mh distance below 370. In this case, since the analysed movie was a mirror the histogram difference (calculated in a very simplistic way -- as hamming distance of the row-key encoded histogram data) is equal 0 for identical (just mirrored) frames, and is slightly off for cases where the reference database did not contain the exact now matched against frame. Since the reference data is not stored for every frame for movies, but for 10 frames per second (instead of the usual 25 in PAL or 30 in NTSC regions), the granularity of the matches will be down sampled to a granularity of 10 frames. This lower data granularity is the reason that some frames will match a very near frame in the reference database. This storage-space optimisation could be discarded if high quality matches would be required by the system.
+Results from such a movie comparing job pipeline are yielded onto HDFS, in form of a simple CSV file, which is sorted by multiple fields: first the input frame, then the histogram distance and then the hash distances. Using this method it's possible to determine ``top N'' most probable matches for a given frame. Listing \ref{lst:mirrored-results} shows good top matches -- such the dct distance is below 40 and the mh distance below 370. In this case, since the analysed movie was a mirror the histogram difference (calculated in a very simplistic way -- as hamming distance of the row-key encoded histogram data) is equal 0 for identical (just mirrored) frames, and is slightly off for cases where the reference database did not contain the exact now matched against frame. Since the reference data is not stored for every frame for movies, but for 10 frames per second (instead of the usual 25 in PAL or 30 in NTSC regions), the granularity of the matches will be down sampled to a granularity of 10 frames. This lower data granularity is the reason that some frames will match a very near frame in the reference database. This storage-space optimisation could be discarded if high quality matches would be required by the system.
 
-\begin{lstlisting}[caption={Examples of valid ''best'' matches for a few sample frames (mirrored movie).}, label={lst:mirrored-results}]
+\begin{lstlisting}[caption={Examples of valid ``best'' matches for a few sample frames (mirrored movie).}, label={lst:mirrored-results}]
 ...
 F   7809 => dist(dct: 38, hist: 3, mh: 376) => YE7VzlLtp-4 @  7789   (20 off)
 F 14409 => dist(dct: 34, hist: 0, mh: 349) => YE7VzlLtp-4 @ 14409 ( 0 off)
@@ -196,8 +196,8 @@ To sum up how the pipeline was designed, and how the previously described parts 
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[width=0.55\textwidth]{img/top-match-job}
-  \caption{Map Reduce Pipeline, designed for matching ''most similar'' movie in reference database, when an attacked video file is given.}
+  \includegraphics[width=0.75\textwidth]{img/top-match-job}
+  \caption{Map Reduce Pipeline, designed for matching ``most similar'' movie in reference database, when an attacked video file is given.}
   \label{fig:full-job}
 \end{figure}
 
@@ -211,28 +211,28 @@ This scenario can be explained as trying to find out \textit{where} (if at all) 
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[width=0.55\textwidth]{img/frames-timeline-matching}
+  \includegraphics[width=0.6\textwidth]{img/frames-timeline-matching}
   \caption{Visual representation of the goal of this example application.}
 \end{figure}
 
-Although on the surface the general problem statement is not so different than substring search, which is a known and well researched topic in computer science. In sub-string search algorithms like the Knuth–Morris–Pratt \cite{kmp-string-search} or the Boyer-Moore \cite{boyer-string-search} algorithms leverage that the ''matching'' either will apply, or will not in order to increase search speed in the worst case to still linear time. However, these methods can \textit{not} be directly applied to the problem specified in this section -- because of the distortions in source and reference video material.
+Although on the surface the general problem statement is not so different than substring search, which is a known and well researched topic in computer science. In sub-string search algorithms like the Knuth–Morris–Pratt \cite{kmp-string-search} or the Boyer-Moore \cite{boyer-string-search} algorithms leverage that the ``matching'' either will apply, or will not in order to increase search speed in the worst case to still linear time. However, these methods can \textit{not} be directly applied to the problem specified in this section -- because of the distortions in source and reference video material.
 
-Additionally the possibility of cross-matches when a movie is built up from multiple short scenes from other movies. The most popular example would be be ''flash-back'' scenes or ''top 10'' movies where before the last top-3, the movie would quickly go over already shown frames of scenes. Another problem adding to the distortions is frame rates of reference data vs. an analysed video fragment -- even a slight mismatch (30FPS vs. 25FPS) would render the substring search algorithms not usable for this concrete example.
+Additionally the possibility of cross-matches when a movie is built up from multiple short scenes from other movies. The most popular example would be be ``flash-back'' scenes or ''top 10'' movies where before the last top-3, the movie would quickly go over already shown frames of scenes. Another problem adding to the distortions is frame rates of reference data vs. an analysed video fragment -- even a slight mismatch (30FPS vs. 25FPS) would render the substring search algorithms not usable for this concrete example.
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[width=0.45\textwidth]{img/frames-timeline-matching-missmatch}
+  \includegraphics[width=0.70\textwidth]{img/frames-timeline-matching-missmatch}
   \caption{A frame may match multiple reference movies, complicating the task significantly.}
 \end{figure}
 
 
 
-Instead, a more statistical approach was taken. The basic idea of this Pipeline can be described as trying to match frames between 2 movies in similar style as in the previously described pipeline (Figure \ref{fig:full-job}, yet afterwards the top match for each frame must proceed incrementally in the matched frames. For example if scene frame 100 matched reference frame 90100 and scene-frame 110 matched frame 90110 one should expect that this interval will be constant over the entire matched range of the frames. This method can also detect ''top10'' movies, where a movie contains multiple scenes from different movies -- yet this algorithm was deemed to be outside of the scope of this thesis.
+Instead, a more statistical approach was taken. The basic idea of this Pipeline can be described as trying to match frames between 2 movies in similar style as in the previously described pipeline (Figure \ref{fig:full-job}, yet afterwards the top match for each frame must proceed incrementally in the matched frames. For example if scene frame 100 matched reference frame 90100 and scene-frame 110 matched frame 90110 one should expect that this interval will be constant over the entire matched range of the frames. This method can also detect ``top10'' movies, where a movie contains multiple scenes from different movies -- yet this algorithm was deemed to be outside of the scope of this thesis.
 
 
 \begin{figure}[ch!]
   \centering
-  \includegraphics[width=0.6\textwidth]{img/top-match-job-positioning}
+  \includegraphics[width=0.75\textwidth]{img/top-match-job-positioning}
   \caption{Pipeline used for Scene positioning within another movie; The last step is performed by an external application analysing the Hadoop jobs' results.}
   \label{fig:job-scene}
 \end{figure}
@@ -250,7 +250,7 @@ The problems encountered during the implementation of this pipeline highlight an
 \section{Impact of big data to the design of the pipelines}
 \label{sec:summing-up-analysis}
 
-The approach taken during designing the job pipelines utilises the fact of having humongous amounts of data available to match against. This also produces the problem of possible mis-matches. For example, it is completely expected and normal that some frames may match to the wrong movie. An extreme case of this being ''entirely black'' or ''entirely white'' frames, which appear in the vast majority of movies when fading in or out scenes, or credits. Much of the time spent on designing these pipelines was spent on trying to minimise the amount of mis-matches as well numbers of map reduce passes.
+The approach taken during designing the job pipelines utilises the fact of having humongous amounts of data available to match against. This also produces the problem of possible mis-matches. For example, it is completely expected and normal that some frames may match to the wrong movie. An extreme case of this being ``entirely black'' or ''entirely white'' frames, which appear in the vast majority of movies when fading in or out scenes, or credits. Much of the time spent on designing these pipelines was spent on trying to minimise the amount of mis-matches as well numbers of map reduce passes.
 
 Satisfiable results can be achieved of reasonable amounts of processing time (a few hours per movie), and Hadoop's scaling abilities help to increase computation time when tasks are able to execute concurrently. 
 
