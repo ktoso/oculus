@@ -27,7 +27,7 @@ This section will focus on describing the general design of both systems, first 
 \label{sec:loader-basics}
 The Loader component is responsible for obtaining as much as possible ``reference data'', by which video material from sites such as \textit{youtube.com} or video hosting sites is meant. Please note that for the sake of this thesis (and legal safety) the downloaded content was limited to movie trailers (which are freely available on-line) as well as series opening or ending sequences.
 
-While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \textit{Cluster} module \cite{akka-cluster}, it was also fairly easy to distribute actors among multiple physical nodes in the cluster, allowing the actor system to utilise the entire cluster's processing power. The use of messaging as default and only mean of communication with actors allowed to easily transition into the clustered model, where communication would he handled over the network, from a previously local-only model.
+While the Loader system will be referred to from here on in singular, it should be noted that in fact there are multiple instances of it running in the cluster. Thanks to the use of Akka's \textit{Cluster} module \cite{akka-clustering}, it was also fairly easy to distribute actors among multiple physical nodes in the cluster, allowing the actor system to utilise the entire cluster's processing power. The use of messaging as default and only mean of communication with actors allowed to easily transition into the clustered model, where communication would he handled over the network, from a previously local-only model.
 
 \subsection{Types of Actors used in the system}
 \label{sec:types-of-actors}
@@ -72,7 +72,7 @@ will now briefly describe the different Actor roles that exist in the system and
 
 Using these Actors and protocols between them, the application is able to progress safely without the possibility of getting stuck in a dead (or live) lock. 
 
-While discussing there protocols one should also mention that the messages that can be received and sent by Actors are not possible to verify using static typing -- an Actor can receive a message of ``Any'' type, and in case of not being able to act upon it - it will drop the message, but the delivery still happens.
+While discussing there protocols one should also mention that the messages that can be received and sent by Actors are not possible to verify using static typing -- an Actor can receive a message of ``Any'' type, and in case of not being able to act upon it -- it will drop the message, but the delivery still happens.
 This is an inherent property of the Actor Model of concurrency -- which is why in such systems explaining the flows of messages and Actors present in the system is of such importance. Having this in mind, the next Section (\ref{sec:obtaining-reference-material}) will focus on explaining one such message flow within the system.
 
 % -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -87,25 +87,25 @@ This section wills discuss the process of obtaining video material by the Loader
   \label{fig:high-level-loader}
 \end{figure}
 
-\subsubsection{Step 1 - \textit{Crawl} messages}
+\subsubsection{Step 1 -- \textit{Crawl} messages}
 The initiating message for each flow within the Loader is a \textit{Crawl(siteUrl)}, where siteUrl is a valid youtube video url.
 The receiving YouTubeCrawlActor will react to such message by fetching and extracting the related video site urls and will forward those using the same kind of \textit{Crawl} messages. The second, yet most important, reaction is sending a \textit{Download(movieId)} message to an instance of an DownloadActor -- it  can reside on any node in the cluster, which allows us to spread the down-link utilisation between different nodes in the cluster.
 
 It is worth pointing out that the receivers of these messages can be \textit{remote} Actors, that is, can be located on a different node in the Cluster than the sender. In order to guarantee spreading of the load among the many actors within the system (across nodes in the cluster), a routing strategy called ``Smallest Inbox Routing'' was used. This technique uses a special ''Router Actor'' which is responsible for a number of Routees (target Actors), and decides to deliver a message only to the Actor who has the smallest amount of messages ''not yet processed'' (which are kept in an Queue called the ''Inbox'', hence the strategy's name).
 
-\subsubsection{Step 2 - \textit{Download} messages}
+\subsubsection{Step 2 -- \textit{Download} messages}
 In the second step an \textit{YouTubeDownloadActor} instance receives a message asking it to download a movie.
 It does so by invoking the native app \textit{youtube-dl}, which is an open source program specialised in downloading movies from YouTube.
 Other than the video file (in an open source format) we also download a metadata description during this step, such metadata includes for example the date of publication, author, title and description of the movie. From this message including, all messages will be routed only to Actors local to the current node, because messages include \textit{File} objects, pointing to locations on-disk.
 
 The metadata is then used to determine if it can be used in the context of this work, as only movie trailers and and opening / ending sequences are downloaded into the Oculus system. If the content is OK to use, the Actor sends an \textit{Convert(movieLocation)} message to an instance of \textit{ConversionActor}.
 
-\subsubsection{Step 3 - \textit{Convert} messages}
+\subsubsection{Step 3 -- \textit{Convert} messages}
 The next step is executed by an instance of an \textit{ConversionActor} receiving an \textit{Convert(file)} message from another (local) Actor. The conversion phase will extract raw frame data from the incoming movie, and write those as plain bitmaps (not compressed) to files (one per each frame) into a specified target directory. The reason for not using a compressed lossless image format here is that all algorithms that the system will be dealing with later on are dealing with the raw image data, so we can avoid having to go over un-compression phases each time we will process a frame. Having that said, the storage format used for storing these files on HDFS provides build in compression (if enabled), and it should be preferred in this case as it is transparent for the application, easing development of Map Reduce jobs in the Analyser system immensely.
 
 The conversion from movie to raw bitmaps is performed by running an native application called \verb|ffmpeg| \cite{ffmpeg} instance (an de facto standard tool for such media operations), by forking a process from within the Actor. The CPU usage of running this extraction process easily reaches 100\% of the available resources, restricting the number of Conversion Actors per node is limited to only 1 per node, allowing ffmpeg to consume all available resources and finish extracting the data sooner. The actor will block until the process completes, and will then continue by sending an \textit{Upload(bitmapDirectory)} message to one of the \textit{HDFSUploadActors}.
 
-\subsubsection{Step 4 \& 5 - \textit{Upload} messages}
+\subsubsection{Step 4 \& 5 -- \textit{Upload} messages}
 The last step is an \textit{HDFSUploadActor} receiving an \textit{Upload(bitmapDirectory)} message which triggers it to connect to HDFS and start writing the bitmap data contained in the given directory to HDFS. The format of the generated data is as previously mentioned one file per frame of video, which averages to around 2MB per frame (depending on the movie resolution).
 
 In this step the important part is that it does not write these files 1:1 onto HDFS, but instead writes into one file, using a hadoop specific storage format called ``Sequence File'', which allows for more efficient storage and latter retrieval of this data. Sequence Files, the need and benefits gained by using them as storage format for ''frame by frame'' data will be discussed in Section \ref{sec:sequence-files}.
